@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مِنو - صفحه آزمون</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'meno-blue': '#3B82F6',
+                        'meno-gray': '#6B7280',
+                        'meno-light-gray': '#F3F4F6'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+        
+        .grade-tab {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transition: all 0.3s ease;
+        }
+        
+        .grade-tab:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .bottom-sheet {
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease, visibility 0.3s ease;
+        }
+        
+        .bottom-sheet.closed {
+            transform: translateY(100%) !important;
+            pointer-events: none !important;
+            opacity: 0 !important;
+            visibility: hidden !important;
+            display: none !important;
+        }
+        
+        .bottom-sheet.closed .absolute {
+            display: none !important;
+        }
+        
+        .bottom-sheet.open {
+            transform: translateY(0) !important;
+            pointer-events: auto !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+            display: block !important;
+        }
+        
+        .bottom-sheet.open .absolute {
+            display: block !important;
+        }
+        
+        /* Ensure the page works without bottom sheet being visible */
+        .page-content {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        
+        /* Additional safety for bottom sheet */
+        #grade-sheet.closed {
+            position: fixed !important;
+            top: 100vh !important;
+            left: 0 !important;
+            right: 0 !important;
+            bottom: 0 !important;
+            z-index: -1 !important;
+            background: transparent !important;
+        }
+        
+        #grade-sheet.closed * {
+            display: none !important;
+        }
+        
+        .field-button {
+            transition: all 0.2s ease;
+        }
+        
+        .field-button.active {
+            background-color: rgba(59, 130, 246, 0.1);
+            border-color: #3B82F6;
+            color: #3B82F6;
+        }
+        
+        .field-button.experimental.active {
+            background-color: rgba(34, 197, 94, 0.1);
+            border-color: #22C55E;
+            color: #22C55E;
+        }
+        
+        .subject-button {
+            transition: all 0.2s ease;
+        }
+        
+        .subject-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .nav-icon {
+            transition: all 0.2s ease;
+        }
+        
+        .nav-icon:hover {
+            transform: scale(1.1);
+            color: #3B82F6;
+        }
+        
+        .nav-icon.active {
+            color: #3B82F6;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-50 via-gray-75 to-gray-50">
+    <!-- Header -->
+    <header class="fixed top-0 left-0 right-0 bg-transparent z-50">
+        <div class="flex justify-between items-center px-6 py-4">
+            <!-- Left: User Account -->
+            <div class="flex items-center">
+                <div class="flex flex-col space-y-1">
+                    <div class="w-4 h-0.5 bg-gray-400"></div>
+                    <div class="w-4 h-0.5 bg-gray-400"></div>
+                </div>
+            </div>
+            
+            <!-- Right: New Chat -->
+            <div class="flex items-center space-x-4">
+                <button class="p-2 hover:bg-gray-100 rounded-lg transition-colors">
+                    <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="pt-20 pb-32 px-6">
+        <div class="max-w-4xl mx-auto">
+            <!-- Grade Selection Tab -->
+            <div class="text-center mb-12">
+                <button 
+                    id="grade-tab"
+                    class="grade-tab text-white text-2xl font-bold px-12 py-4 rounded-full shadow-lg"
+                    onclick="toggleGradeSheet()"
+                >
+                    دوازدهم
+                </button>
+            </div>
+
+            <!-- Field of Study Selection -->
+            <div class="text-center mb-12">
+                                 <h2 class="text-2xl font-bold text-gray-900 mb-6">انتخاب رشته تحصیلی</h2>
+                <div class="flex justify-center space-x-6">
+                                         <button 
+                         id="math-field"
+                         class="field-button active border-2 border-blue-500 text-blue-500 px-16 py-4 rounded-full font-semibold text-lg"
+                         onclick="selectField('math')"
+                     >
+                                                  ریاضی
+                     </button>
+                     <button 
+                         id="experimental-field"
+                         class="field-button border-2 border-green-500 text-green-500 px-16 py-4 rounded-full font-semibold text-lg"
+                         onclick="selectField('experimental')"
+                     >
+                                                  تجربی
+                     </button>
+                </div>
+            </div>
+
+            <!-- Subject Selection -->
+            <div class="text-center">
+                                 <h2 class="text-2xl font-bold text-gray-900 mb-8">انتخاب درس</h2>
+                <div class="grid grid-cols-2 gap-6 max-w-2xl mx-auto">
+                                                              <!-- Physics -->
+                                          <button class="subject-button bg-gray-50 hover:bg-gray-100 p-6 rounded-full border-2 border-transparent hover:border-gray-200" onclick="selectSubject('physics')">
+                           <div class="flex flex-col items-center space-y-3">
+                               <div class="relative w-12 h-12">
+                                   <div class="w-12 h-12 bg-gradient-to-br from-yellow-100 to-yellow-200 rounded-full flex items-center justify-center shadow-md">
+                                       <svg class="w-6 h-6 text-yellow-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                                       </svg>
+                                   </div>
+                                   <svg class="absolute inset-0 w-12 h-12 transform -rotate-90" viewBox="0 0 48 48">
+                                       <circle cx="24" cy="24" r="20" stroke="rgba(156, 163, 175, 0.2)" stroke-width="2.5" fill="none"/>
+                                   </svg>
+                               </div>
+                                                            <span class="font-semibold text-gray-700">فیزیک</span>
+                           </div>
+                       </button>
+
+                                                              <!-- Mathematics -->
+                                          <button class="subject-button bg-gray-50 hover:bg-gray-100 p-6 rounded-full border-2 border-transparent hover:border-gray-200" onclick="selectSubject('math')">
+                           <div class="flex flex-col items-center space-y-3">
+                               <div class="relative w-12 h-12">
+                                   <div class="w-12 h-12 bg-gradient-to-br from-blue-100 to-blue-200 rounded-full flex items-center justify-center shadow-md">
+                                       <span class="text-2xl font-bold text-blue-700">π</span>
+                                   </div>
+                                   <svg class="absolute inset-0 w-12 h-12 transform -rotate-90" viewBox="0 0 48 48">
+                                       <circle cx="24" cy="24" r="20" stroke="rgba(156, 163, 175, 0.2)" stroke-width="2.5" fill="none"/>
+                                   </svg>
+                               </div>
+                                                            <span class="font-semibold text-gray-700">ریاضی</span>
+                           </div>
+                       </button>
+
+                                                              <!-- Chemistry -->
+                                          <button class="subject-button bg-gray-50 hover:bg-gray-100 p-6 rounded-full border-2 border-transparent hover:border-gray-200" onclick="selectSubject('chemistry')">
+                           <div class="flex flex-col items-center space-y-3">
+                               <div class="relative w-12 h-12">
+                                   <div class="w-12 h-12 bg-gradient-to-br from-purple-100 to-purple-200 rounded-full flex items-center justify-center shadow-md">
+                                       <svg class="w-6 h-6 text-purple-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path>
+                                       </svg>
+                                   </div>
+                                   <svg class="absolute inset-0 w-12 h-12 transform -rotate-90" viewBox="0 0 48 48">
+                                       <circle cx="24" cy="24" r="20" stroke="rgba(156, 163, 175, 0.2)" stroke-width="2.5" fill="none"/>
+                                   </svg>
+                               </div>
+                                                            <span class="font-semibold text-gray-700">شیمی</span>
+                           </div>
+                       </button>
+
+                                                              <!-- Biology -->
+                                          <button class="subject-button bg-gray-50 hover:bg-gray-100 p-6 rounded-full border-2 border-transparent hover:border-gray-200" onclick="selectSubject('biology')">
+                           <div class="flex flex-col items-center space-y-3">
+                               <div class="relative w-12 h-12">
+                                   <div class="w-12 h-12 bg-gradient-to-br from-green-100 to-green-200 rounded-full flex items-center justify-center shadow-md">
+                                       <svg class="w-6 h-6 text-green-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                                       </svg>
+                                   </div>
+                                   <svg class="absolute inset-0 w-12 h-12 transform -rotate-90" viewBox="0 0 48 48">
+                                       <circle cx="24" cy="24" r="20" stroke="rgba(156, 163, 175, 0.2)" stroke-width="2.5" fill="none"/>
+                                   </svg>
+                               </div>
+                                                            <span class="font-semibold text-gray-700">زیست‌شناسی</span>
+                           </div>
+                       </button>
+
+                                                              <!-- English -->
+                      <button class="subject-button bg-gray-50 hover:bg-gray-100 p-6 rounded-full border-2 border-transparent hover:border-gray-200">
+                          <div class="flex flex-col items-center space-y-3">
+                              <div class="relative w-12 h-12">
+                                                                                                                                           <div class="w-12 h-12 bg-gradient-to-br from-red-100 to-red-200 rounded-full flex items-center justify-center shadow-md">
+                                      <svg class="w-6 h-6 text-red-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"></path>
+                                      </svg>
+                                  </div>
+                                                                     <svg class="absolute inset-0 w-12 h-12 transform -rotate-90" viewBox="0 0 48 48">
+                                       <circle cx="24" cy="24" r="20" stroke="rgba(156, 163, 175, 0.2)" stroke-width="2.5" fill="none"/>
+                                   </svg>
+                              </div>
+                                                           <span class="font-semibold text-gray-700">انگلیسی</span>
+                          </div>
+                      </button>
+
+                                                              <!-- History -->
+                                          <button class="subject-button bg-gray-50 hover:bg-gray-100 p-6 rounded-full border-2 border-transparent hover:border-gray-200" onclick="selectSubject('history')">
+                           <div class="flex flex-col items-center space-y-3">
+                               <div class="relative w-12 h-12">
+                                   <div class="w-12 h-12 bg-gradient-to-br from-orange-100 to-orange-200 rounded-full flex items-center justify-center shadow-md">
+                                       <svg class="w-6 h-6 text-orange-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                       </svg>
+                                   </div>
+                                   <svg class="absolute inset-0 w-12 h-12 transform -rotate-90" viewBox="0 0 48 48">
+                                       <circle cx="24" cy="24" r="20" stroke="rgba(156, 163, 175, 0.2)" stroke-width="2.5" fill="none"/>
+                                   </svg>
+                               </div>
+                                                            <span class="font-semibold text-gray-700">تاریخ</span>
+                           </div>
+                       </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+         <!-- Grade Selection Bottom Sheet -->
+     <div id="grade-sheet" class="fixed inset-0 bg-black bg-opacity-50 z-40 bottom-sheet closed">
+         <div class="absolute bottom-20 left-0 right-0 bg-white rounded-t-3xl p-6 max-h-screen">
+            <div class="flex justify-between items-center mb-6">
+                                 <h3 class="text-xl font-bold text-gray-900">انتخاب پایه</h3>
+                <button onclick="toggleGradeSheet()" class="p-2 hover:bg-gray-100 rounded-full">
+                    <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            <div class="space-y-4">
+                <button 
+                    class="w-full text-left p-4 rounded-full border-2 border-gray-200 hover:border-blue-500 hover:bg-blue-50 transition-all"
+                    onclick="selectGrade('دهم')"
+                >
+                    <span class="text-lg font-semibold text-gray-700">دهم</span>
+                </button>
+                <button 
+                    class="w-full text-left p-4 rounded-full border-2 border-gray-200 hover:border-blue-500 hover:bg-blue-50 transition-all"
+                    onclick="selectGrade('یازدهم')"
+                >
+                    <span class="text-lg font-semibold text-gray-700">یازدهم</span>
+                </button>
+                <button 
+                    class="w-full text-left p-4 rounded-full border-2 border-blue-500 bg-blue-50"
+                    onclick="selectGrade('دوازدهم')"
+                >
+                    <span class="text-lg font-semibold text-blue-700">دوازدهم</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Mobile Navigation -->
+    <nav class="fixed bottom-0 left-0 right-0 bg-gray-100 z-50">
+        <div class="flex justify-around items-center py-4 px-6">
+            <!-- Home Icon -->
+            <button class="flex flex-col items-center justify-center p-3 rounded-2xl transition-all duration-300 hover:bg-gray-100/40 active:scale-90 hover:scale-105" onclick="window.location.href='index.html'">
+                <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+                </svg>
+                <span class="text-xs text-gray-400 mt-1">چت</span>
+            </button>
+            
+            <!-- Test Icon -->
+            <button class="flex flex-col items-center justify-center p-3 rounded-2xl transition-all duration-300 hover:bg-gray-100/40 active:scale-90 hover:scale-105" onclick="window.location.href='test.html'">
+                <svg class="w-6 h-6 text-meno-blue" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                </svg>
+                <span class="text-xs text-meno-blue mt-1">تست</span>
+            </button>
+            
+            <!-- Profile Icon -->
+            <button class="flex flex-col items-center justify-center p-3 rounded-2xl transition-all duration-300 hover:bg-gray-100/40 active:scale-90 hover:scale-105">
+                <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                </svg>
+                <span class="text-xs text-gray-400 mt-1">پروفایل</span>
+            </button>
+        </div>
+    </nav>
+
+    <script>
+        let currentGrade = 'دوازدهم';
+        let currentField = 'math';
+        let currentSubject = null;
+
+        // Grade selection functions
+        function toggleGradeSheet() {
+            const sheet = document.getElementById('grade-sheet');
+            sheet.classList.toggle('closed');
+            sheet.classList.toggle('open');
+        }
+
+        function selectGrade(grade) {
+            currentGrade = grade;
+            document.getElementById('grade-tab').textContent = grade;
+            toggleGradeSheet();
+            
+            // Update active state in bottom sheet
+            document.querySelectorAll('#grade-sheet button').forEach(btn => {
+                btn.classList.remove('border-blue-500', 'bg-blue-50');
+                btn.classList.add('border-gray-200');
+                btn.querySelector('span').classList.remove('text-blue-700');
+                btn.querySelector('span').classList.add('text-gray-700');
+            });
+            
+            // Find and update the selected grade button
+            const selectedBtn = Array.from(document.querySelectorAll('#grade-sheet button')).find(btn => 
+                btn.querySelector('span').textContent === grade
+            );
+            if (selectedBtn) {
+                selectedBtn.classList.remove('border-gray-200');
+                selectedBtn.classList.add('border-blue-500', 'bg-blue-50');
+                selectedBtn.querySelector('span').classList.remove('text-gray-700');
+                selectedBtn.querySelector('span').classList.add('text-blue-700');
+            }
+        }
+
+        // Field selection functions
+        function selectField(field) {
+            currentField = field;
+            
+            // Remove active state from all field buttons
+            document.getElementById('math-field').classList.remove('active');
+            document.getElementById('experimental-field').classList.remove('active');
+            
+            // Add active state to selected field
+            if (field === 'math') {
+                document.getElementById('math-field').classList.add('active');
+            } else if (field === 'experimental') {
+                document.getElementById('experimental-field').classList.add('active');
+            }
+        }
+
+                 // Subject selection functions
+         function selectSubject(subject) {
+             currentSubject = subject;
+             console.log('Selected subject:', subject);
+             
+             // Only allow Math and Biology to navigate to chapters page
+             if (subject === 'math' || subject === 'biology') {
+                 // Navigate to chapters page with current selections
+                 window.location.href = `chapters.html?subject=${subject}&grade=${currentGrade}&field=${currentField}`;
+             } else {
+                 // Show message for non-functional subjects
+                 alert('این درس در حال حاضر در دسترس نیست. فقط ریاضی و زیست‌شناسی فعال هستند.');
+             }
+         }
+
+
+
+        // Close bottom sheet when clicking outside
+        document.getElementById('grade-sheet').addEventListener('click', function(e) {
+            if (e.target === this) {
+                toggleGradeSheet();
+            }
+        });
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Ensure bottom sheet is completely closed on page load
+            const sheet = document.getElementById('grade-sheet');
+            if (sheet) {
+                // Force remove any open classes and add closed
+                sheet.classList.remove('open');
+                sheet.classList.add('closed');
+                
+                // Additional safety measures
+                sheet.style.display = 'none';
+                sheet.style.visibility = 'hidden';
+                sheet.style.opacity = '0';
+                sheet.style.transform = 'translateY(100%)';
+                sheet.style.pointerEvents = 'none';
+                
+                console.log('Bottom sheet initialized as closed with all safety measures');
+            }
+            
+            // Set default selections - this ensures the page works without user interaction
+            selectField('math');
+            selectGrade('دوازدهم');
+            
+            // Verify the page is working with default selections
+            console.log('Page initialized with default grade:', currentGrade, 'and field:', currentField);
+        });
+    </script>
+</body>
+</html>

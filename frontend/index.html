@@ -1,0 +1,1433 @@
+<!DOCTYPE html>
+<html lang="en" class="no-scroll">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#3B82F6">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Meno">
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&display=swap" as="style">
+    <link rel="preload" href="https://cdn.tailwindcss.com" as="script">
+    
+    <!-- Preload other pages for faster navigation -->
+    <link rel="prefetch" href="test.html">
+    <link rel="prefetch" href="question-analysis.html">
+    <link rel="prefetch" href="chapters.html">
+    <link rel="prefetch" href="analysis-results.html">
+    
+    <!-- Web App Manifest for mobile app-like experience -->
+    <link rel="manifest" href="/manifest.json">
+    
+    <title>مِنو - یادگیری هوشمند</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'meno-blue': '#3B82F6',
+                        'meno-gray': '#6B7280',
+                        'meno-light-gray': '#F3F4F6'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+        
+        .chat-container {
+            min-height: calc(100vh - 200px);
+            padding-bottom: 20px;
+        }
+        
+        .user-input {
+            background: #F8F9FA;
+            border: 1px solid #E5E7EB;
+            border-radius: 24px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        
+        .user-input:focus {
+            outline: none;
+            border-color: #3B82F6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+        
+        /* Typing states for input */
+        .user-input.typing-active {
+            border-color: #000000;
+            box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Button color changes based on input state */
+        .user-input.typing-active + button {
+            background-color: #000000 !important;
+        }
+        
+        /* Ensure input area stays visible */
+        #user-input {
+            position: relative;
+            z-index: 10;
+        }
+        
+        /* Keep bottom navigation visible and clickable */
+        .fixed.bottom-0 {
+            z-index: 100;
+        }
+        
+        /* Ensure navigation buttons are clickable */
+        nav button {
+            position: relative;
+            z-index: 101;
+            pointer-events: auto;
+            cursor: pointer;
+        }
+        
+        /* Ensure the test icon is always clickable */
+        nav button[onclick*="goToTest"] {
+            z-index: 102;
+            pointer-events: auto !important;
+        }
+        
+
+        
+        .typewriter {
+            overflow: hidden;
+            border-right: 2px solid #3B82F6;
+            white-space: nowrap;
+            animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+        }
+        
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+        
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: #3B82F6 }
+        }
+
+        /* Chat message content styling */
+        .chat-message p {
+            margin-bottom: 0.5rem;
+        }
+
+        .chat-message ul {
+            margin: 0.5rem 0;
+            padding-right: 1.5rem;
+        }
+
+        .chat-message li {
+            
+        /* Mathematical formulas styling - SymPy removed for deployment */
+        .math-formula {
+            font-family: 'Times New Roman', serif;
+            font-size: 18px;
+            color: #1e293b;
+            background: #f8fafc;
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: 1px solid #e2e8f0;
+            display: inline-block;
+            margin: 4px 0;
+        }
+        
+        .math-display {
+            text-align: center !important;
+            margin: 1rem 0 !important;
+            font-size: 1.2em !important;
+            font-family: 'Times New Roman', serif !important;
+            color: #1f2937 !important;
+        }
+        
+        .math-error {
+            color: #dc2626 !important;
+            font-style: italic !important;
+            background-color: #fef2f2 !important;
+            padding: 0.25rem 0.5rem !important;
+            border-radius: 0.25rem !important;
+        }
+            margin-bottom: 0.3rem;
+        }
+
+        /* Bullet points and numbered lists styling */
+        .ml-auto ul {
+            list-style-type: disc;
+            padding-right: 1.5rem;
+            margin: 0.5rem 0;
+        }
+
+        .ml-auto ol {
+            list-style-type: decimal;
+            padding-right: 1.5rem;
+            margin: 0.5rem 0;
+        }
+
+        .ml-auto li {
+            margin-bottom: 0.3rem;
+            text-align: right;
+        }
+
+        /* Advanced AI list styling */
+        .ai-list {
+            list-style: none;
+            padding: 0;
+            margin: 0.5rem 0;
+        }
+
+        .ai-list .list-item {
+            position: relative;
+            padding-right: 1.5rem;
+            margin-bottom: 0.5rem;
+            text-align: right;
+        }
+
+        .ai-list .list-item:before {
+            content: "•";
+            position: absolute;
+            right: 0;
+            top: 0;
+            color: #6B7280;
+            font-weight: bold;
+        }
+
+        /* Mathematical symbols styling */
+        .math-symbol {
+            font-family: 'Times New Roman', serif;
+            font-weight: bold;
+            color: #1F2937;
+        }
+
+        /* Advanced AI list styling */
+        .ai-list {
+            list-style: none;
+            padding: 0;
+            margin: 0.5rem 0;
+        }
+
+        .ai-list .list-item {
+            position: relative;
+            padding-right: 1.5rem;
+            margin-bottom: 0.5rem;
+            text-align: right;
+        }
+
+        .ai-list .list-item:before {
+            content: "•";
+            position: absolute;
+            right: 0;
+            top: 0;
+            color: #6B7280;
+            font-weight: bold;
+        }
+
+        /* Mathematical symbols styling */
+        .math-symbol {
+            font-family: 'Times New Roman', serif;
+            font-weight: bold;
+            color: #1F2937;
+        }
+
+        /* Emoji styling */
+        .ml-auto span[class*="emoji"] {
+            font-size: 1.1em;
+            margin: 0 0.2rem;
+        }
+
+
+
+        /* AI message right alignment */
+        .ml-auto {
+            text-align: right;
+        }
+        
+        .ml-auto p, .ml-auto div, .ml-auto span {
+            text-align: right;
+        }
+        
+        .ml-auto ul, .ml-auto ol {
+            text-align: right;
+        }
+        
+        .chat-message li {
+            margin-bottom: 0.3rem;
+        }
+
+        /* Bullet point styling for chat messages */
+        .chat-message p:contains('•') {
+            margin-right: 1rem;
+        }
+
+        /* Welcome message styling */
+        .welcome-container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+            pointer-events: none;
+            width: 100%;
+            text-align: center;
+        }
+
+        /* Educational background styling */
+        body {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            position: relative;
+            transition: background-color 0.3s ease;
+        }
+
+        /* Professional Scientific Background */
+        .scientific-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 1;
+            transition: opacity 0.8s ease;
+            background: linear-gradient(135deg, rgba(251, 251, 251, 0.98) 0%, rgba(251, 251, 251, 0.98) 50%, rgba(251, 251, 251, 0.98) 100%);
+        }
+
+        .scientific-background.chat-mode {
+            opacity: 0;
+        }
+
+        /* Professional Formula Styling */
+        .formula-section {
+            position: absolute;
+            font-family: 'Times New Roman', serif;
+            color: rgba(156, 163, 175, 0.15);
+            font-size: 1rem;
+            line-height: 1.6;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .formula-section:hover {
+            color: rgba(156, 163, 175, 0.25);
+            transform: scale(1.02);
+        }
+
+        /* Scattered Formula Positions */
+        .formula-top-left {
+            top: 8%;
+            left: 8%;
+            transform: rotate(-3deg);
+        }
+
+        .formula-top-right {
+            top: 10%;
+            right: 10%;
+            transform: rotate(4deg);
+        }
+
+        .formula-middle-left {
+            top: 35%;
+            left: 8%;
+            transform: rotate(-2deg);
+        }
+
+        .formula-middle-right {
+            top: 40%;
+            right: 8%;
+            transform: rotate(3deg);
+        }
+
+        .formula-bottom {
+            bottom: 8%;
+            left: 50%;
+            transform: translateX(-50%) rotate(1deg);
+        }
+
+        /* Additional scattered positions */
+        .formula-top-center {
+            top: 15%;
+            left: 50%;
+            transform: translateX(-50%) rotate(0deg);
+        }
+
+        .formula-center-left {
+            top: 50%;
+            left: 5%;
+            transform: translateY(-50%) rotate(-1deg);
+        }
+
+        .formula-center-right {
+            top: 50%;
+            right: 5%;
+            transform: translateY(-50%) rotate(2deg);
+        }
+
+        .formula-bottom-left {
+            bottom: 15%;
+            left: 15%;
+            transform: rotate(-2deg);
+        }
+
+        .formula-bottom-right {
+            bottom: 12%;
+            right: 15%;
+            transform: rotate(3deg);
+        }
+
+        .formula-random-1 {
+            top: 25%;
+            left: 25%;
+            transform: rotate(1deg);
+        }
+
+        .formula-random-2 {
+            top: 65%;
+            left: 30%;
+            transform: rotate(-1deg);
+        }
+
+        .formula-random-3 {
+            top: 30%;
+            right: 25%;
+            transform: rotate(2deg);
+        }
+
+        .formula-random-4 {
+            top: 70%;
+            right: 30%;
+            transform: rotate(-2deg);
+        }
+
+        /* Mathematical Notation */
+        .math-formula {
+            font-family: 'Times New Roman', serif;
+            font-style: italic;
+            margin: 0.2rem 0;
+        }
+
+        .math-sup {
+            font-size: 0.7em;
+            vertical-align: super;
+        }
+
+        .math-sub {
+            font-size: 0.7em;
+            vertical-align: sub;
+        }
+
+        .math-sqrt {
+            text-decoration: overline;
+            text-decoration-thickness: 1px;
+        }
+
+        .math-frac {
+            display: inline-block;
+            vertical-align: middle;
+            text-align: center;
+        }
+
+        .math-frac .numerator {
+            border-bottom: 1px solid currentColor;
+            padding-bottom: 1px;
+            margin-bottom: 1px;
+        }
+
+        /* Chemical Notation */
+        .chem-formula {
+            font-family: 'Times New Roman', serif;
+            font-weight: normal;
+        }
+
+        .chem-sub {
+            font-size: 0.7em;
+            vertical-align: sub;
+        }
+
+        /* Graph Elements */
+        .graph-element {
+            position: relative;
+            display: inline-block;
+            margin: 0.3rem 0;
+        }
+
+        .graph-line {
+            width: 40px;
+            height: 2px;
+            background: currentColor;
+            margin: 0.2rem auto;
+            position: relative;
+        }
+
+        .graph-line::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: linear-gradient(90deg, transparent 0%, currentColor 50%, transparent 100%);
+        }
+
+        body.chat-mode {
+            background: #ffffff;
+        }
+
+        /* Centered Welcome Text */
+        .welcome-center {
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .welcome-center h1 {
+            font-family: 'Times New Roman', serif;
+            color: rgba(156, 163, 175, 0.4);
+            font-weight: 300;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+            transition: opacity 0.8s ease;
+        }
+
+        .chat-mode .welcome-center {
+            opacity: 0;
+        }
+
+        /* Chat container initial state */
+        .chat-container.no-scroll {
+            overflow: hidden !important;
+            max-height: 100vh;
+        }
+
+        /* Chat container when scrolling enabled */
+        .chat-container {
+            min-height: calc(100vh - 200px);
+            padding-bottom: 20px;
+            overflow-y: auto;
+        }
+
+        /* Main container */
+        
+        /* Spinning logo for AI response waiting */
+        .spinning-logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+        
+        .thinking-text {
+            font-size: 1.1rem;
+            color: #6B7280;
+            font-weight: 500;
+        }
+        
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        main {
+            overflow-y: auto;
+            height: auto;
+        }
+
+        /* Custom styles */
+        .user-input {
+            background: rgba(107, 114, 128, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(107, 114, 128, 0.2);
+            border-radius: 50px;
+            font-family: 'Vazirmatn', 'Inter', sans-serif;
+            font-size: 16px;
+            line-height: 1.5;
+            transition: all 0.3s ease;
+            min-height: 56px;
+            max-height: 120px;
+            width: 100%;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .user-input:focus {
+            background: rgba(107, 114, 128, 0.15);
+            border-color: rgba(59, 130, 246, 0.5);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1), 0 4px 20px rgba(0, 0, 0, 0.15);
+            transform: scale(1.01);
+        }
+
+        /* Mobile optimization */
+        @media (max-width: 640px) {
+            .user-input {
+                font-size: 16px;
+                padding: 16px 20px;
+                border-radius: 50px;
+                min-height: 52px;
+            }
+        }
+
+        .transform-scale-75 {
+            transform: scale(0.75);
+        }
+
+        .transform-scale-100 {
+            transform: scale(1);
+        }
+
+        /* Welcome text styles */
+        .welcome-text {
+            font-family: 'Vazirmatn', 'Inter', sans-serif;
+            font-weight: 300;
+            color: #9ca3af;
+            text-align: center;
+            line-height: 1.6;
+        }
+        /* Mobile Performance Optimizations */
+        @media (max-width: 768px) {
+            /* Optimize animations for mobile */
+            * {
+                -webkit-transform: translateZ(0);
+                transform: translateZ(0);
+                -webkit-backface-visibility: hidden;
+                backface-visibility: hidden;
+            }
+            
+            /* Reduce motion for better performance */
+            .chat-message,
+            .user-input,
+            .send-button {
+                transition: all 0.2s ease;
+            }
+            
+            /* Optimize scrolling */
+            .chat-container {
+                -webkit-overflow-scrolling: touch;
+                overflow-scrolling: touch;
+            }
+        }
+        
+        /* Critical CSS for above-the-fold content */
+        .welcome-center,
+        .user-input-container {
+            will-change: transform;
+            transform: translateZ(0);
+        }
+    </style>
+</head>
+<body class="bg-white">
+    <!-- Professional Scientific Background -->
+    <div class="scientific-background" id="scientific-background">
+        <!-- Center - Where Learning Begins -->
+        <div id="welcome-text" class="welcome-center">
+            <h1 class="text-4xl font-bold text-gray-500 mb-2">Where</h1>
+            <h1 class="text-4xl font-bold text-gray-500 mb-2">Learning</h1>
+            <h1 class="text-4xl font-bold text-gray-500">begins</h1>
+        </div>
+
+
+        
+        
+        <div class="formula-section" style="top: 28%; left: 18%; transform: rotate(-2deg);">
+            <div class="math-formula" style="font-size: 1.6rem;">C = 2πr</div>
+        </div>
+        
+
+        <!-- 15 Famous Formulas - Perfect Zigzag Scattering -->
+        <!-- 10 Famous Formulas - Perfectly Distributed -->
+        <div class="formula-section" style="top: 12%; left: 18%; transform: rotate(-2deg);">
+            <div class="math-formula" style="font-size: 2.8rem;">E = mc²</div>
+        </div>
+        
+        <div class="formula-section" style="top: 12%; right: 12%; transform: rotate(2deg);">
+            <div class="math-formula" style="font-size: 1.9rem;">F = ma</div>
+        </div>
+        
+        <div class="formula-section" style="top: 65%; right: 45%; transform: rotate(1deg);">
+            <div class="math-formula" style="font-size: 1.9rem;">∫ f(x)dx</div>
+        </div>
+        
+        <div class="formula-section" style="top: 85%; left: 12%; transform: rotate(-1deg);">
+            <div class="math-formula" style="font-size: 2.6rem;">A = πr²</div>
+        </div>
+        
+        <div class="formula-section" style="top: 25%; right: 20%; transform: rotate(2deg);">
+            <div class="math-formula" style="font-size: 1.7rem;">y = x²</div>
+        </div>
+        
+        <div class="formula-section" style="top: 38%; left: 12%; transform: rotate(-2deg);">
+            <div class="math-formula" style="font-size: 1.6rem;">sin(x)</div>
+        </div>
+        
+        <div class="formula-section" style="top: 38%; right: 12%; transform: rotate(1deg);">
+            <div class="math-formula" style="font-size: 1.6rem;">cos(x)</div>
+        </div>
+        
+        <div class="formula-section" style="top: 51%; left: 12%; transform: rotate(-1deg);">
+            <div class="math-formula" style="font-size: 1.7rem;">log(x)</div>
+        </div>
+        
+        <div class="formula-section" style="top: 51%; right: 12%; transform: rotate(2deg);">
+            <div class="math-formula" style="font-size: 1.8rem;">tan(x)</div>
+        </div>
+        
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+        
+        
+        
+        <!-- More scattered mathematical concepts -->
+
+        
+
+        
+
+        
+
+        
+
+
+    </div>
+    
+    <!-- Bottom Mobile Navigation -->
+    <nav id="bottom-navigation" class="fixed bottom-0 left-0 right-0 bg-transparent z-50 transition-opacity duration-300">
+        <div class="flex justify-around items-center py-4 px-6">
+            <!-- Home Icon -->
+            <button class="flex flex-col items-center justify-center p-3 rounded-2xl transition-all duration-300 hover:bg-gray-100/40 active:scale-90 hover:scale-105" onclick="window.location.href='index.html'">
+                <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+                </svg>
+                <span class="text-xs text-gray-400 mt-1">چت</span>
+            </button>
+            
+            <!-- Test Icon -->
+            <button class="flex flex-col items-center justify-center p-3 rounded-2xl transition-all duration-300 hover:bg-gray-100/40 active:scale-90 hover:scale-105" onclick="goToTest()">
+                <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                </svg>
+                <span class="text-xs text-gray-400 mt-1">تست</span>
+            </button>
+            
+
+            
+            <!-- Profile Icon -->
+            <button class="flex flex-col items-center justify-center p-3 rounded-2xl transition-all duration-300 hover:bg-gray-100/40 active:scale-90 hover:scale-105">
+                <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                </svg>
+                <span class="text-xs text-gray-400 mt-1">پروفایل</span>
+            </button>
+        </div>
+    </nav>
+    
+    <!-- Header -->
+    <header class="fixed top-0 left-0 right-0 bg-transparent z-50">
+        <div class="flex justify-between items-center px-6 py-4">
+            <!-- Left: User Account -->
+            <div class="flex items-center">
+                <div class="flex flex-col space-y-1">
+                    <div class="w-4 h-0.5 bg-gray-500"></div>
+                    <div class="w-2 h-0.5 bg-gray-500"></div>
+                </div>
+            </div>
+            
+            <!-- Center: School Title -->
+            <div class="absolute left-1/2 transform -translate-x-1/2">
+                <h1 class="text-xl font-semibold text-gray-700">School</h1>
+            </div>
+            
+            <!-- Right: New Chat and Share -->
+            <div class="flex items-center space-x-4">
+                <button class="p-2 hover:bg-gray-100/30 rounded-lg transition-colors">
+                    <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Chat Container -->
+    <main class="pt-20 pb-32 px-6">
+        <div class="max-w-4xl mx-auto">
+                        
+            
+            <!-- Chat Messages Container -->
+            <div id="chat-messages" class="chat-container no-scroll space-y-6 hidden">
+                <!-- Messages will be dynamically added here -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Bottom Navigation and Input -->
+    <div class="fixed bottom-0 left-0 right-0 bg-transparent" style="z-index: 50;">
+            <!-- User Input -->
+            <div class="px-4 sm:px-6 pb-20" style="z-index: 10; pointer-events: none;">
+                <div class="max-w-5xl mx-auto flex justify-center">
+                    <div class="relative w-full max-w-2xl">
+                        <textarea 
+                            id="user-input" 
+                            class="user-input w-full px-5 py-4 pr-20 resize-none text-gray-900 placeholder-gray-500 text-lg transition-all duration-200"
+                            placeholder="...Learn anything"
+                            rows="1"
+                            oninput="autoResize(this)"
+                            onfocus="handleInputFocus(this)"
+                            onblur="handleInputBlur(this)"
+                            onclick="handleInputFocus(this)"
+                            style="pointer-events: auto; min-height: 56px;"
+                        ></textarea>
+                        
+                        <!-- Send Button - Hidden initially, shown on input focus -->
+                        <button 
+                            id="send-button"
+                            class="absolute right-0 top-1/2 transform -translate-y-1/2 w-16 h-16 bg-gray-400 hover:bg-black text-white rounded-full transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center opacity-0 pointer-events-none transform scale-75 z-10"
+                            onclick="sendMessage()"
+                            style="pointer-events: auto;"
+                        >
+                            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        
+
+    </div>
+
+    <script>
+        let currentConversationId = 'default';
+        let isStreaming = false;
+        
+        // Initialize conversation
+        async function initializeConversation() {
+            try {
+                const response = await fetch('/api/chat/start', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                const data = await response.json();
+                currentConversationId = data.conversationId;
+                console.log('New conversation started:', currentConversationId);
+            } catch (error) {
+                console.error('Failed to start conversation:', error);
+            }
+        }
+        
+
+        
+        function autoResize(textarea) {
+            textarea.style.height = 'auto';
+            textarea.style.height = Math.min(textarea.scrollHeight, 120) + 'px';
+            
+            // Update button color based on typing
+            const sendButton = document.getElementById('send-button');
+            if (textarea.value.trim() !== '') {
+                textarea.classList.add('typing-active');
+                sendButton.classList.remove('bg-gray-400');
+                sendButton.classList.add('bg-black');
+            } else {
+                textarea.classList.remove('typing-active');
+                sendButton.classList.remove('bg-black');
+                sendButton.classList.add('bg-gray-400');
+            }
+        }
+        
+        // Function to handle input changes for button color
+        function handleInputChange(textarea) {
+            const sendButton = document.getElementById('send-button');
+            if (textarea.value.length > 0) {
+                // User is typing - make button black
+                sendButton.classList.remove('bg-gray-400');
+                sendButton.classList.add('bg-black');
+            } else {
+                // No text - make button gray
+                sendButton.classList.remove('bg-black');
+                sendButton.classList.add('bg-gray-400');
+            }
+        }
+        
+        // Function to handle input focus - make button black immediately
+        function handleInputFocus(textarea) {
+            const sendButton = document.getElementById('send-button');
+            sendButton.classList.remove('bg-gray-400');
+            sendButton.classList.add('bg-black');
+            textarea.classList.add('typing-active');
+            
+            // Hide bottom navigation when input is focused
+            const bottomNav = document.getElementById('bottom-navigation');
+            if (bottomNav) {
+                bottomNav.style.opacity = '0';
+                bottomNav.style.pointerEvents = 'none';
+            }
+        }
+        
+        // Function to handle input blur - make button gray if no text
+        function handleInputBlur(textarea) {
+            if (textarea.value.length === 0) {
+                const sendButton = document.getElementById('send-button');
+                sendButton.classList.remove('bg-black');
+                sendButton.classList.add('bg-gray-400');
+                textarea.classList.remove('typing-active');
+            }
+            
+            // Show bottom navigation when input loses focus
+            const bottomNav = document.getElementById('bottom-navigation');
+            if (bottomNav) {
+                bottomNav.style.opacity = '1';
+                bottomNav.style.pointerEvents = 'auto';
+            }
+        }
+        
+                function addMessage(content, isUser = false, messageId = null) {
+            const messagesContainer = document.getElementById('chat-messages');
+            const messageDiv = document.createElement('div');
+            
+            if (messageId) {
+                messageDiv.id = messageId;
+            }
+            
+            // Proper message positioning - user left, AI right
+            messageDiv.className = `flex w-full ${isUser ? 'justify-start' : 'justify-end'} mb-6`;
+            
+            const messageContent = `
+                <div class="max-w-3xl ${isUser ? 'bg-gray-200 text-gray-900' : 'text-gray-900'} rounded-3xl px-6 py-4 ${isUser ? 'shadow-sm' : ''} ${!isUser ? 'ml-auto' : ''}">
+                    <p class="${isUser ? 'text-base' : 'text-lg'} leading-relaxed" ${!isUser ? 'dir="rtl"' : ''}>${content}</p>
+                </div>
+            `;
+            
+            messageDiv.innerHTML = messageContent;
+            messagesContainer.appendChild(messageDiv);
+            
+            // Enable scrolling after first message
+            enableScrolling();
+            
+            // Mathematical rendering simplified for deployment
+            if (!isUser) {
+                console.log('✅ Mathematical rendering simplified for deployment');
+            }
+            
+            // Scroll to show the new message at the top
+            setTimeout(() => {
+                if (isUser) {
+                    // For user messages, scroll to show the new message
+                    messageDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                } else {
+                    // For AI responses, scroll to show the full conversation
+                    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                }
+            }, 100);
+            
+            console.log(`Message added: ${isUser ? 'User' : 'AI'} - Total messages: ${messagesContainer.children.length}`);
+            
+            return messageDiv;
+        }
+        
+        function addStreamingMessage() {
+            const messagesContainer = document.getElementById('chat-messages');
+            const messageDiv = document.createElement('div');
+            const messageId = `msg_${Date.now()}`;
+            
+            messageDiv.id = messageId;
+            // AI messages always on the right
+            messageDiv.className = 'flex w-full justify-end mb-4';
+            
+            const messageContent = `
+                <div class="ml-auto max-w-3xl text-gray-900 rounded-3xl px-6 py-4">
+                    <div class="text-lg leading-relaxed flex items-center justify-center">
+                        <div class="spinning-logo-container">
+                            <div class="thinking-text">در حال فکر کردن...</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            messageDiv.innerHTML = messageContent;
+            messagesContainer.appendChild(messageDiv);
+            
+            // Enable scrolling when streaming starts
+            enableScrolling();
+            
+            // Scroll to show the new message at the top
+            setTimeout(() => {
+                messageDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 100);
+            
+            console.log(`Streaming message added - Total messages: ${messagesContainer.children.length}`);
+            
+            return messageId;
+        }
+        
+        function updateStreamingMessage(messageId, content) {
+            const messageDiv = document.getElementById(messageId);
+            if (messageDiv) {
+                // Ensure the message div maintains its right alignment
+                messageDiv.className = 'flex w-full justify-end';
+                
+                const textElement = messageDiv.querySelector('div');
+                // Format the content with bullet points and proper structure
+                const formattedContent = formatChatContent(content);
+                // Wrap content in a div that maintains right alignment
+                textElement.innerHTML = `<div class="text-right"><span class="text-lg leading-relaxed">${formattedContent}</span></div>`;
+                
+                        // Mathematical rendering simplified for deployment
+        console.log('✅ Mathematical rendering simplified for deployment');
+                
+                // Always scroll to bottom to show latest content
+                const messagesContainer = document.getElementById('chat-messages');
+                setTimeout(() => {
+                    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                }, 50);
+            }
+        }
+
+        // Beautiful mathematical rendering with MathJax
+        function formatChatContent(content) {
+            console.log('🔍 Raw AI content:', content); // Debug log
+            
+            let formatted = content;
+            
+            // Process bullet points (•) - handle both standalone and inline
+            formatted = formatted.replace(/^•\s+/gm, '<li class="list-item">');
+            formatted = formatted.replace(/^-\s+/gm, '<li class="list-item">');
+            
+            // Process numbered lists (1., 2., 3.)
+            formatted = formatted.replace(/^(\d+)\.\s+/gm, '<li class="list-item">$1. ');
+            
+            // Handle special cases where bullet points appear mid-text
+            formatted = formatted.replace(/([^>])•\s+/g, '$1<br><li class="list-item">');
+            
+            console.log('🔍 After bullet processing:', formatted); // Debug log
+            
+            // Wrap list items in proper containers
+            if (formatted.includes('<li class="list-item">')) {
+                console.log('🔍 Found list items, processing...'); // Debug log
+                
+                // Split content into lines
+                const lines = formatted.split('\n');
+                const processedLines = [];
+                let inList = false;
+                let listItems = [];
+                
+                for (let line of lines) {
+                    if (line.trim().startsWith('<li class="list-item">')) {
+                        if (!inList) {
+                            inList = true;
+                            listItems = [];
+                        }
+                        listItems.push(line);
+                        console.log('🔍 Added list item:', line); // Debug log
+                    } else if (line.trim() === '') {
+                        if (inList && listItems.length > 0) {
+                            const listHtml = '<ul class="ai-list mb-3">' + listItems.join('') + '</ul>';
+                            processedLines.push(listHtml);
+                            console.log('🔍 Created list:', listHtml); // Debug log
+                            listItems = [];
+                            inList = false;
+                        }
+                        processedLines.push(line);
+                    } else {
+                        if (inList && listItems.length > 0) {
+                            const listHtml = '<ul class="ai-list mb-3">' + listItems.join('') + '</ul>';
+                            processedLines.push(listHtml);
+                            console.log('🔍 Created list:', listHtml); // Debug log
+                            listItems = [];
+                            inList = false;
+                        }
+                        processedLines.push(line);
+                    }
+                }
+                
+                // Handle any remaining list items
+                if (inList && listItems.length > 0) {
+                    const listHtml = '<ul class="ai-list mb-3">' + listItems.join('') + '</ul>';
+                    processedLines.push(listHtml);
+                    console.log('🔍 Final list:', listHtml); // Debug log
+                }
+                
+                formatted = processedLines.join('\n');
+                console.log('🔍 Final formatted with lists:', formatted); // Debug log
+            }
+            
+            // Replace line breaks with proper HTML
+            formatted = formatted.replace(/\n\n/g, '</p><p>');
+            formatted = formatted.replace(/\n/g, '<br>');
+            
+            // Add paragraph tags
+            formatted = `<p>${formatted}</p>`;
+            
+            // Clean up any extra formatting
+            formatted = formatted.replace(/<p><\/p>/g, '');
+            
+            // IMPORTANT: Don't wrap in RTL container yet - let MathJax process LaTeX first
+            // formatted = `<div dir="rtl">${formatted}</div>`;
+            
+            console.log('🔍 Formatted content:', formatted); // Debug log
+            
+            return formatted;
+        }
+        
+
+        
+        async function sendMessage() {
+            if (isStreaming) return;
+            
+            const input = document.getElementById('user-input');
+            const message = input.value.trim();
+            
+            if (!message) return;
+            
+            // Hide welcome message and show chat messages
+            const welcomeMessage = document.getElementById('welcome-message');
+            const chatMessages = document.getElementById('chat-messages');
+            if (welcomeMessage && chatMessages) {
+                welcomeMessage.classList.add('hidden');
+                chatMessages.classList.remove('hidden');
+            }
+            
+            // Add user message
+            addMessage(message, true);
+            
+            // Clear input but keep it visible
+            input.value = '';
+            input.style.height = 'auto';
+            
+            // Add streaming message placeholder
+            const streamingMessageId = addStreamingMessage();
+            isStreaming = true;
+            
+            // Keep input visible and functional during streaming
+            input.disabled = false;
+            input.style.opacity = '1';
+            
+            try {
+                // Use streaming API for real-time response
+                await streamAIResponse(message, streamingMessageId);
+            } catch (error) {
+                console.error('Failed to get AI response:', error);
+                                 updateStreamingMessage(streamingMessageId, 'متأسفانه خطایی رخ داد. لطفاً دوباره تلاش کنید.');
+            } finally {
+                isStreaming = false;
+                // Ensure input is fully enabled after response
+                input.disabled = false;
+                input.style.opacity = '1';
+            }
+        }
+        
+        async function streamAIResponse(message, messageId) {
+            try {
+                const response = await fetch('/api/chat/stream', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        message: message,
+                        conversationId: currentConversationId
+                    })
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const reader = response.body.getReader();
+                const decoder = new TextDecoder();
+                let fullResponse = '';
+                
+                while (true) {
+                    const { done, value } = await reader.read();
+                    
+                    if (done) break;
+                    
+                    const chunk = decoder.decode(value);
+                    const lines = chunk.split('\n');
+                    
+                    for (const line of lines) {
+                        if (line.startsWith('data: ')) {
+                            const data = line.slice(6);
+                            
+                            if (data === '[DONE]') {
+                                // Add final response to conversation history
+                                return fullResponse;
+                            }
+                            
+                                                            try {
+                                    const parsed = JSON.parse(data);
+                                    if (parsed.content && parsed.type === 'chunk') {
+                                        fullResponse += parsed.content;
+                                        updateStreamingMessage(messageId, fullResponse);
+                                        
+                                        // Reduced delay for faster typewriter effect
+                                        await new Promise(resolve => setTimeout(resolve, 10));
+                                    }
+                                } catch (e) {
+                                    // Ignore parsing errors
+                                }
+                        }
+                    }
+                }
+                
+                return fullResponse;
+                
+            } catch (error) {
+                console.error('Streaming error:', error);
+                throw error;
+            }
+        }
+        
+        // Handle Enter key
+        document.getElementById('user-input').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+
+        // SymPy processing removed for deployment
+        // function processSymPy(element) {
+        //     SymPy backend rendering - content already processed
+        //     console.log('🔍 SymPy backend rendering - content already processed');
+        //     Content is already rendered by SymPy on the backend
+        // }
+        
+        // Function to enable scrolling and hide welcome message
+        function enableScrolling() {
+            const chatContainer = document.getElementById('chat-messages');
+            const scientificBackground = document.getElementById('scientific-background');
+            
+            // Enable scrolling on chat container
+            chatContainer.classList.remove('no-scroll');
+            chatContainer.style.overflow = 'auto';
+            chatContainer.style.overflowY = 'auto';
+            
+            // Hide scientific background
+            if (scientificBackground) {
+                scientificBackground.classList.add('chat-mode');
+            }
+            
+            // Add chat-mode class to body for clean white background
+            document.body.classList.add('chat-mode');
+            
+            // Hide bottom navigation when scrolling is enabled
+            const bottomNav = document.getElementById('bottom-navigation');
+            if (bottomNav) {
+                bottomNav.style.opacity = '0';
+                bottomNav.style.pointerEvents = 'none';
+            }
+        }
+
+
+
+        // Function to handle input focus/change
+        function handleInputChange(input) {
+            // Enable scrolling when user starts typing
+            enableScrolling();
+        }
+        
+        // Handle input focus
+        function handleInputFocus(input) {
+            // Hide welcome text only when input is focused
+            const welcomeText = document.getElementById('welcome-text');
+            if (welcomeText) {
+                welcomeText.style.opacity = '0';
+                setTimeout(() => {
+                    welcomeText.style.display = 'none';
+                }, 300);
+            }
+            
+            // Move user input to bottom navigation area
+            const userInputContainer = document.querySelector('.px-4.sm\\:px-6.pb-20');
+            if (userInputContainer) {
+                userInputContainer.style.position = 'fixed';
+                userInputContainer.style.bottom = '0';
+                userInputContainer.style.left = '0';
+                userInputContainer.style.right = '0';
+                userInputContainer.style.zIndex = '60';
+                userInputContainer.style.backgroundColor = 'white';
+                userInputContainer.style.borderTop = '1px solid #e5e7eb';
+                userInputContainer.style.paddingBottom = '1rem';
+            }
+            
+            // Enable scrolling when user focuses on input
+            enableScrolling();
+            
+            // Show send button when input is focused
+            const sendButton = document.getElementById('send-button');
+            if (sendButton) {
+                sendButton.style.opacity = '1';
+                sendButton.style.pointerEvents = 'auto';
+                sendButton.classList.remove('opacity-0', 'pointer-events-none', 'transform-scale-75');
+                sendButton.classList.add('transform-scale-100');
+            }
+
+            // Hide bottom navigation when input is focused
+            const bottomNav = document.getElementById('bottom-navigation');
+            if (bottomNav) {
+                bottomNav.style.transform = 'translateY(100%)';
+            }
+        }
+
+        // Handle input blur
+        function handleInputBlur(input) {
+            // Keep scrolling enabled after blur
+            enableScrolling();
+            
+            // Restore user input to original position
+            const userInputContainer = document.querySelector('.px-4.sm\\:px-6.pb-20');
+            if (userInputContainer) {
+                userInputContainer.style.position = 'static';
+                userInputContainer.style.bottom = 'auto';
+                userInputContainer.style.left = 'auto';
+                userInputContainer.style.right = 'auto';
+                userInputContainer.style.zIndex = 'auto';
+                userInputContainer.style.backgroundColor = 'transparent';
+                userInputContainer.style.borderTop = 'none';
+                userInputContainer.style.paddingBottom = '5rem';
+            }
+            
+            // Hide send button when input loses focus
+            const sendButton = document.getElementById('send-button');
+            if (sendButton) {
+                sendButton.style.opacity = '0';
+                sendButton.style.pointerEvents = 'none';
+                sendButton.classList.add('opacity-0', 'pointer-events-none', 'transform-scale-75');
+                sendButton.classList.remove('transform-scale-100');
+            }
+
+            // Show bottom navigation when input loses focus
+            const bottomNav = document.getElementById('bottom-navigation');
+            if (bottomNav) {
+                bottomNav.style.transform = 'translateY(0)';
+            }
+        }
+
+        // Add input focus event listener
+        document.addEventListener('DOMContentLoaded', function() {
+            const userInput = document.getElementById('user-input');
+            userInput.addEventListener('focus', enableScrolling);
+            userInput.addEventListener('input', function() {
+                if (this.value.trim() !== '') {
+                    enableScrolling();
+                }
+            });
+
+
+        });
+
+
+        
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Register service worker for mobile performance
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(registration => {
+                        console.log('✅ Service Worker registered successfully');
+                    })
+                    .catch(error => {
+                        console.log('⚠️ Service Worker registration failed:', error);
+                    });
+            }
+            
+            // Preload critical pages for faster mobile navigation
+            preloadPages();
+            
+            // Initialize chat functionality
+            initializeChat();
+        });
+        
+        // Preload pages for faster mobile navigation
+        function preloadPages() {
+            const pages = ['test.html', 'question-analysis.html', 'chapters.html', 'analysis-results.html'];
+            pages.forEach(page => {
+                const link = document.createElement('link');
+                link.rel = 'prefetch';
+                link.href = page;
+                document.head.appendChild(link);
+            });
+        }
+        
+        // Initialize chat functionality
+        function initializeChat() {
+            initializeConversation();
+            
+            // Debug: Check conversation state every 2 seconds
+            setInterval(() => {
+                const messagesContainer = document.getElementById('chat-messages');
+                if (messagesContainer) {
+                    console.log(`Current conversation state: ${messagesContainer.children.length} messages`);
+                    console.log('Message IDs:', Array.from(messagesContainer.children).map(el => el.id));
+                }
+            }, 2000);
+        }
+        
+        // Function to go to test page
+        function goToTest() {
+            console.log('🔍 Navigating to test page...');
+            try {
+                window.location.href = 'test.html';
+            } catch (error) {
+                console.error('❌ Navigation error:', error);
+                // Fallback: try direct assignment
+                window.location = 'test.html';
+            }
+        }
+        
+        // Function to start a new chat
+        function startNewChat() {
+            // Clear chat messages
+            const chatMessages = document.getElementById('chat-messages');
+            if (chatMessages) {
+                chatMessages.innerHTML = '';
+                chatMessages.classList.add('hidden');
+            }
+            
+            // Show welcome message
+            const welcomeMessage = document.getElementById('welcome-message');
+            if (welcomeMessage) {
+                welcomeMessage.classList.remove('hidden');
+            }
+            
+            // Start new conversation
+            initializeConversation();
+            
+            // Clear input
+            const userInput = document.getElementById('user-input');
+            if (userInput) {
+                userInput.value = '';
+                userInput.style.height = 'auto';
+            }
+        }
+        
+        // SymPy processing removed for deployment
+        // console.log('✅ Using SymPy backend for mathematical rendering');
+    </script>
+</body>
+</html>
