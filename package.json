@@ -1,0 +1,21 @@
+{
+  "name": "meno-educational-app",
+  "version": "1.0.0",
+  "description": "AI-powered educational platform for high school students",
+  "main": "index.js",
+  "scripts": {
+    "start": "node backend/server.js",
+    "dev": "npx nodemon backend/server.js",
+    "dev:clean": "powershell -ExecutionPolicy Bypass -File kill-port.ps1 && timeout /t 2 && npx nodemon backend/server.js",
+    "dev:simple": "node backend/server.js",
+    "frontend": "npx live-server frontend --port=0 --open=/index.html",
+    "build": "echo 'Frontend is already built'",
+    "test": "echo 'No tests specified'"
+  },
+  "keywords": ["education", "ai", "chat", "learning", "high-school"],
+  "author": "Your Name",
+  "license": "MIT",
+  "devDependencies": {
+    "live-server": "^1.2.2"
+  }
+}

@@ -2,7 +2,7 @@
 <html lang="fa" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>مِنو - نتایج تحلیل سوال</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -72,19 +72,45 @@
         }
         
                  .detailed-analysis-section {
-             transition: all 0.5s ease;
-             transform: translateY(0);
-             opacity: 0;
-             display: none;
-             margin-top: 0;
-             position: relative;
-             background: transparent !important;
+             transition: none;
+             transform: none;
+             opacity: 1;
+             display: block;
+             margin-top: 2rem;
+             position: static;
+             background: white !important;
+             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+             border-radius: 24px;
+             overflow: hidden;
          }
         
         .detailed-analysis-section.show {
-            transform: translateY(0);
-            opacity: 1;
-            display: block;
+             display: block !important;
+         }
+         
+         /* Detailed analysis section styling - seamlessly integrated with main page */
+         #detailed-analysis-section {
+             background: transparent;
+             border-radius: 0;
+             box-shadow: none;
+             overflow: hidden;
+             border: none;
+             margin-top: 2rem;
+             margin-left: 0;
+             margin-right: 0;
+             transition: all 0.3s ease;
+         }
+         
+         /* Mobile responsive - full width on small screens */
+         @media (max-width: 768px) {
+             #detailed-analysis-section {
+                 margin-left: -1.5rem;
+                 margin-right: -1.5rem;
+             }
+         }
+         
+         #detailed-analysis-section:not(.hidden) {
+             display: block !important;
         }
         
                  .analysis-content {
@@ -92,6 +118,50 @@
              text-align: right;
              font-size: 18px;
              background: transparent !important;
+             display: block !important;
+         }
+         
+         #chat-messages {
+             display: block !important;
+             background: transparent;
+             border-radius: 0;
+             margin-top: 0;
+             padding: 0 32px 32px 32px;
+             border-top: 1px solid #f3f4f6;
+         }
+         
+                 /* Mobile responsive - full width for chat messages */
+        @media (max-width: 768px) {
+            #chat-messages {
+                margin-left: -1.5rem;
+                margin-right: -1.5rem;
+                padding-left: 1.5rem;
+                padding-right: 1.5rem;
+                width: calc(100% + 3rem);
+                background: transparent;
+            }
+            
+            /* Remove the border on mobile for seamless appearance */
+            #chat-messages {
+                border-top: none;
+            }
+            
+            /* AI responses use same width as detailed analysis on mobile */
+            .message-bubble.ai {
+                margin: 0;
+                width: 100%;
+                max-width: 100%;
+                border-radius: 0;
+                background: transparent;
+            }
+            
+            /* Helper response content uses same width as detailed analysis on mobile */
+            .helper-response-content {
+                margin: 0;
+                width: 100%;
+                max-width: 100%;
+                background: transparent;
+            }
          }
         
         .analysis-content h4 {
@@ -186,6 +256,52 @@
             font-size: 1.2rem;
         }
         
+        /* Enhanced list styling for all responses */
+        .bullet-list {
+            margin: 1rem 0;
+            padding-right: 1.5rem;
+            list-style: none;
+        }
+        
+        .bullet-list li {
+            margin-bottom: 0.8rem;
+            color: #374151;
+            position: relative;
+            padding-right: 1.5rem;
+        }
+        
+        .bullet-list li::before {
+            content: "•";
+            font-weight: 700;
+            color: #1e40af;
+            position: absolute;
+            right: 0;
+            font-size: 1.2rem;
+        }
+        
+        .numbered-list {
+            margin: 1rem 0;
+            padding-right: 1.5rem;
+            counter-reset: item;
+        }
+        
+        .numbered-list li {
+            margin-bottom: 0.8rem;
+            color: #374151;
+            counter-increment: item;
+            position: relative;
+            padding-right: 1.5rem;
+        }
+        
+        .numbered-list li::before {
+            content: counter(item) ".";
+            font-weight: 700;
+            color: #1e40af;
+            position: absolute;
+            right: 0;
+            font-size: 1.1rem;
+        }
+        
                  /* Button hover effects */
          button:hover {
              transform: translateY(-2px);
@@ -211,6 +327,141 @@
             color: #000000 !important;
             font-size: 22px !important;
             font-weight: 600 !important;
+         
+         /* Helper question response styling - seamless integration */
+         .helper-response-content {
+             background: transparent;
+             border: none;
+             box-shadow: none;
+             margin: 0;
+             padding: 0;
+             width: 100%; /* Same width as detailed analysis */
+             max-width: 100%;
+         }
+         
+         .helper-response-content p {
+             margin-bottom: 1rem;
+             color: #374151;
+             line-height: 1.6;
+         }
+         
+         /* Enhanced list styling for helper question responses */
+         .helper-response-content ul.bullet-list {
+             margin: 1rem 0;
+             padding-right: 1.5rem;
+             list-style: none;
+         }
+         
+         .helper-response-content ul.bullet-list li {
+             margin-bottom: 0.8rem;
+             color: #374151;
+             position: relative;
+             padding-right: 1.5rem;
+         }
+         
+         .helper-response-content ul.bullet-list li::before {
+             content: "•";
+             font-weight: 700;
+             color: #1e40af;
+             position: absolute;
+             right: 0;
+             font-size: 1.2rem;
+         }
+         
+         .helper-response-content ol.numbered-list {
+             margin: 1rem 0;
+             padding-right: 1.5rem;
+             counter-reset: item;
+         }
+         
+         .helper-response-content ol.numbered-list li {
+             margin-bottom: 0.8rem;
+             color: #374151;
+             counter-increment: item;
+             position: relative;
+             padding-right: 1.5rem;
+         }
+         
+         .helper-response-content ol.numbered-list li::before {
+             content: counter(item) ".";
+             font-weight: 700;
+             color: #1e40af;
+             position: absolute;
+             right: 0;
+             font-size: 1.1rem;
+         }
+         
+         /* Callout box styling for special notes */
+         .helper-response-content .callout-box {
+             background: #f0f9ff;
+             border: 1px solid #0ea5e9;
+             border-radius: 8px;
+             padding: 1rem;
+             margin: 1rem 0;
+             border-right: 4px solid #0ea5e9;
+         }
+         
+         .helper-response-content .callout-box strong {
+             color: #0c4a6e;
+             font-weight: 600;
+         }
+         
+                 /* Mobile responsive - same width as detailed analysis for helper question responses */
+        @media (max-width: 768px) {
+            .helper-response-content {
+                margin: 0;
+                width: 100%;
+                max-width: 100%;
+                background: transparent;
+            }
+            
+            .helper-response-content ul.bullet-list,
+            .helper-response-content ol.numbered-list {
+                margin: 0.75rem 0;
+                padding-right: 1rem;
+            }
+            
+            .helper-response-content ul.bullet-list li,
+            .helper-response-content ol.numbered-list li {
+                margin-bottom: 0.6rem;
+                padding-right: 1rem;
+                font-size: 0.95rem;
+            }
+            
+            .helper-response-content .callout-box {
+                padding: 0.75rem;
+                margin: 0.75rem 0;
+            }
+            
+            /* Mobile styling for general list classes */
+            .bullet-list,
+            .numbered-list {
+                margin: 0.75rem 0;
+                padding-right: 1rem;
+            }
+            
+            .bullet-list li,
+            .numbered-list li {
+                margin-bottom: 0.6rem;
+                padding-right: 1rem;
+                font-size: 0.95rem;
+            }
+            
+            .message-bubble.ai {
+                margin: 0;
+                width: 100%;
+                max-width: 100%;
+                border-radius: 0;
+                background: transparent;
+            }
+            
+            /* Ensure the entire chat message has same width as detailed analysis */
+            .chat-message.ai {
+                margin: 0;
+                width: 100%;
+                max-width: 100%;
+            }
+        }
         }
         
         /* Specific styling for mathematical symbols */
@@ -221,6 +472,156 @@
         /* Make all text in helper questions bigger and black */
         .streaming-answer .ai-tutor-response * {
             color: #000000 !important;
+        }
+        
+        /* Mobile-specific fixes for helper questions */
+        @media (max-width: 768px) {
+            .bg-gray-100 {
+                background-color: #e5e7eb !important;
+                -webkit-tap-highlight-color: transparent;
+                -webkit-touch-callout: none;
+                -webkit-user-select: none;
+                user-select: none;
+                touch-action: manipulation;
+                -webkit-touch-callout: none;
+                -webkit-user-select: none;
+                -khtml-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
+            }
+            
+            .bg-gray-100:active {
+                background-color: #d1d5db !important;
+                transform: scale(0.98);
+            }
+            
+            .bg-gray-100:hover {
+                background-color: #f3f4f6 !important;
+            }
+            
+            /* Ensure proper touch area */
+            .cursor-pointer {
+                min-height: 44px;
+                min-width: 44px;
+            }
+            
+            /* Fix mobile text rendering */
+            .text-gray-700 {
+                color: #374151 !important;
+                font-size: 16px !important;
+                line-height: 1.5 !important;
+            }
+            
+            /* Mobile-specific spacing */
+            .space-y-3 > * + * {
+                margin-top: 0.75rem;
+            }
+            
+            /* Ensure proper mobile padding */
+            .p-4 {
+                padding: 1rem !important;
+            }
+            
+            /* Mobile-friendly borders */
+            .border {
+                border-width: 1px !important;
+            }
+            
+            /* Mobile-specific transitions */
+            .transition-all {
+                transition: all 0.15s ease !important;
+            }
+        }
+          
+                 /* Floating Action Button (FAB) Styling */
+         #fab-container {
+             position: fixed;
+             bottom: 7rem; /* 112px - moved up from 6rem */
+             left: 1.5rem; /* 24px from left edge */
+             z-index: 60; /* Higher than bottom navigation (z-50) */
+             transition: all 0.3s ease;
+         }
+        
+        #fab-container.scale-0 {
+            transform: scale(0);
+            opacity: 0;
+        }
+        
+        #fab-container.scale-100 {
+            transform: scale(1);
+            opacity: 1;
+        }
+        
+        #fab-button {
+            width: 3.5rem; /* 56px */
+            height: 3.5rem; /* 56px */
+            background-color: #d1d5db; /* Pale/light gray */
+            border: 1px solid #9ca3af; /* Lighter gray border */
+            border-radius: 1rem; /* 16px - rounded square */
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2), 0 4px 6px -2px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+        }
+        
+        #fab-button:hover {
+            background-color: #9ca3af; /* Slightly darker pale gray on hover */
+            transform: translateY(-2px) scale(1.1);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0,0, 0, 0.1);
+        }
+        
+        #fab-button:active {
+            transform: scale(0.95);
+        }
+        
+        #fab-button svg {
+            width: 1.75rem; /* 28px */
+            height: 1.75rem; /* 28px */
+            color: #374151; /* Dark gray icon for better contrast on pale background */
+            transition: color 0.3s ease;
+        }
+        
+        #fab-button:hover svg {
+            color: #1f2937; /* Even darker on hover */
+        }
+        
+                 /* Mobile-specific FAB adjustments */
+         @media (max-width: 768px) {
+             #fab-container {
+                 bottom: 6.5rem; /* Moved up from 5.5rem to match desktop positioning */
+                 left: 1rem; /* Closer to left edge on mobile */
+                 z-index: 60; /* Ensure it's above navigation on mobile too */
+             }
+             
+             #fab-button {
+                 width: 3rem; /* Slightly smaller on mobile */
+                 height: 3rem;
+                 background-color: #d1d5db; /* Keep consistent pale gray on mobile */
+                 /* Mobile touch optimizations */
+                 touch-action: manipulation;
+                 -webkit-tap-highlight-color: transparent;
+                 -webkit-user-select: none;
+                 user-select: none;
+             }
+             
+             #fab-button svg {
+                 width: 1.5rem;
+                 height: 1.5rem;
+                 color: #374151; /* Keep dark gray icon on mobile */
+             }
+             
+             /* Mobile FAB positioning when chat input is shown */
+             #fab-container.fab-above-input {
+                 bottom: 11rem;
+            }
+            
+            /* Ensure FAB button is clickable on mobile */
+            #fab-button:active {
+                transform: scale(0.95);
+                background-color: #9ca3af;
+            }
         }
           
         /* AI Tutor Response Styling */
@@ -461,33 +862,448 @@
               position: relative;
               cursor: pointer;
           }
+          
+                     /* Modern Related Questions Section Styling */
+           .related-questions-section {
+               background: transparent;
+               border-radius: 0;
+               box-shadow: none;
+               padding: 0;
+               margin: 24px 0;
+               border: none;
+           }
+           
+           .related-questions-section h3 {
+               color: #007bff !important;
+               font-weight: 700 !important;
+               font-size: 1.5rem !important;
+               margin-bottom: 1.5rem !important;
+               text-align: center;
+               border-bottom: 2px solid #e0eaff;
+               padding-bottom: 12px;
+           }
+           
+           .question-button {
+               transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+               position: relative;
+               overflow: hidden;
+               border: 2px solid #e5e7eb !important;
+               background-color: #f3f4f6 !important;
+               margin-bottom: 12px !important;
+           }
+           
+                       .question-button:hover {
+                background-color: #e0eaff !important;
+                transform: translateY(-2px) scale(1.02) !important;
+                box-shadow: 0 8px 25px rgba(0, 123, 255, 0.15) !important;
+            }
+           
+           .question-button:active {
+               transform: scale(0.98) !important;
+               background-color: #d1d5db !important;
+               border-color: #6b7280 !important;
+           }
+           
+           .question-text {
+               font-weight: 500;
+               color: #374151;
+               line-height: 1.6;
+               word-wrap: break-word;
+               hyphens: auto;
+           }
+          
+                     /* Mobile responsiveness for related questions */
+           @media (max-width: 768px) {
+               .related-questions-section {
+                   padding: 0;
+                   margin: 20px 0;
+                   border-radius: 0;
+               }
+               
+               .related-questions-section h3 {
+                   font-size: 1.25rem !important;
+                   margin-bottom: 1rem !important;
+               }
+               
+               .question-button {
+                   padding: 12px 16px !important;
+                   font-size: 15px !important;
+                   min-height: 48px !important;
+                   margin-bottom: 10px !important;
+               }
+               
+               .question-text {
+                   font-size: 15px !important;
+               }
+           }
+          
+                     /* Focus states for accessibility */
+           .question-button:focus {
+               outline: none;
+               background-color: #e0eaff !important;
+           }
+          
+                     /* Loading state styling */
+           .question-button.loading {
+               background-color: #f3f4f6 !important;
+               color: #6b7280 !important;
+               cursor: not-allowed !important;
+               pointer-events: none !important;
+           }
+           
+                       /* Chat Input Section Styling - No border, just calm gray background */
+            .user-input {
+                background: #E5E7EB;
+                border: none;
+                border-radius: 24px;
+                box-shadow: none;
+            }
+            
+
+            
+            /* Typing states for input */
+            .user-input.typing-active {
+                border: none;
+                box-shadow: none;
+            }
+            
+            /* Button color changes based on input state */
+            .user-input.typing-active + button {
+                background-color: #000000 !important;
+            }
+            
+            /* Ensure input area stays visible */
+            #chat-input-field {
+                position: relative;
+                z-index: 10;
+            }
+            
+            #chat-input-section.show {
+                transform: translateY(0) !important;
+                opacity: 1 !important;
+            }
+            
+            /* Chat Messages Styling */
+            .chat-message {
+                display: flex;
+                margin-bottom: 1rem;
+                animation: fadeInUp 0.3s ease-out;
+            }
+            
+            .chat-message.user {
+                justify-content: flex-end;
+            }
+            
+            .chat-message.ai {
+                justify-content: flex-start;
+            }
+            
+            .message-bubble {
+                max-width: 95%;
+                padding: 12px 16px;
+                border-radius: 18px;
+                word-wrap: break-word;
+                line-height: 1.4;
+            }
+            
+            .message-bubble.user {
+                background-color: #F3F4F6;
+                color: #374151;
+                border-bottom-right-radius: 6px;
+                max-width: 70%;
+                align-self: flex-end;
+            }
+            
+            .message-bubble.ai {
+                background-color: #FFFFFF;
+                color: #1F2937;
+                border: none;
+                border-bottom-left-radius: 6px;
+                box-shadow: none;
+                max-width: 100%;
+                width: 100%;
+                margin: 0;
+            }
+            
+            @keyframes fadeInUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(10px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+            
+            /* Send button positioning and sizing */
+            #send-chat-button {
+                position: absolute;
+                right: 8px; /* 2rem = 8px */
+                top: 7%;
+                transform: translateY(-50%);
+                width: 48px; /* w-12 = 48px */
+                height: 48px; /* h-12 = 48px */
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 20;
+            }
+            
+            /* Mobile responsiveness for chat input */
+            @media (max-width: 768px) {
+                #chat-input-section {
+                    bottom: 20px; /* Position much closer to bottom navigation */
+                    padding-bottom: 0;
+                }
+                
+                #send-chat-button {
+                    width: 48px;
+                    height: 48px;
+                    right: 6px;
+                    top: 7%;
+                }
+                
+                /* Standard width message bubbles on mobile */
+                .message-bubble {
+                    max-width: 90%;
+                    margin-left: 0;
+                    margin-right: 0;
+                    width: auto;
+                    border-radius: 18px;
+                }
+                
+                .message-bubble.ai {
+                    background: transparent;
+                    max-width: 100%;
+                    width: 100%;
+                }
+                
+                /* User messages stay shorter on mobile */
+                .message-bubble.user {
+                    max-width: 70%;
+                    margin-left: 0;
+                    margin-right: 0;
+                    width: auto;
+                    border-radius: 18px;
+                    border-bottom-right-radius: 6px;
+                }
+                
+                /* Comprehensive Content Formatting Styles */
+                .content-header {
+                    font-family: Arial, Roboto, system-ui, sans-serif;
+                    font-weight: 700;
+                    color: #1e40af;
+                    margin-top: 1.5rem;
+                    margin-bottom: 1rem;
+                    line-height: 1.3;
+                }
+                
+                .content-header.h1 {
+                    font-size: 2rem;
+                    color: #1e40af;
+                }
+                
+                .content-header.h2 {
+                    font-size: 1.75rem;
+                    color: #1e40af;
+                }
+                
+                .content-header.h3 {
+                    font-size: 1.5rem;
+                    color: #1e40af;
+                }
+                
+                .content-header.h4 {
+                    font-size: 1.25rem;
+                    color: #1e40af;
+                }
+                
+                .content-header.h5 {
+                    font-size: 1.125rem;
+                    color: #1e40af;
+                }
+                
+                .content-header.h6 {
+                    font-size: 1rem;
+                    color: #1e40af;
+                }
+                
+                .content-paragraph {
+                    font-size: 16px;
+                    line-height: 1.6;
+                    margin-bottom: 1rem;
+                    color: #374151;
+                    text-align: justify;
+                }
+                
+                .content-list {
+                    margin: 1rem 0;
+                    padding-right: 1.5rem;
+                    list-style: none;
+                }
+                
+                .content-list li {
+                    margin-bottom: 0.8rem;
+                    color: #374151;
+                    position: relative;
+                    padding-right: 1.5rem;
+                    font-size: 16px;
+                    line-height: 1.5;
+                }
+                
+                .content-list li::before {
+                    content: "•";
+                    font-weight: 700;
+                    color: #1e40af;
+                    position: absolute;
+                    right: 0;
+                    font-size: 1.2rem;
+                }
+                
+                .content-list ol li::before {
+                    content: counter(item) ".";
+                    counter-increment: item;
+                }
+                
+                .code-block {
+                    background-color: transparent;
+                    border: none;
+                    padding: 0.5rem 0;
+                    margin: 1rem 0;
+                    overflow-x: auto;
+                    font-family: 'Courier New', monospace;
+                    font-size: 14px;
+                    line-height: 1.4;
+                }
+                
+                .code-block code {
+                    color: #374151;
+                    background: transparent;
+                }
+                
+                .inline-code {
+                    background-color: transparent;
+                    border: none;
+                    padding: 0;
+                    font-family: 'Courier New', monospace;
+                    font-size: 14px;
+                    color: #374151;
+                    font-weight: 600;
+                }
+                
+                .content-link {
+                    color: #2563eb;
+                    text-decoration: underline;
+                    transition: color 0.2s ease;
+                }
+                
+                .content-link:hover {
+                    color: #1d4ed8;
+                    text-decoration: none;
+                }
+                
+                .content-blockquote {
+                    background-color: transparent;
+                    border: none;
+                    padding: 0.5rem 0;
+                    margin: 1rem 0;
+                    font-style: italic;
+                    color: #6b7280;
+                    font-size: 16px;
+                    line-height: 1.6;
+                }
+                
+                .content-hr {
+                    border: none;
+                    height: 1px;
+                    background-color: #d1d5db;
+                    margin: 1.5rem 0;
+                }
+                
+                /* Simple callout box styling - clean and minimal */
+                .callout-box {
+                    background: transparent;
+                    border: none;
+                    padding: 0.5rem 0;
+                    margin: 1rem 0;
+                    position: relative;
+                }
+                
+                .callout-box strong {
+                    color: #1e40af;
+                    font-weight: 600;
+                    font-size: 1rem;
+                    display: inline;
+                    margin-left: 0.5rem;
+                }
+                
+                /* Mobile responsive adjustments */
+                @media (max-width: 768px) {
+                    .content-header.h1 { font-size: 1.75rem; }
+                    .content-header.h2 { font-size: 1.5rem; }
+                    .content-header.h3 { font-size: 1.25rem; }
+                    .content-header.h4 { font-size: 1.125rem; }
+                    .content-header.h5 { font-size: 1rem; }
+                    .content-header.h6 { font-size: 0.95rem; }
+                    
+                    .content-paragraph {
+                        font-size: 15px;
+                        margin-bottom: 0.875rem;
+                    }
+                    
+                    .content-list li {
+                        font-size: 15px;
+                        margin-bottom: 0.7rem;
+                        padding-right: 1.25rem;
+                    }
+                    
+                    .code-block {
+                        padding: 0.875rem;
+                        font-size: 13px;
+                    }
+                    
+                    .inline-code {
+                        font-size: 13px;
+                        padding: 0.2rem 0.4rem;
+                    }
+                    
+                    .content-blockquote {
+                        padding: 0.875rem 1.25rem;
+                        font-size: 15px;
+                    }
+                    
+                    .callout-box {
+                        padding: 1rem;
+                        margin: 1.25rem 0;
+                    }
+                }
+          }
          
 
     </style>
 </head>
-         <body>
+         <body style="background-color: #fcf7f3;">
     <!-- Header -->
     <header class="fixed top-0 left-0 right-0 bg-gradient-to-r from-gray-50 via-gray-75 to-gray-50 border-b border-gray-200 z-50">
-        <div class="flex justify-between items-center px-6 py-4">
-            <!-- Left: Back Button -->
-            <button class="p-2 hover:bg-gray-200 rounded-lg transition-colors" onclick="goBack()">
-                <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
-                </svg>
-            </button>
-            
+        <div class="flex justify-center items-center px-6 py-4 relative">
             <!-- Center: Page Title -->
             <div class="text-center">
                 <h1 class="text-xl font-bold text-gray-900">نتایج تحلیل سوال</h1>
             </div>
             
-            <!-- Right: Spacer for balance -->
-            <div class="w-10"></div>
+            <!-- Right: Cross Logo (Back to Chapter) -->
+            <button class="p-2 hover:bg-gray-200 rounded-lg transition-colors absolute right-6" onclick="goToChapter()" title="بازگشت به صفحه فصل">
+                <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
         </div>
     </header>
 
     <!-- Main Content -->
-         <main class="pt-20 pb-24 px-6" style="background: transparent;">
+         <main class="pt-20 pb-24 px-6" style="background-color: #fcf7f3;">
         <div class="max-w-4xl mx-auto">
             <!-- Results Section -->
                          <div id="result-container" class="result-container shadow-2xl p-8 mb-8" onclick="toggleResults()">
@@ -508,8 +1324,10 @@
                                تحلیل سوال
                            </button>
                           
-                          <!-- Test button removed -->
+                          <!-- Analysis button for detailed question analysis -->
                       </div>
+                      
+                      
                       
                                          </div>
                    
@@ -518,15 +1336,20 @@
                
                <!-- Results container is now clickable for toggle functionality -->
  
-                          <!-- Detailed Analysis Section -->
-                             <div id="detailed-analysis-section" class="hidden shadow-2xl rounded-3xl p-8 mb-8 mt-0">
+               <!-- Detailed Analysis Section - Outside Results but on Main Page -->
+               <div id="detailed-analysis-section" class="hidden mt-8">
                  <!-- Analysis Content -->
-                 <div id="analysis-content" class="hidden">
+                   <div id="analysis-content" class="p-8">
                      <!-- Streaming content will appear here -->
                      <div id="streaming-content"></div>
                      
                      <!-- AI-generated help questions will be rendered here dynamically -->
                      <div id="ai-help-questions"></div>
+                 </div>
+                   
+                   <!-- Chat Messages Display Area - Seamlessly Integrated -->
+                   <div id="chat-messages" class="mt-0 space-y-3">
+                       <!-- Chat messages will appear here -->
                  </div>
                 
                 <!-- Error State -->
@@ -546,35 +1369,97 @@
                 </div>
             </div>
 
+                         <!-- Floating Action Button (FAB) - Initially Hidden -->
+             <div id="fab-container" class="fixed bottom-24 left-6 z-50 transition-all duration-500 transform scale-0 opacity-0">
+                 <button id="fab-button" 
+                         class="w-14 h-14 bg-gray-100 hover:bg-gray-200 rounded-2xl shadow-lg flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95 border border-gray-200"
+                         title="پرسش جدید">
+                     <svg class="w-7 h-7 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                     </svg>
+                 </button>
+             </div>
+             
+             <!-- Debug Test Button (Temporary) -->
+             <div class="fixed top-4 right-4 z-50">
+                 <button onclick="testSendMessage()" class="bg-red-500 text-white px-4 py-2 rounded">
+                     Test Send
+                 </button>
+             </div>
+             
+                           <!-- Chat Input Section - Initially Hidden -->
+              <div id="chat-input-section" class="fixed bottom-0 left-0 right-0 bg-transparent transition-all duration-300 transform translate-y-full opacity-0" style="z-index: 50;">
+                  <!-- User Input -->
+                  <div class="px-4 sm:px-6 pb-4" style="z-index: 10; pointer-events: none;">
+                      <div class="max-w-5xl mx-auto flex justify-center">
+                          <div class="relative w-full max-w-2xl">
+                              <textarea 
+                                  id="chat-input-field" 
+                                  class="user-input w-full px-5 py-4 pr-20 resize-none text-gray-900 placeholder-gray-500 text-lg transition-all duration-200"
+                                  placeholder="...Learn anything"
+                                  rows="1"
+                                  oninput="autoResize(this)"
+                                  onfocus="handleInputFocus(this)"
+                                  onblur="handleInputBlur(this)"
+                                  onclick="handleInputFocus(this)"
+                                  style="pointer-events: auto; min-height: 56px; border: none; outline: none;"
+                              ></textarea>
+                              
+                              <!-- Send Button - Hidden initially, shown on input focus -->
+                              <button 
+                                  id="send-chat-button"
+                                  class="absolute right-2 top-1/2 transform -translate-y-1/2 w-16 h-16 bg-gray-400 hover:bg-black text-white rounded-full transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center opacity-0 pointer-events-none transform scale-75 z-10"
+                                  onclick="sendCustomQuestion()"
+                                  style="pointer-events: auto;"
+                              >
+                                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
+                                  </svg>
+                              </button>
+                          </div>
+                      </div>
+                  </div>
+              </div>
             
         </div>
     </main>
 
     <!-- Bottom Mobile Navigation -->
-    <nav id="bottom-navigation" class="fixed bottom-0 left-0 right-0 bg-gray-100 z-50 transition-opacity duration-300">
+    <nav id="bottom-navigation" class="fixed bottom-0 left-0 right-0 z-50 transition-opacity duration-300" style="background-color: #f5f5f5;">
         <div class="flex justify-around items-center py-4 px-6">
-            <!-- Home Icon -->
+            <!-- Chat Icon (Document with Pencil) -->
             <button class="flex flex-col items-center justify-center p-3 rounded-2xl transition-all duration-300 hover:bg-gray-100/40 active:scale-90 hover:scale-105" onclick="window.location.href='index.html'">
-                <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+                <div class="w-6 h-6 relative">
+                    <!-- Document with text lines -->
+                    <svg class="w-6 h-6 text-gray-400" fill="white" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <rect x="3" y="3" width="18" height="18" rx="2" fill="white" stroke="currentColor" stroke-width="2"/>
+                        <line x1="9" y1="9" x2="15" y2="9" stroke="currentColor" stroke-width="2"/>
+                        <line x1="9" y1="13" x2="15" y2="13" stroke="currentColor" stroke-width="2"/>
                 </svg>
+                    <!-- Pencil positioned diagonally from bottom-right -->
+                    <svg class="w-4 h-4 text-gray-400 absolute -bottom-1 -right-1 transform rotate-45" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/>
+                    </svg>
+                </div>
                 <span class="text-xs text-gray-400 mt-1">چت</span>
             </button>
             
-            <!-- Test Icon -->
-            <button class="flex flex-col items-center justify-center p-3 rounded-2xl transition-all duration-300 hover:bg-gray-100/40 active:scale-90 hover:scale-105" onclick="window.location.href='test.html'">
+            <!-- Library Icon -->
+            <button class="flex flex-col items-center justify-center p-3 rounded-2xl transition-all duration-300 hover:bg-gray-100/40 active:scale-90 hover:scale-105" onclick="window.location.href='chapters.html'">
                 <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                     <path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
                 </svg>
-                <span class="text-xs text-gray-400 mt-1">تست</span>
+                <span class="text-xs text-gray-400 mt-1">کتابخانه</span>
             </button>
             
-            <!-- Profile Icon -->
-            <button class="flex flex-col items-center justify-center p-3 rounded-2xl transition-all duration-300 hover:bg-gray-100/40 active:scale-90 hover:scale-105" onclick="window.location.href='#'">
-                <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+            <!-- Analysis/Test Icon (Checkmark) -->
+            <button class="flex flex-col items-center justify-center p-3 rounded-2xl transition-all duration-300 hover:bg-gray-100/40 active:scale-90 hover:scale-105 bg-blue-100" onclick="window.location.href='#'">
+                <div class="w-6 h-6 rounded-full border-2 border-gray-900 flex items-center justify-center bg-white">
+                    <svg class="w-4 h-4 text-gray-900" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
                 </svg>
-                <span class="text-xs text-gray-400 mt-1">پروفایل</span>
+                </div>
+                <span class="text-xs text-blue-600 mt-1 font-medium">تحلیل</span>
             </button>
         </div>
     </nav>
@@ -582,7 +1467,77 @@
     <script>
         let questionData = null;
         let currentSubject = '';
+        
+        // Conversation history system variables
+        let currentConversationId = 'analysis_' + Date.now();
+        let conversationMessages = [];
+        let isConversationInitialized = false;
 
+        // Initialize conversation history system
+        async function initializeConversation() {
+            try {
+                const response = await fetch('/api/chat/start', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                const data = await response.json();
+                currentConversationId = data.conversationId;
+                isConversationInitialized = true;
+                console.log('✅ Analysis page conversation started:', currentConversationId);
+            } catch (error) {
+                console.error('❌ Failed to start conversation:', error);
+                // Use fallback conversation ID
+                currentConversationId = 'analysis_' + Date.now();
+                isConversationInitialized = true;
+            }
+        }
+        
+        // Add message to conversation history
+        function addToConversationHistory(role, content, messageType = 'text') {
+            const message = {
+                role: role,
+                content: content,
+                type: messageType,
+                timestamp: new Date().toISOString()
+            };
+            
+            conversationMessages.push(message);
+            console.log(`📝 Added ${role} message to conversation history. Total: ${conversationMessages.length}`);
+            
+            // Keep only last 20 messages to prevent memory issues
+            if (conversationMessages.length > 20) {
+                conversationMessages.splice(0, conversationMessages.length - 20);
+            }
+            
+            // Display updated conversation history for debugging
+            displayConversationHistory();
+        }
+        
+        // Get conversation context for AI responses
+        function getConversationContext() {
+            return conversationMessages.map(msg => ({
+                role: msg.role,
+                content: msg.content
+            }));
+        }
+        
+        // Display conversation history (for debugging and user reference)
+        function displayConversationHistory() {
+            console.log('📚 Current conversation history:');
+            conversationMessages.forEach((msg, index) => {
+                console.log(`${index + 1}. [${msg.role.toUpperCase()}] ${msg.type}: ${msg.content.substring(0, 100)}...`);
+            });
+            console.log(`📊 Total messages: ${conversationMessages.length}`);
+        }
+        
+        // Clear conversation history (useful for starting fresh)
+        function clearConversationHistory() {
+            conversationMessages = [];
+            console.log('🗑️ Conversation history cleared');
+        }
+        
         // Get URL parameters and decode data
         function getUrlParams() {
             const urlParams = new URLSearchParams(window.location.search);
@@ -597,10 +1552,11 @@
                     console.error('Error parsing data:', error);
                     alert('خطا در بارگذاری اطلاعات سوال');
                 }
-            } else {
-                alert('اطلاعات سوال یافت نشد');
-                goBack();
-            }
+                         } else {
+                 console.log('⚠️ No question data found in URL');
+                 alert('اطلاعات سوال یافت نشد');
+                 goBack();
+             }
         }
 
         // Display the results
@@ -741,31 +1697,23 @@
              
                            // Arrow button removed - no need to update
             
-                         // Wait for collapse animation to complete, then show detailed analysis
+                         // Wait for collapse animation to complete, then prepare detailed analysis
              setTimeout(() => {
-                 // Show detailed analysis section with smooth animation
-                 const analysisSection = document.getElementById('detailed-analysis-section');
-                 console.log('Analysis section element:', analysisSection); // Debug log
+                 // Show the detailed analysis section
+                 const detailedAnalysisSection = document.getElementById('detailed-analysis-section');
+                 console.log('Detailed analysis section element:', detailedAnalysisSection); // Debug log
                  
-                 if (analysisSection) {
-                     // Position the analysis section exactly below the collapsed results
-                     analysisSection.style.marginTop = '0';
-                     analysisSection.classList.remove('hidden');
-                     analysisSection.style.display = 'block';
-                     
-                     // Trigger animation after a small delay
-                     setTimeout(() => {
-                         analysisSection.classList.add('show');
-                     }, 100);
+                 if (detailedAnalysisSection) {
+                     // Show the analysis section
+                     detailedAnalysisSection.classList.remove('hidden');
+                     detailedAnalysisSection.style.display = 'block';
                  }
                 
-                                 // Show analysis content area with loading state immediately
+                                 // Prepare analysis content area with loading state immediately
                  const analysisContent = document.getElementById('analysis-content');
                  const analysisError = document.getElementById('analysis-error');
                  
                  if (analysisContent) {
-                     analysisContent.classList.remove('hidden');
-                     
                      // Ensure ai-help-questions div exists
                      let helpQuestionsDiv = document.getElementById('ai-help-questions');
                      if (!helpQuestionsDiv) {
@@ -791,7 +1739,7 @@
                                      <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z"></path>
                                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"></path>
-                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"></path>
+                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z"></path>
                                      </svg>
                                  </div>
                                  <!-- Spinning Ring -->
@@ -803,7 +1751,8 @@
                  </div>
              `;
             
-                
+                // Show the FAB early to indicate it's available
+                showFloatingActionButton();
                 
                 // Start the API request after showing the analysis section
                 startAnalysisRequest();
@@ -878,7 +1827,7 @@
          
                    // Arrow button function removed - no longer needed
 
-        // Test function removed
+        // Analysis function for detailed question breakdown
         
         // Toggle function removed for simplicity
 
@@ -918,7 +1867,7 @@
                             
                             try {
                                 const parsed = JSON.parse(data);
-                                if (parsed.content) {
+                                if (parsed.content && parsed.type === 'chunk') {
                                     fullResponse += parsed.content;
                                     
                                     // Process and display the content
@@ -989,574 +1938,410 @@
               return formatted;
           }
           
-          // Function to clean content by removing only the 3 helper questions at the end
-        function cleanContentFromHelpQuestions(content) {
-            if (!content) return content;
-            
-            // Split content into lines
-            const lines = content.split('<br>');
-            const cleanedLines = [];
-            let foundQuestions = 0;
-            let inQuestionSection = false;
-            
-            // Look for the start of the helper questions section (after section 5)
-            for (let i = 0; i < lines.length; i++) {
-                const line = lines[i].trim();
-                
-                // Check if we've reached section 5 (🎯 Key takeaway)
-                if (line.includes('5. 🎯') || (line.includes('5.') && line.includes('🎯'))) {
-                    inQuestionSection = true;
-                    cleanedLines.push(lines[i]); // Keep the section header
-                    continue;
-                }
-                
-                // If we're in the question section, check if this line is a helper question
-                if (inQuestionSection) {
-                    // Check if this line looks like a helper question (bullet point + question format)
-                    const isHelperQuestion = (line.includes('•') || line.includes('-')) && 
-                                          (line.includes('؟') || 
-                                           line.includes('چگونه') || 
-                                           line.includes('چرا') || 
-                                           line.includes('چه') ||
-                                           line.includes('کدام') ||
-                                           line.includes('آیا') ||
-                                           line.endsWith('؟') ||
-                                           line.includes('میتوان') ||
-                                           line.includes('باید'));
-                    
-                    if (isHelperQuestion && foundQuestions < 3) {
-                        foundQuestions++;
-                        // Skip this line (don't add it to cleaned content)
-                        continue;
-                    } else if (foundQuestions >= 3) {
-                        // We've found all 3 questions, stop filtering
-                        inQuestionSection = false;
-                    }
-                }
-                
-                // Add the line to cleaned content
-                cleanedLines.push(lines[i]);
-            }
-            
-            return cleanedLines.join('<br>');
-        }
+                     // Function to clean content by removing JSON helper questions
+         function cleanContentFromHelpQuestions(content) {
+             if (!content) return content;
+             
+             // Remove JSON helper questions block from main content
+             try {
+                 const jsonMatch = content.match(/\{[\s\S]*"helper_questions"[\s\S]*\}/);
+                 if (jsonMatch) {
+                     console.log('✅ Removing JSON helper questions block from main content');
+                     return content.replace(jsonMatch[0], '').trim();
+                 }
+             } catch (error) {
+                 console.log('❌ Error removing JSON helper questions');
+             }
+             
+             return content;
+         }
         
                                      // Final formatting after streaming is complete
            function formatFinalAnalysis(content) {
                const contentDiv = document.getElementById('analysis-content');
                if (contentDiv) {
-                   // Clean the content by removing help questions from main text
-                   const cleanedContent = cleanContentFromHelpQuestions(content);
-                   
-                   // Apply the improved formatting to the main analysis content
+                    // First, extract helper questions from the original content
+                    const questions = extractRelatedQuestions(content);
+                    
+                    // Then, remove ONLY the helper questions section from the content before formatting
+                    // Be very careful not to remove the main analysis content with dash-prefixed lines
+                    let cleanedContent = content;
+                    if (questions && questions.length > 0) {
+                        // Use a more targeted approach to only remove the "Related Questions" section
+                        // without affecting the main analysis content (like نکته طلایی)
+                        
+                        // Strategy 1: Remove the entire "Related Questions:" section with its questions
+                        // Look for the specific pattern: header + newline + questions
+                        const relatedQuestionsPattern = /(?:Related Questions|سوالات مرتبط|سوالات کمکی|سوالات مشابه|سوالات)\s*:?\s*[\r\n]+((?:-\s*[^\r\n]+[\r\n]*)+)/gi;
+                        cleanedContent = cleanedContent.replace(relatedQuestionsPattern, '');
+                        
+                        // Strategy 2: Remove HTML formatted helper questions section
+                        // Look for the pattern: header + <br> + questions
+                        const htmlQuestionsPattern = /(?:Related Questions|سوالات مرتبط|سوالات کمکی|سوالات مشابه|سوالات)\s*:?\s*<br>((?:-\s*[^<]+<br>)+)/gi;
+                        cleanedContent = cleanedContent.replace(htmlQuestionsPattern, '');
+                        
+                        // Strategy 3: Remove any remaining helper questions that might be at the end
+                        // This is the safest approach - only remove questions that come after the main content
+                        const endQuestionsPattern = /[\r\n]+\s*(?:Related Questions|سوالات مرتبط|سوالات کمکی|سوالات مشابه|سوالات)\s*:?\s*[\r\n]*((?:-\s*[^\r\n]+[\r\n]*)+)\s*$/gi;
+                        cleanedContent = cleanedContent.replace(endQuestionsPattern, '');
+                        
+                        // Strategy 4: Remove HTML end questions that are at the very end
+                        const htmlEndQuestionsPattern = /<br>\s*(?:Related Questions|سوالات مرتبط|سوالات کمکی|سوالات مشابه|سوالات)\s*:?\s*<br>((?:-\s*[^<]+<br>)+)\s*$/gi;
+                        cleanedContent = cleanedContent.replace(htmlEndQuestionsPattern, '');
+                        
+                        // Clean up any trailing empty lines or br tags
+                        cleanedContent = cleanedContent.replace(/[\r\n\s]+$/, '');
+                        cleanedContent = cleanedContent.replace(/<br>\s*$/i, '');
+                        
+                        console.log('✅ Removed ONLY helper questions section from main content');
+                        console.log('✅ Preserved main analysis content with structured sections');
+                        console.log('✅ Content length before:', content.length, 'after:', cleanedContent.length);
+                    }
+                    
+                    // Now format the cleaned content for display
                    const formattedContent = formatAIResponseWithStructure(cleanedContent, 'detailed-analysis');
                    contentDiv.innerHTML = formattedContent;
                    
-                   // Extract and render help questions with gray background
-                   console.log('Calling renderHelpQuestions with content length:', content.length);
-                   renderHelpQuestions(content);
+                   // Add detailed analysis to conversation history
+                   addToConversationHistory('assistant', cleanedContent, 'detailed_analysis');
+                   
+                   // Ensure ai-help-questions div exists before rendering helper questions
+                   let helpQuestionsDiv = document.getElementById('ai-help-questions');
+                   if (!helpQuestionsDiv) {
+                       console.log('🔧 Creating ai-help-questions div in formatFinalAnalysis...');
+                       helpQuestionsDiv = document.createElement('div');
+                       helpQuestionsDiv.id = 'ai-help-questions';
+                       contentDiv.appendChild(helpQuestionsDiv);
+                   }
+                   
+                   // Render helper questions with the extracted questions
+                   if (questions && questions.length > 0) {
+                       renderQuestionsUI(questions);
+                   }
+                    
+                    // Show the Floating Action Button after analysis is complete
+                    showFloatingActionButton();
                } else {
                    console.error('analysis-content element not found in formatFinalAnalysis');
                }
            }
          
-                             // Function to render help questions with gray background and clickable functionality
-        function renderHelpQuestions(content) {
-            let helpQuestionsDiv = document.getElementById('ai-help-questions');
-            
-            if (!helpQuestionsDiv) {
-                console.log('ai-help-questions div not found, creating it...');
-                const analysisContent = document.getElementById('analysis-content');
-                if (analysisContent) {
-                    const newHelpDiv = document.createElement('div');
-                    newHelpDiv.id = 'ai-help-questions';
-                    analysisContent.appendChild(newHelpDiv);
-                    helpQuestionsDiv = newHelpDiv;
-                } else {
-                    console.error('analysis-content element also not found');
-                    return;
-                }
-            }
-           
-            console.log('Rendering help questions from content:', content);
-            
-            // Extract questions that appear after the main analysis sections
-            const lines = content.split('<br>');
-            const helpQuestions = [];
-            let inHelpSection = false;
-            
-            console.log('Total lines in content:', lines.length);
-            
-            // First pass: look for section 5 marker (🎯 Key takeaway section)
-            for (let i = 0; i < lines.length; i++) {
-                const line = lines[i].trim();
-                if (line.includes('5. 🎯') || (line.includes('5.') && line.includes('🎯'))) {
-                    console.log('Found section 5 marker at line:', i, line);
-                    inHelpSection = true;
-                    break;
-                }
-            }
-            
-            // Second pass: collect ONLY the 3 helper questions after section 5
-            if (inHelpSection) {
-                let questionCount = 0;
-                let foundQuestions = false;
+                             // REMOVED: Old helper question extraction system
+        // REMOVED: Old function - replaced with new system
+        
+        // Function to extract questions from content (placeholder - not used in new system)
+        function extractQuestionsFromContent(content) {
+            try {
+                console.log('🔍 Starting question extraction...');
+                console.log('🔍 Content length:', content.length);
                 
-                for (let i = lines.length - 1; i >= 0; i--) {
-                    const line = lines[i].trim();
+
+                
+                let questions = [];
+                let cleanContent = content;
+                
+                // Pattern 1: Look for dash format questions (- سوال) in HTML content
+                // This is the main pattern that should work with the AI response
+                const dashPattern = /-\s*([^<>\n]+)(?:<br>|<\/p>|$)/g;
+                const dashMatches = content.match(dashPattern);
+                console.log('🔍 Dash pattern matches:', dashMatches);
+                
+                if (dashMatches && dashMatches.length >= 3) {
+                    questions = dashMatches.map(match => {
+                        // Clean up the match by removing HTML tags and dashes
+                        let cleanQuestion = match.replace(/^-\s*/, ''); // Remove leading dash
+                        cleanQuestion = cleanQuestion.replace(/<br>$|<\/p>$|<p>$/, ''); // Remove trailing HTML
+                        cleanQuestion = cleanQuestion.trim();
+                        return cleanQuestion;
+                    }).filter(q => q.length > 5); // Filter out very short questions
                     
-                    // Look for bullet points that are actually helper questions
-                    // Must be at the very end and look like actual questions
-                    if ((line.includes('•') || line.includes('-')) && line.length > 10 && line.length < 100) {
-                        // Additional validation: must look like a question, not just a bullet point
-                        const isQuestion = line.includes('؟') || 
-                                         line.includes('چگونه') || 
-                                         line.includes('چرا') || 
-                                         line.includes('چه') ||
-                                         line.includes('کدام') ||
-                                         line.includes('آیا') ||
-                                         line.endsWith('؟') ||
-                                         line.includes('میتوان') ||
-                                         line.includes('باید') ||
-                                         line.includes('نکته') ||
-                                         line.includes('توجه');
+                    console.log('🔍 Found dash questions:', questions);
+                    
+                    if (questions.length >= 3) {
+                        // Remove these questions from the main content
+                        dashMatches.forEach(match => {
+                            cleanContent = cleanContent.replace(match, '');
+                        });
+                        cleanContent = cleanContent.trim();
                         
-                        if (isQuestion && questionCount < 3) {
-                            console.log('Found valid helper question:', line);
-                            helpQuestions.unshift(line);
-                            questionCount++;
-                            foundQuestions = true;
+                        console.log('✅ Successfully extracted questions:', questions);
+                        console.log('✅ Cleaned content length:', cleanContent.length);
+                        
+                        return {
+                            questions: questions.slice(0, 3).map((question, index) => ({
+                                id: index + 1,
+                                question: question
+                            })),
+                            mainContent: cleanContent
+                        };
+                    }
+                }
+                
+                // Pattern 2: Look for bullet point questions (• سوال) in HTML content
+                if (questions.length === 0) {
+                    const bulletPattern = /•\s*([^<>\n]+)(?:<br>|<\/p>|<p>|$)/g;
+                    const bulletMatches = content.match(bulletPattern);
+                    console.log('🔍 Bullet pattern matches:', bulletMatches);
+                    
+                    if (bulletMatches && bulletMatches.length >= 3) {
+                        questions = bulletMatches.map(match => {
+                            let cleanQuestion = match.replace(/^•\s*/, '');
+                            cleanQuestion = cleanQuestion.replace(/<br>$|<\/p>$|<p>$/, '');
+                            cleanQuestion = cleanQuestion.trim();
+                            return cleanQuestion;
+                        }).filter(q => q.length > 5);
+                        
+                        console.log('🔍 Found bullet questions:', questions);
+                        
+                        if (questions.length >= 3) {
+                            debugNeeded = false;
+                            // Remove these questions from the main content
+                            bulletMatches.forEach(match => {
+                                cleanContent = cleanContent.replace(match, '');
+                            });
+                            cleanContent = cleanContent.trim();
+                            
+                            return {
+                                questions: questions.slice(0, 3).map((question, index) => ({
+                                    id: index + 1,
+                                    question: question
+                                })),
+                                mainContent: cleanContent
+                            };
                         }
                     }
-                    
-                    // Stop if we hit a blank line or unrelated content
-                    if (line === '' && foundQuestions) {
-                        console.log('Stopping at blank line, found questions:', questionCount);
-                        break;
-                    }
-                    
-                    // Stop if we've found 3 questions
-                    if (questionCount >= 3) break;
                 }
-            }
-            
-            // If no questions found with section 5 method, try alternative approach
-            if (helpQuestions.length === 0) {
-                console.log('No questions found with section 5 method, trying alternative...');
                 
-                // Look for the very last 3 bullet points that look like questions
-                let questionCount = 0;
-                for (let i = lines.length - 1; i >= 0; i--) {
-                    const line = lines[i].trim();
+                // Pattern 3: Look for any dash patterns in the last part of content (fallback)
+                if (questions.length === 0) {
+                    console.log('🔍 Looking for any dash patterns in content...');
                     
-                    if ((line.includes('•') || line.includes('-')) && line.length > 10 && line.length < 100) {
-                        // Must look like an actual question, not just content
-                        const isQuestion = line.includes('؟') || 
-                                         line.includes('چگونه') || 
-                                         line.includes('چرا') || 
-                                         line.includes('چه') ||
-                                         line.includes('کدام') ||
-                                         line.includes('آیا') ||
-                                         line.endsWith('؟') ||
-                                         line.includes('میتوان') ||
-                                         line.includes('باید') ||
-                                         line.includes('نکته') ||
-                                         line.includes('توجه');
+                    // Get the last 2000 characters to look for questions
+                    const lastPart = content.substring(Math.max(0, content.length - 2000));
+                    console.log('🔍 Last part of content:', lastPart);
+                    
+                    // Look for dash patterns in the last part
+                    const lastDashMatches = lastPart.match(/-\s*([^<>\n]+)/g);
+                    console.log('🔍 Last part dash matches:', lastDashMatches);
+                    
+                    if (lastDashMatches && lastDashMatches.length >= 3) {
+                        questions = lastDashMatches.map(match => {
+                            return match.replace(/^-\s*/, '').trim();
+                        }).filter(q => q.length > 5);
                         
-                        if (isQuestion && questionCount < 3) {
-                            console.log('Found alternative helper question:', line);
-                            helpQuestions.unshift(line);
-                            questionCount++;
+                        console.log('🔍 Found dash questions in last part:', questions);
+                        
+                        if (questions.length >= 3) {
+                            debugNeeded = false;
+                            // Remove these questions from the main content
+                            lastDashMatches.forEach(match => {
+                                cleanContent = cleanContent.replace(match, '');
+                            });
+                            cleanContent = cleanContent.trim();
+                            
+                            return {
+                                questions: questions.slice(0, 3).map((question, index) => ({
+                                    id: index + 1,
+                                    question: question
+                                })),
+                                mainContent: cleanContent
+                            };
                         }
                     }
-                    
-                    if (questionCount >= 3) break;
                 }
-            }
-            
-            console.log('Final help questions found:', helpQuestions);
-            
-            if (helpQuestions.length > 0) {
-                const helpSection = `
-                    <div class="mt-8 pt-6 border-t border-gray-200">
-                        <h3 class="text-xl font-semibold text-gray-800 mb-4 text-center">سوالات بهبود یادگیری</h3>
-                        <div class="space-y-3">
-                            ${helpQuestions.map((question, index) => `
-                                <div class="bg-gray-100 hover:bg-gray-200 rounded-lg p-4 cursor-pointer transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] border border-gray-200" 
-                                     onclick="handleQuestionClick(${index}, '${question.replace(/'/g, "\\'")}')">
-                                    <div class="flex items-center justify-between">
-                                        <div class="flex-1 text-right">
-                                            <p class="text-gray-700 text-lg font-medium leading-relaxed">${question.replace('• ', '')}</p>
-                                        </div>
-                                        <div class="mr-3 text-gray-500">
-                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                                            </svg>
-                                        </div>
-                                    </div>
-                                </div>
-                            `).join('')}
-                        </div>
-                    </div>
-                `;
                 
-                helpQuestionsDiv.innerHTML = helpSection;
-                helpQuestionsDiv.style.display = 'block';
-                console.log('Help questions rendered successfully');
-            } else {
-                console.log('No help questions found, showing fallback message');
-                helpQuestionsDiv.innerHTML = `
-                    <div class="mt-8 pt-6 border-t border-gray-200">
-                        <p class="text-center text-gray-500">سوالات بهبود یادگیری در حال بارگذاری...</p>
-                    </div>
-                `;
-                helpQuestionsDiv.style.display = 'block';
+                // Pattern 4: Look for numbered questions (1. 2. 3.) as last resort
+                if (questions.length === 0) {
+                    console.log('🔍 Trying to find numbered questions...');
+                    const numberedPattern = /\d+\.\s*([^<>\n]+)(?:<br>|<\/p>|<p>|$)/g;
+                    const numberedMatches = content.match(numberedPattern);
+                    
+                    if (numberedMatches && numberedMatches.length >= 3) {
+                        questions = numberedMatches.map(match => {
+                            let cleanQuestion = match.replace(/^\d+\.\s*/, '');
+                            cleanQuestion = cleanQuestion.replace(/<br>$|<\/p>$|<p>$/, '');
+                            cleanQuestion = cleanQuestion.trim();
+                            return cleanQuestion;
+                        }).filter(q => q.length > 5);
+                        
+                        console.log('🔍 Found numbered questions:', questions);
+                        
+                        if (questions.length >= 3) {
+                            debugNeeded = false;
+                            // Remove these questions from the main content
+                            numberedMatches.forEach(match => {
+                                cleanContent = cleanContent.replace(match, '');
+                            });
+                            cleanContent = cleanContent.trim();
+                            
+                            return {
+                                questions: questions.slice(0, 3).map((question, index) => ({
+                                    id: index + 1,
+                                    question: question
+                                })),
+                                mainContent: cleanContent
+                            };
+                        }
+                    }
+                }
+                
+                // If we still don't have questions, debug the content
+                if (debugNeeded) {
+                    console.log('❌ No questions found - debugging content structure...');
+                    debugContentStructure(content);
+                }
+                
+                console.log('❌ Not enough questions found. Found:', questions.length);
+                console.log('🔍 Questions found:', questions);
+                
+                // Use more contextually relevant fallback questions
+                const fallbackQuestions = [
+                    'چه مفاهیم مشابهی در این فصل وجود دارد؟',
+                    'چگونه می‌توان این موضوع را با مفاهیم قبلی مرتبط کرد؟',
+                    'چه سوالات مشابهی در آزمون‌های قبلی آمده است؟'
+                ];
+                
+                return {
+                    questions: fallbackQuestions.map((question, index) => ({
+                        id: index + 1,
+                        question: question
+                    })),
+                    mainContent: content
+                };
+                
+            } catch (error) {
+                console.error('❌ Error in question extraction:', error);
+                // Return fallback questions on error
+                const fallbackQuestions = [
+                    'چه مفاهیم مشابهی در این فصل وجود دارد؟',
+                    'چگونه می‌توان این موضوع را با مفاهیم قبلی مرتبط کرد؟',
+                    'چه سوالات مشابهی در آزمون‌های قبلی آمده است؟'
+                ];
+                return {
+                    questions: fallbackQuestions.map((question, index) => ({
+                        id: index + 1,
+                        question: question
+                    })),
+                    mainContent: content
+                };
             }
         }
-         
-                              // Handle click on help questions
-           async function handleQuestionClick(index, questionText) {
-               console.log(`Question ${index + 1} clicked:`, questionText);
-               
-               // Show loading state
-               const questionDiv = event.target.closest('.bg-gray-100');
-               if (questionDiv) {
-                   questionDiv.innerHTML = `
-                       <div class="flex items-center justify-center space-x-3 space-x-reverse">
-                           <div class="animate-spin rounded-full h-5 w-5 border-b-2 border-blue-600"></div>
-                           <span class="text-gray-600">در حال پاسخ...</span>
-                       </div>
-                   `;
-               }
-               
-               try {
-                   // Call the streaming help question API
-                   const response = await fetch('/api/chat/help-question/stream', {
-                       method: 'POST',
-                       headers: {
-                           'Content-Type': 'application/json',
-                       },
-                       body: JSON.stringify({
-                           question: questionText,
-                           subject: questionData.subject,
-                           grade: questionData.grade,
-                           chapter: questionData.chapter
-                       })
-                   });
-                   
-                   if (!response.ok) {
-                       throw new Error('خطا در ارتباط با سرور');
-                   }
-                   
-                   // Show the question first
-                   showHelpQuestionAnswer(questionText, '', questionDiv);
-                   
-                   // Stream the response
-                   await streamHelpQuestionResponse(response, questionDiv);
-                   
-               } catch (error) {
-                   console.error('Help question error:', error);
-                   
-                   // Restore original question with error state
-                   if (questionDiv) {
-                       questionDiv.innerHTML = `
-                           <div class="flex items-center justify-between">
-                               <div class="flex-1 text-right">
-                                   <p class="text-gray-700 text-lg font-medium leading-relaxed">${questionText.replace('• ', '')}</p>
-                                   <p class="text-red-500 text-sm mt-2">خطا در دریافت پاسخ</p>
-                               </div>
-                               <div class="mr-3 text-gray-500">
-                                   <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                                   </svg>
-                               </div>
-                           </div>
-                       `;
-                   }
-               }
-           }
-          
-                                          // Function to show help question answer in chat-like format
-                     function showHelpQuestionAnswer(question, answer, questionDiv) {
-                         // Restore the original question display
-                         questionDiv.innerHTML = `
-                             <div class="flex items-center justify-between">
-                                 <div class="flex-1 text-right">
-                                     <p class="text-gray-700 text-lg font-medium leading-relaxed">${question.replace('• ', '')}</p>
-                                 </div>
-                                 <div class="mr-3 text-gray-500">
-                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                                     </svg>
-                                 </div>
-                             </div>
-                         `;
-                         
-                         // Add the question and answer directly to the detailed analysis section
-                         const analysisContent = document.getElementById('analysis-content');
-                         if (analysisContent) {
-                             // Create a new section for this Q&A
-                             const qaSection = document.createElement('div');
-                             qaSection.className = 'mt-8 pt-6 border-t border-gray-200';
-                             qaSection.innerHTML = `
-                                 <!-- User Question (Right side with gray background) -->
-                                 <div class="flex justify-end mb-4">
-                                     <div class="bg-gray-100 rounded-2xl px-4 py-3 max-w-xs lg:max-w-md">
-                                         <p class="text-gray-700 text-sm font-medium">${question.replace('• ', '')}</p>
-                                     </div>
-                                 </div>
-                                 
-                                 <!-- AI Response Container (Left side, no background, inherits detailed analysis styling) -->
-                                 <div class="flex justify-start">
-                                     <div class="max-w-full">
-                                         <div id="streaming-answer-${Date.now()}" class="streaming-answer">
-                                             <!-- Loading state will be shown here -->
-                                         </div>
-                                     </div>
-                                 </div>
-                             `;
-                             
-                             // Append to the analysis content
-                             analysisContent.appendChild(qaSection);
-                             
-                             // Store reference to the streaming container for later use
-                             questionDiv.dataset.streamingContainerId = `streaming-answer-${Date.now()}`;
-                         }
-                     }
-           
-                                                                                                // Function to stream help question response from API
-               async function streamHelpQuestionResponse(response, questionDiv) {
-                   // Find the streaming container using the stored ID
-                   const streamingContainerId = questionDiv.dataset.streamingContainerId;
-                   const answerContainer = document.getElementById(streamingContainerId);
-                   if (!answerContainer) return;
-                   
-                   let fullResponse = '';
-                   
-                   try {
-                       // Show loading state
-                       answerContainer.innerHTML = `
-                           <div class="flex items-center space-x-2 space-x-reverse">
-                               <div class="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-600"></div>
-                               <span class="text-gray-500 text-sm">در حال پاسخ...</span>
-                           </div>
-                       `;
-                       
-                       const reader = response.body.getReader();
-                       const decoder = new TextDecoder();
-                       
-                       while (true) {
-                           const { done, value } = await reader.read();
-                           
-                           if (done) break;
-                           
-                           const chunk = decoder.decode(value);
-                           const lines = chunk.split('\n');
-                           
-                           for (const line of lines) {
-                               if (line.startsWith('data: ')) {
-                                   const data = line.slice(6);
-                                   
-                                   if (data === '[DONE]') {
-                                       return;
-                                   }
-                                   
-                                   try {
-                                       const parsed = JSON.parse(data);
-                                       if (parsed.content) {
-                                           fullResponse += parsed.content;
-                                           
-                                           // Format and display the current content with NO background
-                                           const formattedContent = formatHelpQuestionAnswerEnhanced(fullResponse, questionDiv.querySelector('.text-gray-700').textContent);
-                                           answerContainer.innerHTML = formattedContent;
-                                           
-                                           // Auto-scroll to bottom
-                                           answerContainer.scrollTop = answerContainer.scrollHeight;
-                                       }
-                                   } catch (e) {
-                                       // Ignore parsing errors for incomplete chunks
-                                   }
-                               }
-                           }
-                       }
-                   } catch (error) {
-                       console.error('Help question streaming error:', error);
-                       answerContainer.innerHTML = '<p class="text-red-500">خطا در دریافت پاسخ</p>';
-                   }
-               }
-           
-                                                // Function to format help question answer with proper spacing and bullet points
-            function formatHelpQuestionAnswer(answer) {
-                let formatted = answer;
-                
-                // Replace line breaks with proper HTML
-                formatted = formatted.replace(/\n\n/g, '</p><p>');
-                formatted = formatted.replace(/\n/g, '<br>');
-                
-                // Convert dashes to bullet points
-                formatted = formatted.replace(/^-\s+/gm, '• ');
-                formatted = formatted.replace(/<br>-\s+/g, '<br>• ');
-                
-                // Convert numbered lists
-                formatted = formatted.replace(/^(\d+)\.\s+/gm, '$1. ');
-                formatted = formatted.replace(/<br>(\d+)\.\s+/g, '<br>$1. ');
-                
-                // Add paragraph tags with NO background styling - inherits detailed analysis styling
-                formatted = `<div class="analysis-content text-base leading-relaxed text-gray-800">${formatted}</div>`;
-                
-                // Clean up any extra formatting
-                formatted = formatted.replace(/<p><\/p>/g, '');
-                
-                return formatted;
-            }
+        
+        
+        // REMOVED: All old helper question code - replaced with new system
 
-            // Enhanced AI Tutor Response Formatter for Helper Questions
-            function formatAIResponseWithStructure(answer, questionText) {
-                // Generate timestamp
-                const now = new Date();
-                const timestamp = now.toLocaleString('fa-IR', {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric',
-                    hour: '2-digit',
-                    minute: '2-digit'
-                });
-                
-                // Clean up the AI response content first
-                let cleanedContent = answer;
-                
-                // Remove markdown formatting
-                cleanedContent = cleanedContent
-                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')  // Bold text
-                    .replace(/\*(.*?)\*/g, '<em>$1</em>')              // Italic text
-                    .replace(/`(.*?)`/g, '<code>$1</code>')            // Inline code
-                    .replace(/^#+\s+(.*)/gm, '<h3>$1</h3>')           // Headers
-                    .replace(/\n\n+/g, '\n\n');                        // Clean up extra line breaks
-                
-                // Pre-process content to break down embedded numbered lists
-                cleanedContent = cleanedContent.replace(/(\d+\.\s+[^1-9]+?)(?=\d+\.|$)/g, '$1\n\n');
-                
-                // Structure the response with proper HTML formatting
-                let structuredResponse = `
-                    <div class="ai-tutor-response" dir="rtl">
-                        <!-- Message Header with Timestamp -->
-                        <div class="msg-head mb-4">
-                            <div class="flex items-center justify-between">
-                                <span class="who text-lg font-semibold text-blue-600">مدرس هوشمند</span>
-                                <span class="timestamp text-sm text-gray-500">${timestamp}</span>
-                            </div>
-                        </div>
-                        
-                        <!-- Message Body with Structured Content -->
-                        <div class="msg-body space-y-4">
-                `;
-                
-                // Split content into paragraphs and process
-                const paragraphs = cleanedContent.split(/\n\n+/);
-                let hasStructuredContent = false;
-                
-                // Process main content paragraphs
-                paragraphs.forEach((paragraph, index) => {
-                    const trimmedParagraph = paragraph.trim();
-                    if (!trimmedParagraph) return;
-                    
-                    // Check if this paragraph contains a numbered list
-                    if (trimmedParagraph.match(/^\d+\.\s+/)) {
-                        // This is a numbered list paragraph
-                        hasStructuredContent = true;
-                        
-                        // Extract the title if it exists (before the first number)
-                        const titleMatch = trimmedParagraph.match(/^([^1-9]+?)(?=\d+\.)/);
-                        let title = '';
-                        let listContent = trimmedParagraph;
-                        
-                        if (titleMatch) {
-                            title = titleMatch[1].trim();
-                            listContent = trimmedParagraph.substring(titleMatch[0].length);
-                        }
-                        
-                        // Add title if it exists
-                        if (title) {
-                            structuredResponse += `<h3 class="text-lg font-semibold text-gray-800 mb-3">${title}</h3>`;
-                        }
-                        
-                        // Split the list content by numbers and process
-                        const listItems = listContent.split(/(?=\d+\.)/).filter(item => item.trim());
-                        
-                        structuredResponse += `
-                            <ol class="ordered-list my-4 mr-6 space-y-3">
-                                ${listItems.map(item => {
-                                    const cleanItem = item.replace(/^\d+\.\s+/, '').trim();
-                                    if (cleanItem) {
-                                        return `<li class="text-gray-700 leading-relaxed">${cleanItem}</li>`;
-                                    }
-                                    return '';
-                                }).filter(item => item).join('')}
-                            </ol>
-                        `;
-                    } else if (trimmedParagraph.includes('•') || trimmedParagraph.includes('-')) {
-                        // This is a bullet point paragraph
-                        hasStructuredContent = true;
-                        const listItems = trimmedParagraph.split(/\n/).filter(item => item.trim());
-                        
-                        structuredResponse += `
-                            <ul class="unordered-list my-4 mr-6 space-y-2">
-                                ${listItems.map(item => {
-                                    const cleanItem = item.replace(/^[•\-]\s+/, '').trim();
-                                    if (cleanItem) {
-                                        return `<li class="text-gray-700 leading-relaxed">${cleanItem}</li>`;
-                                    }
-                                    return '';
-                                }).filter(item => item).join('')}
-                            </ul>
-                        `;
-                    } else if (trimmedParagraph.includes('نکته:') || trimmedParagraph.includes('توجه:') || 
-                               trimmedParagraph.includes('هشدار:') || trimmedParagraph.includes('مهم:')) {
-                        // This is a callout paragraph
-                        hasStructuredContent = true;
-                        const calloutType = trimmedParagraph.includes('هشدار:') ? 'warning' : 
-                                          trimmedParagraph.includes('نکته:') ? 'tip' : 
-                                          trimmedParagraph.includes('مهم:') ? 'info' : 'info';
-                        
-                        const calloutText = trimmedParagraph.replace(/(نکته|توجه|هشدار|مهم):\s*/, '');
-                        
-                        structuredResponse += `
-                            <div class="callout ${calloutType} my-4 p-4 rounded-lg border-r-4">
-                                <div class="flex items-start space-x-3 space-x-reverse">
-                                    <div class="callout-content">
-                                        <p class="text-gray-800 font-medium">${calloutText}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        `;
-                    } else {
-                        // Regular paragraph - always add these for plain text responses
-                        // For detailed analysis, we want to show all paragraphs
-                        if (index < 8) { // Limit to first 8 paragraphs to avoid too much text
-                            structuredResponse += `<p class="text-gray-800 leading-relaxed mb-3">${trimmedParagraph}</p>`;
-                        }
-                    }
-                });
-                
-                // Close the structured response
-                structuredResponse += `
-                        </div>
-                    </div>
-                `;
-                
-                return structuredResponse;
-            }
+        // Function to format AI response with structure for detailed analysis
+        function formatAIResponseWithStructure(content, type) {
+            let formatted = content;
             
-            // Enhanced formatting function that uses the new structure
-            function formatHelpQuestionAnswerEnhanced(answer, questionText = '') {
-                // Use the enhanced formatting if question text is provided
-                if (questionText) {
-                    return formatAIResponseWithStructure(answer, questionText);
+            // Replace line breaks with proper HTML
+            formatted = formatted.replace(/\n\n/g, '</p><p>');
+            formatted = formatted.replace(/\n/g, '<br>');
+            
+            // Add special styling for structured sections with clean formatting
+            formatted = formatted
+                .replace(/1\. ✅\/❌/g, '<div class="analysis-section"><h3>1. ✅/❌ نتیجه پاسخ</h3>')
+                .replace(/2\. 📝/g, '</div><div class="analysis-section"><h3>2. 📝 راه‌حل گام به گام</h3>')
+                .replace(/3\. ⚡/g, '</div><div class="analysis-section"><h3>3. ⚡ روش سریع</h3>')
+                .replace(/4\. ❗/g, '</div><div class="analysis-section"><h3>4. ❗ اشتباه رایج</h3>')
+                .replace(/5\. 🎯/g, '</div><div class="analysis-section"><h3>5. 🎯 نکته کلیدی</h3>');
+            
+            // Close the last section
+            formatted += '</div>';
+            
+            // Add paragraph tags
+            formatted = `<p>${formatted}</p>`;
+            
+            // Clean up any extra formatting
+            formatted = formatted.replace(/<p><\/p>/g, '');
+            
+            return formatted;
+        }
+        
+        // Function to format streaming chunks quickly (for real-time updates)
+        function formatStreamingChunk(content) {
+            let formatted = content;
+            
+            // Basic streaming formatting - just handle line breaks and basic structure
+            formatted = formatted.replace(/\n\n/g, '</p><p>');
+            formatted = formatted.replace(/\n/g, '<br>');
+            
+            // Wrap in paragraph tags
+            formatted = `<p>${formatted}</p>`;
+            
+            return formatted;
+        }
+        
+        // Function to format helper question responses with proper HTML structure
+        function formatHelperQuestionResponse(content) {
+            let formatted = content;
+            
+            // Step 1: Handle headers (h1-h6)
+            formatted = formatted.replace(/^# (.+)$/gm, '<h1 class="content-header h1">$1</h1>');
+            formatted = formatted.replace(/^## (.+)$/gm, '<h2 class="content-header h2">$1</h2>');
+            formatted = formatted.replace(/^### (.+)$/gm, '<h3 class="content-header h3">$1</h3>');
+            formatted = formatted.replace(/^#### (.+)$/gm, '<h4 class="content-header h4">$1</h4>');
+            formatted = formatted.replace(/^##### (.+)$/gm, '<h5 class="content-header h5">$1</h5>');
+            formatted = formatted.replace(/^###### (.+)$/gm, '<h6 class="content-header h6">$1</h6>');
+            
+            // Step 2: Handle bold and italics
+            formatted = formatted.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+            formatted = formatted.replace(/\*(.+?)\*/g, '<em>$1</em>');
+            
+            // Step 3: Handle special Persian callout boxes FIRST (before other processing)
+            formatted = formatted.replace(/(نکته:|توجه:|هشدار:|مهم:)([^•\n]+?)(?=•|$|\n|نکته:|توجه:|هشدار:|مهم:)/g, '<div class="callout-box"><strong>$1</strong>$2</div>');
+            
+            // Step 4: Handle bullet points with • (Persian/Arabic text format)
+            formatted = formatted.replace(/•\s+([^•\n]+?)(?=•|$|\n)/g, '<li>$1</li>');
+            // Group consecutive bullet list items into <ul> tags
+            formatted = formatted.replace(/(<li>.*<\/li>)/s, '<ul class="content-list">$1</ul>');
+            
+            // Step 5: Handle unordered lists (dash/asterisk format)
+            formatted = formatted.replace(/^[-*]\s+(.+)$/gm, '<li>$1</li>');
+            // Group consecutive list items into <ul> tags
+            formatted = formatted.replace(/(<li>.*<\/li>)/s, '<ul class="content-list">$1</ul>');
+            
+            // Step 6: Handle ordered lists (numbered)
+            formatted = formatted.replace(/^(\d+)\.\s+(.+)$/gm, '<li>$1. $2</li>');
+            // Group consecutive numbered list items into <ol> tags
+            formatted = formatted.replace(/(<li>\d+\.\s+.*<\/li>)/s, '<ol class="content-list">$1</ol>');
+            
+            // Step 7: Handle code blocks
+            formatted = formatted.replace(/```([\s\S]*?)```/g, '<pre class="code-block"><code>$1</code></pre>');
+            
+            // Step 8: Handle inline code
+            formatted = formatted.replace(/`([^`]+)`/g, '<code class="inline-code">$1</code>');
+            
+            // Step 9: Handle links
+            formatted = formatted.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" class="content-link" target="_blank" rel="noopener">$1</a>');
+            
+            // Step 10: Handle blockquotes
+            formatted = formatted.replace(/^>\s+(.+)$/gm, '<blockquote class="content-blockquote">$1</blockquote>');
+            
+            // Step 11: Handle horizontal rules
+            formatted = formatted.replace(/^---$/gm, '<hr class="content-hr">');
+            
+            // Step 12: Handle remaining text as paragraphs
+            // Split by double line breaks and wrap in <p> tags
+            const paragraphs = formatted.split(/\n\n+/);
+            const formattedParagraphs = paragraphs.map(para => {
+                para = para.trim();
+                // Only wrap in <p> if it's not already wrapped in HTML tags
+                if (para && !para.startsWith('<') && !para.startsWith('•') && !para.match(/^\d+\./)) {
+                    return `<p class="content-paragraph">${para}</p>`;
                 }
-                
-                // Fallback to original formatting for backward compatibility
-                return formatHelpQuestionAnswer(answer);
-            }
+                return para;
+            }).filter(para => para.trim());
+            
+            // Join everything together
+            formatted = formattedParagraphs.join('\n\n');
+            
+            // Clean up any extra formatting
+            formatted = formatted.replace(/<p><\/p>/g, '');
+            formatted = formatted.replace(/\n\n+/g, '\n\n');
+            
+            return formatted;
+        }
 
         // Go back to previous page
         function goBack() {
@@ -1564,10 +2349,1226 @@
             window.location.href = `chapters.html?subject=${questionData?.subject || 'biology'}&grade=${questionData?.grade || '12th'}&field=${questionData?.field || 'experimental'}`;
         }
 
+        // Go back to chapter page (cross icon)
+        function goToChapter() {
+            // Go back to chapters page
+            window.location.href = `chapters.html?subject=${questionData?.subject || 'biology'}&grade=${questionData?.grade || '12th'}&field=${questionData?.field || 'experimental'}`;
+        }
+
         // Initialize page
         document.addEventListener('DOMContentLoaded', function() {
             getUrlParams();
+            
+            // Ensure FAB is hidden initially
+            hideFloatingActionButton();
+            
+            // Add mobile-specific touch event handling
+            if ('ontouchstart' in window) {
+                console.log('Mobile device detected, adding touch optimizations');
+                addMobileTouchHandling();
+            }
         });
+        
+        // Add mobile-specific touch event handling
+        function addMobileTouchHandling() {
+            console.log('Setting up mobile touch handling...');
+            
+            // Prevent double-tap zoom on mobile
+            document.addEventListener('touchstart', function(event) {
+                if (event.target.closest('.bg-gray-100')) {
+                    event.preventDefault();
+                    console.log('Touch event prevented on helper question');
+                }
+            }, { passive: false });
+            
+            // Add touch feedback for helper questions
+            document.addEventListener('touchstart', function(event) {
+                const questionDiv = event.target.closest('.bg-gray-100');
+                if (questionDiv) {
+                    questionDiv.style.backgroundColor = '#d1d5db';
+                    questionDiv.style.transform = 'scale(0.98)';
+                    console.log('Touch feedback applied to helper question');
+                }
+            });
+            
+            document.addEventListener('touchend', function(event) {
+                const questionDiv = event.target.closest('.bg-gray-100');
+                if (questionDiv) {
+                    questionDiv.style.backgroundColor = '';
+                    questionDiv.style.transform = '';
+                    console.log('Touch feedback removed from helper question');
+                }
+            });
+            
+            console.log('Mobile touch handling setup complete');
+        }
+        
+        // ========================================
+        // CLEANUP COMPLETE - OLD SYSTEM REMOVED
+        // ========================================
+        
+        // The following functions were removed:
+        // - extractSimpleTextHelperQuestions()
+        // - renderHelpQuestions() 
+        // - handleQuestionClickFromData()
+        // - handleQuestionClick()
+        // - showHelpQuestionAnswer()
+        // - streamHelpQuestionResponse()
+        // - formatHelpQuestionAnswer()
+        // - formatAIResponseWithStructure()
+        // - formatHelpQuestionAnswerEnhanced()
+        
+        // ========================================
+        // NEW HELPER QUESTION RENDERING SYSTEM
+        // ========================================
+        
+
+        
+
+        
+
+        
+        // Function to render helper questions at the end of detailed analysis
+        function renderHelperQuestions(content) {
+            console.log('🎯 Rendering helper questions at the end of analysis');
+            
+            // Ensure ai-help-questions div exists
+            let helpQuestionsDiv = document.getElementById('ai-help-questions');
+            if (!helpQuestionsDiv) {
+                console.log('🔧 Creating ai-help-questions div...');
+                const analysisContent = document.getElementById('analysis-content');
+                if (analysisContent) {
+                    helpQuestionsDiv = document.createElement('div');
+                    helpQuestionsDiv.id = 'ai-help-questions';
+                    analysisContent.appendChild(helpQuestionsDiv);
+                    console.log('✅ ai-help-questions div created successfully');
+                } else {
+                    console.error('❌ analysis-content element not found');
+                    return;
+                }
+            }
+            
+            // Extract the 4 related questions from the AI response
+            // The AI generates them in this format:
+            // Related Questions:
+            // - [Question 1]
+            // - [Question 2]
+            // - [Question 3]
+            // - [Question 4]
+            const questions = extractRelatedQuestions(content);
+            
+            if (questions && questions.length > 0) {
+                console.log('✅ Found AI-generated questions:', questions);
+                renderQuestionsUI(questions);
+            } else {
+                console.log('❌ No AI questions found - not rendering helper questions');
+                // Don't show any questions if extraction fails
+                return;
+            }
+        }
+        
+        // Function to extract ALL related questions from AI response (flexible count)
+        function extractRelatedQuestions(content) {
+            try {
+                console.log('🔍 Extracting related questions from content...');
+                console.log('🔍 Content length:', content.length);
+                console.log('🔍 Content preview (last 1000 chars):', content.substring(Math.max(0, content.length - 1000)));
+                
+                // The AI generates questions in various formats:
+                // Format 1: English header
+                // Related Questions:
+                // - [Question 1]
+                // - [Question 2]
+                // - [Question 3]
+                // - [Question 4]
+                // - [Question 5] (could be more than 4!)
+                
+                // Format 2: Persian headers
+                // سوالات مرتبط:
+                // - [Question 1]
+                // - [Question 2]
+                // - [Question 3]
+                
+                // Strategy 1: Look for the "Related Questions:" section (English header) in HTML content
+                let relatedQuestionsMatch = content.match(/Related Questions:\s*<br>((?:-\s*[^<]+(?:<br>|$))+)/i);
+                console.log('🔍 Strategy 1 - English header match:', relatedQuestionsMatch);
+                
+                if (!relatedQuestionsMatch) {
+                    // Strategy 2: Look for Persian text that might indicate questions section in HTML content
+                    const persianPatterns = [
+                        /سوالات مرتبط\s*:?\s*<br>((?:-\s*[^<]+(?:<br>|$))+)/i,
+                        /سوالات کمکی\s*:?\s*<br>((?:-\s*[^<]+(?:<br>|$))+)/i,
+                        /سوالات مشابه\s*:?\s*<br>((?:-\s*[^<]+(?:<br>|$))+)/i,
+                        /سوالات\s*:?\s*<br>((?:-\s*[^<]+(?:<br>|$))+)/i
+                    ];
+                    
+                    for (const pattern of persianPatterns) {
+                        relatedQuestionsMatch = content.match(pattern);
+                        if (relatedQuestionsMatch) {
+                            console.log('✅ Found Persian questions section with pattern:', pattern);
+                            break;
+                        }
+                    }
+                }
+                
+                if (relatedQuestionsMatch) {
+                    console.log('✅ Found Related Questions section');
+                    const questionsText = relatedQuestionsMatch[1];
+                    console.log('🔍 Questions text:', questionsText);
+                    
+                    // Extract ALL individual questions (lines starting with "-") from HTML content
+                    const questionMatches = questionsText.match(/-\s*([^<]+?)(?=<br>|$)/g);
+                    console.log('🔍 Question matches:', questionMatches);
+                    
+                    if (questionMatches && questionMatches.length > 0) {
+                        const questions = questionMatches.map(q => 
+                            q.replace(/^-\s*/, '').trim()
+                        ).filter(q => q.length > 5 && q.length < 300); // More flexible length filter
+                        
+                        console.log('✅ Extracted questions:', questions);
+                        console.log('🔍 Number of questions found:', questions.length);
+                        return questions;
+                    }
+                }
+                
+                // Strategy 3: Look for any lines starting with "-" that look like questions in HTML content
+                console.log('🔍 Strategy 3 - Looking for dash-prefixed lines in HTML...');
+                const dashQuestions = content.match(/-\s*([^<]+)/g);
+                console.log('🔍 All dash lines found:', dashQuestions);
+                
+                if (dashQuestions && dashQuestions.length > 0) {
+                    // More flexible filtering - look for question-like content
+                    const filteredQuestions = dashQuestions
+                        .map(q => q.replace(/^-\s*/, '').trim())
+                        .filter(q => {
+                            const length = q.length;
+                            const hasQuestionMark = q.includes('؟') || q.includes('?');
+                            const looksLikeQuestion = q.match(/^(چه|چرا|چگونه|کدام|آیا|چطور|کجا|کی|چند|کدام|مثال|تفاوت|نقش|عملکرد|مکانیزم|فرآیند|مراحل|مرحله|گام|قدم)/);
+                            
+                            // Accept if it's a reasonable length and either has question mark or looks like a question
+                            return length > 8 && length < 300 && (hasQuestionMark || looksLikeQuestion);
+                        });
+                    
+                    console.log('🔍 Filtered questions:', filteredQuestions);
+                    
+                    if (filteredQuestions.length > 0) {
+                        console.log('✅ Found dash questions as fallback:', filteredQuestions);
+                        return filteredQuestions;
+                    }
+                }
+                
+                // Strategy 4: Look for the last part of content for questions in HTML content
+                console.log('🔍 Strategy 4 - Looking for questions in last part of HTML...');
+                const lastPart = content.substring(Math.max(0, content.length - 3000));
+                const lastDashLines = lastPart.match(/-\s*([^<]+)/g);
+                
+                if (lastDashLines && lastDashLines.length > 0) {
+                    const questions = lastDashLines.map(q => 
+                        q.replace(/^-\s*/, '').trim()
+                    ).filter(q => {
+                        const length = q.length;
+                        const hasQuestionMark = q.includes('؟') || q.includes('?');
+                        const looksLikeQuestion = q.match(/^(چه|چرا|چگونه|کدام|آیا|چطور|کجا|کی|چند|کدام|مثال|تفاوت|نقش|عملکرد|مکانیزم|فرآیند|مراحل|مرحله|گام|قدم)/);
+                        
+                        return length > 8 && length < 300 && (hasQuestionMark || looksLikeQuestion);
+                    });
+                    
+                    if (questions.length > 0) {
+                        console.log('✅ Found questions in last part:', questions);
+                        return questions;
+                    }
+                }
+                
+                // Strategy 5: Look for questions in HTML content with different formatting
+                console.log('🔍 Strategy 5 - Looking for questions in HTML with different patterns...');
+                
+                // Look for questions that might be wrapped in <p> tags or other HTML elements
+                const htmlQuestionPatterns = [
+                    /<p[^>]*>-\s*([^<]+)<\/p>/g,
+                    /<div[^>]*>-\s*([^<]+)<\/div>/g,
+                    /<br>-\s*([^<]+)<br>/g
+                ];
+                
+                for (const pattern of htmlQuestionPatterns) {
+                    const matches = content.match(pattern);
+                    if (matches && matches.length > 0) {
+                        console.log('🔍 Found HTML pattern matches:', matches);
+                        const questions = matches.map(match => {
+                            const questionMatch = match.match(/-\s*([^<]+)/);
+                            return questionMatch ? questionMatch[1].trim() : null;
+                        }).filter(q => q && q.length > 8 && q.length < 300);
+                        
+                        if (questions.length > 0) {
+                            console.log('✅ Found questions with HTML patterns:', questions);
+                            return questions;
+                        }
+                    }
+                }
+                
+                console.log('❌ No related questions found in content');
+                return null;
+                
+            } catch (error) {
+                console.error('❌ Error extracting related questions:', error);
+                return null;
+            }
+        }
+        
+        // Function to render helper questions at the end of detailed analysis
+        function renderQuestionsUI(questions) {
+            console.log('🎨 renderQuestionsUI called with questions:', questions);
+            console.log('🔍 Number of questions to render:', questions.length);
+            
+            // First try to find ai-help-questions directly, then within analysis-content
+            let helpQuestionsDiv = document.getElementById('ai-help-questions');
+            if (!helpQuestionsDiv) {
+                const analysisContent = document.getElementById('analysis-content');
+                if (analysisContent) {
+                    helpQuestionsDiv = analysisContent.querySelector('#ai-help-questions');
+                }
+            }
+            
+            console.log('🔍 Looking for ai-help-questions div:', helpQuestionsDiv);
+            
+            if (!helpQuestionsDiv) {
+                console.error('❌ ai-help-questions div not found');
+                console.log('🔍 Available divs with similar names:');
+                document.querySelectorAll('[id*="help"]').forEach(div => {
+                    console.log('  -', div.id, div);
+                });
+                return;
+            }
+            
+            console.log('✅ Found ai-help-questions div, rendering questions...');
+            
+                                                   // Modern UI design with individual borders for each question
+                        const questionsHTML = `
+                  <div class="related-questions-section">
+                      <div class="max-w-2xl mx-auto">
+                          <ul class="space-y-3" style="list-style: none; padding: 0; margin: 0;">
+                              ${questions.map((questionText, idx) => {
+                            console.log(`🔍 Question ${idx + 1}:`, questionText);
+                            
+                            return `
+                                      <li class="question-item" style="margin: 0; padding: 0;">
+                                          <button
+                                    data-query="${questionText.replace(/"/g, '&quot;')}"
+                                    onclick="onSuggestionClick('${questionText.replace(/'/g, '\\\'')}')"
+                                              class="question-button w-full text-right transition-all duration-300 cursor-pointer"
+                                              style="
+                                                  background-color: #f3f4f6;
+                                                  border: 2px solid #e5e7eb;
+                                                  border-radius: 12px;
+                                                  padding: 16px 20px;
+                                                  font-size: 16px;
+                                                  font-family: 'Inter', 'Vazir', sans-serif;
+                                                  color: #374151;
+                                                  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+                                                  min-height: 48px;
+                                                  display: flex;
+                                                  align-items: center;
+                                                  justify-content: flex-end;
+                                                  margin-bottom: 12px;
+                                              "
+                                              onmouseover="this.style.backgroundColor='#e0eaff'; this.style.transform='scale(1.02)'"
+                                              onmouseout="this.style.backgroundColor='#f3f4f6'; this.style.transform='scale(1)'"
+                                          >
+                                              <span class="question-text" style="line-height: 1.5;">${questionText}</span>
+                                          </button>
+                                      </li>
+                            `;
+                        }).join('')}
+                          </ul>
+                    </div>
+                </div>
+            `;
+            
+            helpQuestionsDiv.innerHTML = questionsHTML;
+            helpQuestionsDiv.style.display = 'block';
+            
+            // Add mobile-specific touch handling
+            const questionButtons = helpQuestionsDiv.querySelectorAll('.question-button');
+            questionButtons.forEach(button => {
+                button.addEventListener('touchstart', function() {
+                    this.style.backgroundColor = '#d1d5db';
+                    this.style.transform = 'scale(0.98)';
+                });
+                
+                button.addEventListener('touchend', function() {
+                    this.style.backgroundColor = '#f0f4f8';
+                    this.style.transform = 'scale(1)';
+                });
+            });
+            
+            console.log('✅ Helper questions rendered successfully with modern UI');
+        }
+        
+        // Handle suggestion clicks
+        function onSuggestionClick(query) {
+            console.log('🎯 Suggestion clicked:', query);
+            
+            // Add helper question to conversation history
+            addToConversationHistory('user', query, 'helper_question');
+            
+             // Ensure detailed analysis section is visible
+             const detailedAnalysisSection = document.getElementById('detailed-analysis-section');
+             
+             console.log('🔍 Detailed Analysis Section:', detailedAnalysisSection);
+             
+             if (detailedAnalysisSection && detailedAnalysisSection.classList.contains('hidden')) {
+                 console.log('✅ Making detailed analysis section visible');
+                 detailedAnalysisSection.classList.remove('hidden');
+                 detailedAnalysisSection.style.display = 'block';
+             }
+             
+             // Also ensure analysis content is visible
+             const analysisContent = document.getElementById('analysis-content');
+             if (analysisContent && analysisContent.classList.contains('hidden')) {
+                 console.log('✅ Making analysis content visible');
+                 analysisContent.classList.remove('hidden');
+             }
+             
+             // Add helper question to chat messages area (like user messages)
+             const chatMessages = document.getElementById('chat-messages');
+             console.log('🔍 Chat Messages Area:', chatMessages);
+             
+             if (!chatMessages) {
+                 console.error('❌ Chat messages area not found');
+                 console.log('🔍 Current HTML structure around chat-messages:');
+                 console.log('🔍 detailed-analysis-section:', document.getElementById('detailed-analysis-section')?.outerHTML);
+                 console.log('🔍 analysis-content:', document.getElementById('analysis-content')?.outerHTML);
+                 return;
+             }
+             
+             const helperQuestionMessage = document.createElement('div');
+             helperQuestionMessage.className = 'chat-message user';
+             helperQuestionMessage.innerHTML = `<div class="message-bubble user">${query}</div>`;
+             chatMessages.appendChild(helperQuestionMessage);
+             
+             console.log('✅ Helper question message added to chat');
+             
+             // Move page up to show the helper question in a better visible area
+             setTimeout(() => {
+                 helperQuestionMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+             }, 100);
+             
+             // Make API call to get help response (without showing loading state in button)
+            getHelpResponse(query);
+        }
+        
+        // Show loading state for clicked suggestion
+        function showSuggestionLoading(query) {
+            // Find the clicked button and show loading
+            const buttons = document.querySelectorAll('[data-query]');
+            buttons.forEach(button => {
+                if (button.getAttribute('data-query') === query) {
+                    button.innerHTML = `
+                        <div class="flex items-center justify-center space-x-2 space-x-reverse">
+                            <div class="animate-spin rounded-full h-5 w-5 border-b-2 border-blue-600"></div>
+                            <span class="text-gray-600">در حال پاسخ...</span>
+                        </div>
+                    `;
+                    button.disabled = true;
+                }
+            });
+        }
+        
+        // Get help response from API with streaming effect
+        async function getHelpResponse(query) {
+            try {
+                // First, add AI loading message to chat display (like detailed analysis)
+                // First try to find chat-messages directly, then within detailed-analysis-section
+                let chatMessages = document.getElementById('chat-messages');
+                if (!chatMessages) {
+                    const detailedAnalysisSection = document.getElementById('detailed-analysis-section');
+                    if (detailedAnalysisSection) {
+                        chatMessages = detailedAnalysisSection.querySelector('#chat-messages');
+                    }
+                }
+                
+                if (!chatMessages) {
+                    console.error('❌ Chat messages area not found in getHelpResponse');
+                    return;
+                }
+                
+                const aiLoadingMessage = document.createElement('div');
+                aiLoadingMessage.className = 'chat-message ai';
+                aiLoadingMessage.id = `ai-loading-${Date.now()}`;
+                aiLoadingMessage.innerHTML = `
+                    <div class="message-bubble ai">
+                        <div class="flex items-center space-x-2 space-x-reverse">
+                            <div class="animate-spin rounded-full h-5 w-5 border-b-2 border-blue-600"></div>
+                            <span class="text-gray-600">در حال پاسخ...</span>
+                        </div>
+                    </div>
+                `;
+                
+                chatMessages.appendChild(aiLoadingMessage);
+                
+                // Scroll to show the loading message
+                aiLoadingMessage.scrollIntoView({ behavior: 'smooth' });
+                
+                const response = await fetch('/api/chat/help-question/stream', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        question: query,
+                        subject: questionData?.subject || 'biology',
+                        grade: questionData?.grade || 'دوم',
+                        chapter: questionData?.chapter || '1',
+                        originalAnalysis: questionData?.analysis || '',
+                        conversationId: currentConversationId,
+                        conversationContext: getConversationContext()
+                    })
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                // Handle streaming response with real-time updates
+                await streamHelpResponse(response, query, aiLoadingMessage);
+                
+            } catch (error) {
+                console.error('Error getting help response:', error);
+                showSuggestionError(query, error.message);
+            }
+        }
+        
+                 // Stream help response with real-time updates (like detailed analysis)
+         async function streamHelpResponse(response, query, aiLoadingMessage) {
+            const reader = response.body.getReader();
+            const decoder = new TextDecoder();
+            let fullResponse = '';
+            let lastUpdateTime = 0;
+            const UPDATE_INTERVAL = 500; // Update every 500ms instead of every word
+            
+            try {
+                while (true) {
+                    const { done, value } = await reader.read();
+                    
+                    if (done) break;
+                    
+                    const chunk = decoder.decode(value);
+                    const lines = chunk.split('\n');
+                    
+                    for (const line of lines) {
+                        if (line.startsWith('data: ')) {
+                            const data = line.slice(6);
+                            
+                            if (data === '[DONE]') {
+                                // Final formatting and display
+                                 displayHelpResponse(query, fullResponse, aiLoadingMessage);
+                                return;
+                            }
+                            
+                            try {
+                                const parsed = JSON.parse(data);
+                                 if (parsed.content && parsed.type === 'chunk') {
+                                    fullResponse += parsed.content;
+                                    
+                                    // Only update every 500ms to avoid constant flickering
+                                    const currentTime = Date.now();
+                                    if (currentTime - lastUpdateTime >= UPDATE_INTERVAL) {
+                                        updateHelpResponseStreaming(query, fullResponse, aiLoadingMessage);
+                                        lastUpdateTime = currentTime;
+                                    }
+                                }
+                            } catch (e) {
+                                // Ignore parsing errors for incomplete chunks
+                            }
+                        }
+                    }
+                }
+            } catch (error) {
+                console.error('Streaming error:', error);
+                showSuggestionError(query, 'خطا در دریافت پاسخ');
+            }
+        }
+        
+                 // Update help response in real-time with streaming effect (like detailed analysis)
+         function updateHelpResponseStreaming(query, response, aiLoadingMessage) {
+             // Safety check for aiLoadingMessage
+             if (!aiLoadingMessage) {
+                 console.error('❌ aiLoadingMessage is undefined in updateHelpResponseStreaming');
+                 return;
+             }
+             
+             // Update the loading message with streaming content in real-time
+             const messageBubble = aiLoadingMessage.querySelector('.message-bubble.ai');
+             if (messageBubble) {
+                 // Simple update - just show the current content with basic formatting
+                 messageBubble.innerHTML = `
+                     <div class="helper-response-content text-base leading-relaxed text-gray-800">
+                         ${formatStreamingChunk(response)}
+                     </div>
+                 `;
+             }
+             
+             console.log('✅ Streaming update for:', query, response.length);
+         }
+         
+         // Update help response in real-time (legacy function)
+        function updateHelpResponse(query, response) {
+            // This can be used for real-time updates if needed
+            console.log('Updating response for:', query, response.length);
+        }
+        
+                 // Display final help response with streaming effect
+         function displayHelpResponse(query, response, aiLoadingMessage) {
+             // Safety check for aiLoadingMessage
+             if (!aiLoadingMessage) {
+                 console.error('❌ aiLoadingMessage is undefined in displayHelpResponse');
+                 return;
+             }
+             
+             // Add AI response to conversation history
+             addToConversationHistory('assistant', response, 'helper_response');
+             
+             // Update the existing loading message with the final formatted response
+             // Use simpler formatting for helper questions to avoid separate sections
+             const messageBubble = aiLoadingMessage.querySelector('.message-bubble.ai');
+             if (messageBubble) {
+                 messageBubble.innerHTML = `
+                     <div class="helper-response-content text-base leading-relaxed text-gray-800">
+                         ${formatHelperQuestionResponse(response)}
+                </div>
+            `;
+             }
+             
+             console.log('✅ Helper question response displayed successfully with streaming effect');
+        }
+        
+        // Format response for display with enhanced structure
+        function formatResponse(response) {
+            let formatted = response;
+            
+            // Convert dashes and asterisks to proper bullet points
+            formatted = formatted.replace(/^[-*]\s+/gm, '• ');
+            formatted = formatted.replace(/\n[-*]\s+/g, '\n• ');
+            
+            // Convert numbered lists (1. 2. 3.) to proper HTML lists
+            formatted = formatted.replace(/^(\d+\.\s+)(.+)$/gm, '<li>$1$2</li>');
+            formatted = formatted.replace(/(<li>.*<\/li>)/s, '<ol class="numbered-list">$1</ol>');
+            
+            // Convert bullet points to proper HTML lists
+            formatted = formatted.replace(/^(•\s+)(.+)$/gm, '<li>$2</li>');
+            formatted = formatted.replace(/(<li>.*<\/li>)/s, '<ul class="bullet-list">$1</ul>');
+            
+            // Replace line breaks with proper HTML structure
+            formatted = formatted.replace(/\n\n/g, '</p><p>');
+            formatted = formatted.replace(/\n/g, '<br>');
+            
+            // Add paragraph tags
+            formatted = `<p>${formatted}</p>`;
+            
+            // Clean up any extra formatting
+            formatted = formatted.replace(/<p><\/p>/g, '');
+            formatted = formatted.replace(/<p><ul/g, '<ul');
+            formatted = formatted.replace(/<\/ul><\/p>/g, '</ul>');
+            formatted = formatted.replace(/<p><ol/g, '<ol');
+            formatted = formatted.replace(/<\/ol><\/p>/g, '</ol>');
+            
+            return formatted;
+        }
+        
+        // Show error for suggestion
+        function showSuggestionError(query, errorMessage) {
+            const buttons = document.querySelectorAll('[data-query]');
+            buttons.forEach(button => {
+                if (button.getAttribute('data-query') === query) {
+                    button.innerHTML = `
+                        <div class="text-red-500 text-center">
+                            <p class="text-sm">خطا: ${errorMessage}</p>
+                        </div>
+                    `;
+                    button.disabled = true;
+                }
+            });
+        }
+        
+        // Restore suggestion button to original state
+        function restoreSuggestionButton(query) {
+            const buttons = document.querySelectorAll('[data-query]');
+            buttons.forEach(button => {
+                if (button.getAttribute('data-query') === query) {
+                    button.innerHTML = `<span class="text-gray-700 text-lg font-medium leading-relaxed">${query}</span>`;
+                    button.disabled = false;
+                }
+            });
+        }
+        
+        // ========================================
+        // END OF NEW HELPER QUESTION SYSTEM
+        // ========================================
+        
+        // ========================================
+        // FLOATING ACTION BUTTON (FAB) FUNCTIONS
+        // ========================================
+        
+        // Show the Floating Action Button with smooth animation
+        function showFloatingActionButton() {
+            const fabContainer = document.getElementById('fab-container');
+            if (fabContainer) {
+                // Add a small delay to ensure smooth transition
+                setTimeout(() => {
+                    fabContainer.classList.remove('scale-0', 'opacity-0');
+                    fabContainer.classList.add('scale-100', 'opacity-100');
+                    console.log('✅ Floating Action Button is now visible');
+                }, 300);
+            }
+        }
+        
+        // Hide the Floating Action Button
+        function hideFloatingActionButton() {
+            const fabContainer = document.getElementById('fab-container');
+            if (fabContainer) {
+                fabContainer.classList.add('scale-0', 'opacity-0');
+                fabContainer.classList.remove('scale-100', 'opacity-100');
+            }
+        }
+        
+                 // Toggle chat input visibility
+         function toggleChatInput() {
+             console.log('🎯 FAB button clicked - toggling chat input!');
+             
+             // Add click feedback
+             const fabButton = document.getElementById('fab-button');
+             if (fabButton) {
+                 fabButton.classList.add('scale-95');
+                 setTimeout(() => {
+                     fabButton.classList.remove('scale-95');
+                 }, 150);
+             }
+             
+             const chatInputSection = document.getElementById('chat-input-section');
+             const fabContainer = document.getElementById('fab-container');
+             const inputField = document.getElementById('chat-input-field');
+             const isVisible = chatInputSection.classList.contains('show');
+             
+             if (isVisible) {
+                 // Hide chat input
+                 hideChatInput();
+             } else {
+                 // Show chat input
+                 showChatInput();
+             }
+         }
+         
+         // Show chat input and hide FAB button
+         function showChatInput() {
+             const chatInputSection = document.getElementById('chat-input-section');
+             const fabContainer = document.getElementById('fab-container');
+             const inputField = document.getElementById('chat-input-field');
+             
+             // Show chat input
+             chatInputSection.classList.add('show');
+             
+             // Hide FAB button completely
+             fabContainer.style.opacity = '0';
+             fabContainer.style.pointerEvents = 'none';
+             fabContainer.style.transform = 'scale(0)';
+             
+             // Reset input field to ensure consistent behavior
+             if (inputField) {
+                 inputField.value = '';
+                 inputField.style.height = '56px'; // Reset to original height
+                 inputField.classList.remove('typing-active');
+                 
+                 // Reset send button state
+                 const sendButton = document.getElementById('send-chat-button');
+                 if (sendButton) {
+                     sendButton.style.opacity = '0';
+                     sendButton.style.pointerEvents = 'none';
+                     sendButton.style.transform = 'scale(0.75)';
+                     sendButton.classList.remove('bg-black');
+                     sendButton.classList.add('bg-gray-400');
+                 }
+             }
+             
+             // Focus the input field
+             setTimeout(() => {
+                 if (inputField) {
+                     inputField.focus();
+                 }
+             }, 100);
+             
+             console.log('✅ Chat input shown and reset, FAB button hidden');
+         }
+         
+         // Hide chat input and show FAB button
+         function hideChatInput() {
+             const chatInputSection = document.getElementById('chat-input-section');
+             const fabContainer = document.getElementById('fab-container');
+             
+             // Hide chat input
+             chatInputSection.classList.remove('show');
+             
+             // Show FAB button again
+             fabContainer.style.opacity = '1';
+             fabContainer.style.pointerEvents = 'auto';
+             fabContainer.style.transform = 'scale(1)';
+             
+             console.log('✅ Chat input hidden, FAB button shown again');
+         }
+         
+         // Ensure FAB button is always visible and properly styled
+         function ensureFABVisible() {
+             const fabContainer = document.getElementById('fab-container');
+             const chatInputSection = document.getElementById('chat-input-section');
+             
+             if (fabContainer && chatInputSection) {
+                 // If chat input is not visible, ensure FAB is visible
+                 if (!chatInputSection.classList.contains('show')) {
+                     fabContainer.style.opacity = '1';
+                     fabContainer.style.pointerEvents = 'auto';
+                     fabContainer.style.transform = 'scale(1)';
+                     console.log('✅ FAB button visibility ensured');
+                 }
+             }
+         }
+         
+         // Test function for debugging
+         function testSendMessage() {
+             console.log('🧪 Test button clicked!');
+             console.log('🧪 Testing sendCustomQuestion function...');
+             
+             // Simulate typing in the input field
+             const inputField = document.getElementById('chat-input-field');
+             if (inputField) {
+                 inputField.value = 'This is a test message';
+                 console.log('🧪 Set test message in input field');
+                 
+                 // Call the send function
+                 sendCustomQuestion();
+             } else {
+                 console.error('🧪 Input field not found!');
+             }
+         }
+         
+         // Send custom question from chat input
+         async function sendCustomQuestion() {
+             console.log('🚀 sendCustomQuestion function called');
+             
+             const inputField = document.getElementById('chat-input-field');
+             if (!inputField) {
+                 console.error('❌ Chat input field not found!');
+                 return;
+             }
+             
+             const question = inputField.value.trim();
+             
+             if (!question) {
+                 console.log('❌ No question entered');
+                 return;
+             }
+             
+             console.log('🎯 Sending custom question:', question);
+             console.log('🔍 Current questionData:', questionData);
+             console.log('🔍 Current subject:', currentSubject);
+             console.log('🔍 Current conversationId:', currentConversationId);
+             console.log('🔍 Conversation context:', getConversationContext());
+             
+             // Add custom question to conversation history
+             addToConversationHistory('user', question, 'custom_question');
+             
+             // Add user message to chat display (left side, like helper questions)
+             // First try to find chat-messages directly, then within detailed-analysis-section
+             let chatMessages = document.getElementById('chat-messages');
+             console.log('🔍 Looking for chat-messages element:', chatMessages);
+             
+             if (!chatMessages) {
+                 const detailedAnalysisSection = document.getElementById('detailed-analysis-section');
+                 console.log('🔍 detailed-analysis-section found:', detailedAnalysisSection);
+                 if (detailedAnalysisSection) {
+                     chatMessages = detailedAnalysisSection.querySelector('#chat-messages');
+                     console.log('🔍 chat-messages found within detailed-analysis-section:', chatMessages);
+                 }
+             }
+             
+             if (!chatMessages) {
+                 console.error('❌ Chat messages area not found in sendCustomQuestion');
+                 console.log('🔍 Available elements with "chat" in ID:');
+                 document.querySelectorAll('[id*="chat"]').forEach(el => {
+                     console.log('  -', el.id, el.tagName, el.className);
+                 });
+                 return;
+             }
+             
+             const userMessage = document.createElement('div');
+             userMessage.className = 'chat-message user';
+             userMessage.innerHTML = `<div class="message-bubble user">${question}</div>`;
+             chatMessages.appendChild(userMessage);
+             
+             // Clear input field
+             inputField.value = '';
+             
+             // Show loading state for custom question (separate from helper questions)
+             showCustomQuestionLoading(question);
+             
+             // Hide chat input and show FAB button AFTER showing loading
+             // Add small delay to ensure loading message is visible
+             setTimeout(() => {
+                 hideChatInput();
+             }, 200);
+             
+             // Make API call to get help response with streaming effect
+             try {
+                 const requestBody = {
+                     question: question,
+                     subject: questionData?.subject || 'biology',
+                     grade: questionData?.grade || 'دوم',
+                     chapter: questionData?.chapter || '1',
+                     originalAnalysis: questionData?.analysis || '',
+                     conversationId: currentConversationId,
+                     conversationContext: getConversationContext()
+                 };
+                 
+                 console.log('📤 Making API call to /api/chat/help-question/stream');
+                 console.log('📤 Request body:', requestBody);
+                 
+                 const response = await fetch('/api/chat/help-question/stream', {
+                     method: 'POST',
+                     headers: {
+                         'Content-Type': 'application/json',
+                     },
+                     body: JSON.stringify(requestBody)
+                 });
+                 
+                 console.log('📥 API response received:', response);
+                 console.log('📥 Response status:', response.status);
+                 console.log('📥 Response headers:', response.headers);
+                 
+                 if (!response.ok) {
+                     throw new Error(`HTTP error! status: ${response.status}`);
+                 }
+                 
+                 console.log('✅ API response received, starting streaming...');
+                 
+                 // Handle streaming response with real-time updates
+                 await streamCustomQuestionResponse(response, question);
+                 
+             } catch (error) {
+                 console.error('❌ Error getting custom question response:', error);
+                 console.error('❌ Error details:', error.message, error.stack);
+                 showCustomQuestionError(question, error.message);
+             }
+         }
+         
+         // Show loading state for custom question (separate from helper questions)
+         function showCustomQuestionLoading(question) {
+             // Add AI loading message to chat display (below the user's custom question)
+             // First try to find chat-messages directly, then within detailed-analysis-section
+             let chatMessages = document.getElementById('chat-messages');
+             if (!chatMessages) {
+                 const detailedAnalysisSection = document.getElementById('detailed-analysis-section');
+                 if (detailedAnalysisSection) {
+                     chatMessages = detailedAnalysisSection.querySelector('#chat-messages');
+                 }
+             }
+             
+             if (!chatMessages) {
+                 console.error('❌ Chat messages area not found in showCustomQuestionLoading');
+                 return;
+             }
+             
+             const aiLoadingMessage = document.createElement('div');
+             aiLoadingMessage.className = 'chat-message ai loading-message';
+             aiLoadingMessage.id = `custom-ai-loading-${Date.now()}`; // Unique ID for custom questions
+             aiLoadingMessage.innerHTML = `
+                 <div class="message-bubble ai">
+                     <div class="flex items-center space-x-2 space-x-reverse">
+                         <div class="animate-spin rounded-full h-5 w-5 border-b-2 border-blue-600"></div>
+                         <span class="text-gray-600">در حال پاسخ...</span>
+                     </div>
+                 </div>
+             `;
+             
+             chatMessages.appendChild(aiLoadingMessage);
+             
+             // Scroll to the new content
+             aiLoadingMessage.scrollIntoView({ behavior: 'smooth' });
+             
+             console.log('✅ Loading message created with ID:', aiLoadingMessage.id);
+         }
+         
+         // Stream custom question response with real-time updates
+         async function streamCustomQuestionResponse(response, question) {
+             console.log('🚀 Starting to stream custom question response...');
+             
+             const reader = response.body.getReader();
+             const decoder = new TextDecoder();
+             let fullResponse = '';
+             
+             // Find the existing AI loading message for custom questions (unique ID)
+             // Use the most recent loading message
+             const aiLoadingMessage = document.querySelector('.loading-message:last-of-type');
+             
+             if (!aiLoadingMessage || !aiLoadingMessage.classList.contains('ai')) {
+                 console.error('❌ AI loading message not found for streaming');
+                 return;
+             }
+             
+             console.log('🎯 Found loading message for streaming:', aiLoadingMessage.id);
+             
+             try {
+                 while (true) {
+                     const { done, value } = await reader.read();
+                     
+                     if (done) break;
+                     
+                     const chunk = decoder.decode(value);
+                     const lines = chunk.split('\n');
+                     
+                     for (const line of lines) {
+                         if (line.startsWith('data: ')) {
+                             const data = line.slice(6);
+                             
+                             if (data === '[DONE]') {
+                                 // Final formatting and display
+                                 displayCustomQuestionResponse(question, fullResponse, aiLoadingMessage);
+                                 return;
+                             }
+                             
+                             try {
+                                 const parsed = JSON.parse(data);
+                                 if (parsed.content && parsed.type === 'chunk') {
+                                     fullResponse += parsed.content;
+                                     
+                                     // Update immediately for real-time rendering during streaming
+                                     updateCustomQuestionResponseStreaming(question, fullResponse, aiLoadingMessage);
+                                 }
+                             } catch (e) {
+                                 // Ignore parsing errors for incomplete chunks
+                             }
+                         }
+                     }
+                 }
+             } catch (error) {
+                 console.error('Streaming error:', error);
+                 showCustomQuestionError(question, error.message);
+                 
+                 // Ensure FAB button is visible after streaming error
+                 setTimeout(() => {
+                     ensureFABVisible();
+                 }, 100);
+             }
+         }
+         
+         // Update custom question response in real-time with streaming effect
+         function updateCustomQuestionResponseStreaming(question, response, aiLoadingMessage) {
+             // Update the loading message with streaming content in real-time
+             const messageBubble = aiLoadingMessage.querySelector('.message-bubble.ai');
+             if (messageBubble) {
+                 messageBubble.innerHTML = `
+                     <div class="helper-response-content text-base leading-relaxed text-gray-800">
+                         ${formatStreamingChunk(response)}
+                     </div>
+                 `;
+                 
+                 console.log('✅ Streaming update applied to message bubble:', aiLoadingMessage.id);
+             } else {
+                 console.error('❌ Message bubble not found in updateCustomQuestionResponseStreaming');
+             }
+             
+             console.log('✅ Streaming update for custom question:', question, response.length);
+         }
+         
+         // Update custom question response in real-time (legacy function)
+         function updateCustomQuestionResponse(question, response) {
+             // This can be used for real-time updates if needed
+             console.log('Updating custom response for:', question, response.length);
+         }
+         
+         // Display final custom question response with streaming effect
+         function displayCustomQuestionResponse(question, response, aiLoadingMessage) {
+             // Add AI response to conversation history
+             addToConversationHistory('assistant', response, 'custom_response');
+             
+             // Update the existing loading message with the final formatted response
+             const messageBubble = aiLoadingMessage.querySelector('.message-bubble.ai');
+             if (messageBubble) {
+                 messageBubble.innerHTML = `
+                     <div class="helper-response-content text-base leading-relaxed text-gray-800">
+                         ${formatHelperQuestionResponse(response)}
+                     </div>
+                 `;
+             }
+             
+             // Ensure FAB button is visible after response is displayed
+             setTimeout(() => {
+                 ensureFABVisible();
+             }, 100);
+             
+             console.log('✅ Custom question response displayed successfully with streaming effect');
+         }
+         
+         // Show error for custom question
+         function showCustomQuestionError(question, errorMessage) {
+             // Find the existing AI loading message for custom questions and show error
+             const aiLoadingMessage = document.querySelector('.loading-message:last-of-type');
+             if (!aiLoadingMessage) return;
+             
+             const messageBubble = aiLoadingMessage.querySelector('.message-bubble.ai');
+             if (messageBubble) {
+                 messageBubble.innerHTML = `
+                     <div class="text-red-500 text-center">
+                         <p class="text-sm">خطا: ${errorMessage}</p>
+                     </div>
+                 `;
+             }
+             
+             // Ensure FAB button is visible after error
+             setTimeout(() => {
+                 ensureFABVisible();
+             }, 100);
+         }
+         
+                   // Handle Enter key in chat input
+          document.addEventListener('DOMContentLoaded', function() {
+              // Initialize conversation history system
+              initializeConversation();
+              
+              // Ensure FAB button is visible on page load
+              ensureFABVisible();
+              
+              // Add mobile touch event handling for FAB button
+              const fabButton = document.getElementById('fab-button');
+              if (fabButton) {
+                  // Remove default touch behavior
+                  fabButton.addEventListener('touchstart', function(e) {
+                      e.preventDefault();
+                      console.log('📱 Mobile touch detected on FAB button');
+                      toggleChatInput();
+                  }, { passive: false });
+                  
+                  // Also keep click for desktop
+                  fabButton.addEventListener('click', function(e) {
+                      console.log('🖱️ Desktop click detected on FAB button');
+                      toggleChatInput();
+                  });
+              }
+              
+              const chatInputField = document.getElementById('chat-input-field');
+              if (chatInputField) {
+                  chatInputField.addEventListener('keypress', function(e) {
+                      if (e.key === 'Enter') {
+                          sendCustomQuestion();
+                      }
+                  });
+              }
+              
+              // Close chat input when clicking outside
+              document.addEventListener('click', function(e) {
+                  const chatInputSection = document.getElementById('chat-input-section');
+                  const fabButton = document.getElementById('fab-button');
+                  const fabContainer = document.getElementById('fab-container');
+                  
+                  if (chatInputSection && chatInputSection.classList.contains('show')) {
+                      if (!chatInputSection.contains(e.target) && !fabButton.contains(e.target)) {
+                          hideChatInput();
+                          console.log('✅ Chat input closed (clicked outside), FAB button shown again');
+                      }
+                  }
+              });
+          });
+          
+          // Auto-resize textarea function (exact match from chat page)
+          function autoResize(textarea) {
+              textarea.style.height = 'auto';
+              textarea.style.height = Math.min(textarea.scrollHeight, 120) + 'px';
+              
+              // Update button color and visibility based on typing
+              const sendButton = document.getElementById('send-chat-button');
+              if (textarea.value.trim() !== '') {
+                  textarea.classList.add('typing-active');
+                  sendButton.classList.remove('bg-gray-400');
+                  sendButton.classList.add('bg-black');
+                  
+                  // Show send button when typing
+                  sendButton.style.opacity = '1';
+                  sendButton.style.pointerEvents = 'auto';
+                  sendButton.style.transform = 'scale(1)';
+              } else {
+                  textarea.classList.remove('typing-active');
+                  sendButton.classList.remove('bg-black');
+                  sendButton.classList.add('bg-gray-400');
+                  
+                  // Hide send button when no text
+                  sendButton.style.opacity = '0';
+                  sendButton.style.pointerEvents = 'none';
+                  sendButton.style.transform = 'scale(0.75)';
+              }
+          }
+          
+          // Function to handle input focus - make button black immediately
+          function handleInputFocus(textarea) {
+              const sendButton = document.getElementById('send-chat-button');
+              
+              // Show send button with animation
+              sendButton.style.opacity = '1';
+              sendButton.style.pointerEvents = 'auto';
+              sendButton.style.transform = 'scale(1)';
+              
+              sendButton.classList.remove('bg-gray-400');
+              sendButton.classList.add('bg-black');
+              textarea.classList.add('typing-active');
+              
+              // Hide bottom navigation when input is focused
+              const bottomNav = document.getElementById('bottom-navigation');
+              if (bottomNav) {
+                  bottomNav.style.opacity = '0';
+                  bottomNav.style.pointerEvents = 'none';
+              }
+          }
+          
+          // Function to handle input blur - make button gray if no text
+          function handleInputBlur(textarea) {
+              if (textarea.value.length === 0) {
+                  const sendButton = document.getElementById('send-chat-button');
+                  sendButton.classList.remove('bg-black');
+                  sendButton.classList.add('bg-gray-400');
+                  textarea.classList.remove('typing-active');
+                  
+                  // Hide send button when no text
+                  sendButton.style.opacity = '0';
+                  sendButton.style.pointerEvents = 'none';
+                  sendButton.style.transform = 'scale(0.75)';
+              }
+              
+              // Show bottom navigation when input loses focus
+              const bottomNav = document.getElementById('bottom-navigation');
+              if (bottomNav) {
+                  bottomNav.style.opacity = '1';
+                  bottomNav.style.pointerEvents = 'auto';
+              }
+              
+              // Auto-hide chat input after a delay if no text
+              setTimeout(() => {
+                  if (textarea.value.length === 0) {
+                      const chatInputSection = document.getElementById('chat-input-section');
+                      const fabContainer = document.getElementById('fab-container');
+                      
+                      if (chatInputSection.classList.contains('show')) {
+                          chatInputSection.classList.remove('show');
+                          
+                          // Show FAB button again
+                          fabContainer.style.opacity = '1';
+                          fabContainer.style.pointerEvents = 'auto';
+                          fabContainer.style.transform = 'scale(1)';
+                          
+                          console.log('✅ Chat input auto-hidden, FAB button shown again');
+                      }
+                  }
+              }, 2000); // 2 second delay
+          }
+        
+        // ========================================
+        // END OF FAB FUNCTIONS
+        // ========================================
     </script>
 </body>
 </html>
+

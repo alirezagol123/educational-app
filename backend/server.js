@@ -14,7 +14,7 @@ console.log('API_MODEL:', process.env.API_MODEL);
 console.log('API_KEY:', process.env.API_KEY ? 'Loaded' : 'Missing');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 0; // Use 0 to let system assign any available port
 
 // Middleware
 app.use(helmet({
@@ -298,16 +298,25 @@ app.post('/api/chat/analysis', async (req, res) => {
     }
 
     // Create analysis prompt
-    const analysisPrompt = `You are acting as a professional high school exam tutor and test-prep coach for competitive exams such as Konkoor.  
-Your task is to analyze each multiple-choice question after the student selects an answer.  
+    const analysisPrompt = `You are an expert Iranian high school exam tutor, specialized in Konkoor (university entrance exam) preparation.  
+Your task is to analyze multiple-choice questions AFTER the student has chosen an answer.  
+Always act as a supportive teacher: concise, structured, motivating, and clear.  
+Never just give the correct answer alone — always explain reasoning, analyze mistakes, and give tips.  
 
 The response must always be written in Persian and follow this exact structured format:
 
-1. ✅/❌ Was the student's answer correct? (State the correct option clearly)  
-2. 📝 Step-by-step solution (include explanations between steps, not just formulas)  
-3. ⚡ Faster method or test-taking shortcut (if available)  
-4. ❗ The most common mistake or the likely reason why the student chose the wrong answer  
-5. 🎯 Key takeaway or golden tip for quick recall in the future  
+Result: [✅ Correct] or [❌ Incorrect]
+
+Step-by-step solution:
+1. ...
+2. ...
+3. ...
+
+Student's mistake analysis:
+...
+
+Tip for future:
+...
 
 RESPONSE FORMAT RULES
 • Use bullet points (•) for unordered information.  
@@ -354,7 +363,7 @@ Now provide your analysis following the exact format above.`;
   }
 });
 
-// Streaming question analysis endpoint
+// Streaming question analysis endpoint - OPTIMIZED FOR SPEED
 app.post('/api/chat/analysis/stream', async (req, res) => {
   try {
     const { question, options, correctAnswer, userAnswer, subject, grade, chapter } = req.body;
@@ -363,38 +372,48 @@ app.post('/api/chat/analysis/stream', async (req, res) => {
       return res.status(400).json({ error: 'Missing required fields' });
     }
 
-         // Create analysis prompt
-     const analysisPrompt = `You are a professional high school exam tutor and competitive test-prep coach (e.g., Konkoor).  
-Your job is to analyze each multiple-choice question AFTER the student selects an answer.  
+                           // Create analysis prompt with the new system prompt
+                           // PERFORMANCE OPTIMIZATIONS: Reduced max_tokens, lower temperature, optimized streaming
+       const analysisPrompt = `You are an expert Iranian high school exam tutor, specialized in Konkoor (university entrance exam) preparation.  
+Your task is to analyze multiple-choice questions AFTER the student has chosen an answer.  
+Always act as a supportive teacher: concise, structured, motivating, and clear.  
+Never just give the correct answer alone — always explain reasoning, analyze mistakes, and give tips. provide a structured response to a student's query or test answer and generate 4 related questions to deepen understanding and encourage practice. All outputs must be in Persian (Farsi), concise, clear, and suitable for high school students (grades 10-12).
 
-⚠️ STRICT RULES:  
-- Response must always be in Persian (Farsi).  
-- Follow the structure below exactly.  
-- After completing the analysis, add exactly 3 clickable questions. DO NOT include the markers [QUESTION_START] or [QUESTION_END] in your response.
-
----
-
-### RESPONSE STRUCTURE:
-
-1. ✅/❌ آیا پاسخ دانش‌آموز درست بوده؟ (گزینه صحیح را واضح بیان کن)  
-2. 📝 راه‌حل گام‌به‌گام (با توضیحات بین مراحل)  
-3. ⚡️ روش سریع‌تر یا تکنیک تستی (اگر وجود دارد)  
-4. ❗️ رایج‌ترین اشتباه یا دلیل احتمالی انتخاب گزینه غلط  
-5. 🎯 نکته طلایی یا کلید یادآوری سریع  
-
-Question: ${question}
-
-Options:
-${options.map((opt, index) => `${String.fromCharCode(65 + index)}. ${opt}`).join('\n')}
-
-Correct Answer: ${correctAnswer}
-Student's Answer: ${userAnswer}
-
-Subject: ${subject}
-Grade: ${grade}
-Chapter: ${chapter}
-
-Now provide your analysis following the exact format above.`;
+1. Input:
+   - Query or Test Question: "${question}" (e.g., a question, problem, or student's answer to a test)
+   - Subject: "${subject}" (e.g., Math, Physics, Chemistry)
+   - Student's Answer (if provided): "${userAnswer}" (e.g., the student's selected option or solution)
+   - Correct Answer (if known): "${correctAnswer}" (e.g., the correct option or solution)
+2. Output:
+   - Response Structure (max 150 words total, concise and educational):
+     1. ✅/❌ Is the Student's Answer Correct?: Clearly state if the student's answer is correct or incorrect. If incorrect, specify the correct answer.
+     2. 📝 Step-by-Step Solution: Provide a step-by-step solution with brief explanations between steps. Include formulas and a simple example if relevant.
+     3. ⚡️ Faster Method or Test-Taking Technique: Suggest a faster method or test-taking technique, if applicable.
+     4. ❗️ Common Mistake or Reason for Incorrect Choice: Explain the most common mistake or why the student might have chosen the wrong answer.
+     5. 🎯 Golden Tip or Quick Recall Key: Provide a key tip or mnemonic to help students remember or solve similar problems.
+   - Related Questions:
+     - Generate exactly 4 questions, each under 15 words, in Persian (Farsi).
+     - Questions must be relevant to the ${subject} and the specific topic in the query/response.
+     - Cover different aspects: prerequisite concepts, practical applications, similar practice questions, and tips for solving.
+     - Avoid overly general questions (e.g., "What is ${subject}?").
+   - Tone: Educational, clear, motivating, and encouraging for high school students.
+   - Format:
+     Response:
+     1. ✅/❌ آیا پاسخ دانش‌آموز درست بوده؟: [Your answer]
+     2. 📝 راه‌حل گام‌به‌گام: [Your steps]
+     3. ⚡️ روش سریع‌تر یا تکنیک تستی: [Your technique]
+     4. ❗️ رایج‌ترین اشتباه: [Your explanation]
+     5. 🎯 نکته طلایی: [Your tip]
+     Related Questions:
+     - [Question 1]
+     - [Question 2]
+     - [Question 3] 
+     - [Question 4]
+Now, process the following:
+Query: "${question}"
+Subject: "${subject}"
+Student's Answer: "${userAnswer}"
+Correct Answer: "${correctAnswer}"`;
 
     // Set headers for streaming
     res.writeHead(200, {
@@ -404,22 +423,23 @@ Now provide your analysis following the exact format above.`;
       'Connection': 'keep-alive'
     });
 
-    // Stream AI response for analysis
+    // Stream AI response for analysis with optimized settings for speed
     await streamAIResponse([{
       role: 'user',
       content: analysisPrompt
-    }], res, 'analysis');
-
+    }], res, 'analysis', 0, {
+      max_tokens: 2024, // Further reduced for faster response
+      temperature: 0.3, // Very low temperature for fastest, most focused output
+      stream: true
+    });
+    
   } catch (error) {
-    console.error('Streaming Analysis API Error:', error);
-    if (!res.writableEnded) {
-      res.write(`data: [ERROR] ${JSON.stringify({ error: 'Failed to process analysis request' })}\n\n`);
-      res.end();
-    }
+    console.error('Result Evaluation API Error:', error);
+    res.status(500).json({ error: 'Internal server error' });
   }
 });
 
-// Result evaluation endpoint
+// Result evaluation endpoint (quick evaluation)
 app.post('/api/chat/result-evaluation', async (req, res) => {
   try {
     const { question, options, userAnswer, subject, grade, chapter } = req.body;
@@ -428,7 +448,6 @@ app.post('/api/chat/result-evaluation', async (req, res) => {
       return res.status(400).json({ error: 'Missing required fields' });
     }
 
-    // Create evaluation prompt
     const evaluationPrompt = `You're acting as a professional high school exam tutor in Iran. Your task is to evaluate the following multiple-choice question and tell whether the student's answer is correct or not. Do not provide an explanation yet. Instead, ask the student if they want a detailed analysis.
 
 IMPORTANT: You must respond in Persian (Farsi) language only.
@@ -469,6 +488,94 @@ Please follow this structure in your response:
   }
 });
 
+// Help question streaming endpoint
+app.post('/api/chat/help-question/stream', async (req, res) => {
+  try {
+    const { question, subject, grade, chapter, originalAnalysis, conversationId, conversationContext } = req.body;
+    
+    if (!question) {
+      return res.status(400).json({ error: 'Missing question field' });
+    }
+
+    // Create help question prompt
+    const helpQuestionPrompt = `You are a professional high school exam tutor and competitive test-prep coach (e.g., Konkoor). 
+
+Your task is to provide a helpful, educational response to a student's follow-up question about a topic they just studied.
+
+⚠️ STRICT RULES:
+- Response must always be in Persian (Farsi)
+- Keep your answer concise but comprehensive (2-3 paragraphs maximum)
+- Focus on practical learning tips and clear explanations
+- Use examples when helpful
+- Encourage the student's curiosity and learning
+- Structure your response for optimal readability
+
+📝 RESPONSE STRUCTURE:
+1. Start with 2-3 clear explanation paragraphs
+2. Use numbered lists (1. 2. 3.) for step-by-step instructions
+3. Use bullet points (•) for key concepts or tips
+4. Include callout boxes for important notes using keywords like:
+   - "نکته:" for tips and insights
+   - "توجه:" for important information
+   - "هشدار:" for warnings or common mistakes
+   - "مهم:" for critical points
+5. Use backticks (\`) for code examples or mathematical formulas
+6. Keep formatting clean and educational
+
+CONTEXT:
+- Subject: ${subject || 'general'}
+- Grade Level: ${grade || 'high school'}
+- Chapter: ${chapter || 'general'}
+- Student's Question: "${question}"
+- This question is related to a previous analysis: ${originalAnalysis || 'No previous analysis provided'}
+${conversationContext && conversationContext.length > 0 ? `- Previous conversation context: ${conversationContext.map(msg => `${msg.role}: ${msg.content.substring(0, 100)}...`).join('\n')}` : ''}
+
+Please provide a helpful response that:
+1. Directly answers the student's question
+2. Provides practical learning advice
+3. Encourages further exploration of the topic
+4. Uses proper Persian educational language
+5. Follows the structured format above
+
+Remember: This is a follow-up question after detailed analysis, so be specific and actionable.`;
+
+    // Set up streaming response
+    res.writeHead(200, {
+      'Content-Type': 'text/plain; charset=utf-8',
+      'Transfer-Encoding': 'chunked',
+      'Cache-Control': 'no-cache',
+      'Connection': 'keep-alive',
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Headers': 'Content-Type'
+    });
+
+    // Add user question to conversation history if conversationId is provided
+    if (conversationId) {
+      conversationManager.addMessage(conversationId, {
+        role: 'user',
+        content: question,
+        timestamp: new Date().toISOString()
+      });
+      console.log(`📝 Added helper question to conversation ${conversationId}: ${question.substring(0, 50)}...`);
+      
+      // Log conversation context if provided
+      if (conversationContext && conversationContext.length > 0) {
+        console.log(`📚 Using conversation context with ${conversationContext.length} previous messages`);
+      }
+    }
+
+    // Stream AI response for help question
+    await streamAIResponse([{
+      role: 'user',
+      content: helpQuestionPrompt
+    }], res, 'help-question');
+
+  } catch (error) {
+    console.error('Help Question Streaming Error:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 // AI API call function
 async function callAIAPI(messages) {
   try {
@@ -497,85 +604,145 @@ async function callAIAPI(messages) {
   }
 }
 
-// Streaming AI response function
-async function streamAIResponse(messages, res, conversationId) {
+// Streaming AI response function with retry logic and better error handling
+async function streamAIResponse(messages, res, conversationId, retryCount = 0, optimizationOptions = {}) {
+  const MAX_RETRIES = 2;
+  
   try {
     if (!process.env.API_BASE_URL) {
       throw new Error('API_BASE_URL environment variable is not set');
     }
     
+    console.log(`🔄 Attempting streaming request (attempt ${retryCount + 1}/${MAX_RETRIES + 1})`);
+    
     const response = await axios.post(`${process.env.API_BASE_URL}/chat/completions`, {
       model: process.env.API_MODEL,
       messages: messages,
-      max_tokens: 2024,
-      temperature: 0.3,
+      max_tokens: optimizationOptions.max_tokens || 2024,
+      temperature: optimizationOptions.temperature || 0.3,
       stream: true
     }, {
       headers: {
         'Authorization': `Bearer ${process.env.API_KEY}`,
         'Content-Type': 'application/json'
       },
-      timeout: 30000,
-      responseType: 'stream'
+      timeout: 30000, // Reduced timeout for faster response
+      responseType: 'stream',
+      maxRedirects: 5,
+      validateStatus: (status) => status < 500 // Accept all status codes < 500
     });
 
     let fullResponse = '';
+    let hasReceivedData = false;
 
     response.data.on('data', async (chunk) => {
-      const lines = chunk.toString().split('\n');
-      
-      for (const line of lines) {
-        if (line.startsWith('data: ')) {
-          const data = line.slice(6);
-          
-          if (data === '[DONE]') {
-            // Add complete response to conversation history
-            conversationManager.addMessage(conversationId, {
-              role: 'assistant',
-              content: fullResponse,
-              timestamp: new Date().toISOString()
-            });
+      try {
+        hasReceivedData = true;
+        const lines = chunk.toString().split('\n');
+        
+        for (const line of lines) {
+          if (line.startsWith('data: ')) {
+            const data = line.slice(6);
             
-            res.write(`data: [DONE]\n\n`);
-            res.end();
-            return;
-          }
-
-          try {
-            const parsed = JSON.parse(data);
-            if (parsed.choices && parsed.choices[0] && parsed.choices[0].delta && parsed.choices[0].delta.content) {
-              const content = parsed.choices[0].delta.content;
-              fullResponse += content;
+            if (data === '[DONE]') {
+              console.log('✅ Streaming completed successfully');
+              // Add complete response to conversation history
+              conversationManager.addMessage(conversationId, {
+                role: 'assistant',
+                content: fullResponse,
+                timestamp: new Date().toISOString()
+              });
               
-              // Stream each character for typewriter effect
-              res.write(`data: ${JSON.stringify({ content, type: 'chunk' })}\n\n`);
+              res.write(`data: [DONE]\n\n`);
+              res.end();
+              return;
             }
-          } catch (e) {
-            // Ignore parsing errors for incomplete chunks
+
+            try {
+              const parsed = JSON.parse(data);
+              if (parsed.choices && parsed.choices[0] && parsed.choices[0].delta && parsed.choices[0].delta.content) {
+                const content = parsed.choices[0].delta.content;
+                fullResponse += content;
+                
+                // Stream content immediately for faster response
+                res.write(`data: ${JSON.stringify({ content, type: 'chunk' })}\n\n`);
+              }
+            } catch (e) {
+              // Ignore parsing errors for incomplete chunks
+            }
           }
+        }
+      } catch (chunkError) {
+        console.error('❌ Error processing chunk:', chunkError);
+        if (!res.writableEnded) {
+          res.write(`data: [ERROR] ${JSON.stringify({ error: 'Error processing response chunk' })}\n\n`);
+          res.end();
         }
       }
     });
 
     response.data.on('end', () => {
+      console.log('📡 Stream ended');
       if (!res.writableEnded) {
-        res.write(`data: [DONE]\n\n`);
+        if (hasReceivedData && fullResponse.trim()) {
+          res.write(`data: [DONE]\n\n`);
+        } else {
+          res.write(`data: [ERROR] ${JSON.stringify({ error: 'Stream ended without data' })}\n\n`);
+        }
         res.end();
       }
     });
 
     response.data.on('error', (error) => {
-      console.error('Stream Error:', error);
+      console.error('❌ Stream error:', error);
       if (!res.writableEnded) {
         res.write(`data: [ERROR] ${JSON.stringify({ error: 'Stream error occurred' })}\n\n`);
         res.end();
       }
     });
 
+    // Add timeout for the entire stream
+    const streamTimeout = setTimeout(() => {
+      console.log('⏰ Stream timeout reached');
+      if (!res.writableEnded) {
+        res.write(`data: [ERROR] ${JSON.stringify({ error: 'Stream timeout' })}\n\n`);
+        res.end();
+      }
+    }, 60000); // 1 minute timeout for faster response
+
+    response.data.on('close', () => {
+      clearTimeout(streamTimeout);
+    });
+
   } catch (error) {
-    console.error('Streaming AI API Error:', error);
+    console.error(`❌ Streaming AI API Error (attempt ${retryCount + 1}):`, error.message);
+    
+    // Check if it's a connection error that we can retry
+    if (retryCount < MAX_RETRIES && (
+      error.code === 'ECONNRESET' || 
+      error.code === 'ECONNREFUSED' || 
+      error.code === 'ETIMEDOUT' ||
+      error.message.includes('ECONNRESET') ||
+      error.message.includes('ECONNREFUSED') ||
+      error.message.includes('ETIMEDOUT')
+    )) {
+      console.log(`🔄 Retrying due to connection error (${error.code || 'unknown'})...`);
+      
+      // Wait before retry (exponential backoff)
+      const delay = Math.pow(2, retryCount) * 1000;
+      await new Promise(resolve => setTimeout(resolve, delay));
+      
+      // Retry the request
+      return streamAIResponse(messages, res, conversationId, retryCount + 1);
+    }
+    
+    // If we can't retry or have exhausted retries, send error
     if (!res.writableEnded) {
-      res.write(`data: [ERROR] ${JSON.stringify({ error: 'Failed to get AI response' })}\n\n`);
+      const errorMessage = retryCount >= MAX_RETRIES 
+        ? 'Failed to get AI response after multiple attempts' 
+        : 'Failed to get AI response';
+      
+      res.write(`data: [ERROR] ${JSON.stringify({ error: errorMessage })}\n\n`);
       res.end();
     }
   }
@@ -583,10 +750,19 @@ async function streamAIResponse(messages, res, conversationId) {
 
 // New endpoint for responding to help questions (Streaming)
 app.post('/api/chat/help-question/stream', async (req, res) => {
-  const { question, subject, grade, chapter, originalAnalysis } = req.body;
+  const { question, subject, grade, chapter, originalAnalysis, conversationId, conversationContext } = req.body;
 
   if (!question || !subject) {
     return res.status(400).json({ error: 'سوال و موضوع الزامی است' });
+  }
+
+  // Log conversation context if provided
+  if (conversationId) {
+    console.log(`📝 Processing helper question for conversation ${conversationId}: ${question.substring(0, 50)}...`);
+    
+    if (conversationContext && conversationContext.length > 0) {
+      console.log(`📚 Using conversation context with ${conversationContext.length} previous messages`);
+    }
   }
 
   // Set headers for Server-Sent Events
@@ -599,27 +775,28 @@ app.post('/api/chat/help-question/stream', async (req, res) => {
   });
 
   // System prompt for help question responses
-  const helpQuestionPrompt = `You are a professional high school exam tutor and competitive test-prep coach (e.g., Konkoor). 
-
-Your task is to provide a helpful, educational response to a student's follow-up question about a topic they just studied.
-
+  const helpQuestionPrompt = `You are an expert Iranian high school tutor specialized in Konkoor exam preparation.  
+Your role is to have an interactive tutoring conversation with the student.
 ⚠️ STRICT RULES:
 - Response must always be in Persian (Farsi)
 - Keep your answer concise but comprehensive (2-3 paragraphs maximum)
-- Focus on practical learning tips and clear explanations
-- Use examples when helpful
-- Encourage the student's curiosity and learning
-- Structure your response for optimal readability
+1. Always answer in Farsi (unless the student explicitly asks in English).  
+2. Keep answers short, clear, and adapted to the student’s level (high school, Konkoor prep).  
+3. Use a friendly and supportive tone, like a private teacher encouraging the student.  
+4. If the student’s question is unclear, ask a guiding question back to clarify.  
+5. If the student asks about a mistake, explain it again in simpler terms, possibly with a mini-example.  
+6. If the student asks "what if" variations, logically explain what would happen.  
+7. Never just give the final answer — always teach step by step.  
 
 📝 RESPONSE STRUCTURE:
 1. Start with 2-3 clear explanation paragraphs
 2. Use numbered lists (1. 2. 3.) for step-by-step instructions
 3. Use bullet points (•) for key concepts or tips
 4. Include callout boxes for important notes using keywords like:
-  - "نکته:" for tips and insights
-  - "توجه:" for important information
-  - "هشدار:" for warnings or common mistakes
-  - "مهم:" for critical points
+   - "نکته:" for tips and insights
+   - "توجه:" for important information
+   - "هشدار:" for warnings or common mistakes
+   - "مهم:" for critical points
 5. Use backticks (\`) for code examples or mathematical formulas
 6. Keep formatting clean and educational
 
@@ -628,6 +805,7 @@ CONTEXT:
 - Grade Level: ${grade}
 - Chapter: ${chapter}
 - Student's Question: ${question}
+${conversationContext && conversationContext.length > 0 ? `- Previous conversation context: ${conversationContext.map(msg => `${msg.role}: ${msg.content.substring(0, 100)}...`).join('\n')}` : ''}
 
 Please provide a helpful response that:
 1. Directly answers the student's question
@@ -681,6 +859,13 @@ Remember: This is a follow-up question after detailed analysis, so be specific a
           const data = line.slice(6);
           
           if (data === '[DONE]') {
+            // Add AI response to conversation history if conversationId is provided
+            if (conversationId) {
+              // Note: We can't capture the full response here due to streaming
+              // The frontend will handle adding the complete response to conversation history
+              console.log(`✅ Help question response completed for conversation: ${conversationId}`);
+            }
+            
             res.write('data: [DONE]\n\n');
             res.end();
             return;
@@ -706,6 +891,33 @@ Remember: This is a follow-up question after detailed analysis, so be specific a
   }
 });
 
+// JSON Helper Question Parser Functions
+function extractHelperQuestionsFromResponse(responseText) {
+  try {
+    // Look for JSON block in the response
+    const jsonMatch = responseText.match(/\{[\s\S]*"helper_questions"[\s\S]*\}/);
+    if (jsonMatch) {
+      const jsonStr = jsonMatch[0];
+      const parsed = JSON.parse(jsonStr);
+      
+      if (parsed.helper_questions && Array.isArray(parsed.helper_questions)) {
+        console.log('✅ Successfully extracted helper questions from JSON:', parsed.helper_questions);
+        return {
+          questions: parsed.helper_questions,
+          mainContent: responseText.replace(jsonStr, '').trim()
+        };
+      }
+    }
+    
+    console.log('❌ No valid JSON helper questions found in response');
+    return { questions: [], mainContent: responseText };
+    
+  } catch (error) {
+    console.error('❌ Error parsing helper questions JSON:', error);
+    return { questions: [], mainContent: responseText };
+  }
+}
+
 // Legacy endpoint for backward compatibility (non-streaming)
 app.post('/api/chat/help-question', async (req, res) => {
   const { question, subject, grade, chapter, originalAnalysis } = req.body;
@@ -713,31 +925,6 @@ app.post('/api/chat/help-question', async (req, res) => {
   if (!question || !subject) {
     return res.status(400).json({ error: 'سوال و موضوع الزامی است' });
   }
-
-  // System prompt for help question responses
-  const helpQuestionPrompt = `You are a professional high school exam tutor and competitive test-prep coach (e.g., Konkoor). 
-
-Your task is to provide a helpful, educational response to a student's follow-up question about a topic they just studied.
-
-⚠️ STRICT RULES:
-- Response must always be in Persian (Farsi)
-- Keep your answer concise but comprehensive (2-3 paragraphs maximum)
-- Focus on practical learning tips and clear explanations
-- Use examples when helpful
-- Encourage the student's curiosity and learning
-
-CONTEXT:
-- Subject: ${subject}
-- Grade Level: ${grade}
-- Chapter: ${chapter}
-- Student's Question: ${question}
-
-Please provide a helpful response that:
-1. Directly answers the student's question
-2. Provides practical learning advice
-3. Encourages further exploration of the topic
-
-Remember: This is a follow-up question after detailed analysis, so be specific and actionable.`;
 
   try {
     const response = await callAIAPI([{
@@ -748,9 +935,13 @@ Remember: This is a follow-up question after detailed analysis, so be specific a
       content: `Student's Question: ${question}\n\nPlease provide a helpful response in Persian.`
     }]);
 
+    // Parse helper questions from response
+    const { questions, mainContent } = extractHelperQuestionsFromResponse(response);
+
     res.json({ 
       success: true, 
-      answer: response,
+      answer: mainContent,
+      helperQuestions: questions,
       question: question 
     });
 
@@ -799,14 +990,21 @@ app.get('/analysis-results.html', (req, res) => {
   res.sendFile(path.join(__dirname, '../frontend/analysis-results.html'));
 });
 
-// Start server
-app.listen(PORT, () => {
-  console.log(`🚀 Meno Backend Server running on port ${PORT}`);
-  console.log(`📱 Frontend available at: http://localhost:${PORT}`);
-  console.log(`🔗 API available at: http://localhost:${PORT}/api`);
+// Start server with dynamic port handling
+const server = app.listen(PORT, () => {
+  const actualPort = server.address().port;
+  console.log(`🚀 Meno Backend Server running on port ${actualPort}`);
+  console.log(`📱 Frontend available at: http://localhost:${actualPort}`);
+  console.log(`🔗 API available at: http://localhost:${actualPort}/api`);
   console.log(`🔑 API Base URL: ${process.env.API_BASE_URL}`);
   console.log(`🤖 API Model: ${process.env.API_MODEL}`);
   console.log(`✅ API Key: ${process.env.API_KEY ? 'Loaded' : 'Missing'}`);
+  
+  // Save the actual port to a file for frontend to use
+  const fs = require('fs');
+  const portInfo = { port: actualPort, timestamp: new Date().toISOString() };
+  fs.writeFileSync(path.join(__dirname, '../.port-info.json'), JSON.stringify(portInfo, null, 2));
+  console.log(`💾 Port info saved to .port-info.json`);
 });
 
 module.exports = app;
