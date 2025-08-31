@@ -131,7 +131,7 @@
         }
     </style>
 </head>
-<body style="background-color: #fcf7f3;">
+<body style="background-color: #F8F9FA;">
     <!-- Header -->
     <header class="fixed top-0 left-0 right-0 bg-transparent z-50">
         <div class="flex justify-between items-center px-6 py-4">
@@ -276,22 +276,7 @@
                           </div>
                       </button>
 
-                                                              <!-- History -->
-                                          <button class="subject-button bg-gray-50 hover:bg-gray-100 p-6 rounded-full border-2 border-transparent hover:border-gray-200" onclick="selectSubject('history')">
-                           <div class="flex flex-col items-center space-y-3">
-                               <div class="relative w-12 h-12">
-                                   <div class="w-12 h-12 bg-gradient-to-br from-orange-100 to-orange-200 rounded-full flex items-center justify-center shadow-md">
-                                       <svg class="w-6 h-6 text-orange-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                       </svg>
-                                   </div>
-                                   <svg class="absolute inset-0 w-12 h-12 transform -rotate-90" viewBox="0 0 48 48">
-                                       <circle cx="24" cy="24" r="20" stroke="rgba(156, 163, 175, 0.2)" stroke-width="2.5" fill="none"/>
-                                   </svg>
-                               </div>
-                                                            <span class="font-semibold text-gray-700">تاریخ</span>
-                           </div>
-                       </button>
+
                 </div>
             </div>
         </div>
@@ -332,7 +317,7 @@
     </div>
 
     <!-- Bottom Mobile Navigation -->
-    <nav class="fixed bottom-0 left-0 right-0 bg-gray-100 z-50">
+    <nav class="fixed bottom-0 left-0 right-0 bg-[#e8e8e4] z-50">
         <div class="flex justify-around items-center py-4 px-6">
             <!-- Chat Icon (Document with Pencil) -->
             <button class="flex flex-col items-center justify-center p-3 rounded-2xl transition-all duration-300 hover:bg-gray-100/40 active:scale-90 hover:scale-105" onclick="window.location.href='index.html'">
@@ -419,8 +404,12 @@
             // Add active state to selected field
             if (field === 'math') {
                 document.getElementById('math-field').classList.add('active');
+                // Hide Biology subject when Math field is selected
+                document.querySelector('[onclick="selectSubject(\'biology\')"]').style.display = 'none';
             } else if (field === 'experimental') {
                 document.getElementById('experimental-field').classList.add('active');
+                // Show Biology subject when Experimental field is selected
+                document.querySelector('[onclick="selectSubject(\'biology\')"]').style.display = 'block';
             }
         }
 

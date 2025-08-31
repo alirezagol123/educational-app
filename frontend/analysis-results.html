@@ -23,10 +23,10 @@
     </script>
     <style>
                  body {
-             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-             font-size: 16px;
+             font-family: 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+             font-size: 16px; /* Changed from 18px to match chat page */
              line-height: 1.6;
-             background: #fafafa !important;
+             background: #fcfdf8 !important;
          }
         
         .result-container {
@@ -78,9 +78,9 @@
              display: block;
              margin-top: 2rem;
              position: static;
-             background: white !important;
-             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-             border-radius: 24px;
+             background: transparent !important;
+             box-shadow: none;
+             border-radius: 0;
              overflow: hidden;
          }
         
@@ -113,13 +113,13 @@
              display: block !important;
         }
         
-                 .analysis-content {
-             line-height: 1.8;
-             text-align: right;
-             font-size: 18px;
-             background: transparent !important;
-             display: block !important;
-         }
+                         .analysis-content {
+            line-height: 1.8;
+            text-align: right;
+            font-size: 16px; /* Changed from 18px to match chat page base size */
+            background: transparent !important;
+            display: block !important;
+        }
          
          #chat-messages {
              display: block !important;
@@ -213,7 +213,7 @@
             color: #1e40af;
             margin-top: 1.2rem;
             margin-bottom: 0.6rem;
-            font-size: 1.2rem;
+            font-size: 1rem; /* Changed from 1.2rem to match chat page */
         }
         
         .analysis-content ol {
@@ -253,7 +253,7 @@
             font-weight: 700;
             color: #1e40af;
             margin-left: 0.5rem;
-            font-size: 1.2rem;
+            font-size: 1rem; /* Changed from 1.2rem to match chat page */
         }
         
         /* Enhanced list styling for all responses */
@@ -276,7 +276,7 @@
             color: #1e40af;
             position: absolute;
             right: 0;
-            font-size: 1.2rem;
+            font-size: 1rem; /* Changed from 1.2rem to match chat page */
         }
         
         .numbered-list {
@@ -318,14 +318,14 @@
         .streaming-answer .ai-tutor-response p,
         .streaming-answer .ai-tutor-response .msg-body p {
             color: #1e293b !important;
-            font-size: 20px !important;
+            font-size: 16px !important; /* Changed from 20px to match chat page */
             font-weight: 500 !important;
         }
         
         /* Enhanced styling for mathematical expressions and formulas */
         .streaming-answer .ai-tutor-response p {
             color: #000000 !important;
-            font-size: 22px !important;
+            font-size: 16px !important; /* Changed from 18px to match chat page */
             font-weight: 600 !important;
          
          /* Helper question response styling - seamless integration */
@@ -365,7 +365,7 @@
              color: #1e40af;
              position: absolute;
              right: 0;
-             font-size: 1.2rem;
+             font-size: 1.2rem; /* Increased for better readability */
          }
          
          .helper-response-content ol.numbered-list {
@@ -425,7 +425,7 @@
             .helper-response-content ol.numbered-list li {
                 margin-bottom: 0.6rem;
                 padding-right: 1rem;
-                font-size: 0.95rem;
+                font-size: 18px; /* Increased for better readability */
             }
             
             .helper-response-content .callout-box {
@@ -444,7 +444,7 @@
             .numbered-list li {
                 margin-bottom: 0.6rem;
                 padding-right: 1rem;
-                font-size: 0.95rem;
+                font-size: 18px; /* Increased for better readability */
             }
             
             .message-bubble.ai {
@@ -599,11 +599,14 @@
                  width: 3rem; /* Slightly smaller on mobile */
                  height: 3rem;
                  background-color: #d1d5db; /* Keep consistent pale gray on mobile */
-                 /* Mobile touch optimizations */
-                 touch-action: manipulation;
+                 /* Mobile touch optimizations - less restrictive */
+                 touch-action: auto; /* Allow all touch actions */
                  -webkit-tap-highlight-color: transparent;
                  -webkit-user-select: none;
                  user-select: none;
+                 /* Ensure mobile clickability */
+                 cursor: pointer;
+                 -webkit-touch-callout: none;
              }
              
              #fab-button svg {
@@ -643,7 +646,7 @@
         .ai-tutor-response .who {
             color: #2563eb;
             font-weight: 600;
-            font-size: 18px;
+            font-size: 16px; /* Changed from 18px to match chat page */
         }
 
         .ai-tutor-response .timestamp {
@@ -660,7 +663,7 @@
             color: #1e293b;
             line-height: 1.8;
             margin-bottom: 16px;
-            font-size: 18px;
+            font-size: 16px; /* Changed from 18px to match chat page */
             font-weight: 500;
         }
 
@@ -681,7 +684,7 @@
             color: #374151;
             line-height: 1.8;
             margin-bottom: 12px;
-            font-size: 18px;
+            font-size: 16px; /* Changed from 18px to match chat page */
             font-weight: 500;
         }
 
@@ -711,7 +714,7 @@
             color: #1e293b;
             font-weight: 600;
             margin: 0;
-            font-size: 18px;
+            font-size: 16px; /* Changed from 18px to match chat page */
         }
 
         .ai-tutor-response .code-block {
@@ -749,7 +752,7 @@
         }
 
         .ai-tutor-response h3 {
-            font-size: 20px;
+            font-size: 16px; /* Changed from 20px to match chat page */
             font-weight: 700;
             color: #1e293b;
             margin: 24px 0 16px 0;
@@ -910,6 +913,7 @@
                line-height: 1.6;
                word-wrap: break-word;
                hyphens: auto;
+               font-size: 1rem; /* Changed from 1.2rem to match chat page base size */
            }
           
                      /* Mobile responsiveness for related questions */
@@ -920,20 +924,20 @@
                    border-radius: 0;
                }
                
-               .related-questions-section h3 {
-                   font-size: 1.25rem !important;
-                   margin-bottom: 1rem !important;
-               }
+                          .related-questions-section h3 {
+               font-size: 1.25rem !important; /* Changed from 1.5rem to match chat page */
+               margin-bottom: 1rem !important;
+           }
                
                .question-button {
                    padding: 12px 16px !important;
-                   font-size: 15px !important;
+                   font-size: 16px !important; /* Changed from 18px to match chat page */
                    min-height: 48px !important;
                    margin-bottom: 10px !important;
                }
                
                .question-text {
-                   font-size: 15px !important;
+                   font-size: 16px !important; /* Changed from 18px to match chat page */
                }
            }
           
@@ -998,13 +1002,14 @@
                 justify-content: flex-start;
             }
             
-            .message-bubble {
-                max-width: 95%;
-                padding: 12px 16px;
-                border-radius: 18px;
-                word-wrap: break-word;
-                line-height: 1.4;
-            }
+                    .message-bubble {
+            max-width: 95%;
+            padding: 12px 16px;
+            border-radius: 18px;
+            word-wrap: break-word;
+            line-height: 1.4;
+            font-size: 1rem; /* Changed from 1.1rem to match chat page */
+        }
             
             .message-bubble.user {
                 background-color: #F3F4F6;
@@ -1015,7 +1020,7 @@
             }
             
             .message-bubble.ai {
-                background-color: #FFFFFF;
+                background-color: transparent;
                 color: #1F2937;
                 border: none;
                 border-bottom-left-radius: 6px;
@@ -1056,14 +1061,27 @@
                 #chat-input-section {
                     bottom: 20px; /* Position much closer to bottom navigation */
                     padding-bottom: 0;
+                    /* Mobile-specific positioning fixes */
+                    transform: translateY(100%) !important; /* Force initial hidden state */
+                    transition: transform 0.3s ease, opacity 0.3s ease;
                 }
                 
-                #send-chat-button {
-                    width: 48px;
-                    height: 48px;
-                    right: 6px;
-                    top: 7%;
+                #chat-input-section.show {
+                    transform: translateY(0) !important; /* Force visible state on mobile */
+                    opacity: 1 !important;
                 }
+                
+                                 #send-chat-button {
+                     width: 48px;
+                     height: 48px;
+                     right: 6px;
+                     top: 7%;
+                     /* Mobile-specific send button fixes */
+                     touch-action: auto;
+                     -webkit-tap-highlight-color: transparent;
+                     cursor: pointer;
+                     z-index: 20;
+                 }
                 
                 /* Standard width message bubbles on mobile */
                 .message-bubble {
@@ -1121,7 +1139,7 @@
                 }
                 
                 .content-header.h5 {
-                    font-size: 1.125rem;
+                    font-size: 1rem; /* Changed from 1.125rem to match chat page */
                     color: #1e40af;
                 }
                 
@@ -1131,7 +1149,7 @@
                 }
                 
                 .content-paragraph {
-                    font-size: 16px;
+                    font-size: 18px; /* Increased for better readability */
                     line-height: 1.6;
                     margin-bottom: 1rem;
                     color: #374151;
@@ -1149,7 +1167,7 @@
                     color: #374151;
                     position: relative;
                     padding-right: 1.5rem;
-                    font-size: 16px;
+                    font-size: 18px; /* Increased for better readability */
                     line-height: 1.5;
                 }
                 
@@ -1159,7 +1177,7 @@
                     color: #1e40af;
                     position: absolute;
                     right: 0;
-                    font-size: 1.2rem;
+                    font-size: 1rem; /* Changed from 1.2rem to match chat page */
                 }
                 
                 .content-list ol li::before {
@@ -1174,7 +1192,7 @@
                     margin: 1rem 0;
                     overflow-x: auto;
                     font-family: 'Courier New', monospace;
-                    font-size: 14px;
+                    font-size: 16px; /* Increased for better readability */
                     line-height: 1.4;
                 }
                 
@@ -1188,7 +1206,7 @@
                     border: none;
                     padding: 0;
                     font-family: 'Courier New', monospace;
-                    font-size: 14px;
+                    font-size: 16px; /* Increased for better readability */
                     color: #374151;
                     font-weight: 600;
                 }
@@ -1211,7 +1229,7 @@
                     margin: 1rem 0;
                     font-style: italic;
                     color: #6b7280;
-                    font-size: 16px;
+                    font-size: 18px; /* Increased for better readability */
                     line-height: 1.6;
                 }
                 
@@ -1239,39 +1257,41 @@
                     margin-left: 0.5rem;
                 }
                 
-                /* Mobile responsive adjustments */
-                @media (max-width: 768px) {
-                    .content-header.h1 { font-size: 1.75rem; }
-                    .content-header.h2 { font-size: 1.5rem; }
-                    .content-header.h3 { font-size: 1.25rem; }
-                    .content-header.h4 { font-size: 1.125rem; }
-                    .content-header.h5 { font-size: 1rem; }
-                    .content-header.h6 { font-size: 0.95rem; }
-                    
-                    .content-paragraph {
-                        font-size: 15px;
-                        margin-bottom: 0.875rem;
-                    }
-                    
-                    .content-list li {
-                        font-size: 15px;
+
+        
+        /* Mobile responsive adjustments */
+        @media (max-width: 768px) {
+            .content-header.h1 { font-size: 1.75rem; }
+                            .content-header.h2 { font-size: 1.25rem; /* Changed from 1.5rem to match chat page */ }
+        .content-header.h3 { font-size: 1rem; /* Changed from 1.25rem to match chat page */ }
+            .content-header.h4 { font-size: 1.125rem; }
+            .content-header.h5 { font-size: 1rem; }
+            .content-header.h6 { font-size: 0.95rem; }
+            
+            .content-paragraph {
+                font-size: 18px; /* Increased for better readability */
+                margin-bottom: 0.875rem;
+            }
+            
+            .content-list li {
+                        font-size: 18px; /* Increased for better readability */
                         margin-bottom: 0.7rem;
                         padding-right: 1.25rem;
                     }
                     
                     .code-block {
                         padding: 0.875rem;
-                        font-size: 13px;
+                        font-size: 16px; /* Increased for better readability */
                     }
                     
                     .inline-code {
-                        font-size: 13px;
+                        font-size: 16px; /* Increased for better readability */
                         padding: 0.2rem 0.4rem;
                     }
                     
                     .content-blockquote {
                         padding: 0.875rem 1.25rem;
-                        font-size: 15px;
+                        font-size: 18px; /* Increased for better readability */
                     }
                     
                     .callout-box {
@@ -1279,18 +1299,16 @@
                         margin: 1.25rem 0;
                     }
                 }
-          }
-         
-
-    </style>
+            }
+        </style>
 </head>
-         <body style="background-color: #fcf7f3;">
+         <body style="background-color: #F8F9FA;">
     <!-- Header -->
     <header class="fixed top-0 left-0 right-0 bg-gradient-to-r from-gray-50 via-gray-75 to-gray-50 border-b border-gray-200 z-50">
         <div class="flex justify-center items-center px-6 py-4 relative">
             <!-- Center: Page Title -->
             <div class="text-center">
-                <h1 class="text-xl font-bold text-gray-900">نتایج تحلیل سوال</h1>
+                <h1 class="text-2xl font-bold text-gray-900">نتایج تحلیل سوال</h1>
             </div>
             
             <!-- Right: Cross Logo (Back to Chapter) -->
@@ -1303,54 +1321,58 @@
     </header>
 
     <!-- Main Content -->
-         <main class="pt-20 pb-24 px-6" style="background-color: #fcf7f3;">
+         <main class="pt-20 pb-24 px-6" style="background-color: #F8F9FA;">
         <div class="max-w-4xl mx-auto">
             <!-- Results Section -->
-                         <div id="result-container" class="result-container shadow-2xl p-8 mb-8" onclick="toggleResults()">
+            <div id="result-container" class="result-container shadow-2xl p-8 mb-8" onclick="toggleResults()">
                 <div class="text-center mb-8">
-                    <h2 class="text-2xl font-bold text-gray-900 mb-6">نتیجه پاسخ شما</h2>
+                    <h2 class="text-3xl font-bold text-gray-900 mb-6">نتیجه پاسخ شما</h2>
                     
-                                         <!-- Result Display -->
-                     <div id="result-display" class="mb-8">
-                         <!-- Will be populated by JavaScript -->
-                     </div>
+                    <!-- Result Display -->
+                    <div id="result-display" class="mb-8">
+
+                         
+                        <!-- Loading State -->
+                        <div id="question-loading" class="hidden">
+                            <!-- Simple loading state for question results -->
+                            <div class="flex items-center justify-center space-x-3 space-x-reverse p-8">
+                                <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+                                <span class="text-gray-600 text-lg">در حال بررسی پاسخ شما...</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Results Content -->
+                        <div id="question-results">
+                            <!-- Results will be populated by JavaScript -->
+                        </div>
+                    </div>
                      
-                                           <!-- Analysis Request Button -->
-                      <div class="mb-8 text-center" style="display: block !important; visibility: visible !important; opacity: 1 !important;">
-                                                     <button id="analysis-btn" 
-                                   class="bg-blue-600 text-white font-bold py-4 px-12 rounded-full hover:bg-blue-700 transition-all shadow-lg text-xl mx-2"
-                                   onclick="event.stopPropagation(); requestAnalysis()"
-                                   style="display: inline-block !important; visibility: visible !important; opacity: 1 !important;">
-                               تحلیل سوال
-                           </button>
-                          
-                          <!-- Analysis button for detailed question analysis -->
-                      </div>
-                      
-                      
-                      
-                                         </div>
-                   
-                   <!-- Removed toggle button for simplicity -->
-               </div>
-               
-               <!-- Results container is now clickable for toggle functionality -->
- 
-               <!-- Detailed Analysis Section - Outside Results but on Main Page -->
-               <div id="detailed-analysis-section" class="hidden mt-8">
-                 <!-- Analysis Content -->
-                   <div id="analysis-content" class="p-8">
-                     <!-- Streaming content will appear here -->
-                     <div id="streaming-content"></div>
-                     
-                     <!-- AI-generated help questions will be rendered here dynamically -->
-                     <div id="ai-help-questions"></div>
-                 </div>
-                   
-                   <!-- Chat Messages Display Area - Seamlessly Integrated -->
-                   <div id="chat-messages" class="mt-0 space-y-3">
-                       <!-- Chat messages will appear here -->
-                 </div>
+                    <!-- Analysis Request Button -->
+                    <div class="mb-8 text-center">
+                        <button id="analysis-btn" 
+                                class="bg-blue-600 text-white font-bold py-4 px-12 rounded-full hover:bg-blue-700 transition-all shadow-lg text-2xl mx-2"
+                                onclick="event.stopPropagation(); requestAnalysis()">
+                            تحلیل سوال
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Detailed Analysis Section - Outside Results but on Main Page -->
+            <div id="detailed-analysis-section" class="hidden mt-8">
+                <!-- Analysis Content -->
+                <div id="analysis-content" class="p-8">
+                    <!-- Streaming content will appear here -->
+                    <div id="streaming-content"></div>
+                    
+                    <!-- AI-generated help questions will be rendered here dynamically -->
+                    <div id="ai-help-questions"></div>
+                </div>
+                
+                <!-- Chat Messages Display Area - Seamlessly Integrated -->
+                <div id="chat-messages" class="mt-0 space-y-3">
+                    <!-- Chat messages will appear here -->
+                </div>
                 
                 <!-- Error State -->
                 <div id="analysis-error" class="hidden text-center py-8">
@@ -1360,8 +1382,8 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                             </svg>
                         </div>
-                        <p class="text-red-800 font-semibold mb-2 text-lg">خطا در تحلیل سوال</p>
-                        <p class="text-red-600 mb-4">لطفاً دوباره تلاش کنید</p>
+                        <p class="text-red-800 font-semibold mb-2 text-xl">خطا در تحلیل سوال</p>
+                        <p class="text-red-600 mb-4 text-lg">لطفاً دوباره تلاش کنید</p>
                         <button onclick="requestAnalysis()" class="bg-red-600 text-white px-8 py-3 rounded-lg hover:bg-red-700 transition-colors font-medium">
                             تلاش مجدد
                         </button>
@@ -1371,6 +1393,8 @@
 
                          <!-- Floating Action Button (FAB) - Initially Hidden -->
              <div id="fab-container" class="fixed bottom-24 left-6 z-50 transition-all duration-500 transform scale-0 opacity-0">
+                 
+
                  <button id="fab-button" 
                          class="w-14 h-14 bg-gray-100 hover:bg-gray-200 rounded-2xl shadow-lg flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95 border border-gray-200"
                          title="پرسش جدید">
@@ -1380,12 +1404,7 @@
                  </button>
              </div>
              
-             <!-- Debug Test Button (Temporary) -->
-             <div class="fixed top-4 right-4 z-50">
-                 <button onclick="testSendMessage()" class="bg-red-500 text-white px-4 py-2 rounded">
-                     Test Send
-                 </button>
-             </div>
+
              
                            <!-- Chat Input Section - Initially Hidden -->
               <div id="chat-input-section" class="fixed bottom-0 left-0 right-0 bg-transparent transition-all duration-300 transform translate-y-full opacity-0" style="z-index: 50;">
@@ -1395,7 +1414,7 @@
                           <div class="relative w-full max-w-2xl">
                               <textarea 
                                   id="chat-input-field" 
-                                  class="user-input w-full px-5 py-4 pr-20 resize-none text-gray-900 placeholder-gray-500 text-lg transition-all duration-200"
+                                  class="user-input w-full px-5 py-4 pr-20 resize-none text-gray-900 placeholder-gray-500 text-xl transition-all duration-200"
                                   placeholder="...Learn anything"
                                   rows="1"
                                   oninput="autoResize(this)"
@@ -1408,9 +1427,8 @@
                               <!-- Send Button - Hidden initially, shown on input focus -->
                               <button 
                                   id="send-chat-button"
-                                  class="absolute right-2 top-1/2 transform -translate-y-1/2 w-16 h-16 bg-gray-400 hover:bg-black text-white rounded-full transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center opacity-0 pointer-events-none transform scale-75 z-10"
-                                  onclick="sendCustomQuestion()"
-                                  style="pointer-events: auto;"
+                                  class="absolute right-2 top-1/2 w-16 h-16 bg-gray-400 text-white rounded-full transition-all duration-200 flex items-center justify-center z-20"
+                                  style="opacity: 0; pointer-events: none; transform: translateY(-50%) scale(0.75);"
                               >
                                   <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
@@ -1425,7 +1443,7 @@
     </main>
 
     <!-- Bottom Mobile Navigation -->
-    <nav id="bottom-navigation" class="fixed bottom-0 left-0 right-0 z-50 transition-opacity duration-300" style="background-color: #f5f5f5;">
+    <nav id="bottom-navigation" class="fixed bottom-0 left-0 right-0 bg-[#e8e8e4] z-50 transition-opacity duration-300">
         <div class="flex justify-around items-center py-4 px-6">
             <!-- Chat Icon (Document with Pencil) -->
             <button class="flex flex-col items-center justify-center p-3 rounded-2xl transition-all duration-300 hover:bg-gray-100/40 active:scale-90 hover:scale-105" onclick="window.location.href='index.html'">
@@ -1441,7 +1459,7 @@
                         <path d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/>
                     </svg>
                 </div>
-                <span class="text-xs text-gray-400 mt-1">چت</span>
+                                        <span class="text-xs text-gray-400 mt-1">چت</span>
             </button>
             
             <!-- Library Icon -->
@@ -1449,7 +1467,7 @@
                 <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                     <path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
                 </svg>
-                <span class="text-xs text-gray-400 mt-1">کتابخانه</span>
+                                        <span class="text-xs text-gray-400 mt-1">کتابخانه</span>
             </button>
             
             <!-- Analysis/Test Icon (Checkmark) -->
@@ -1459,7 +1477,7 @@
                         <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
                 </svg>
                 </div>
-                <span class="text-xs text-blue-600 mt-1 font-medium">تحلیل</span>
+                                        <span class="text-xs text-blue-600 mt-1 font-medium">تحلیل</span>
             </button>
         </div>
     </nav>
@@ -1538,30 +1556,37 @@
             console.log('🗑️ Conversation history cleared');
         }
         
-        // Get URL parameters and decode data
+                // Get URL parameters and decode data
         function getUrlParams() {
             const urlParams = new URLSearchParams(window.location.search);
             const dataParam = urlParams.get('data');
+            
+            console.log('🔍 getUrlParams() called');
+            console.log('📊 URL data param:', dataParam);
             
             if (dataParam) {
                 try {
                     questionData = JSON.parse(decodeURIComponent(dataParam));
                     currentSubject = questionData.subject;
+                    console.log('✅ Question data parsed successfully:', questionData);
+                    console.log('🚀 About to call displayResults()...');
                     displayResults();
                 } catch (error) {
                     console.error('Error parsing data:', error);
                     alert('خطا در بارگذاری اطلاعات سوال');
                 }
-                         } else {
-                 console.log('⚠️ No question data found in URL');
-                 alert('اطلاعات سوال یافت نشد');
-                 goBack();
-             }
+            } else {
+                console.log('⚠️ No question data found in URL');
+                alert('اطلاعات سوال یافت نشد');
+                goBack();
+            }
         }
 
         // Display the results
         async function displayResults() {
             if (!questionData) return;
+
+            console.log('🚀 displayResults() called with questionData:', questionData);
 
             // Apply subject-specific styling
             const container = document.getElementById('result-container');
@@ -1571,11 +1596,26 @@
                 container.classList.remove('biology');
             }
             
-            // Get AI evaluation of the answer
+            console.log('🚀 displayResults() called, about to show loading state...');
+            
+            // Show loading state
+            showQuestionLoading();
+            
+            console.log('⏳ Loading state shown, starting AI evaluation...');
+            
+            // Get AI evaluation of the answer with timeout
             try {
-                await getAIResultEvaluation();
+                const timeoutPromise = new Promise((_, reject) => {
+                    setTimeout(() => reject(new Error('AI evaluation timed out')), 15000); // 15 second timeout
+                });
+                
+                await Promise.race([
+                    getAIResultEvaluation(),
+                    timeoutPromise
+                ]);
             } catch (error) {
-                console.error('Error getting AI evaluation:', error);
+                console.error('❌ AI evaluation failed or timed out:', error);
+                console.log('🔄 Falling back to static result display...');
                 // Fallback to static display
                 showStaticResult();
             }
@@ -1593,6 +1633,17 @@
                     chapter: questionData.chapter
                 };
                 
+                console.log('🚀 Starting AI evaluation for:', questionData.question);
+                console.log('📊 User answer:', questionData.userAnswer, 'Correct answer:', questionData.correctAnswer);
+                
+                // First check if backend is accessible
+                try {
+                    const testResponse = await fetch('/api/chat/result-evaluation', { method: 'HEAD' });
+                    console.log('🔍 Backend accessibility test:', testResponse.status);
+                } catch (testError) {
+                    console.log('⚠️ Backend might not be running or accessible');
+                }
+                
                 const response = await fetch('/api/chat/result-evaluation', {
                     method: 'POST',
                     headers: {
@@ -1601,60 +1652,127 @@
                     body: JSON.stringify(evaluationData)
                 });
                 
+                console.log('📡 Response status:', response.status);
+                
                 if (!response.ok) {
-                    throw new Error('خطا در ارتباط با سرور');
+                    throw new Error(`خطا در ارتباط با سرور: ${response.status}`);
                 }
                 
                 const result = await response.json();
+                console.log('✅ AI evaluation successful:', result);
                 displayAIResult(result.content);
                 
             } catch (error) {
-                console.error('AI evaluation error:', error);
+                console.error('❌ AI evaluation failed:', error);
                 throw error;
             }
         }
         
+        // Show loading state for question results
+        function showQuestionLoading() {
+            console.log('🔄 Showing question loading state...');
+            const questionLoading = document.getElementById('question-loading');
+            const questionResults = document.getElementById('question-results');
+            
+            console.log('🔍 Elements found:', {
+                questionLoading: questionLoading,
+                questionResults: questionResults
+            });
+            
+            // Check if elements exist
+            if (!questionLoading || !questionResults) {
+                console.error('❌ Loading state elements not found');
+                return;
+            }
+            
+            // Hide results content and show loading
+            questionResults.classList.add('hidden');
+            questionLoading.classList.remove('hidden');
+            
+            console.log('✅ Question loading state shown successfully');
+            console.log('👁️ Loading element classes:', questionLoading.className);
+            console.log('👁️ Results element classes:', questionResults.className);
+        }
+        
         // Display AI-generated result
         function displayAIResult(content) {
-            const resultDisplay = document.getElementById('result-display');
+            console.log('🎯 Displaying AI result...');
+            console.log('📝 AI content received:', content.substring(0, 100) + '...');
             
-            // Parse the AI response to determine if answer is correct (check for Persian words)
-            const isCorrect = content.includes('صحیح') || content.includes('درست');
-            const colorClass = isCorrect ? 'green' : 'red';
+            const questionLoading = document.getElementById('question-loading');
+            const questionResults = document.getElementById('question-results');
             
-            // Convert numbered lists to bullet points and format content
-            let formattedContent = content
-                .replace(/^\d+\.\s+/gm, '• ') // Convert numbered lists to bullet points
-                .replace(/\n/g, '<br>');
+            console.log('🔍 Elements found for AI result:', {
+                questionLoading: questionLoading,
+                questionResults: questionResults
+            });
             
-            resultDisplay.innerHTML = `
-                <div class="bg-${colorClass}-50 rounded-xl p-6 border border-${colorClass}-200 mb-6">
-                    <div class="flex items-center justify-center space-x-4 space-x-reverse">
-                        <div class="w-12 h-12 bg-${colorClass}-100 rounded-full flex items-center justify-center">
-                            <svg class="w-7 h-7 text-${colorClass}-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                ${isCorrect ? 
-                                    '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>' :
-                                    '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>'
-                                }
-                            </svg>
-                        </div>
-                        <div class="text-center">
-                            <div class="analysis-content text-xl font-semibold text-black">
-                                ${formattedContent}
+            // Check if elements exist
+            if (!questionLoading || !questionResults) {
+                console.error('❌ Result display elements not found');
+                return;
+            }
+            
+            // Add a small delay to make loading state more visible
+            setTimeout(() => {
+                // Hide loading and show results
+                questionLoading.classList.add('hidden');
+                questionResults.classList.remove('hidden');
+                console.log('✅ Loading hidden, AI results shown');
+                
+                // Parse the AI response to determine if answer is correct (check for Persian words)
+                const isCorrect = content.includes('صحیح') || content.includes('درست');
+                const colorClass = isCorrect ? 'green' : 'red';
+                
+                console.log('📊 AI result analysis:', { isCorrect, colorClass });
+                
+                // Convert numbered lists to bullet points and format content
+                let formattedContent = content
+                    .replace(/^\d+\.\s+/gm, '• ') // Convert numbered lists to bullet points
+                    .replace(/\n/g, '<br>');
+                
+                questionResults.innerHTML = `
+                    <div class="bg-${colorClass}-50 rounded-xl p-6 border border-${colorClass}-200 mb-6">
+                        <div class="flex items-center justify-center space-x-4 space-x-reverse">
+                            <div class="w-12 h-12 bg-${colorClass}-100 rounded-full flex items-center justify-center">
+                                <svg class="w-7 h-7 text-${colorClass}-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    ${isCorrect ? 
+                                        '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>' :
+                                        '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>'
+                                    }
+                                </svg>
+                            </div>
+                            <div class="text-center">
+                                <div class="analysis-content text-xl font-semibold text-black">
+                                    ${formattedContent}
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            `;
+                `;
+            }, 1000); // Show loading for at least 1 second
         }
         
         // Fallback to static result display
         function showStaticResult() {
+            console.log('🔄 Showing static result...');
+            const questionLoading = document.getElementById('question-loading');
+            const questionResults = document.getElementById('question-results');
+            
+            // Check if elements exist
+            if (!questionLoading || !questionResults) {
+                console.error('❌ Static result display elements not found');
+                return;
+            }
+            
+            // Hide loading and show results
+            questionLoading.classList.add('hidden');
+            questionResults.classList.remove('hidden');
+            console.log('✅ Loading hidden, static results shown');
+            
             const isCorrect = questionData.userAnswer === questionData.correctAnswer;
             const colorClass = isCorrect ? 'green' : 'red';
-            
-            const resultDisplay = document.getElementById('result-display');
-            resultDisplay.innerHTML = `
+            questionResults.innerHTML = `
                 <div class="bg-${colorClass}-50 rounded-xl p-6 border border-${colorClass}-200 mb-6">
                     <div class="flex items-center justify-center space-x-4 space-x-reverse">
                         <div class="w-12 h-12 bg-${colorClass}-100 rounded-full flex items-center justify-center">
@@ -1686,6 +1804,8 @@
             const option = questionData.options[choiceIndex];
             return option.substring(option.indexOf('.') + 1).trim();
         }
+        
+
 
                  // Request analysis from LLM API
          async function requestAnalysis() {
@@ -1751,8 +1871,8 @@
                  </div>
              `;
             
-                // Show the FAB early to indicate it's available
-                showFloatingActionButton();
+                // FAB button will be shown only when helper questions are sent
+                // hideFloatingActionButton(); // Keep hidden until helper questions are used
                 
                 // Start the API request after showing the analysis section
                 startAnalysisRequest();
@@ -1894,7 +2014,7 @@
               let formatted = content;
               
               // Replace line breaks with proper HTML
-              formatted = formatted.replace(/\n\n/g, '</p><p>');
+              formatted = formatted.replace(/\n\n/g, '</p><p class="content-paragraph">');
               formatted = formatted.replace(/\n/g, '<br>');
               
               // Smart bullet point detection - only convert actual list items
@@ -1918,8 +2038,8 @@
               
               formatted = processedLines.join('<br>');
               
-              // Add paragraph tags
-              formatted = `<p>${formatted}</p>`;
+              // Add paragraph tags with proper font size class
+              formatted = `<p class="content-paragraph">${formatted}</p>`;
               
               // Add special styling for structured sections with clean formatting
               formatted = formatted
@@ -1989,6 +2109,40 @@
                         const htmlEndQuestionsPattern = /<br>\s*(?:Related Questions|سوالات مرتبط|سوالات کمکی|سوالات مشابه|سوالات)\s*:?\s*<br>((?:-\s*[^<]+<br>)+)\s*$/gi;
                         cleanedContent = cleanedContent.replace(htmlEndQuestionsPattern, '');
                         
+                        // Strategy 5: Remove the specific pattern we found in the AI response
+                        // This removes the pattern: "حالا بیایید تمرین کنیم تا مطمئن شویم مفهوم را خوب فهمیده‌ایم:" + questions
+                        const exercisePattern = /حالا بیایید تمرین کنیم تا مطمئن شویم مفهوم را خوب فهمیده‌ایم\s*:?\s*<br>((?:-\s*[^<]+<br>)+)/gi;
+                        cleanedContent = cleanedContent.replace(exercisePattern, '');
+                        
+                        // Strategy 6: Remove any remaining dash-prefixed questions at the end
+                        // This catches the specific format: "- سوال؟- سوال؟- سوال؟- سوال؟"
+                        const remainingQuestionsPattern = /<br>\s*-\s*[^<]+(?:-\s*[^<]+)*<br>\s*$/gi;
+                        cleanedContent = cleanedContent.replace(remainingQuestionsPattern, '');
+                        
+                        // Strategy 7: Remove ONLY the specific question section at the end (much safer)
+                        // This targets only the very end where questions appear, not the main content
+                        const endQuestionSectionPattern = /<br>\s*حالا بیایید تمرین کنیم تا مطمئن شویم مفهوم را خوب فهمیده‌ایم\s*:?\s*<br>((?:-\s*[^<]+<br>)+)\s*$/gi;
+                        cleanedContent = cleanedContent.replace(endQuestionSectionPattern, '');
+                        
+                        // Strategy 8: Remove any trailing questions that are clearly at the end
+                        // This is much more conservative and only removes questions at the very end
+                        const trailingQuestionsPattern = /<br>\s*-\s*[^<]+(?:<br>\s*-\s*[^<]+)*\s*$/gi;
+                        cleanedContent = cleanedContent.replace(trailingQuestionsPattern, '');
+                        
+                        // Strategy 9: SUPER SAFE - Only remove the very specific format at the very end
+                        // Look for the exact pattern: "حالا بیایید تمرین کنیم" followed by 4 dash questions
+                        const exactExercisePattern = /حالا بیایید تمرین کنیم تا مطمئن شویم مفهوم را خوب فهمیده‌ایم\s*:?\s*<br>\s*-\s*[^<]+<br>\s*-\s*[^<]+<br>\s*-\s*[^<]+<br>\s*-\s*[^<]+/gi;
+                        cleanedContent = cleanedContent.replace(exactExercisePattern, '');
+                        
+                        // Strategy 10: SUPER SAFE - Only remove if we see exactly 4 dash questions in sequence
+                        // This is much more conservative and only targets the specific case
+                        const fourDashPattern = /(?:<br>\s*-\s*[^<]+){4,}/gi;
+                        if (fourDashPattern.test(cleanedContent)) {
+                            // Only remove if we have exactly 4+ dash questions AND they're at the end
+                            const endFourDashPattern = /(?:<br>\s*-\s*[^<]+){4,}\s*$/gi;
+                            cleanedContent = cleanedContent.replace(endFourDashPattern, '');
+                        }
+                        
                         // Clean up any trailing empty lines or br tags
                         cleanedContent = cleanedContent.replace(/[\r\n\s]+$/, '');
                         cleanedContent = cleanedContent.replace(/<br>\s*$/i, '');
@@ -1996,6 +2150,8 @@
                         console.log('✅ Removed ONLY helper questions section from main content');
                         console.log('✅ Preserved main analysis content with structured sections');
                         console.log('✅ Content length before:', content.length, 'after:', cleanedContent.length);
+                        console.log('🔍 DEBUG: Original content preview:', content.substring(Math.max(0, content.length - 500)));
+                        console.log('🔍 DEBUG: Cleaned content preview:', cleanedContent.substring(Math.max(0, cleanedContent.length - 500)));
                     }
                     
                     // Now format the cleaned content for display
@@ -2019,8 +2175,8 @@
                        renderQuestionsUI(questions);
                    }
                     
-                    // Show the Floating Action Button after analysis is complete
-                    showFloatingActionButton();
+                    // FAB button will be shown only when helper questions are sent
+                    // showFloatingActionButton(); // Keep hidden until helper questions are used
                } else {
                    console.error('analysis-content element not found in formatFinalAnalysis');
                }
@@ -2235,7 +2391,7 @@
             let formatted = content;
             
             // Replace line breaks with proper HTML
-            formatted = formatted.replace(/\n\n/g, '</p><p>');
+            formatted = formatted.replace(/\n\n/g, '</p><p class="content-paragraph">');
             formatted = formatted.replace(/\n/g, '<br>');
             
             // Add special styling for structured sections with clean formatting
@@ -2249,8 +2405,8 @@
             // Close the last section
             formatted += '</div>';
             
-            // Add paragraph tags
-            formatted = `<p>${formatted}</p>`;
+            // Add paragraph tags with proper font size class
+            formatted = `<p class="content-paragraph">${formatted}</p>`;
             
             // Clean up any extra formatting
             formatted = formatted.replace(/<p><\/p>/g, '');
@@ -2263,82 +2419,39 @@
             let formatted = content;
             
             // Basic streaming formatting - just handle line breaks and basic structure
-            formatted = formatted.replace(/\n\n/g, '</p><p>');
+            formatted = formatted.replace(/\n\n/g, '</p><p class="content-paragraph">');
             formatted = formatted.replace(/\n/g, '<br>');
             
-            // Wrap in paragraph tags
-            formatted = `<p>${formatted}</p>`;
+            // Wrap in paragraph tags with proper font size class
+            formatted = `<p class="content-paragraph">${formatted}</p>`;
             
             return formatted;
         }
         
-        // Function to format helper question responses with proper HTML structure
+        // Function to format helper question responses - SIMPLE SYSTEM LIKE DETAILED ANALYSIS
+        // Only handles bullet points and numbered lists, NO markdown formatting
         function formatHelperQuestionResponse(content) {
             let formatted = content;
             
-            // Step 1: Handle headers (h1-h6)
-            formatted = formatted.replace(/^# (.+)$/gm, '<h1 class="content-header h1">$1</h1>');
-            formatted = formatted.replace(/^## (.+)$/gm, '<h2 class="content-header h2">$1</h2>');
-            formatted = formatted.replace(/^### (.+)$/gm, '<h3 class="content-header h3">$1</h3>');
-            formatted = formatted.replace(/^#### (.+)$/gm, '<h4 class="content-header h4">$1</h4>');
-            formatted = formatted.replace(/^##### (.+)$/gm, '<h5 class="content-header h5">$1</h5>');
-            formatted = formatted.replace(/^###### (.+)$/gm, '<h6 class="content-header h6">$1</h6>');
+            // Replace line breaks with proper HTML (same as detailed analysis)
+            formatted = formatted.replace(/\n\n/g, '</p><p class="content-paragraph">');
+            formatted = formatted.replace(/\n/g, '<br>');
             
-            // Step 2: Handle bold and italics
-            formatted = formatted.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
-            formatted = formatted.replace(/\*(.+?)\*/g, '<em>$1</em>');
-            
-            // Step 3: Handle special Persian callout boxes FIRST (before other processing)
-            formatted = formatted.replace(/(نکته:|توجه:|هشدار:|مهم:)([^•\n]+?)(?=•|$|\n|نکته:|توجه:|هشدار:|مهم:)/g, '<div class="callout-box"><strong>$1</strong>$2</div>');
-            
-            // Step 4: Handle bullet points with • (Persian/Arabic text format)
-            formatted = formatted.replace(/•\s+([^•\n]+?)(?=•|$|\n)/g, '<li>$1</li>');
-            // Group consecutive bullet list items into <ul> tags
-            formatted = formatted.replace(/(<li>.*<\/li>)/s, '<ul class="content-list">$1</ul>');
-            
-            // Step 5: Handle unordered lists (dash/asterisk format)
-            formatted = formatted.replace(/^[-*]\s+(.+)$/gm, '<li>$1</li>');
+            // Handle bullet points (dash format) - convert to HTML lists
+            formatted = formatted.replace(/^-\s+(.+)$/gm, '<li>$1</li>');
             // Group consecutive list items into <ul> tags
             formatted = formatted.replace(/(<li>.*<\/li>)/s, '<ul class="content-list">$1</ul>');
             
-            // Step 6: Handle ordered lists (numbered)
+            // Handle numbered lists (1. 2. 3.) - convert to HTML lists
             formatted = formatted.replace(/^(\d+)\.\s+(.+)$/gm, '<li>$1. $2</li>');
             // Group consecutive numbered list items into <ol> tags
             formatted = formatted.replace(/(<li>\d+\.\s+.*<\/li>)/s, '<ol class="content-list">$1</ol>');
             
-            // Step 7: Handle code blocks
-            formatted = formatted.replace(/```([\s\S]*?)```/g, '<pre class="code-block"><code>$1</code></pre>');
-            
-            // Step 8: Handle inline code
-            formatted = formatted.replace(/`([^`]+)`/g, '<code class="inline-code">$1</code>');
-            
-            // Step 9: Handle links
-            formatted = formatted.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" class="content-link" target="_blank" rel="noopener">$1</a>');
-            
-            // Step 10: Handle blockquotes
-            formatted = formatted.replace(/^>\s+(.+)$/gm, '<blockquote class="content-blockquote">$1</blockquote>');
-            
-            // Step 11: Handle horizontal rules
-            formatted = formatted.replace(/^---$/gm, '<hr class="content-hr">');
-            
-            // Step 12: Handle remaining text as paragraphs
-            // Split by double line breaks and wrap in <p> tags
-            const paragraphs = formatted.split(/\n\n+/);
-            const formattedParagraphs = paragraphs.map(para => {
-                para = para.trim();
-                // Only wrap in <p> if it's not already wrapped in HTML tags
-                if (para && !para.startsWith('<') && !para.startsWith('•') && !para.match(/^\d+\./)) {
-                    return `<p class="content-paragraph">${para}</p>`;
-                }
-                return para;
-            }).filter(para => para.trim());
-            
-            // Join everything together
-            formatted = formattedParagraphs.join('\n\n');
+            // Add paragraph tags with proper font size class (same as detailed analysis)
+            formatted = `<p class="content-paragraph">${formatted}</p>`;
             
             // Clean up any extra formatting
             formatted = formatted.replace(/<p><\/p>/g, '');
-            formatted = formatted.replace(/\n\n+/g, '\n\n');
             
             return formatted;
         }
@@ -2357,16 +2470,32 @@
 
         // Initialize page
         document.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 DOMContentLoaded event fired');
+            console.log('📱 Page initialization starting...');
+            
             getUrlParams();
+            
+            console.log('📊 After getUrlParams(), questionData:', questionData);
             
             // Ensure FAB is hidden initially
             hideFloatingActionButton();
+            
+            // Initialize loading state - hide loading, show results container
+            const questionLoading = document.getElementById('question-loading');
+            const questionResults = document.getElementById('question-results');
+            if (questionLoading && questionResults) {
+                questionLoading.classList.add('hidden');
+                questionResults.classList.remove('hidden');
+                console.log('✅ Question elements initialized');
+            }
             
             // Add mobile-specific touch event handling
             if ('ontouchstart' in window) {
                 console.log('Mobile device detected, adding touch optimizations');
                 addMobileTouchHandling();
             }
+            
+            console.log('🎯 Page initialization complete');
         });
         
         // Add mobile-specific touch event handling
@@ -2456,9 +2585,18 @@
             // - [Question 3]
             // - [Question 4]
             const questions = extractRelatedQuestions(content);
+            console.log('🔍 DEBUG: Content passed to extractRelatedQuestions:', content);
+            console.log('🔍 DEBUG: Questions returned:', questions);
+            console.log('🔍 DEBUG: Questions type:', typeof questions);
+            console.log('🔍 DEBUG: Is array:', Array.isArray(questions));
             
             if (questions && questions.length > 0) {
                 console.log('✅ Found AI-generated questions:', questions);
+                console.log('🔍 DEBUG: Questions array details:', {
+                    length: questions.length,
+                    firstQuestion: questions[0],
+                    lastQuestion: questions[questions.length - 1]
+                });
                 renderQuestionsUI(questions);
             } else {
                 console.log('❌ No AI questions found - not rendering helper questions');
@@ -2474,72 +2612,131 @@
                 console.log('🔍 Content length:', content.length);
                 console.log('🔍 Content preview (last 1000 chars):', content.substring(Math.max(0, content.length - 1000)));
                 
-                // The AI generates questions in various formats:
-                // Format 1: English header
-                // Related Questions:
-                // - [Question 1]
-                // - [Question 2]
-                // - [Question 3]
-                // - [Question 4]
-                // - [Question 5] (could be more than 4!)
+                // SUPER AGGRESSIVE HTML CLEANING - Remove ALL HTML content first
+                let cleanContent = content;
                 
-                // Format 2: Persian headers
-                // سوالات مرتبط:
-                // - [Question 1]
-                // - [Question 2]
-                // - [Question 3]
+                // Remove all HTML tags and their content
+                cleanContent = cleanContent.replace(/<[^>]*>/g, '');
                 
-                // Strategy 1: Look for the "Related Questions:" section (English header) in HTML content
-                let relatedQuestionsMatch = content.match(/Related Questions:\s*<br>((?:-\s*[^<]+(?:<br>|$))+)/i);
-                console.log('🔍 Strategy 1 - English header match:', relatedQuestionsMatch);
+                // Remove any remaining HTML entities
+                cleanContent = cleanContent.replace(/&[a-zA-Z0-9#]+;/g, '');
                 
-                if (!relatedQuestionsMatch) {
-                    // Strategy 2: Look for Persian text that might indicate questions section in HTML content
-                    const persianPatterns = [
-                        /سوالات مرتبط\s*:?\s*<br>((?:-\s*[^<]+(?:<br>|$))+)/i,
-                        /سوالات کمکی\s*:?\s*<br>((?:-\s*[^<]+(?:<br>|$))+)/i,
-                        /سوالات مشابه\s*:?\s*<br>((?:-\s*[^<]+(?:<br>|$))+)/i,
-                        /سوالات\s*:?\s*<br>((?:-\s*[^<]+(?:<br>|$))+)/i
-                    ];
+                // Remove any JavaScript code or attributes
+                cleanContent = cleanContent.replace(/on\w+\s*=\s*["'][^"']*["']/g, '');
+                cleanContent = cleanContent.replace(/style\s*=\s*["'][^"']*["']/g, '');
+                cleanContent = cleanContent.replace(/class\s*=\s*["'][^"']*["']/g, '');
+                cleanContent = cleanContent.replace(/id\s*=\s*["'][^"']*["']/g, '');
+                
+                // Remove any remaining HTML attributes
+                cleanContent = cleanContent.replace(/\s+\w+\s*=\s*["'][^"']*["']/g, '');
+                
+                // Remove any remaining quotes or special characters that might be left
+                cleanContent = cleanContent.replace(/['"]/g, '');
+                cleanContent = cleanContent.replace(/\)/g, '');
+                
+                // Clean up any extra whitespace
+                cleanContent = cleanContent.replace(/\s+/g, ' ').trim();
+                
+                console.log('🔍 Cleaned content preview:', cleanContent.substring(Math.max(0, cleanContent.length - 500)));
+                
+                // Now look for questions in the cleaned content
+                // Strategy 1: Look for lines starting with "-" that look like questions
+                const dashQuestions = cleanContent.match(/-\s*([^\r\n]+)/g);
+                console.log('🔍 All dash lines found:', dashQuestions);
+                
+                if (dashQuestions && dashQuestions.length > 0) {
+                    // Filter for question-like content
+                    const filteredQuestions = dashQuestions
+                        .map(q => {
+                            // Remove the dash prefix and clean up
+                            let cleanQuestion = q.replace(/^-\s*/, '').trim();
+                            
+                            // Clean up any extra whitespace
+                            cleanQuestion = cleanQuestion.replace(/\s+/g, ' ').trim();
+                            
+                            return cleanQuestion;
+                        })
+                        .filter(q => {
+                            const length = q.length;
+                            const hasQuestionMark = q.includes('؟') || q.includes('?');
+                            const looksLikeQuestion = q.match(/^(چه|چرا|چگونه|کدام|آیا|چطور|کجا|کی|چند|کدام|مثال|تفاوت|نقش|عملکرد|مکانیزم|فرآیند|مراحل|مرحله|گام|قدم|کدام یک|چگونه|آیا|چرا|کجا|کی|چند|مثال|تفاوت|نقش|عملکرد|مکانیزم|فرآیند|مراحل|مرحله|گام|قدم)/);
+                            
+                            // Accept if it's a reasonable length and either has question mark or looks like a question
+                            return length > 8 && length < 300 && (hasQuestionMark || looksLikeQuestion);
+                        });
                     
-                    for (const pattern of persianPatterns) {
-                        relatedQuestionsMatch = content.match(pattern);
-                        if (relatedQuestionsMatch) {
-                            console.log('✅ Found Persian questions section with pattern:', pattern);
-                            break;
-                        }
+                    console.log('🔍 Filtered questions:', filteredQuestions);
+                    
+                    if (filteredQuestions.length > 0) {
+                        console.log('✅ Found questions after aggressive cleaning:', filteredQuestions);
+                        
+                        // Check if any question contains multiple questions separated by dashes
+                        const finalQuestions = [];
+                        filteredQuestions.forEach(question => {
+                            // Split by dash if the question contains multiple questions
+                            if (question.includes('-')) {
+                                const splitQuestions = question.split('-').map(q => q.trim()).filter(q => q.length > 5);
+                                finalQuestions.push(...splitQuestions);
+                            } else {
+                                finalQuestions.push(question);
+                            }
+                        });
+                        
+                        console.log('🔍 Final split questions:', finalQuestions);
+                        return finalQuestions;
                     }
                 }
                 
-                if (relatedQuestionsMatch) {
-                    console.log('✅ Found Related Questions section');
-                    const questionsText = relatedQuestionsMatch[1];
-                    console.log('🔍 Questions text:', questionsText);
-                    
-                    // Extract ALL individual questions (lines starting with "-") from HTML content
-                    const questionMatches = questionsText.match(/-\s*([^<]+?)(?=<br>|$)/g);
-                    console.log('🔍 Question matches:', questionMatches);
-                    
-                    if (questionMatches && questionMatches.length > 0) {
-                        const questions = questionMatches.map(q => 
-                            q.replace(/^-\s*/, '').trim()
-                        ).filter(q => q.length > 5 && q.length < 300); // More flexible length filter
+                // Strategy 2: Look for any text that looks like a question (fallback)
+                console.log('🔍 Strategy 2 - Looking for question-like text...');
+                const questionPatterns = [
+                    /([^.!?؟]*[؟?][^.!?؟]*)/g,  // Text ending with question mark
+                    /([^.!?؟]*\b(چه|چرا|چگونه|کدام|آیا|چطور|کجا|کی|چند|مثال|تفاوت|نقش|عملکرد|مکانیزم|فرآیند|مراحل|مرحله|گام|قدم)\b[^.!?؟]*)/g  // Text starting with question words
+                ];
+                
+                for (const pattern of questionPatterns) {
+                    const matches = cleanContent.match(pattern);
+                    if (matches && matches.length > 0) {
+                        const questions = matches
+                            .map(q => q.trim())
+                            .filter(q => q.length > 10 && q.length < 200);
                         
-                        console.log('✅ Extracted questions:', questions);
-                        console.log('🔍 Number of questions found:', questions.length);
-                        return questions;
+                        if (questions.length > 0) {
+                            console.log('✅ Found questions with pattern matching:', questions);
+                            return questions.slice(0, 4); // Limit to 4 questions
+                        }
                     }
                 }
                 
                 // Strategy 3: Look for any lines starting with "-" that look like questions in HTML content
                 console.log('🔍 Strategy 3 - Looking for dash-prefixed lines in HTML...');
-                const dashQuestions = content.match(/-\s*([^<]+)/g);
-                console.log('🔍 All dash lines found:', dashQuestions);
+                const dashQuestionsHTML = content.match(/-\s*([^<]+)/g);
+                console.log('🔍 All dash lines found:', dashQuestionsHTML);
                 
-                if (dashQuestions && dashQuestions.length > 0) {
+                if (dashQuestionsHTML && dashQuestionsHTML.length > 0) {
                     // More flexible filtering - look for question-like content
-                    const filteredQuestions = dashQuestions
-                        .map(q => q.replace(/^-\s*/, '').trim())
+                    const filteredQuestions = dashQuestionsHTML
+                        .map(q => {
+                            // Clean the question text by removing HTML tags and extra content
+                            let cleanQuestion = q.replace(/^-\s*/, '').trim();
+                            
+                            // Remove any HTML tags that might have been included
+                            cleanQuestion = cleanQuestion.replace(/<[^>]*>/g, '');
+                            
+                            // Remove any JavaScript code or attributes that might have leaked in
+                            cleanQuestion = cleanQuestion.replace(/on\w+\s*=\s*["'][^"']*["']/g, '');
+                            cleanQuestion = cleanQuestion.replace(/style\s*=\s*["'][^"']*["']/g, '');
+                            cleanQuestion = cleanQuestion.replace(/class\s*=\s*["'][^"']*["']/g, '');
+                            cleanQuestion = cleanQuestion.replace(/id\s*=\s*["'][^"']*["']/g, '');
+                            
+                            // Remove any remaining HTML attributes
+                            cleanQuestion = cleanQuestion.replace(/\s+\w+\s*=\s*["'][^"']*["']/g, '');
+                            
+                            // Clean up any extra whitespace
+                            cleanQuestion = cleanQuestion.replace(/\s+/g, ' ').trim();
+                            
+                            return cleanQuestion;
+                        })
                         .filter(q => {
                             const length = q.length;
                             const hasQuestionMark = q.includes('؟') || q.includes('?');
@@ -2553,7 +2750,54 @@
                     
                     if (filteredQuestions.length > 0) {
                         console.log('✅ Found dash questions as fallback:', filteredQuestions);
-                        return filteredQuestions;
+                        
+                        // Check if any question contains multiple questions separated by dashes
+                        const finalQuestions = [];
+                        filteredQuestions.forEach(question => {
+                            // Split by dash if the question contains multiple questions
+                            if (question.includes('-')) {
+                                const splitQuestions = question.split('-').map(q => q.trim()).filter(q => q.length > 5);
+                                finalQuestions.push(...splitQuestions);
+                            } else {
+                                finalQuestions.push(question);
+                            }
+                        });
+                        
+                        console.log('🔍 Final split questions (Strategy 3):', finalQuestions);
+                        return finalQuestions;
+                    }
+                    
+                    // If still no clean questions, try aggressive cleaning
+                    console.log('🔍 Trying aggressive cleaning for dash questions...');
+                    const aggressiveDashQuestions = dashQuestionsHTML.map(q => {
+                        // Remove the dash prefix
+                        let cleanQuestion = q.replace(/^-\s*/, '').trim();
+                        
+                        // Remove ALL HTML content - everything from first < to end
+                        const firstTagIndex = cleanQuestion.indexOf('<');
+                        if (firstTagIndex !== -1) {
+                            cleanQuestion = cleanQuestion.substring(0, firstTagIndex);
+                        }
+                        
+                        // Remove any remaining quotes or special characters that might be left
+                        cleanQuestion = cleanQuestion.replace(/['"]/g, '');
+                        cleanQuestion = cleanQuestion.replace(/\)/g, '');
+                        
+                        // Clean up any extra whitespace
+                        cleanQuestion = cleanQuestion.replace(/\s+/g, ' ').trim();
+                        
+                        return cleanQuestion;
+                    }).filter(q => {
+                        const length = q.length;
+                        const hasQuestionMark = q.includes('؟') || q.includes('?');
+                        const looksLikeQuestion = q.match(/^(چه|چرا|چگونه|کدام|آیا|چطور|کجا|کی|چند|کدام|مثال|تفاوت|نقش|عملکرد|مکانیزم|فرآیند|مراحل|مرحله|گام|قدم)/);
+                        
+                        return length > 8 && length < 300 && (hasQuestionMark || looksLikeQuestion);
+                    });
+                    
+                    if (aggressiveDashQuestions.length > 0) {
+                        console.log('✅ Found dash questions with aggressive cleaning:', aggressiveDashQuestions);
+                        return aggressiveDashQuestions;
                     }
                 }
                 
@@ -2563,9 +2807,27 @@
                 const lastDashLines = lastPart.match(/-\s*([^<]+)/g);
                 
                 if (lastDashLines && lastDashLines.length > 0) {
-                    const questions = lastDashLines.map(q => 
-                        q.replace(/^-\s*/, '').trim()
-                    ).filter(q => {
+                    const questions = lastDashLines.map(q => {
+                        // Clean the question text by removing HTML tags and extra content
+                        let cleanQuestion = q.replace(/^-\s*/, '').trim();
+                        
+                        // Remove any HTML tags that might have been included
+                        cleanQuestion = cleanQuestion.replace(/<[^>]*>/g, '');
+                        
+                        // Remove any JavaScript code or attributes that might have leaked in
+                        cleanQuestion = cleanQuestion.replace(/on\w+\s*=\s*["'][^"']*["']/g, '');
+                        cleanQuestion = cleanQuestion.replace(/style\s*=\s*["'][^"']*["']/g, '');
+                        cleanQuestion = cleanQuestion.replace(/class\s*=\s*["'][^"']*["']/g, '');
+                        cleanQuestion = cleanQuestion.replace(/id\s*=\s*["'][^"']*["']/g, '');
+                        
+                        // Remove any remaining HTML attributes
+                        cleanQuestion = cleanQuestion.replace(/\s+\w+\s*=\s*["'][^"']*["']/g, '');
+                        
+                        // Clean up any extra whitespace
+                        cleanQuestion = cleanQuestion.replace(/\s+/g, ' ').trim();
+                        
+                        return cleanQuestion;
+                    }).filter(q => {
                         const length = q.length;
                         const hasQuestionMark = q.includes('؟') || q.includes('?');
                         const looksLikeQuestion = q.match(/^(چه|چرا|چگونه|کدام|آیا|چطور|کجا|کی|چند|کدام|مثال|تفاوت|نقش|عملکرد|مکانیزم|فرآیند|مراحل|مرحله|گام|قدم)/);
@@ -2575,7 +2837,54 @@
                     
                     if (questions.length > 0) {
                         console.log('✅ Found questions in last part:', questions);
-                        return questions;
+                        
+                        // Check if any question contains multiple questions separated by dashes
+                        const finalQuestions = [];
+                        questions.forEach(question => {
+                            // Split by dash if the question contains multiple questions
+                            if (question.includes('-')) {
+                                const splitQuestions = question.split('-').map(q => q.trim()).filter(q => q.length > 5);
+                                finalQuestions.push(...splitQuestions);
+                            } else {
+                                finalQuestions.push(question);
+                            }
+                        });
+                        
+                        console.log('🔍 Final split questions (Strategy 4):', finalQuestions);
+                        return finalQuestions;
+                    }
+                    
+                    // If still no clean questions, try aggressive cleaning
+                    console.log('🔍 Trying aggressive cleaning for last part questions...');
+                    const aggressiveLastQuestions = lastDashLines.map(q => {
+                        // Remove the dash prefix
+                        let cleanQuestion = q.replace(/^-\s*/, '').trim();
+                        
+                        // Remove ALL HTML content - everything from first < to end
+                        const firstTagIndex = cleanQuestion.indexOf('<');
+                        if (firstTagIndex !== -1) {
+                            cleanQuestion = cleanQuestion.substring(0, firstTagIndex);
+                        }
+                        
+                        // Remove any remaining quotes or special characters that might be left
+                        cleanQuestion = cleanQuestion.replace(/['"]/g, '');
+                        cleanQuestion = cleanQuestion.replace(/\)/g, '');
+                        
+                        // Clean up any extra whitespace
+                        cleanQuestion = cleanQuestion.replace(/\s+/g, ' ').trim();
+                        
+                        return cleanQuestion;
+                    }).filter(q => {
+                        const length = q.length;
+                        const hasQuestionMark = q.includes('؟') || q.includes('?');
+                        const looksLikeQuestion = q.match(/^(چه|چرا|چگونه|کدام|آیا|چطور|کجا|کی|چند|کدام|مثال|تفاوت|نقش|عملکرد|مکانیزم|فرآیند|مراحل|مرحله|گام|قدم)/);
+                        
+                        return length > 8 && length < 300 && (hasQuestionMark || looksLikeQuestion);
+                    });
+                    
+                    if (aggressiveLastQuestions.length > 0) {
+                        console.log('✅ Found last part questions with aggressive cleaning:', aggressiveLastQuestions);
+                        return aggressiveLastQuestions;
                     }
                 }
                 
@@ -2595,7 +2904,28 @@
                         console.log('🔍 Found HTML pattern matches:', matches);
                         const questions = matches.map(match => {
                             const questionMatch = match.match(/-\s*([^<]+)/);
-                            return questionMatch ? questionMatch[1].trim() : null;
+                            if (questionMatch) {
+                                // Clean the question text by removing HTML tags and extra content
+                                let cleanQuestion = questionMatch[1].trim();
+                                
+                                // Remove any HTML tags that might have been included
+                                cleanQuestion = cleanQuestion.replace(/<[^>]*>/g, '');
+                                
+                                // Remove any JavaScript code or attributes that might have leaked in
+                                cleanQuestion = cleanQuestion.replace(/on\w+\s*=\s*["'][^"']*["']/g, '');
+                                cleanQuestion = cleanQuestion.replace(/style\s*=\s*["'][^"']*["']/g, '');
+                                cleanQuestion = cleanQuestion.replace(/class\s*=\s*["'][^"']*["']/g, '');
+                                cleanQuestion = cleanQuestion.replace(/id\s*=\s*["'][^"']*["']/g, '');
+                                
+                                // Remove any remaining HTML attributes
+                                cleanQuestion = cleanQuestion.replace(/\s+\w+\s*=\s*["'][^"']*["']/g, '');
+                                
+                                // Clean up any extra whitespace
+                                cleanQuestion = cleanQuestion.replace(/\s+/g, ' ').trim();
+                                
+                                return cleanQuestion;
+                            }
+                            return null;
                         }).filter(q => q && q.length > 8 && q.length < 300);
                         
                         if (questions.length > 0) {
@@ -2606,12 +2936,29 @@
                 }
                 
                 console.log('❌ No related questions found in content');
+                console.log('🔍 Final debug - returning null');
                 return null;
                 
             } catch (error) {
                 console.error('❌ Error extracting related questions:', error);
                 return null;
             }
+        }
+        
+        // Debug function to test question extraction
+        function debugQuestionExtraction(content) {
+            console.log('🔍 DEBUG: Testing question extraction with content:', content);
+            const questions = extractRelatedQuestions(content);
+            console.log('🔍 DEBUG: Extracted questions:', questions);
+            console.log('🔍 DEBUG: Questions type:', typeof questions);
+            console.log('🔍 DEBUG: Is array:', Array.isArray(questions));
+            if (questions) {
+                console.log('🔍 DEBUG: Questions length:', questions.length);
+                questions.forEach((q, idx) => {
+                    console.log(`🔍 DEBUG: Question ${idx}:`, q);
+                });
+            }
+            return questions;
         }
         
         // Function to render helper questions at the end of detailed analysis
@@ -2640,6 +2987,12 @@
             }
             
             console.log('✅ Found ai-help-questions div, rendering questions...');
+            console.log('🔍 Questions array details:', {
+                length: questions.length,
+                questions: questions,
+                isArray: Array.isArray(questions),
+                type: typeof questions
+            });
             
                                                    // Modern UI design with individual borders for each question
                         const questionsHTML = `
@@ -2648,12 +3001,14 @@
                           <ul class="space-y-3" style="list-style: none; padding: 0; margin: 0;">
                               ${questions.map((questionText, idx) => {
                             console.log(`🔍 Question ${idx + 1}:`, questionText);
+                                console.log(`🔍 Question ${idx + 1} type:`, typeof questionText);
+                                console.log(`🔍 Question ${idx + 1} length:`, questionText ? questionText.length : 'null/undefined');
                             
                             return `
                                       <li class="question-item" style="margin: 0; padding: 0;">
                                           <button
-                                    data-query="${questionText.replace(/"/g, '&quot;')}"
-                                    onclick="onSuggestionClick('${questionText.replace(/'/g, '\\\'')}')"
+                                            data-query="${questionText ? questionText.replace(/"/g, '&quot;') : ''}"
+                                            onclick="onSuggestionClick('${questionText ? questionText.replace(/'/g, '\\\'') : ''}')"
                                               class="question-button w-full text-right transition-all duration-300 cursor-pointer"
                                               style="
                                                   background-color: #f3f4f6;
@@ -2673,7 +3028,7 @@
                                               onmouseover="this.style.backgroundColor='#e0eaff'; this.style.transform='scale(1.02)'"
                                               onmouseout="this.style.backgroundColor='#f3f4f6'; this.style.transform='scale(1)'"
                                           >
-                                              <span class="question-text" style="line-height: 1.5;">${questionText}</span>
+                                            <span class="question-text" style="line-height: 1.5;">${questionText || 'Question text missing'}</span>
                                           </button>
                                       </li>
                             `;
@@ -2682,6 +3037,8 @@
                     </div>
                 </div>
             `;
+            
+            console.log('🔍 Generated HTML:', questionsHTML);
             
             helpQuestionsDiv.innerHTML = questionsHTML;
             helpQuestionsDiv.style.display = 'block';
@@ -2751,6 +3108,9 @@
              setTimeout(() => {
                  helperQuestionMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
              }, 100);
+             
+             // Show FAB button when helper question is sent
+             showFloatingActionButton();
              
              // Make API call to get help response (without showing loading state in button)
             getHelpResponse(query);
@@ -2897,14 +3257,11 @@
              }
              
              // Update the loading message with streaming content in real-time
+             // Use the same simple approach as detailed analysis
              const messageBubble = aiLoadingMessage.querySelector('.message-bubble.ai');
              if (messageBubble) {
-                 // Simple update - just show the current content with basic formatting
-                 messageBubble.innerHTML = `
-                     <div class="helper-response-content text-base leading-relaxed text-gray-800">
-                         ${formatStreamingChunk(response)}
-                     </div>
-                 `;
+                 // Simple streaming update using the same system as detailed analysis
+                 messageBubble.innerHTML = formatStreamingChunk(response);
              }
              
              console.log('✅ Streaming update for:', query, response.length);
@@ -2928,14 +3285,11 @@
              addToConversationHistory('assistant', response, 'helper_response');
              
              // Update the existing loading message with the final formatted response
-             // Use simpler formatting for helper questions to avoid separate sections
+             // Use the simple helper question formatting (bullet points and numbered lists only)
              const messageBubble = aiLoadingMessage.querySelector('.message-bubble.ai');
              if (messageBubble) {
-                 messageBubble.innerHTML = `
-                     <div class="helper-response-content text-base leading-relaxed text-gray-800">
-                         ${formatHelperQuestionResponse(response)}
-                </div>
-            `;
+                 // Simple final display with bullet points and numbered lists only
+                 messageBubble.innerHTML = formatHelperQuestionResponse(response);
              }
              
              console.log('✅ Helper question response displayed successfully with streaming effect');
@@ -2958,11 +3312,11 @@
             formatted = formatted.replace(/(<li>.*<\/li>)/s, '<ul class="bullet-list">$1</ul>');
             
             // Replace line breaks with proper HTML structure
-            formatted = formatted.replace(/\n\n/g, '</p><p>');
+            formatted = formatted.replace(/\n\n/g, '</p><p class="content-paragraph">');
             formatted = formatted.replace(/\n/g, '<br>');
             
-            // Add paragraph tags
-            formatted = `<p>${formatted}</p>`;
+            // Add paragraph tags with proper font size class
+            formatted = `<p class="content-paragraph">${formatted}</p>`;
             
             // Clean up any extra formatting
             formatted = formatted.replace(/<p><\/p>/g, '');
@@ -3057,14 +3411,33 @@
              }
          }
          
-         // Show chat input and hide FAB button
+                  // Show chat input and hide FAB button
          function showChatInput() {
+             console.log('🚀 showChatInput function called');
+             
              const chatInputSection = document.getElementById('chat-input-section');
              const fabContainer = document.getElementById('fab-container');
              const inputField = document.getElementById('chat-input-field');
              
-             // Show chat input
+             console.log('🔍 chatInputSection found:', chatInputSection);
+             console.log('🔍 fabContainer found:', fabContainer);
+             console.log('🔍 inputField found:', inputField);
+             
+             if (!chatInputSection) {
+                 console.error('❌ Chat input section not found!');
+                 return;
+             }
+             
+             // Show chat input using the same approach as working test
              chatInputSection.classList.add('show');
+             chatInputSection.style.transform = 'translateY(0)';
+             chatInputSection.style.opacity = '1';
+             console.log('✅ Added "show" class and forced transform/opacity');
+             console.log('🔍 Chat input section styles after showing:', {
+                 transform: chatInputSection.style.transform,
+                 opacity: chatInputSection.style.opacity,
+                 classes: chatInputSection.className
+             });
              
              // Hide FAB button completely
              fabContainer.style.opacity = '0';
@@ -3080,11 +3453,28 @@
                  // Reset send button state
                  const sendButton = document.getElementById('send-chat-button');
                  if (sendButton) {
+                     console.log('🔍 Resetting send button state');
                      sendButton.style.opacity = '0';
                      sendButton.style.pointerEvents = 'none';
-                     sendButton.style.transform = 'scale(0.75)';
+                     sendButton.style.transform = 'translateY(-50%) scale(0.75)';
                      sendButton.classList.remove('bg-black');
                      sendButton.classList.add('bg-gray-400');
+                     
+                     // Ensure send button is properly positioned and clickable
+                     sendButton.style.position = 'absolute';
+                     sendButton.style.zIndex = '20';
+                     sendButton.style.right = '8px';
+                     sendButton.style.top = '50%';
+                     
+                     console.log('🔍 Send button styles after reset:', {
+                         opacity: sendButton.style.opacity,
+                         pointerEvents: sendButton.style.pointerEvents,
+                         transform: sendButton.style.transform,
+                         position: sendButton.style.position,
+                         zIndex: sendButton.style.zIndex
+                     });
+                 } else {
+                     console.error('❌ Send button not found in showChatInput!');
                  }
              }
              
@@ -3092,6 +3482,7 @@
              setTimeout(() => {
                  if (inputField) {
                      inputField.focus();
+                     console.log('✅ Input field focused');
                  }
              }, 100);
              
@@ -3103,15 +3494,17 @@
              const chatInputSection = document.getElementById('chat-input-section');
              const fabContainer = document.getElementById('fab-container');
              
-             // Hide chat input
+             // Hide chat input using the same approach as working test
              chatInputSection.classList.remove('show');
+             chatInputSection.style.transform = 'translateY(100%)';
+             chatInputSection.style.opacity = '0';
              
              // Show FAB button again
              fabContainer.style.opacity = '1';
              fabContainer.style.pointerEvents = 'auto';
              fabContainer.style.transform = 'scale(1)';
              
-             console.log('✅ Chat input hidden, FAB button shown again');
+             console.log('✅ Chat input hidden with transform/opacity, FAB button shown again');
          }
          
          // Ensure FAB button is always visible and properly styled
@@ -3130,23 +3523,7 @@
              }
          }
          
-         // Test function for debugging
-         function testSendMessage() {
-             console.log('🧪 Test button clicked!');
-             console.log('🧪 Testing sendCustomQuestion function...');
-             
-             // Simulate typing in the input field
-             const inputField = document.getElementById('chat-input-field');
-             if (inputField) {
-                 inputField.value = 'This is a test message';
-                 console.log('🧪 Set test message in input field');
-                 
-                 // Call the send function
-                 sendCustomQuestion();
-             } else {
-                 console.error('🧪 Input field not found!');
-             }
-         }
+
          
          // Send custom question from chat input
          async function sendCustomQuestion() {
@@ -3207,6 +3584,9 @@
              
              // Show loading state for custom question (separate from helper questions)
              showCustomQuestionLoading(question);
+             
+             // Show FAB button when custom question is sent
+             showFloatingActionButton();
              
              // Hide chat input and show FAB button AFTER showing loading
              // Add small delay to ensure loading message is visible
@@ -3360,13 +3740,11 @@
          // Update custom question response in real-time with streaming effect
          function updateCustomQuestionResponseStreaming(question, response, aiLoadingMessage) {
              // Update the loading message with streaming content in real-time
+             // Use the same simple approach as detailed analysis
              const messageBubble = aiLoadingMessage.querySelector('.message-bubble.ai');
              if (messageBubble) {
-                 messageBubble.innerHTML = `
-                     <div class="helper-response-content text-base leading-relaxed text-gray-800">
-                         ${formatStreamingChunk(response)}
-                     </div>
-                 `;
+                 // Simple streaming update using the same system as detailed analysis
+                 messageBubble.innerHTML = formatStreamingChunk(response);
                  
                  console.log('✅ Streaming update applied to message bubble:', aiLoadingMessage.id);
              } else {
@@ -3388,13 +3766,11 @@
              addToConversationHistory('assistant', response, 'custom_response');
              
              // Update the existing loading message with the final formatted response
+             // Use the simple helper question formatting (bullet points and numbered lists only)
              const messageBubble = aiLoadingMessage.querySelector('.message-bubble.ai');
              if (messageBubble) {
-                 messageBubble.innerHTML = `
-                     <div class="helper-response-content text-base leading-relaxed text-gray-800">
-                         ${formatHelperQuestionResponse(response)}
-                     </div>
-                 `;
+                 // Simple final display with bullet points and numbered lists only
+                 messageBubble.innerHTML = formatHelperQuestionResponse(response);
              }
              
              // Ensure FAB button is visible after response is displayed
@@ -3431,25 +3807,72 @@
               // Initialize conversation history system
               initializeConversation();
               
-              // Ensure FAB button is visible on page load
-              ensureFABVisible();
+              // FAB button will be shown only when helper questions are sent
+              // ensureFABVisible(); // Keep hidden until helper questions are used
               
-              // Add mobile touch event handling for FAB button
-              const fabButton = document.getElementById('fab-button');
-              if (fabButton) {
-                  // Remove default touch behavior
-                  fabButton.addEventListener('touchstart', function(e) {
-                      e.preventDefault();
-                      console.log('📱 Mobile touch detected on FAB button');
-                      toggleChatInput();
-                  }, { passive: false });
-                  
-                  // Also keep click for desktop
-                  fabButton.addEventListener('click', function(e) {
-                      console.log('🖱️ Desktop click detected on FAB button');
-                      toggleChatInput();
-                  });
-              }
+                           // Add mobile touch event handling for FAB button
+             const fabButton = document.getElementById('fab-button');
+             if (fabButton) {
+                 // Simplified mobile touch handling - no preventDefault
+                 fabButton.addEventListener('touchstart', function(e) {
+                     console.log('📱 Mobile touch detected on FAB button');
+                     // Small delay to ensure touch is registered
+                     setTimeout(() => {
+                         toggleChatInput();
+                     }, 50);
+                 }, { passive: true });
+                 
+                 // Also keep click for desktop
+                 fabButton.addEventListener('click', function(e) {
+                     console.log('🖱️ Desktop click detected on FAB button');
+                     toggleChatInput();
+                 });
+                 
+                 // Add touchend as backup for mobile
+                 fabButton.addEventListener('touchend', function(e) {
+                     console.log('📱 Mobile touch ended on FAB button');
+                 });
+             }
+             
+             // Setup send button functionality
+             const sendButton = document.getElementById('send-chat-button');
+             if (sendButton) {
+                 console.log('🔍 Send button found during initialization');
+                 
+                 // Remove any existing event listeners
+                 sendButton.replaceWith(sendButton.cloneNode(true));
+                 const newSendButton = document.getElementById('send-chat-button');
+                 
+                 // Add proper event listeners for both desktop and mobile
+                 newSendButton.addEventListener('click', function(e) {
+                     console.log('🖱️ Send button clicked (desktop)');
+                     e.preventDefault();
+                     e.stopPropagation();
+                     sendCustomQuestion();
+                 });
+                 
+                 newSendButton.addEventListener('touchstart', function(e) {
+                     console.log('📱 Send button touched (mobile)');
+                     e.preventDefault();
+                     e.stopPropagation();
+                     sendCustomQuestion();
+                 });
+                 
+                 newSendButton.addEventListener('touchend', function(e) {
+                     console.log('📱 Send button touch ended (mobile)');
+                 });
+                 
+                 console.log('✅ Send button event listeners properly set up');
+             } else {
+                 console.error('❌ Send button not found during initialization!');
+             }
+             
+             // Log device type for debugging
+             if ('ontouchstart' in window) {
+                 console.log('📱 Mobile device detected');
+             } else {
+                 console.log('🖥️ Desktop device detected');
+             }
               
               const chatInputField = document.getElementById('chat-input-field');
               if (chatInputField) {
@@ -3475,68 +3898,114 @@
               });
           });
           
-          // Auto-resize textarea function (exact match from chat page)
-          function autoResize(textarea) {
-              textarea.style.height = 'auto';
-              textarea.style.height = Math.min(textarea.scrollHeight, 120) + 'px';
-              
-              // Update button color and visibility based on typing
-              const sendButton = document.getElementById('send-chat-button');
-              if (textarea.value.trim() !== '') {
-                  textarea.classList.add('typing-active');
-                  sendButton.classList.remove('bg-gray-400');
-                  sendButton.classList.add('bg-black');
-                  
-                  // Show send button when typing
-                  sendButton.style.opacity = '1';
-                  sendButton.style.pointerEvents = 'auto';
-                  sendButton.style.transform = 'scale(1)';
-              } else {
-                  textarea.classList.remove('typing-active');
-                  sendButton.classList.remove('bg-black');
-                  sendButton.classList.add('bg-gray-400');
-                  
-                  // Hide send button when no text
-                  sendButton.style.opacity = '0';
-                  sendButton.style.pointerEvents = 'none';
-                  sendButton.style.transform = 'scale(0.75)';
-              }
-          }
+                   // Auto-resize textarea function with proper send button handling
+         function autoResize(textarea) {
+             console.log('📝 autoResize called with value:', textarea.value);
+             
+             textarea.style.height = 'auto';
+             textarea.style.height = Math.min(textarea.scrollHeight, 120) + 'px';
+             
+             // Update button color and visibility based on typing
+             const sendButton = document.getElementById('send-chat-button');
+             if (!sendButton) {
+                 console.error('❌ Send button not found in autoResize!');
+                 return;
+             }
+             
+             if (textarea.value.trim() !== '') {
+                 console.log('✅ Text detected, showing send button');
+                 textarea.classList.add('typing-active');
+                 
+                 // Change button color
+                 sendButton.classList.remove('bg-gray-400');
+                 sendButton.classList.add('bg-black');
+                 
+                 // Show send button when typing
+                 sendButton.style.opacity = '1';
+                 sendButton.style.pointerEvents = 'auto';
+                 sendButton.style.transform = 'translateY(-50%) scale(1)';
+                 sendButton.style.cursor = 'pointer';
+                 sendButton.style.zIndex = '20';
+                 
+                 console.log('🔍 Send button styles after showing:', {
+                     opacity: sendButton.style.opacity,
+                     pointerEvents: sendButton.style.pointerEvents,
+                     transform: sendButton.style.transform,
+                     cursor: sendButton.style.cursor,
+                     zIndex: sendButton.style.zIndex
+                 });
+                 
+                 // Test if button is now clickable
+                 console.log('🧪 Send button should now be clickable');
+             } else {
+                 console.log('❌ No text, hiding send button');
+                 textarea.classList.remove('typing-active');
+                 
+                 // Change button color back
+                 sendButton.classList.remove('bg-black');
+                 sendButton.classList.add('bg-gray-400');
+                 
+                 // Hide send button when no text
+                 sendButton.style.opacity = '0';
+                 sendButton.style.pointerEvents = 'none';
+                 sendButton.style.transform = 'translateY(-50%) scale(0.75)';
+                 
+                 console.log('🔍 Send button hidden');
+             }
+         }
           
-          // Function to handle input focus - make button black immediately
-          function handleInputFocus(textarea) {
-              const sendButton = document.getElementById('send-chat-button');
-              
-              // Show send button with animation
-              sendButton.style.opacity = '1';
-              sendButton.style.pointerEvents = 'auto';
-              sendButton.style.transform = 'scale(1)';
-              
-              sendButton.classList.remove('bg-gray-400');
-              sendButton.classList.add('bg-black');
-              textarea.classList.add('typing-active');
-              
-              // Hide bottom navigation when input is focused
-              const bottomNav = document.getElementById('bottom-navigation');
-              if (bottomNav) {
-                  bottomNav.style.opacity = '0';
-                  bottomNav.style.pointerEvents = 'none';
-              }
-          }
+                   // Function to handle input focus - make button black immediately
+         function handleInputFocus(textarea) {
+             console.log('🎯 Input focused, showing send button');
+             
+             const sendButton = document.getElementById('send-chat-button');
+             if (!sendButton) {
+                 console.error('❌ Send button not found in handleInputFocus!');
+                 return;
+             }
+             
+             // Show send button with animation
+             sendButton.style.opacity = '1';
+             sendButton.style.pointerEvents = 'auto';
+             sendButton.style.transform = 'translateY(-50%) scale(1)';
+             sendButton.style.cursor = 'pointer';
+             sendButton.style.zIndex = '20';
+             
+             sendButton.classList.remove('bg-gray-400');
+             sendButton.classList.add('bg-black');
+             textarea.classList.add('typing-active');
+             
+             console.log('✅ Send button shown on input focus');
+             
+             // Hide bottom navigation when input is focused
+             const bottomNav = document.getElementById('bottom-navigation');
+             if (bottomNav) {
+                 bottomNav.style.opacity = '0';
+                 bottomNav.style.pointerEvents = 'none';
+             }
+         }
           
-          // Function to handle input blur - make button gray if no text
-          function handleInputBlur(textarea) {
-              if (textarea.value.length === 0) {
-                  const sendButton = document.getElementById('send-chat-button');
-                  sendButton.classList.remove('bg-black');
-                  sendButton.classList.add('bg-gray-400');
-                  textarea.classList.remove('typing-active');
-                  
-                  // Hide send button when no text
-                  sendButton.style.opacity = '0';
-                  sendButton.style.pointerEvents = 'none';
-                  sendButton.style.transform = 'scale(0.75)';
-              }
+                   // Function to handle input blur - make button gray if no text
+         function handleInputBlur(textarea) {
+             console.log('🎯 Input blur, checking if should hide send button');
+             
+             if (textarea.value.length === 0) {
+                 const sendButton = document.getElementById('send-chat-button');
+                 if (sendButton) {
+                     sendButton.classList.remove('bg-black');
+                     sendButton.classList.add('bg-gray-400');
+                     textarea.classList.remove('typing-active');
+                     
+                     // Hide send button when no text
+                     sendButton.style.opacity = '0';
+                     sendButton.style.pointerEvents = 'none';
+                     sendButton.style.transform = 'translateY(-50%) scale(0.75)';
+                     
+                     console.log('✅ Send button hidden on blur (no text)');
+                 }
+             } else {
+                 console.log('ℹ️ Text still present, keeping send button visible');
+             }
               
               // Show bottom navigation when input loses focus
               const bottomNav = document.getElementById('bottom-navigation');
@@ -3564,6 +4033,8 @@
                   }
               }, 2000); // 2 second delay
           }
+        
+
         
         // ========================================
         // END OF FAB FUNCTIONS

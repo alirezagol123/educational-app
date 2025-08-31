@@ -1,15 +1,16 @@
 // Service Worker for Meno App - Mobile Performance Optimization
 const CACHE_NAME = 'meno-v1';
+
+// Get the base URL for caching (works for both local and production)
+const getBaseUrl = () => {
+  if (self.location.hostname === 'localhost') {
+    return self.location.origin;
+  }
+  return '';
+};
+
 const urlsToCache = [
-  '/',
-  '/index.html',
-  '/test.html',
-  '/chapters.html',
-  '/question-analysis.html',
-  '/analysis-results.html',
-  '/manifest.json',
-  'https://cdn.tailwindcss.com',
-  'https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&display=swap'
+  'manifest.json'
 ];
 
 // Install event - cache resources
@@ -18,20 +19,45 @@ self.addEventListener('install', event => {
     caches.open(CACHE_NAME)
       .then(cache => {
         console.log('Opened cache');
-        return cache.addAll(urlsToCache);
+        if (urlsToCache.length > 0) {
+          const baseUrl = getBaseUrl();
+          const fullUrls = urlsToCache.map(url => baseUrl + '/' + url);
+          console.log('Caching URLs:', fullUrls);
+          return cache.addAll(fullUrls);
+        }
+        return Promise.resolve();
       })
   );
 });
 
 // Fetch event - serve from cache when offline
 self.addEventListener('fetch', event => {
+  const requestUrl = new URL(event.request.url);
+  
+  // Skip external resources, API calls, and navigation requests
+  if (requestUrl.protocol === 'https:' || 
+      requestUrl.pathname.includes('/api/') || 
+      event.request.mode === 'navigate') {
+    console.log('SW: Skipping request:', requestUrl.pathname);
+    return;
+  }
+  
+  // Only handle static assets (CSS, JS, images)
+  if (!requestUrl.pathname.match(/\.(css|js|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot)$/)) {
+    console.log('SW: Skipping non-asset:', requestUrl.pathname);
+    return;
+  }
+  
+  console.log('SW: Handling asset:', requestUrl.pathname);
+  
   event.respondWith(
     caches.match(event.request)
       .then(response => {
-        // Return cached version or fetch from network
         return response || fetch(event.request);
-      }
-    )
+      })
+      .catch(() => {
+        return fetch(event.request);
+      })
   );
 });
 

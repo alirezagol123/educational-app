@@ -20,21 +20,26 @@ const PORT = process.env.PORT || 0; // Use 0 to let system assign any available 
 app.use(helmet({
   contentSecurityPolicy: {
     directives: {
-      defaultSrc: ["'self'"],
-      scriptSrc: ["'self'", "'unsafe-inline'", "https://cdn.tailwindcss.com"],
+      defaultSrc: ["'self'", "https:"],
+      scriptSrc: ["'self'", "'unsafe-inline'", "https://cdn.tailwindcss.com", "https:"],
       scriptSrcAttr: ["'unsafe-inline'"],
-      styleSrc: ["'self'", "'unsafe-inline'", "https://cdn.tailwindcss.com", "https://fonts.googleapis.com"],
-      styleSrcElem: ["'self'", "'unsafe-inline'", "https://cdn.tailwindcss.com", "https://fonts.googleapis.com"],
+      styleSrc: ["'self'", "'unsafe-inline'", "https://cdn.tailwindcss.com", "https://fonts.googleapis.com", "https:"],
+      styleSrcElem: ["'self'", "'unsafe-inline'", "https://cdn.tailwindcss.com", "https://fonts.googleapis.com", "https:"],
       fontSrc: ["'self'", "https:", "https://fonts.gstatic.com"],
       imgSrc: ["'self'", "data:", "https:"],
-      connectSrc: ["'self'", "https://ai.liara.ir"],
+      connectSrc: ["'self'", "https://ai.liara.ir", "https://cdn.tailwindcss.com", "https://fonts.googleapis.com", "https://fonts.gstatic.com", "https:"],
       frameSrc: ["'self'"],
       objectSrc: ["'none'"],
       upgradeInsecureRequests: []
     }
   }
 }));
-app.use(cors());
+app.use(cors({
+  origin: true,
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
 app.use(express.json({ limit: '10mb' }));
 app.use(express.static(path.join(__dirname, '../frontend')));
 
@@ -90,6 +95,39 @@ class ConversationManager {
 
 const conversationManager = new ConversationManager();
 
+// AI API call function for non-streaming responses
+async function callAIAPI(messages) {
+  try {
+    if (!process.env.API_BASE_URL) {
+      throw new Error('API_BASE_URL environment variable is not set');
+    }
+    
+    const response = await axios.post(`${process.env.API_BASE_URL}/api/v1/688a24a93d0c49e74e362a7f/chat/completions`, {
+      model: process.env.API_MODEL,
+      messages: messages,
+      max_tokens: 2024,
+      temperature: 0.5,
+      top_p: 0.9,                    // Nucleus sampling - controls diversity
+      frequency_penalty: 0.5,         // Reduces repetition of common words
+      presence_penalty: 0.1,          // Encourages new topics and concepts
+      stream: false
+    }, {
+      headers: {
+        'Authorization': `Bearer ${process.env.API_KEY}`,
+        'Content-Type': 'application/json'
+      },
+      timeout: 30000
+    });
+
+    return response.data.choices[0].message.content;
+  } catch (error) {
+    console.error('AI API Error:', error.response?.data || error.message);
+    throw new Error('Failed to get AI response');
+  }
+}
+
+// Unified system prompt for all chat interactions
+
 // SymPy rendering function - COMPLETELY REMOVED for deployment
 // async function renderLatexWithSymPy(text) {
 //     SymPy completely disabled for deployment
@@ -101,85 +139,6 @@ const conversationManager = new ConversationManager();
 // app.post('/api/render-latex', async (req, res) => {
 //     SymPy endpoint removed for deployment
 // });
-
-// Chat API endpoint
-app.post('/api/chat/message', async (req, res) => {
-  try {
-    const { message, conversationId = 'default' } = req.body;
-    
-    if (!message || message.trim() === '') {
-      return res.status(400).json({ error: 'Message is required' });
-    }
-
-    // Add user message to conversation history
-    conversationManager.addMessage(conversationId, {
-      role: 'user',
-      content: message,
-      timestamp: new Date().toISOString()
-    });
-
-    // Get conversation context for AI
-    const conversationContext = conversationManager.getConversationContext(conversationId);
-
-    // Prepare messages for AI API
-    const messages = [
-      {
-        role: 'system',
-        content: `You are an expert AI tutor for high school students in Iran. Teach in Farsi. Use deep but concise Socratic teaching. Guide students step by step like an interactive Study Mode coach.
-
-• Use the Socratic method. Ask frequent, targeted questions instead of long lectures. Lead the student to discover answers. Break problems into small, solvable steps.
-• Keep each explanation short, clear, and focused (3–6 sentences). Avoid long text blocks. Alternate between mini-explanation and question.
-• Engage the student. After each concept, ask a quick question or give a simple task. Adjust difficulty based on their answers.
-• Give feedback. Correct answers → short encouragement like “آفرین 👏” or “درسته”. Wrong or “I don’t know” → short supportive explanation plus one guiding question.
-• Always give concrete, relatable examples. Move from simple to harder, including exam-style questions.
-• Tone: friendly, motivating, precise. Teach by conversation, not lecture.
-
-Rules:
-• Always respond in Farsi.
-• Do not write long paragraphs. Keep interaction alive.
-• Never move on until the student shows understanding.`
-       },
-
-             {
-         role: 'system',
-         content: `You are an expert AI tutor for high school students in Iran. Teach in Farsi. Use deep but concise Socratic teaching. Guide students step by step like an interactive Study Mode coach.
-
-• Use the Socratic method. Ask frequent, targeted questions instead of long lectures. Lead the student to discover answers. Break problems into small, solvable steps.
-• Keep each explanation short, clear, and focused (3–6 sentences). Avoid long text blocks. Alternate between mini-explanation and question.
-• Engage the student. After each concept, ask a quick question or give a simple task. Adjust difficulty based on their answers.
-• Give feedback. Correct answers → short encouragement like “آفرین 👏” or “درسته”. Wrong or “I don’t know” → short supportive explanation plus one guiding question.
-• Always give concrete, relatable examples. Move from simple to harder, including exam-style questions.
-• Tone: friendly, motivating, precise. Teach by conversation, not lecture.
-
-Rules:
-• Always respond in Farsi.
-• Do not write long paragraphs. Keep interaction alive.
-• Never move on until the student shows understanding.`
-       },
-      ...conversationContext
-    ];
-
-    // Call AI API
-    const aiResponse = await callAIAPI(messages);
-    
-    // Add AI response to conversation history
-    conversationManager.addMessage(conversationId, {
-      role: 'assistant',
-      content: aiResponse,
-      timestamp: new Date().toISOString()
-    });
-
-    res.json({
-      response: aiResponse,
-      conversationId,
-      messageCount: conversationManager.getConversation(conversationId).length
-    });
-
-  } catch (error) {
-    console.error('Chat API Error:', error);
-    res.status(500).json({ error: 'Failed to process chat message' });
-  }
-});
 
 // Streaming chat endpoint
 app.post('/api/chat/stream', async (req, res) => {
@@ -212,38 +171,58 @@ app.post('/api/chat/stream', async (req, res) => {
     const messages = [
       {
         role: 'system',
-                   content:`You are an expert AI tutor for high school students in Iran. Teach in Farsi. Use deep but concise Socratic teaching. Guide students step by step like an interactive Study Mode coach.
-
-• Use the Socratic method. Ask frequent, targeted questions instead of long lectures. Lead the student to discover answers. Break problems into small, solvable steps.
-• Keep each explanation short, clear, and focused (3–6 sentences). Avoid long text blocks. Alternate between mini-explanation and question.
-• Engage the student. After each concept, ask a quick question or give a simple task. Adjust difficulty based on their answers.
-• Give feedback. Correct answers → short encouragement like “آفرین 👏” or “درسته”. Wrong or “I don’t know” → short supportive explanation plus one guiding question.
-• Always give concrete, relatable examples. Move from simple to harder, including exam-style questions.
-• Tone: friendly, motivating, precise. Teach by conversation, not lecture.
-
-Rules:
-• Always respond in Farsi.
-• Do not write long paragraphs. Keep interaction alive.
-• Never move on until the student shows understanding.`
-       },
-       {
-         role: 'system',
-         content: `You are an expert AI tutor for high school students in Iran. Teach in Farsi. Use deep but concise Socratic teaching. Guide students step by step like an interactive Study Mode coach.
-
-• Use the Socratic method. Ask frequent, targeted questions instead of long lectures. Lead the student to discover answers. Break problems into small, solvable steps.
-• Keep each explanation short, clear, and focused (3–6 sentences). Avoid long text blocks. Alternate between mini-explanation and question.
-• Engage the student. After each concept, ask a quick question or give a simple task. Adjust difficulty based on their answers.
-• Give feedback. Correct answers → short encouragement like “آفرین 👏” or “درسته”. Wrong or “I don’t know” → short supportive explanation plus one guiding question.
-• Always give concrete, relatable examples. Move from simple to harder, including exam-style questions.
-• Tone: friendly, motivating, precise. Teach by conversation, not lecture.
-
-Rules:
-• Always respond in Farsi.
-• Do not write long paragraphs. Keep interaction alive.
-• Never move on until the student shows understanding.`
-       },
-       ...conversationContext
-     ];
+        content: `You are an AI tutor designed to conduct interactive, Socratic, and step-by-step educational dialogues in clear and supportive persian.
+        {
+    "description": "A comprehensive guide for conducting interactive, conceptual, and Socratic learning conversations to achieve high student engagement and effectiveness.",
+    "goals": [
+      "Create an interactive and active learning environment for the student",
+      "Use Socratic method to encourage critical thinking and self-discovery of concepts",
+      "Teach concepts step-by-step with simple language and relatable examples",
+      "Adapt the teaching depth and pace according to the student's prior knowledge and needs",
+      "Repeat and provide positive feedback to boost motivation and self-confidence",
+      "Combine conceptual teaching with practice problems and advanced exercises",
+      "Build student interest by outlining a clear roadmap from basics to advanced topics"
+    ],
+    "interaction_principles": [
+      "Begin the conversation by asking about the student's learning goal and current level",
+      "Provide an overview of the course or chapter structures",
+      "Ask thought-provoking questions that prompt the student to analyze and reflect",
+      "If the student responds incorrectly or says 'I don't know', guide patiently step-by-step",
+      "Use real-life and relatable examples consistently to explain concepts",
+      "Provide incremental practice exercises tailored to the student's level",
+      "Repeat complex topics in smaller parts until fully understood",
+      "Offer positive and encouraging feedback for correct responses"
+    ],
+    "conversation_flow": {
+      "start": "Greet the student and inquire about their learning goals and topic importance",
+      "structure_overview": "Present the chapters or sections and decide where to begin",
+      "concept_explanation": "Explain key definitions and concepts with examples",
+      "guided_questions": "Pose Socratic questions related to the topic",
+      "active_practice": "Support the student through exercises and problem solving",
+      "progress_check": "Ask for the student's understanding and repeat if necessary",
+      "further_steps": "Suggest next topics or more practice problems"
+    },
+    "tone_and_style": {
+      "language": "Clear, simple persian(farsi) that is respectful and encouraging",
+      "style": "Friendly, patient, motivational, and supportive",
+      "feedback": "Provide positive, confidence-building feedback"
+    },
+    "response_format": {
+      "introduction": "Begin with a concise direct answer to the core question or topic.",
+      "use_headers": "Organize explanations and elaborations using markdown headers with meaningful titles (avoid using ## or **). Use plain text headings without numbering.",
+      "paragraphs": "Use 2-3 concise sentences per section for clarity.",
+      "lists": "Use bullet points for presenting multiple related ideas or features.",
+      "tables": "Use markdown tables for comparisons only, not for summaries.",
+      "math": "Format all mathematical expressions with LaTeX syntax using \( ... \) for inline and \[ ... \] for block expressions.",
+      "citations": "Include citations for all facts or claims in the format [source:id].",
+      "images": "Include images only when they clearly enhance understanding. Cite images separately.",
+      "tone": "Maintain a warm, informative, comprehensive, and accessible tone throughout the response."
+    }
+  }
+}`
+      },
+      ...conversationContext
+    ];
 
     // Stream AI response
     await streamAIResponse(messages, res, conversationId);
@@ -288,85 +267,10 @@ app.post('/api/chat/start', (req, res) => {
   });
 });
 
-// Question analysis endpoint
-app.post('/api/chat/analysis', async (req, res) => {
-  try {
-    const { question, options, correctAnswer, userAnswer, subject, grade, chapter } = req.body;
-    
-    if (!question || !options || !correctAnswer || !userAnswer) {
-      return res.status(400).json({ error: 'Missing required fields' });
-    }
-
-    // Create analysis prompt
-    const analysisPrompt = `You are an expert Iranian high school exam tutor, specialized in Konkoor (university entrance exam) preparation.  
-Your task is to analyze multiple-choice questions AFTER the student has chosen an answer.  
-Always act as a supportive teacher: concise, structured, motivating, and clear.  
-Never just give the correct answer alone — always explain reasoning, analyze mistakes, and give tips.  
-
-The response must always be written in Persian and follow this exact structured format:
-
-Result: [✅ Correct] or [❌ Incorrect]
-
-Step-by-step solution:
-1. ...
-2. ...
-3. ...
-
-Student's mistake analysis:
-...
-
-Tip for future:
-...
-
-RESPONSE FORMAT RULES
-• Use bullet points (•) for unordered information.  
-• Use numbered lists (1., 2., 3.) for steps, sequences, or priorities.  
-• Use nested indentation for sub-points.  
-• Use bold text for key terms or headings.
-• Use italic text for emphasis.
-• Never provide unformatted paragraphs — always use list structures.  
-• Keep responses concise and scannable.
-
-Make sure your explanation is clear, concise, and highly practical for exam preparation.  
-Do not skip any of the above sections.
-
-Question: ${question}
-
-Options:
-${options.map((opt, index) => `${String.fromCharCode(65 + index)}. ${opt}`).join('\n')}
-
-Correct Answer: ${correctAnswer}
-Student's Answer: ${userAnswer}
-
-Subject: ${subject}
-Grade: ${grade}
-Chapter: ${chapter}
-
-Now provide your analysis following the exact format above.`;
-
-    // Call AI API for analysis
-    const analysis = await callAIAPI([{
-      role: 'user',
-      content: analysisPrompt
-    }]);
-    
-    res.json({
-      analysis: analysis,
-      question: question,
-      correctAnswer: correctAnswer,
-      userAnswer: userAnswer
-    });
-    
-  } catch (error) {
-    console.error('Analysis API Error:', error);
-    res.status(500).json({ error: 'Internal server error' });
-  }
-});
-
 // Streaming question analysis endpoint - OPTIMIZED FOR SPEED
 app.post('/api/chat/analysis/stream', async (req, res) => {
   try {
-    const { question, options, correctAnswer, userAnswer, subject, grade, chapter } = req.body;
+    const { question, options, correctAnswer, userAnswer, subject, grade, chapter, conversationId = 'default' } = req.body;
     
     if (!question || !options || !correctAnswer || !userAnswer) {
       return res.status(400).json({ error: 'Missing required fields' });
@@ -374,68 +278,77 @@ app.post('/api/chat/analysis/stream', async (req, res) => {
 
                            // Create analysis prompt with the new system prompt
                            // PERFORMANCE OPTIMIZATIONS: Reduced max_tokens, lower temperature, optimized streaming
-       const analysisPrompt = `You are an expert Iranian high school exam tutor, specialized in Konkoor (university entrance exam) preparation.  
-Your task is to analyze multiple-choice questions AFTER the student has chosen an answer.  
-Always act as a supportive teacher: concise, structured, motivating, and clear.  
-Never just give the correct answer alone — always explain reasoning, analyze mistakes, and give tips. provide a structured response to a student's query or test answer and generate 4 related questions to deepen understanding and encourage practice. All outputs must be in Persian (Farsi), concise, clear, and suitable for high school students (grades 10-12).
+    const analysisPrompt = `{
+  "role": "system",
+  "persona": {
+    "identity": "Warm, encouraging Iranian high school teacher",
+    "specialization": "Helping students prepare for the Konkoor exam",
+    "role": "Mentor who genuinely cares about student success"
+  },
+  "language": "Farsi",
+  "task": "Analyze multiple-choice questions AFTER the student has chosen an answer.",
+  "style": {
+    "tone": "Supportive, friendly, motivating, clear",
+    "audience": "High school students (grades 10-12)",
+    "constraints": "Concise, clear, max 200 words per response"
+  },
+  "inputs": {
+    "query": "${question}",
+    "subject": "${subject}",
+    "student_answer": "${userAnswer}",
+    "correct_answer": "${correctAnswer}"
+  },
+  "output": {
+    "response_structure": [
+      "1. Start by cheering the student (e.g., 'Great job giving this a shot!') and state correctness with ✅ or ❌. If wrong, kindly give the correct answer.",
+      "2. Walk through the solution step-by-step, simple and clear, with real-world examples if helpful.",
+      "3. Share one quick shortcut or test tip.",
+      "4. Explain a common mistake or mix-up related to the problem.",
+      "5. End with a fun, memorable tip to reinforce the concept."
+    ],
+    "related_questions": {
+      "requirements": [
+        "Generate exactly 4 questions",
+        "Each under 15 words",
+        "All in Persian (Farsi)",
+        "Relevant to ${subject} and the specific topic",
+        "Cover prerequisite, application, practice, and tips",
+        "Avoid overly general questions"
+      ],
+      "format": [
+        "-[Question]",
+        "-[Question]",
+        "-[Question]",
+        "-[Question]"
+      ]
+    }
+  },
+  "rules": [
+    "Always respond in Farsi",
+    "Keep answers concise and educational",
+    "Never give just the correct answer without explanation",
+    "Always include encouragement, reasoning, and tips",
+    "Maintain supportive and motivating tone"
+  ],
+  "process": {
+    "query": "${question}",
+    "subject": "${subject}",
+    "student_answer": "${userAnswer}",
+    "correct_answer": "${correctAnswer}"
+  }
+}`;
 
-1. Input:
-   - Query or Test Question: "${question}" (e.g., a question, problem, or student's answer to a test)
-   - Subject: "${subject}" (e.g., Math, Physics, Chemistry)
-   - Student's Answer (if provided): "${userAnswer}" (e.g., the student's selected option or solution)
-   - Correct Answer (if known): "${correctAnswer}" (e.g., the correct option or solution)
-2. Output:
-   - Response Structure (max 150 words total, concise and educational):
-     1. ✅/❌ Is the Student's Answer Correct?: Clearly state if the student's answer is correct or incorrect. If incorrect, specify the correct answer.
-     2. 📝 Step-by-Step Solution: Provide a step-by-step solution with brief explanations between steps. Include formulas and a simple example if relevant.
-     3. ⚡️ Faster Method or Test-Taking Technique: Suggest a faster method or test-taking technique, if applicable.
-     4. ❗️ Common Mistake or Reason for Incorrect Choice: Explain the most common mistake or why the student might have chosen the wrong answer.
-     5. 🎯 Golden Tip or Quick Recall Key: Provide a key tip or mnemonic to help students remember or solve similar problems.
-   - Related Questions:
-     - Generate exactly 4 questions, each under 15 words, in Persian (Farsi).
-     - Questions must be relevant to the ${subject} and the specific topic in the query/response.
-     - Cover different aspects: prerequisite concepts, practical applications, similar practice questions, and tips for solving.
-     - Avoid overly general questions (e.g., "What is ${subject}?").
-   - Tone: Educational, clear, motivating, and encouraging for high school students.
-   - Format:
-     Response:
-     1. ✅/❌ آیا پاسخ دانش‌آموز درست بوده؟: [Your answer]
-     2. 📝 راه‌حل گام‌به‌گام: [Your steps]
-     3. ⚡️ روش سریع‌تر یا تکنیک تستی: [Your technique]
-     4. ❗️ رایج‌ترین اشتباه: [Your explanation]
-     5. 🎯 نکته طلایی: [Your tip]
-     Related Questions:
-     - [Question 1]
-     - [Question 2]
-     - [Question 3] 
-     - [Question 4]
-Now, process the following:
-Query: "${question}"
-Subject: "${subject}"
-Student's Answer: "${userAnswer}"
-Correct Answer: "${correctAnswer}"`;
-
-    // Set headers for streaming
-    res.writeHead(200, {
-      'Content-Type': 'text/plain',
-      'Transfer-Encoding': 'chunked',
-      'Cache-Control': 'no-cache',
-      'Connection': 'keep-alive'
-    });
-
-    // Stream AI response for analysis with optimized settings for speed
+    // Use streaming response
     await streamAIResponse([{
       role: 'user',
       content: analysisPrompt
-    }], res, 'analysis', 0, {
-      max_tokens: 2024, // Further reduced for faster response
-      temperature: 0.3, // Very low temperature for fastest, most focused output
-      stream: true
-    });
+    }], res, conversationId);
     
   } catch (error) {
-    console.error('Result Evaluation API Error:', error);
+    console.error('Analysis API Error:', error);
+    if (!res.headersSent) {
     res.status(500).json({ error: 'Internal server error' });
+    }
   }
 });
 
@@ -576,34 +489,6 @@ Remember: This is a follow-up question after detailed analysis, so be specific a
   }
 });
 
-// AI API call function
-async function callAIAPI(messages) {
-  try {
-    if (!process.env.API_BASE_URL) {
-      throw new Error('API_BASE_URL environment variable is not set');
-    }
-    
-    const response = await axios.post(`${process.env.API_BASE_URL}/chat/completions`, {
-      model: process.env.API_MODEL,
-      messages: messages,
-      max_tokens: 2024,
-      temperature: 0.3,
-      stream: false
-    }, {
-      headers: {
-        'Authorization': `Bearer ${process.env.API_KEY}`,
-        'Content-Type': 'application/json'
-      },
-      timeout: 30000
-    });
-
-    return response.data.choices[0].message.content;
-  } catch (error) {
-    console.error('AI API Error:', error.response?.data || error.message);
-    throw new Error('Failed to get AI response');
-  }
-}
-
 // Streaming AI response function with retry logic and better error handling
 async function streamAIResponse(messages, res, conversationId, retryCount = 0, optimizationOptions = {}) {
   const MAX_RETRIES = 2;
@@ -613,20 +498,21 @@ async function streamAIResponse(messages, res, conversationId, retryCount = 0, o
       throw new Error('API_BASE_URL environment variable is not set');
     }
     
-    console.log(`🔄 Attempting streaming request (attempt ${retryCount + 1}/${MAX_RETRIES + 1})`);
-    
-    const response = await axios.post(`${process.env.API_BASE_URL}/chat/completions`, {
+    const response = await axios.post(`${process.env.API_BASE_URL}/api/v1/688a24a93d0c49e74e362a7f/chat/completions`, {
       model: process.env.API_MODEL,
       messages: messages,
       max_tokens: optimizationOptions.max_tokens || 2024,
-      temperature: optimizationOptions.temperature || 0.3,
+      temperature: optimizationOptions.temperature || 0.5,
+      top_p: 0.9,                    // Nucleus sampling - controls diversity
+      frequency_penalty: 0.5,         // Reduces repetition of common words
+      presence_penalty: 0.1,          // Encourages new topics and concepts
       stream: true
     }, {
       headers: {
         'Authorization': `Bearer ${process.env.API_KEY}`,
         'Content-Type': 'application/json'
       },
-      timeout: 30000, // Reduced timeout for faster response
+      timeout: 8000, // Reduced timeout for Vercel compatibility
       responseType: 'stream',
       maxRedirects: 5,
       validateStatus: (status) => status < 500 // Accept all status codes < 500
@@ -638,14 +524,15 @@ async function streamAIResponse(messages, res, conversationId, retryCount = 0, o
     response.data.on('data', async (chunk) => {
       try {
         hasReceivedData = true;
-        const lines = chunk.toString().split('\n');
+        const chunkStr = chunk.toString();
+        
+        const lines = chunkStr.split('\n');
         
         for (const line of lines) {
           if (line.startsWith('data: ')) {
             const data = line.slice(6);
             
             if (data === '[DONE]') {
-              console.log('✅ Streaming completed successfully');
               // Add complete response to conversation history
               conversationManager.addMessage(conversationId, {
                 role: 'assistant',
@@ -666,6 +553,11 @@ async function streamAIResponse(messages, res, conversationId, retryCount = 0, o
                 
                 // Stream content immediately for faster response
                 res.write(`data: ${JSON.stringify({ content, type: 'chunk' })}\n\n`);
+              } else if (parsed.error) {
+                console.error('Liara API error:', parsed.error);
+                res.write(`data: ${JSON.stringify({ error: parsed.error.message || 'Liara API error', type: 'error' })}\n\n`);
+                res.end();
+                return;
               }
             } catch (e) {
               // Ignore parsing errors for incomplete chunks
@@ -675,47 +567,45 @@ async function streamAIResponse(messages, res, conversationId, retryCount = 0, o
       } catch (chunkError) {
         console.error('❌ Error processing chunk:', chunkError);
         if (!res.writableEnded) {
-          res.write(`data: [ERROR] ${JSON.stringify({ error: 'Error processing response chunk' })}\n\n`);
+          res.write(`data: ${JSON.stringify({ error: 'Error processing response chunk', type: 'error' })}\n\n`);
           res.end();
         }
       }
     });
 
     response.data.on('end', () => {
-      console.log('📡 Stream ended');
       if (!res.writableEnded) {
         if (hasReceivedData && fullResponse.trim()) {
           res.write(`data: [DONE]\n\n`);
         } else {
-          res.write(`data: [ERROR] ${JSON.stringify({ error: 'Stream ended without data' })}\n\n`);
+          res.write(`data: ${JSON.stringify({ error: 'Stream ended without data', type: 'error' })}\n\n`);
         }
         res.end();
       }
     });
 
     response.data.on('error', (error) => {
-      console.error('❌ Stream error:', error);
+      console.error('Stream error:', error);
       if (!res.writableEnded) {
-        res.write(`data: [ERROR] ${JSON.stringify({ error: 'Stream error occurred' })}\n\n`);
+        res.write(`data: ${JSON.stringify({ error: 'Stream error occurred', type: 'error' })}\n\n`);
         res.end();
       }
     });
 
     // Add timeout for the entire stream
     const streamTimeout = setTimeout(() => {
-      console.log('⏰ Stream timeout reached');
       if (!res.writableEnded) {
-        res.write(`data: [ERROR] ${JSON.stringify({ error: 'Stream timeout' })}\n\n`);
+        res.write(`data: ${JSON.stringify({ error: 'Stream timeout', type: 'error' })}\n\n`);
         res.end();
       }
-    }, 60000); // 1 minute timeout for faster response
+    }, 8000); // 8 second timeout for Vercel compatibility (Vercel has 10s limit)
 
     response.data.on('close', () => {
       clearTimeout(streamTimeout);
     });
 
   } catch (error) {
-    console.error(`❌ Streaming AI API Error (attempt ${retryCount + 1}):`, error.message);
+    console.error(`Streaming AI API Error (attempt ${retryCount + 1}):`, error.message);
     
     // Check if it's a connection error that we can retry
     if (retryCount < MAX_RETRIES && (
@@ -726,7 +616,7 @@ async function streamAIResponse(messages, res, conversationId, retryCount = 0, o
       error.message.includes('ECONNREFUSED') ||
       error.message.includes('ETIMEDOUT')
     )) {
-      console.log(`🔄 Retrying due to connection error (${error.code || 'unknown'})...`);
+      console.log(`Retrying due to connection error (${error.code || 'unknown'})...`);
       
       // Wait before retry (exponential backoff)
       const delay = Math.pow(2, retryCount) * 1000;
@@ -742,7 +632,7 @@ async function streamAIResponse(messages, res, conversationId, retryCount = 0, o
         ? 'Failed to get AI response after multiple attempts' 
         : 'Failed to get AI response';
       
-      res.write(`data: [ERROR] ${JSON.stringify({ error: errorMessage })}\n\n`);
+      res.write(`data: ${JSON.stringify({ error: errorMessage, type: 'error' })}\n\n`);
       res.end();
     }
   }
@@ -758,10 +648,10 @@ app.post('/api/chat/help-question/stream', async (req, res) => {
 
   // Log conversation context if provided
   if (conversationId) {
-    console.log(`📝 Processing helper question for conversation ${conversationId}: ${question.substring(0, 50)}...`);
+    console.log(`Processing helper question for conversation ${conversationId}: ${question.substring(0, 50)}...`);
     
     if (conversationContext && conversationContext.length > 0) {
-      console.log(`📚 Using conversation context with ${conversationContext.length} previous messages`);
+      console.log(`Using conversation context with ${conversationContext.length} previous messages`);
     }
   }
 
@@ -818,7 +708,7 @@ Remember: This is a follow-up question after detailed analysis, so be specific a
 
   try {
     // Call the streaming AI API
-    const response = await fetch(process.env.API_BASE_URL + '/chat/completions', {
+          const response = await fetch(process.env.API_BASE_URL + '/api/v1/688a24a93d0c49e74e362a7f/chat/completions', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${process.env.API_KEY}`,
@@ -834,8 +724,11 @@ Remember: This is a follow-up question after detailed analysis, so be specific a
           content: `Student's Question: ${question}\n\nPlease provide a helpful response in Persian.`
         }],
         stream: true,
-        temperature: 0.3,
-        max_tokens: 1024, 
+        temperature: 0.5,
+        max_tokens: 1024,
+        top_p: 0.9,                    // Nucleus sampling - controls diversity
+        frequency_penalty: 0.5,         // Reduces repetition of common words
+        presence_penalty: 0.1,          // Encourages new topics and concepts
       })
     });
 
