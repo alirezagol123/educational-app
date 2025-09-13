@@ -5,7 +5,7 @@
 ### 1. Vercel (Recommended) ⚡
 
 **One-Click Deploy:**
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/alirezapro11/highschool)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/alirezagol123/educational-app)
 
 **Manual Deployment:**
 ```bash

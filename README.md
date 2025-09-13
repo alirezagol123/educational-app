@@ -33,8 +33,8 @@
 
 ```bash
 # Clone the repository
-git clone https://github.com/alirezapro11/highschool.git
-cd highschool
+git clone https://github.com/alirezagol123/educational-app.git
+cd educational-app
 
 # Install dependencies
 npm install
@@ -381,7 +381,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
   <h3>مِنو - Where Learning Begins 🎓</h3>
   <p>Empowering students with AI-driven education</p>
   
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/alirezapro11/highschool)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/alirezagol123/educational-app)
 [![Deploy with Railway](https://railway.app/button.svg)](https://railway.app/template/your-template-id)
 </div>
 

@@ -41,12 +41,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/alirezapro11/highschool.git"
+    "url": "https://github.com/alirezagol123/educational-app.git"
   },
   "bugs": {
-    "url": "https://github.com/alirezapro11/highschool/issues"
+    "url": "https://github.com/alirezagol123/educational-app/issues"
   },
-  "homepage": "https://github.com/alirezapro11/highschool#readme",
+  "homepage": "https://github.com/alirezagol123/educational-app#readme",
   "dependencies": {
     "express": "^4.18.2",
     "cors": "^2.8.5",
