@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>High School - خوش آمدید</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Vazirmatn', 'IranSans', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .landing-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 3rem;
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 2rem;
+        }
+
+        .loading-spinner {
+            border: 3px solid rgba(103, 126, 234, 0.3);
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 2rem auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="landing-container">
+        <div class="logo">
+            <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+            </svg>
+        </div>
+        
+        <h1 class="text-2xl font-bold text-gray-800 mb-2">High School</h1>
+        <p class="text-gray-600 mb-4">کتابخانه هوشمند</p>
+        
+        <div class="loading-spinner"></div>
+        <p class="text-gray-500">در حال بررسی وضعیت ورود...</p>
+    </div>
+
+    <script>
+        // Check login status and redirect accordingly
+        function checkLoginAndRedirect() {
+            const userId = localStorage.getItem('user_id');
+            const isVerified = localStorage.getItem('is_verified');
+            const isLoggedIn = localStorage.getItem('is_logged_in');
+            const userPhone = localStorage.getItem('user_phone');
+            
+            // Add a small delay to show the loading animation
+            setTimeout(() => {
+                if (userId && isVerified === 'true' && isLoggedIn === 'true' && userPhone) {
+                    // User is logged in, redirect to main app
+                    window.location.href = 'index.html';
+                } else {
+                    // User is not logged in, redirect to auth page
+                    window.location.href = 'main.html';
+                }
+            }, 1500);
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            checkLoginAndRedirect();
+        });
+    </script>
+</body>
+</html>

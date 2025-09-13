@@ -1,142 +1,106 @@
-# مِنو (Meno) - High School Educational App with LLM Integration
+# مِنو (Meno) - AI-Powered Educational Platform
 
-## Overview
-مِنو is an intelligent educational platform designed for high school students, featuring AI-powered conversations, comprehensive test analysis, and interactive learning experiences. Built with Node.js backend and modern HTML/Tailwind CSS frontend, the app provides a complete educational ecosystem similar to Iran's Konkour exam system.
+<div align="center">
+  <img src="https://img.shields.io/badge/Version-1.0.0-blue.svg" alt="Version">
+  <img src="https://img.shields.io/badge/Node.js-16+-green.svg" alt="Node.js">
+  <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License">
+  <img src="https://img.shields.io/badge/Deployment-Vercel-black.svg" alt="Deployment">
+</div>
 
-## ✨ Features
+## 🎓 Overview
 
-### 1. 🏠 Main Page
-- **Professional Design**: Scientific formulas and mathematical notation background
-- **"Where Learning Begins"**: Centered welcome message in English
-- **Responsive Layout**: Mobile-friendly design with pale gradient backgrounds
-- **Navigation**: Seamless access to chat and test features
+**مِنو (Meno)** is an intelligent educational platform designed for high school students, featuring AI-powered conversations, comprehensive test analysis, and interactive learning experiences. Built with Node.js backend and modern HTML/Tailwind CSS frontend, the app provides a complete educational ecosystem similar to Iran's Konkour exam system.
 
-### 2. 💬 Smart Chat System
-- **LLM-Powered Conversations**: Intelligent responses using Liara AI API (GPT-4.1)
-- **Socratic Learning Tutor**: AI persona designed for educational guidance
-- **Persian Language Support**: Full Farsi language integration
-- **Sliding Window Memory**: Efficient conversation history management (10 messages)
-- **Streaming Responses**: Real-time typewriter effect for enhanced user experience
-- **Smart Context Management**: Maintains conversation relevance while optimizing response speed
+### 🌟 Key Features
 
-### 3. 📝 Test Analysis & Assessment
-- **Grade Selection**: 10th, 11th, 12th grade support (دهم، یازدهم، دوازدهم)
-- **Field Selection**: Experimental and Mathematics fields
-- **Subject Coverage**: Biology, Mathematics, Physics, Chemistry, Literature, History
-- **Chapter Navigation**: Organized chapter-based learning structure
-- **Question Bank**: Comprehensive Konkour-style questions with detailed analysis
+- **🤖 AI-Powered Chat**: GPT-4.1 powered educational conversations
+- **📚 Comprehensive Testing**: Grade-specific question banks (10th, 11th, 12th)
+- **🔍 Smart Analysis**: AI-powered question analysis and explanations
+- **📱 Mobile-First Design**: Responsive design optimized for all devices
+- **🇮🇷 Persian Language**: Full Farsi language support with RTL layout
+- **⚡ Real-time Streaming**: Live response streaming for enhanced UX
+- **🎯 Interactive Learning**: Socratic method with follow-up questions
 
-### 4. 🔍 Question Analysis System
-- **Interactive Questions**: Multiple-choice questions with real-time feedback
-- **AI-Powered Evaluation**: Instant correctness assessment
-- **Detailed Analysis**: Step-by-step problem-solving explanations
-- **Performance Tracking**: Visual representation of learning progress
-- **Help Questions**: AI-generated follow-up questions for deeper learning
+## 🚀 Quick Start
 
-### 5. 🎯 Educational Content
-- **Subject-Specific Testing**: Tailored content for each academic field
-- **Adaptive Learning**: Personalized content based on student performance
-- **Interactive Explanations**: Comprehensive problem-solving guidance
-- **Practice Exercises**: Unlimited practice with instant AI feedback
+### Prerequisites
+- Node.js 16+ 
+- npm 8+
+- Modern web browser
+- Liara AI API key
 
-## 🏗️ Technical Architecture
+### Installation
 
-### Backend (Node.js)
+```bash
+# Clone the repository
+git clone https://github.com/alirezapro11/highschool.git
+cd highschool
+
+# Install dependencies
+npm install
+
+# Set up environment variables
+cp config.env.example config.env
+# Edit config.env with your API credentials
+
+# Start development server
+npm run dev
+```
+
+### Environment Setup
+
+Create a `config.env` file in the root directory:
+
+```env
+# Liara AI Configuration
+API_KEY=your_liara_ai_api_key_here
+API_BASE_URL=https://ai.liara.ir/api/v1/your_endpoint
+API_MODEL=openai/gpt-4.1
+
+# Server Configuration
+PORT=3000
+NODE_ENV=production
+
+# Optional: Database Configuration
+DATABASE_URL=your_database_url_here
+```
+
+## 🏗️ Architecture
+
+### Backend (Node.js + Express)
 - **Framework**: Express.js with comprehensive middleware
-- **LLM Integration**: Liara AI API with GPT-4.1 model
+- **AI Integration**: Liara AI API with GPT-4.1 model
 - **Memory Management**: Sliding window algorithm for conversation history
 - **Streaming**: Server-Sent Events (SSE) for real-time responses
 - **Security**: CORS, Helmet, Rate limiting, Input validation
-- **Performance**: Optimized for mobile with cache headers
+- **Database**: In-memory storage with Vercel-compatible persistence
 
 ### Frontend (HTML + Tailwind CSS)
 - **Responsive Design**: Mobile-first approach with professional UI
 - **Modern UI/UX**: Clean, intuitive interface with Persian RTL support
 - **Real-time Updates**: Streaming responses with typewriter effect
 - **Progressive Web App**: App-like experience with smooth animations
-- **Accessibility**: WCAG compliant design with proper contrast
-
-### Key Technologies
-- **Backend**: Node.js, Express.js, Axios, CORS, Helmet
-- **Frontend**: HTML5, Tailwind CSS, Vanilla JavaScript (ES6+)
-- **AI/ML**: Liara AI API, GPT-4.1, Streaming responses
-- **Real-time**: Server-Sent Events (SSE), Fetch API
-- **Styling**: Tailwind CSS, Custom CSS animations
-- **Deployment**: Vercel-ready with environment configuration
+- **MathJax Integration**: Comprehensive mathematical formula rendering
 
 ## 📁 Project Structure
+
 ```
 meno-educational-app/
 ├── backend/
 │   ├── server.js              # Main Express server
-│   ├── config.env             # Environment variables
-│   └── package.json           # Dependencies
+│   ├── database-vercel.js     # Database layer
+│   └── config.env             # Environment variables
 ├── frontend/
-│   ├── index.html             # Main page
-│   ├── chat.html              # Chat interface
+│   ├── index.html             # Main chat interface
+│   ├── library.html           # Conversation library
 │   ├── test.html              # Test selection page
 │   ├── chapters.html          # Chapter navigation
 │   ├── question-analysis.html # Question display
 │   ├── analysis-results.html  # Results and analysis
 │   └── assets/                # Images and resources
-├── vercel.json                # Deployment configuration
+├── package.json               # Dependencies and scripts
+├── vercel.json                # Vercel deployment config
 └── README.md                  # This file
-```
-
-## 🚀 Core Components
-
-### 1. Chat Engine
-- **Conversation Manager**: Handles chat flow and context
-- **Memory Buffer**: Sliding window implementation (10 messages)
-- **Response Generator**: Liara AI integration with streaming
-- **Context Analyzer**: Maintains conversation relevance
-- **Persian Support**: Full Farsi language integration
-
-### 2. Test Engine
-- **Grade Selection**: Interactive grade selection with bottom sheet
-- **Field Selection**: Experimental vs Mathematics field choice
-- **Subject Navigation**: Chapter-based learning structure
-- **Question Display**: Interactive question interface
-- **Performance Analytics**: Detailed student insights
-
-### 3. Analysis System
-- **AI Evaluation**: Instant correctness assessment
-- **Detailed Analysis**: Comprehensive problem explanations
-- **Help Questions**: AI-generated follow-up questions
-- **Interactive Responses**: Clickable help questions with streaming answers
-- **Progress Tracking**: Visual learning indicators
-
-## ⚙️ Installation & Setup
-
-### Prerequisites
-- Node.js 16+ 
-- npm or yarn
-- Modern web browser
-- Liara AI API key
-
-### Backend Setup
-```bash
-cd backend
-npm install
-# Create config.env file with your API credentials
-npm start
-```
-
-### Frontend Setup
-```bash
-cd frontend
-# Open index.html in browser or use live server
-# All pages are self-contained and ready to use
-```
-
-## 🔐 Environment Variables
-```env
-# Backend Configuration
-API_KEY=your_liara_ai_api_key
-API_BASE_URL=https://ai.liara.ir/api/v1/your_endpoint
-API_MODEL=openai/gpt-4.1
-PORT=3000
-NODE_ENV=development
 ```
 
 ## 🌐 API Endpoints
@@ -145,183 +109,282 @@ NODE_ENV=development
 - `POST /api/chat/stream` - Streaming chat responses
 - `POST /api/chat/analysis/stream` - Streaming question analysis
 - `POST /api/chat/result-evaluation` - Question result evaluation
-- `POST /api/chat/help-question/stream` - Streaming help question responses
+- `POST /api/chat/help-question/stream` - Streaming help questions
+- `POST /api/chat/custom-question/stream` - Custom question responses
 
-### Test System
-- **Static Pages**: All test functionality is frontend-based
-- **Question Bank**: Built-in question database
-- **Analysis Engine**: AI-powered question analysis
-- **Progress Tracking**: Visual learning indicators
+### Thread Management
+- `GET /api/threads` - Get user threads with search
+- `POST /api/threads` - Create new thread
+- `PUT /api/threads/:id` - Update thread
+- `DELETE /api/threads/:id` - Delete thread
+- `GET /api/threads/:id/messages` - Get thread messages
 
-## 🎨 UI/UX Features
+### Authentication
+- `POST /api/auth/signup` - User registration
+- `POST /api/auth/verify` - Phone verification
+- `POST /api/auth/login` - User login
 
-### Design System
-- **Color Scheme**: Professional pale gradients with blue accents
-- **Typography**: Inter font family with Persian RTL support
-- **Layout**: Mobile-first responsive design
-- **Animations**: Smooth transitions and hover effects
-- **Icons**: Custom SVG icons with consistent styling
+## 🚀 Deployment
 
-### Navigation
-- **Bottom Navigation**: Three mobile-friendly icons (Chat, Test, Profile)
-- **Header Design**: Clean headers with back buttons
-- **Page Transitions**: Smooth navigation between sections
-- **Responsive Layout**: Optimized for all screen sizes
+### Vercel Deployment (Recommended)
 
-## 📱 Mobile Experience
+1. **Install Vercel CLI**:
+   ```bash
+   npm i -g vercel
+   ```
+
+2. **Deploy**:
+   ```bash
+   vercel --prod
+   ```
+
+3. **Set Environment Variables** in Vercel Dashboard:
+   - `API_KEY`: Your Liara AI API key
+   - `API_BASE_URL`: Liara AI endpoint URL
+   - `API_MODEL`: `openai/gpt-4.1`
+   - `NODE_ENV`: `production`
+
+### Alternative Platforms
+
+#### Railway
+```bash
+# Connect GitHub repository
+# Set environment variables
+# Deploy automatically
+```
+
+#### Render
+```bash
+# Connect GitHub repository
+# Set build command: npm install
+# Set start command: npm start
+# Set environment variables
+```
+
+#### Heroku
+```bash
+# Install Heroku CLI
+heroku create meno-educational-app
+heroku config:set API_KEY=your_api_key
+heroku config:set API_BASE_URL=your_endpoint_url
+git push heroku main
+```
+
+### Environment Variables for Production
+
+| Variable | Description | Example |
+|----------|-------------|---------|
+| `API_KEY` | Liara AI API key | `sk-...` |
+| `API_BASE_URL` | Liara AI endpoint | `https://ai.liara.ir/api/v1/...` |
+| `API_MODEL` | AI model name | `openai/gpt-4.1` |
+| `NODE_ENV` | Environment | `production` |
+| `PORT` | Server port | `3000` |
+
+## 🧪 Testing
+
+### Manual Testing Checklist
+
+- [ ] **Chat Functionality**: Test streaming responses
+- [ ] **Search Feature**: Test library search functionality
+- [ ] **Test Navigation**: Verify all page transitions
+- [ ] **Question Analysis**: Test AI-powered analysis
+- [ ] **Mobile Experience**: Test on various devices
+- [ ] **Cross-Browser**: Test in Chrome, Firefox, Safari
+- [ ] **MathJax Rendering**: Test mathematical formulas
+- [ ] **Persian Language**: Test RTL layout and Persian text
+
+### Performance Testing
+
+- [ ] **Loading Speed**: Test initial page load
+- [ ] **Streaming Performance**: Test response streaming
+- [ ] **Mobile Performance**: Test on mobile devices
+- [ ] **Memory Usage**: Monitor memory consumption
+- [ ] **API Response Time**: Test API endpoint performance
+
+## 🔧 Development
+
+### Available Scripts
+
+```bash
+npm start          # Start production server
+npm run dev        # Start development server with nodemon
+npm run dev:clean  # Clean restart (Windows)
+npm run frontend   # Start frontend development server
+npm run build      # Build for production
+npm run deploy     # Deploy to Vercel
+npm run preview    # Preview Vercel deployment
+```
+
+### Development Workflow
+
+1. **Local Development**:
+   ```bash
+   npm run dev
+   # Server runs on http://localhost:3000
+   ```
+
+2. **Frontend Development**:
+   ```bash
+   npm run frontend
+   # Live server for frontend development
+   ```
+
+3. **Testing Changes**:
+   ```bash
+   # Test locally
+   npm run dev:simple
+   
+   # Test production build
+   npm start
+   ```
+
+## 📱 Mobile Features
 
 ### Responsive Design
 - **Mobile-First**: Optimized for mobile devices
 - **Touch-Friendly**: Large touch targets and smooth interactions
 - **Performance**: Optimized loading and smooth animations
-- **Offline Ready**: Static pages work without internet
 - **App-Like**: Native app feel with modern web technologies
 
-### Performance Features
-- **Fast Loading**: Optimized assets and minimal dependencies
-- **Smooth Scrolling**: Native-like scrolling experience
-- **Efficient Rendering**: Optimized DOM manipulation
-- **Cache Headers**: Mobile-friendly caching strategies
+### Progressive Web App Features
+- **Offline Ready**: Static pages work without internet
+- **App Manifest**: Installable on mobile devices
+- **Service Worker**: Caching for better performance
+- **Responsive Images**: Optimized for different screen sizes
 
 ## 🔒 Security Features
+
 - **Input Validation**: XSS and injection protection
 - **CORS Configuration**: Proper cross-origin handling
 - **Rate Limiting**: API abuse prevention
 - **Environment Security**: Secure configuration management
 - **HTTPS Ready**: Secure deployment configuration
+- **Helmet.js**: Security headers and protection
 
-## 🚀 Deployment
+## 🌍 Internationalization
 
-### Vercel Deployment (Recommended)
-```bash
-# Install Vercel CLI
-npm i -g vercel
-
-# Deploy from project root
-vercel
-
-# Set environment variables in Vercel dashboard
-```
-
-### Alternative Platforms
-- **Railway**: Easy Node.js deployment
-- **Render**: Free tier available
-- **Heroku**: Traditional deployment option
-
-### Environment Setup
-1. Set `API_KEY` in deployment platform
-2. Set `API_BASE_URL` for Liara AI
-3. Set `API_MODEL` to `openai/gpt-4.1`
-4. Deploy and test functionality
-
-## 🧪 Testing
-
-### Manual Testing
-- **Chat Functionality**: Test streaming responses
-- **Test Navigation**: Verify all page transitions
-- **Question Analysis**: Test AI-powered analysis
-- **Mobile Experience**: Test on various devices
-- **Cross-Browser**: Test in different browsers
-
-### Quality Assurance
-- **Responsive Design**: All screen sizes
-- **Performance**: Loading speed and animations
-- **Accessibility**: Keyboard navigation and screen readers
-- **Cross-Platform**: iOS, Android, Desktop
-
-## 📈 Performance Features
-
-### Sliding Window Memory
-- **Efficient Storage**: Only keeps recent conversation context
-- **Speed Optimization**: Faster response generation
-- **Memory Management**: Automatic cleanup of old conversations
-- **Context Preservation**: Maintains conversation flow
-
-### Streaming Responses
-- **Real-time Display**: Typewriter effect for responses
-- **User Engagement**: Progressive information reveal
-- **Performance**: Reduced perceived loading time
-- **Interactive Experience**: Users see responses being generated
-
-## 🌍 Language Support
-
-### Persian (Farsi) Integration
-- **Full RTL Support**: Right-to-left text direction
+### Persian (Farsi) Support
+- **RTL Layout**: Right-to-left text direction
 - **Persian Typography**: Proper font rendering
 - **Localized Content**: Persian language throughout
 - **Cultural Adaptation**: Iran-specific educational content
 
-### English Elements
-- **"Where Learning Begins"**: Main page welcome message
-- **Technical Terms**: Some UI elements in English
-- **Code Comments**: Development documentation
+### Language Features
+- **Bidirectional Text**: Proper RTL/LTR handling
+- **Persian Numbers**: Localized number formatting
+- **Cultural Context**: Iran-specific educational content
+- **Font Optimization**: Persian-friendly font loading
 
-## 🔮 Future Enhancements
+## 📊 Performance Optimization
+
+### Frontend Optimizations
+- **Lazy Loading**: Images and components loaded on demand
+- **Code Splitting**: Modular JavaScript loading
+- **CSS Optimization**: Tailwind CSS with purging
+- **Image Optimization**: WebP format with fallbacks
+- **Caching Strategy**: Browser and CDN caching
+
+### Backend Optimizations
+- **Memory Management**: Sliding window conversation history
+- **Streaming Responses**: Real-time response delivery
+- **Database Optimization**: Efficient query patterns
+- **Caching Headers**: Mobile-friendly caching strategies
+- **Compression**: Gzip compression for responses
+
+## 🔮 Future Roadmap
 
 ### Planned Features
-- [ ] User authentication system
-- [ ] Progress tracking dashboard
-- [ ] More subject coverage
-- [ ] Advanced analytics
-- [ ] Offline question bank
-- [ ] Social learning features
+- [ ] **User Authentication**: Complete login/registration system
+- [ ] **Progress Tracking**: Learning analytics dashboard
+- [ ] **Advanced Analytics**: Detailed performance metrics
+- [ ] **Offline Support**: Offline question bank
+- [ ] **Social Features**: Study groups and collaboration
+- [ ] **Gamification**: Points, badges, and achievements
+- [ ] **Multi-language**: English language support
+- [ ] **Advanced Search**: Semantic search capabilities
 
 ### Technical Improvements
-- [ ] Database integration
-- [ ] User profiles and history
-- [ ] Advanced caching
-- [ ] Performance monitoring
-- [ ] A/B testing framework
+- [ ] **Database Integration**: PostgreSQL/MongoDB integration
+- [ ] **User Profiles**: Comprehensive user management
+- [ ] **Advanced Caching**: Redis caching layer
+- [ ] **Performance Monitoring**: Real-time performance tracking
+- [ ] **A/B Testing**: Feature flag system
+- [ ] **CI/CD Pipeline**: Automated testing and deployment
+- [ ] **API Documentation**: OpenAPI/Swagger documentation
+- [ ] **Error Tracking**: Comprehensive error monitoring
 
 ## 🤝 Contributing
 
 ### Development Process
 1. Fork the repository
-2. Create feature branch
-3. Implement changes with testing
-4. Submit pull request
-5. Code review and approval
+2. Create feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit changes (`git commit -m 'Add amazing feature'`)
+4. Push to branch (`git push origin feature/amazing-feature`)
+5. Open Pull Request
 
 ### Code Standards
 - **JavaScript**: ES6+ with modern syntax
 - **CSS**: Tailwind CSS with custom classes
 - **HTML**: Semantic markup with accessibility
 - **Performance**: Optimized loading and rendering
+- **Documentation**: Comprehensive code comments
+
+### Pull Request Guidelines
+- Clear description of changes
+- Include tests for new features
+- Update documentation as needed
+- Follow existing code style
+- Ensure mobile compatibility
 
 ## 📄 License
-MIT License - see LICENSE file for details
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## 🆘 Support
 
 ### Documentation
 - **Code Comments**: Comprehensive inline documentation
-- **README**: This comprehensive guide
 - **API Documentation**: Backend endpoint documentation
+- **Deployment Guide**: Step-by-step deployment instructions
 
 ### Getting Help
 - **GitHub Issues**: Bug reports and feature requests
-- **Code Review**: Pull request feedback
-- **Community**: Educational app development discussions
+- **Discussions**: Community discussions and Q&A
+- **Email Support**: Direct support for critical issues
+
+### Community
+- **GitHub Discussions**: Community support and ideas
+- **Contributors**: List of project contributors
+- **Changelog**: Version history and updates
 
 ## 🎯 Current Status
 
-### ✅ Implemented Features
-- **Main Page**: Professional design with scientific background
-- **Chat System**: Full LLM integration with streaming
-- **Test Navigation**: Complete grade and field selection
-- **Chapter System**: Subject-based chapter navigation
-- **Question Analysis**: AI-powered question evaluation
-- **Results Display**: Comprehensive analysis with help questions
+### ✅ Production Ready Features
+- **Main Chat Interface**: Full AI-powered conversations
+- **Library System**: Thread management and search
+- **Test System**: Complete question analysis
 - **Mobile Experience**: Responsive design for all devices
-- **Persian Support**: Full RTL and language integration
+- **Persian Language**: Full RTL and language support
+- **MathJax Integration**: Comprehensive math rendering
+- **Search Functionality**: Thread search and filtering
+- **Streaming Responses**: Real-time AI responses
 
 ### 🚧 In Development
-- **User Authentication**: Login and registration system
-- **Progress Tracking**: Learning analytics dashboard
+- **User Authentication**: Complete login system
+- **Progress Tracking**: Learning analytics
 - **Advanced Features**: More interactive elements
+- **Performance Monitoring**: Real-time metrics
 
 ---
 
-**مِنو - Where Learning Begins** 🎓
+<div align="center">
+  <h3>مِنو - Where Learning Begins 🎓</h3>
+  <p>Empowering students with AI-driven education</p>
+  
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/alirezapro11/highschool)
+[![Deploy with Railway](https://railway.app/button.svg)](https://railway.app/template/your-template-id)
+</div>
 
-This educational app provides a complete learning experience for high school students, combining modern web technologies with AI-powered education. The app is production-ready and can be deployed immediately to provide value to students and educators.
+---
+
+**Built with ❤️ for Iranian students and educators worldwide**

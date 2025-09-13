@@ -1,21 +1,94 @@
 {
   "name": "meno-educational-app",
   "version": "1.0.0",
-  "description": "AI-powered educational platform for high school students",
-  "main": "index.js",
+  "description": "AI-powered educational platform for high school students with Persian language support",
+  "main": "backend/server.js",
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
+  },
   "scripts": {
     "start": "node backend/server.js",
     "dev": "npx nodemon backend/server.js",
     "dev:clean": "powershell -ExecutionPolicy Bypass -File kill-port.ps1 && timeout /t 2 && npx nodemon backend/server.js",
     "dev:simple": "node backend/server.js",
-    "frontend": "npx live-server frontend --port=0 --open=/index.html",
-    "build": "echo 'Frontend is already built'",
-    "test": "echo 'No tests specified'"
+    "frontend": "npx live-server frontend --port=0 --open=/",
+    "build": "echo 'Frontend is already built - static HTML/CSS/JS files'",
+    "test": "echo 'No tests specified - manual testing recommended'",
+    "deploy": "vercel --prod",
+    "preview": "vercel",
+    "lint": "echo 'Linting not configured - manual code review recommended'",
+    "postinstall": "echo 'Installation complete - ready for deployment'"
   },
-  "keywords": ["education", "ai", "chat", "learning", "high-school"],
-  "author": "Your Name",
+  "keywords": [
+    "education",
+    "ai",
+    "chat",
+    "learning",
+    "high-school",
+    "persian",
+    "farsi",
+    "konkour",
+    "iran",
+    "educational-platform",
+    "llm",
+    "gpt",
+    "streaming",
+    "mobile-first",
+    "responsive"
+  ],
+  "author": "Meno Educational Team",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/alirezapro11/highschool.git"
+  },
+  "bugs": {
+    "url": "https://github.com/alirezapro11/highschool/issues"
+  },
+  "homepage": "https://github.com/alirezapro11/highschool#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "helmet": "^7.0.0",
+    "axios": "^1.4.0",
+    "dotenv": "^16.3.1"
+  },
   "devDependencies": {
-    "live-server": "^1.2.2"
+    "live-server": "^1.2.2",
+    "nodemon": "^3.0.1"
+  },
+  "optionalDependencies": {
+    "vercel": "^32.0.0"
+  },
+  "deployment": {
+    "platform": "vercel",
+    "framework": "nodejs",
+    "buildCommand": "npm run build",
+    "outputDirectory": "frontend",
+    "installCommand": "npm install"
+  },
+  "vercel": {
+    "version": 2,
+    "builds": [
+      {
+        "src": "backend/server.js",
+        "use": "@vercel/node"
+      },
+      {
+        "src": "frontend/**",
+        "use": "@vercel/static"
+      }
+    ],
+    "routes": [
+      {
+        "src": "/api/(.*)",
+        "dest": "backend/server.js"
+      },
+      {
+        "src": "/(.*)",
+        "dest": "frontend/$1"
+      }
+    ]
   }
 }

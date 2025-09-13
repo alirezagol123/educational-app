@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>High School - خوش آمدید</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Vazirmatn', 'IranSans', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(180deg, 
+                #1a1a2e 0%, 
+                #16213e 20%, 
+                #0f3460 40%, 
+                #533a7b 60%, 
+                #8b5a3c 80%, 
+                #a0522d 100%
+            );
+            color: #ffffff;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Desert landscape elements */
+        body::before {
+            content: '';
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 300px;
+            background: linear-gradient(180deg, 
+                transparent 0%, 
+                rgba(139, 90, 60, 0.3) 30%, 
+                rgba(160, 82, 45, 0.6) 60%, 
+                rgba(139, 69, 19, 0.8) 100%
+            );
+            z-index: -2;
+        }
+
+        /* Stars effect */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 60%;
+            background-image: 
+                radial-gradient(2px 2px at 20px 30px, #fff, transparent),
+                radial-gradient(2px 2px at 40px 70px, #fff, transparent),
+                radial-gradient(1px 1px at 90px 40px, #fff, transparent),
+                radial-gradient(1px 1px at 130px 80px, #fff, transparent),
+                radial-gradient(2px 2px at 160px 30px, #fff, transparent),
+                radial-gradient(1px 1px at 200px 90px, #fff, transparent),
+                radial-gradient(2px 2px at 240px 20px, #fff, transparent),
+                radial-gradient(1px 1px at 280px 60px, #fff, transparent),
+                radial-gradient(1px 1px at 320px 35px, #fff, transparent),
+                radial-gradient(2px 2px at 360px 85px, #fff, transparent);
+            background-repeat: repeat;
+            background-size: 400px 200px;
+            animation: sparkle 8s linear infinite;
+            z-index: -1;
+            opacity: 0.6;
+        }
+
+        @keyframes sparkle {
+            0% { opacity: 0.6; }
+            50% { opacity: 1; }
+            100% { opacity: 0.6; }
+        }
+
+        /* Header */
+        .header {
+            background: rgba(20, 20, 20, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .app-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #ffffff;
+        }
+
+        .user-section {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .user-phone {
+            color: #888888;
+            font-size: 0.9rem;
+        }
+
+        .logout-btn {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #f87171;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            background: rgba(239, 68, 68, 0.2);
+            border-color: rgba(239, 68, 68, 0.5);
+        }
+
+        /* Main Content */
+        .main-content {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        /* Auth Form - NO CONTAINER STYLING */
+        .auth-form {
+            text-align: center;
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .auth-logo {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 2rem;
+        }
+
+        .input-field {
+            background: transparent;
+            border: 2px solid rgba(103, 126, 234, 0.3);
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            font-size: 20px;
+            font-weight: 500;
+            color: #ffffff;
+            width: 100%;
+            max-width: 500px;
+            padding: 1.5rem 2rem;
+        }
+
+        .phone-input-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .phone-prefix {
+            position: absolute;
+            left: 2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 20px;
+            font-weight: 500;
+            color: #ffffff;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .phone-input {
+            background: transparent;
+            border: 2px solid rgba(103, 126, 234, 0.3);
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            font-size: 20px;
+            font-weight: 500;
+            color: #ffffff;
+            width: 100%;
+            padding: 1.5rem 2rem 1.5rem 4rem;
+            text-align: left;
+            direction: ltr;
+        }
+
+        .phone-input::placeholder {
+            color: #888888;
+        }
+
+        .phone-input:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(103, 126, 234, 0.2);
+            outline: none;
+        }
+
+        .input-field::placeholder {
+            color: #888888;
+        }
+
+        .input-field:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(103, 126, 234, 0.2);
+            outline: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            font-size: 16px;
+            font-weight: 500;
+            color: #ffffff;
+            width: 100%;
+            max-width: 500px;
+            padding: 1.5rem 2rem;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(103, 126, 234, 0.4);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-secondary {
+            color: #888888;
+            transition: all 0.3s ease;
+            width: 100%;
+            max-width: 500px;
+            padding: 1.5rem 2rem;
+        }
+
+        .btn-secondary:hover {
+            color: #ffffff;
+        }
+
+        .loading-spinner {
+            border: 3px solid rgba(255, 255, 255, 0.2);
+            border-top: 3px solid #ffffff;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .message {
+            font-size: 14px;
+            margin-bottom: 1.5rem;
+        }
+
+        .message.success {
+            color: #4ade80;
+        }
+
+        .message.error {
+            color: #f87171;
+        }
+
+        .verification-input {
+            letter-spacing: 0.5em;
+            text-align: center;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        /* Main App Dashboard */
+        .main-app {
+            display: none;
+            text-align: center;
+        }
+
+        .welcome-message {
+            font-size: 2rem;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 1rem;
+        }
+
+        .app-description {
+            color: #888888;
+            margin-bottom: 3rem;
+        }
+
+        .app-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .app-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #ffffff;
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .app-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(103, 126, 234, 0.4);
+        }
+
+        /* Mobile optimizations */
+        @media (max-width: 640px) {
+            .header {
+                padding: 1rem;
+            }
+            
+            .input-field, .btn-primary {
+                font-size: 16px;
+            }
+
+            .app-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Auth Form - NO CONTAINER -->
+        <div id="auth-form" class="auth-form">
+            <!-- Logo/Title -->
+            <div class="auth-logo">
+                <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                </svg>
+            </div>
+            
+            <h2 class="text-2xl font-bold text-white mb-2">خوش آمدید</h2>
+            <p class="text-gray-400 mb-8">برای شروع، لطفاً وارد شوید</p>
+
+            <!-- Messages -->
+            <div id="message" class="message hidden"></div>
+
+            <!-- Phone Input -->
+            <div id="phone-section" class="space-y-8">
+                <div>
+                    <input 
+                        type="tel" 
+                        id="phone-input" 
+                        class="input-field text-center" 
+                        placeholder="0905 051 2907"
+                        autocomplete="tel"
+                        maxlength="13"
+                        style="font-size: 32px; font-weight: 600; letter-spacing: 2px;"
+                    >
+                </div>
+                
+                <button id="verify-btn" class="btn-primary text-white font-medium" onclick="sendVerificationCode()">
+                    <span id="verify-text">تایید</span>
+                    <div id="verify-loading" class="loading-spinner hidden"></div>
+                </button>
+            </div>
+
+            <!-- Verification Code -->
+            <div id="verification-section" class="space-y-8 hidden">
+                <div>
+                    <input 
+                        type="text" 
+                        id="verification-code" 
+                        class="input-field verification-input text-center" 
+                        placeholder="000000" 
+                        maxlength="6"
+                        autocomplete="one-time-code"
+                    >
+                </div>
+                
+                <!-- Name Input -->
+                <div>
+                    <input 
+                        type="text" 
+                        id="name-input" 
+                        class="input-field text-center" 
+                        placeholder="نام و نام خانوادگی"
+                        autocomplete="name"
+                    >
+                </div>
+                
+                <button id="login-btn" class="btn-primary text-white font-medium" onclick="verifyAndLogin()">
+                    <span id="login-text">ورود</span>
+                    <div id="login-loading" class="loading-spinner hidden"></div>
+                </button>
+                
+                <button id="back-btn" class="btn-secondary font-medium" onclick="backToPhone()">
+                    بازگشت
+                </button>
+            </div>
+        </div>
+
+        <!-- Main App Dashboard -->
+        <div id="main-app" class="main-app">
+            <h2 class="welcome-message">خوش آمدید!</h2>
+            <p class="app-description">به پلتفرم آموزشی High School خوش آمدید</p>
+            
+            <div class="app-buttons">
+                <a href="index.html" class="app-btn">چت هوشمند</a>
+                <a href="test.html" class="app-btn">تست و تحلیل</a>
+                <a href="library.html" class="app-btn">کتابخانه</a>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        let currentPhone = '';
+        let currentUserId = null;
+
+        // Show message
+        function showMessage(text, type = 'success') {
+            const messageEl = document.getElementById('message');
+            messageEl.textContent = text;
+            messageEl.className = `message ${type}`;
+            messageEl.classList.remove('hidden');
+        }
+
+        // Hide message
+        function hideMessage() {
+            document.getElementById('message').classList.add('hidden');
+        }
+
+        // Show loading state
+        function showLoading(buttonId, textId, loadingId) {
+            document.getElementById(textId).classList.add('hidden');
+            document.getElementById(loadingId).classList.remove('hidden');
+            document.getElementById(buttonId).disabled = true;
+        }
+
+        // Hide loading state
+        function hideLoading(buttonId, textId, loadingId) {
+            document.getElementById(textId).classList.remove('hidden');
+            document.getElementById(loadingId).classList.add('hidden');
+            document.getElementById(buttonId).disabled = false;
+        }
+
+        // Send verification code
+        async function sendVerificationCode() {
+            const formattedPhone = document.getElementById('phone-input').value.trim();
+            // Remove spaces for server communication
+            const phone = formattedPhone.replace(/\s/g, '');
+            
+            if (!formattedPhone) {
+                showMessage('لطفاً شماره موبایل خود را وارد کنید', 'error');
+                return;
+            }
+
+            if (!isValidPhone(formattedPhone)) {
+                showMessage('لطفاً یک شماره موبایل معتبر وارد کنید', 'error');
+                return;
+            }
+
+            showLoading('verify-btn', 'verify-text', 'verify-loading');
+            hideMessage();
+
+            try {
+                // First, try to login (for existing users)
+                let response = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ phone })
+                });
+
+                let data = await response.json();
+
+                if (data.success) {
+                    // User exists and is verified, send confirmation code for login
+                    currentPhone = phone; // Store clean phone number
+                    currentUserId = data.user_id;
+                    showVerificationSection();
+                    showMessage(`کد تایید به شماره ${formattedPhone} ارسال شد`, 'success');
+                    console.log('Login confirmation code:', data.confirmation_code); // For MVP testing
+                } else if (data.error === 'User not found') {
+                    // User doesn't exist, try signup
+                    response = await fetch('/api/auth/signup', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ phone })
+                    });
+
+                    data = await response.json();
+
+                    if (data.success) {
+                        currentPhone = phone; // Store clean phone number
+                        currentUserId = data.user_id;
+                        showVerificationSection();
+                        showMessage(`کد تایید به شماره ${formattedPhone} ارسال شد`, 'success');
+                        console.log('Signup confirmation code:', data.confirmation_code); // For MVP testing
+                    } else {
+                        showMessage(data.error, 'error');
+                    }
+                } else if (data.error === 'Please verify your phone first') {
+                    // User exists but not verified, send verification code again
+                    response = await fetch('/api/auth/signup', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ phone })
+                    });
+
+                    data = await response.json();
+
+                    if (data.success) {
+                        currentPhone = phone; // Store clean phone number
+                        currentUserId = data.user_id;
+                        showVerificationSection();
+                        showMessage(`کد تایید به شماره ${formattedPhone} ارسال شد`, 'success');
+                        console.log('Re-verification code:', data.confirmation_code); // For MVP testing
+                    } else {
+                        showMessage(data.error, 'error');
+                    }
+                } else {
+                    showMessage(data.error, 'error');
+                }
+            } catch (error) {
+                console.error('Verification error:', error);
+                showMessage('خطا در اتصال به سرور', 'error');
+            } finally {
+                hideLoading('verify-btn', 'verify-text', 'verify-loading');
+            }
+        }
+
+        // Verify code and login
+        async function verifyAndLogin() {
+            const code = document.getElementById('verification-code').value.trim();
+            const name = document.getElementById('name-input').value.trim();
+            
+            if (!code) {
+                showMessage('لطفاً کد تایید را وارد کنید', 'error');
+                return;
+            }
+
+            if (code.length !== 6) {
+                showMessage('کد تایید باید ۶ رقم باشد', 'error');
+                return;
+            }
+
+            if (!name) {
+                showMessage('لطفاً نام و نام خانوادگی خود را وارد کنید', 'error');
+                return;
+            }
+
+            showLoading('login-btn', 'login-text', 'login-loading');
+            hideMessage();
+
+            try {
+                const response = await fetch('/api/auth/verify', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ 
+                        phone: currentPhone, 
+                        confirmation_code: code 
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    showMessage('ورود با موفقیت انجام شد', 'success');
+                    
+                    // Store user info in localStorage
+                    localStorage.setItem('user_id', currentUserId);
+                    localStorage.setItem('user_phone', currentPhone);
+                    localStorage.setItem('user_name', name);
+                    localStorage.setItem('is_verified', 'true');
+                    localStorage.setItem('is_logged_in', 'true');
+                    
+                    // Show main app after a short delay
+                    setTimeout(() => {
+                        showMainApp();
+                    }, 1500);
+                } else {
+                    showMessage(data.error, 'error');
+                }
+            } catch (error) {
+                console.error('Verification error:', error);
+                showMessage('خطا در اتصال به سرور', 'error');
+            } finally {
+                hideLoading('login-btn', 'login-text', 'login-loading');
+            }
+        }
+
+        // Show verification section
+        function showVerificationSection() {
+            document.getElementById('phone-section').classList.add('hidden');
+            document.getElementById('verification-section').classList.remove('hidden');
+            document.getElementById('verification-code').focus();
+        }
+
+        // Back to phone section
+        function backToPhone() {
+            document.getElementById('verification-section').classList.add('hidden');
+            document.getElementById('phone-section').classList.remove('hidden');
+            document.getElementById('verification-code').value = '';
+            hideMessage();
+        }
+
+        // Show main app
+        function showMainApp() {
+            // Redirect directly to test page instead of showing dashboard
+            window.location.href = 'test.html';
+        }
+
+        // Logout function
+        function logout() {
+            localStorage.removeItem('user_id');
+            localStorage.removeItem('user_phone');
+            localStorage.removeItem('user_name');
+            localStorage.removeItem('is_verified');
+            localStorage.removeItem('is_logged_in');
+            
+            // Hide user section
+            document.getElementById('user-section').style.display = 'none';
+            
+            // Show auth form
+            document.getElementById('auth-form').style.display = 'block';
+            document.getElementById('main-app').style.display = 'none';
+            
+            // Reset form
+            document.getElementById('phone-input').value = '';
+            document.getElementById('verification-code').value = '';
+            document.getElementById('phone-section').classList.remove('hidden');
+            document.getElementById('verification-section').classList.add('hidden');
+            hideMessage();
+            
+            // Focus on phone input
+            document.getElementById('phone-input').focus();
+        }
+
+        // Phone number formatting for 0905 051 2907 format
+        function formatPhoneNumber(value) {
+            // Remove all non-digit characters
+            const digits = value.replace(/\D/g, '');
+            
+            // Limit to 11 digits total (0905 051 2907)
+            const limitedDigits = digits.substring(0, 11);
+            
+            // Format as 0905 051 2907
+            if (limitedDigits.length <= 4) {
+                return limitedDigits;
+            } else if (limitedDigits.length <= 7) {
+                return `${limitedDigits.substring(0, 4)} ${limitedDigits.substring(4)}`;
+            } else {
+                return `${limitedDigits.substring(0, 4)} ${limitedDigits.substring(4, 7)} ${limitedDigits.substring(7)}`;
+            }
+        }
+
+        // Phone validation
+        function isValidPhone(phone) {
+            // Remove spaces and validate Iranian phone number (11 digits starting with 09)
+            const cleanPhone = phone.replace(/\s/g, '');
+            const phoneRegex = /^09\d{9}$/;
+            return phoneRegex.test(cleanPhone);
+        }
+
+        // Auto-format phone number input
+        document.addEventListener('DOMContentLoaded', function() {
+            const phoneInput = document.getElementById('phone-input');
+            
+            phoneInput.addEventListener('input', function(e) {
+                const cursorPosition = e.target.selectionStart;
+                const oldValue = e.target.value;
+                const newValue = formatPhoneNumber(e.target.value);
+                
+                e.target.value = newValue;
+                
+                // Maintain cursor position after formatting
+                let newCursorPosition = cursorPosition;
+                if (newValue.length > oldValue.length) {
+                    newCursorPosition = cursorPosition + (newValue.length - oldValue.length);
+                }
+                
+                e.target.setSelectionRange(newCursorPosition, newCursorPosition);
+            });
+        });
+
+        // Auto-format verification code input
+        document.getElementById('verification-code').addEventListener('input', function(e) {
+            this.value = this.value.replace(/[^0-9]/g, '');
+        });
+
+        // Handle Enter key
+        document.getElementById('phone-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendVerificationCode();
+            }
+        });
+
+        document.getElementById('verification-code').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                verifyAndLogin();
+            }
+        });
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if user is already logged in and verified
+            const isLoggedIn = localStorage.getItem('is_logged_in') === 'true';
+            const isVerified = localStorage.getItem('is_verified') === 'true';
+            const userId = localStorage.getItem('user_id');
+            const userPhone = localStorage.getItem('user_phone');
+            
+            if (isLoggedIn && isVerified && userId) {
+                // User is logged in, redirect directly to test page
+                currentPhone = userPhone;
+                currentUserId = userId;
+                window.location.href = 'test.html';
+            } else {
+                // User is not logged in, show auth form
+                document.getElementById('auth-form').style.display = 'block';
+                document.getElementById('main-app').style.display = 'none';
+                document.getElementById('user-section').style.display = 'none';
+                
+                // Focus on phone input
+                document.getElementById('phone-input').focus();
+            }
+        });
+    </script>
+</body>
+</html>

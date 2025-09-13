@@ -44,12 +44,20 @@
             background: linear-gradient(135deg, #E0F2FE 0%, #BAE6FD 100%);
         }
         
+        .physics-gradient {
+            background: linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%);
+        }
+        
         .biology-gradient {
             background: linear-gradient(135deg, #D1FAE5 0%, #A7F3D0 100%);
         }
         
         .math-gradient:hover {
             background: linear-gradient(135deg, #BAE6FD 0%, #7DD3FC 100%);
+        }
+        
+        .physics-gradient:hover {
+            background: linear-gradient(135deg, #FDE68A 0%, #FCD34D 100%);
         }
         
         .biology-gradient:hover {
@@ -94,6 +102,20 @@
             animation: fadeIn 0.5s ease-in;
         }
         
+        /* Navigation icon states */
+        .nav-icon {
+            color: #9CA3AF; /* Pale gray for inactive icons */
+            transition: color 0.3s ease;
+        }
+        
+        .nav-icon.active {
+            color: #374151; /* Full color for active icon */
+        }
+        
+        .nav-icon:hover {
+            color: #6B7280; /* Slightly darker on hover */
+        }
+        
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
@@ -102,22 +124,22 @@
 </head>
 <body style="background-color: #F8F9FA;">
     <!-- Header -->
-    <header class="fixed top-0 left-0 right-0 bg-gradient-to-r from-gray-50 via-gray-75 to-gray-50 border-b border-gray-200 z-50">
+    <header class="fixed top-0 left-0 right-0 border-b border-gray-200 z-50" style="background-color: #F8F9FA;">
         <div class="flex justify-between items-center px-6 py-4">
-            <!-- Left: Back Button -->
-            <button class="p-2 hover:bg-gray-200 rounded-lg transition-colors" onclick="goBack()">
-                <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
-                </svg>
-            </button>
+            <!-- Left: Spacer for balance -->
+            <div class="w-10"></div>
             
             <!-- Center: Subject + Grade -->
             <div class="text-center">
                 <h1 id="page-title" class="text-xl font-bold text-gray-900">انتخاب فصل</h1>
             </div>
             
-            <!-- Right: Spacer for balance -->
-            <div class="w-10"></div>
+            <!-- Right: Close Button (X) -->
+            <button class="p-2 hover:bg-gray-200 rounded-lg transition-colors" onclick="goBack()">
+                <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
         </div>
     </header>
 
@@ -136,45 +158,34 @@
         </div>
     </main>
 
-    <!-- Bottom Mobile Navigation -->
-    <nav id="bottom-navigation" class="fixed bottom-0 left-0 right-0 bg-[#e8e8e4] z-50 transition-opacity duration-300">
-        <div class="flex justify-around items-center py-4 px-6">
-            <!-- Chat Icon (Document with Pencil) -->
-            <button class="flex flex-col items-center justify-center p-3 rounded-2xl transition-all duration-300 hover:bg-gray-100/40 active:scale-90 hover:scale-105" onclick="window.location.href='index.html'">
-                <div class="w-6 h-6 relative">
-                    <!-- Document with text lines -->
-                    <svg class="w-6 h-6 text-gray-400" fill="white" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <rect x="3" y="3" width="18" height="18" rx="2" fill="white" stroke="currentColor" stroke-width="2"/>
-                        <line x1="9" y1="9" x2="15" y2="9" stroke="currentColor" stroke-width="2"/>
-                        <line x1="9" y1="13" x2="15" y2="13" stroke="currentColor" stroke-width="2"/>
-                    </svg>
-                    <!-- Pencil positioned diagonally from bottom-right -->
-                    <svg class="w-4 h-4 text-gray-400 absolute -bottom-1 -right-1 transform rotate-45" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/>
-                </svg>
-                </div>
-                <span class="text-xs text-gray-400 mt-1">چت</span>
-            </button>
-            
-            <!-- Library Icon - Active Page -->
-            <button class="flex flex-col items-center justify-center p-3 rounded-2xl transition-all duration-300 hover:bg-gray-100/40 active:scale-90 hover:scale-105 bg-blue-100">
-                <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
-                </svg>
-                <span class="text-xs text-blue-600 mt-1 font-medium">کتابخانه</span>
-            </button>
-            
-            <!-- Analysis/Test Icon (Checkmark) -->
-            <button class="flex flex-col items-center justify-center p-3 rounded-2xl transition-all duration-300 hover:bg-gray-100/40 active:scale-90 hover:scale-105" onclick="window.location.href='test.html'">
-                <div class="w-6 h-6 rounded-full border-2 border-gray-400 flex items-center justify-center bg-white">
-                    <svg class="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
-                </svg>
-                </div>
-                <span class="text-xs text-gray-400 mt-1">تحلیل</span>
-            </button>
-        </div>
-    </nav>
+    <!-- Bottom Mobile Navigation - Matching Chat Page Icons -->
+    <div class="icons-container fixed bottom-0 left-0 right-0 pt-2 pb-6 px-6 flex justify-around items-center space-x-8 z-40 rounded-t-2xl shadow-lg" style="background-color: #E8E8E4;">
+        <!-- First Icon: Document with pencil (Chat page) -->
+        <button class="icon-button p-2 hover:text-gray-600 transition-colors" onclick="window.location.href='index.html'">
+            <svg class="w-6 h-6 nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" stroke-width="2"/>
+                <path d="M14 2v6h6" stroke-width="2"/>
+                <path d="M16 13H8" stroke-width="2"/>
+                <path d="M16 17H8" stroke-width="2"/>
+                <path d="M10 9H8" stroke-width="2"/>
+            </svg>
+        </button>
+        
+        <!-- Second Icon: Open book (Library) -->
+        <button class="icon-button p-2 hover:text-gray-600 transition-colors" onclick="window.location.href='library.html'">
+            <svg class="w-6 h-6 nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" stroke-width="2"/>
+            </svg>
+        </button>
+        
+        <!-- Third Icon: Circle with tick inside (Test page) -->
+        <button class="icon-button p-2 hover:text-gray-600 transition-colors" onclick="window.location.href='test.html'">
+            <svg class="w-6 h-6 nav-icon active" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10" stroke-width="2"/>
+                <path d="M9 12l2 2 4-4" stroke-width="2"/>
+            </svg>
+        </button>
+    </div>
 
     <script>
         let currentSubject = '';
@@ -185,81 +196,782 @@
         const chaptersData = {
             math: {
                 'دهم': [
-                    { number: 1, name: 'الگوها و دنباله‌ها', persian: 'الگوها و دنباله‌ها' },
-                    { number: 2, name: 'مثلثات', persian: 'مثلثات' },
-                    { number: 3, name: 'توان‌های گویا و عبارات جبری', persian: 'توان‌های گویا و عبارات جبری' }
+                    { 
+                        number: 1, 
+                        name: 'الگوها و دنباله‌ها', 
+                        persian: 'الگوها و دنباله‌ها',
+                        questions: [
+                            {
+                                question: "در یک دنباله حسابی، اگر جمله اول ۵ و قدر نسبت ۳ باشد، جمله پنجم چند است؟",
+                                options: [
+                                    "A. ۱۷",
+                                    "B. ۲۰",
+                                    "C. ۲۳",
+                                    "D. ۲۹"
+                                ],
+                                correctAnswer: "A",
+                                explanation: "در دنباله حسابی: aₙ = a₁ + (n-1)d. جمله پنجم: a₅ = 5 + (5-1)×3 = 5 + 12 = 17"
+                            },
+                            {
+                                question: "اگر در یک دنباله هندسی، جمله اول a و قدر نسبت r باشد، شرط لازم برای همگرایی مجموع بی‌نهایت جمله‌ها چیست؟",
+                                options: [
+                                    "A. |r| > ۱",
+                                    "B. |r| < ۱",
+                                    "C. r = ۱",
+                                    "D. r < ۰"
+                                ],
+                                correctAnswer: "B",
+                                explanation: "مجموع بی‌نهایت دنباله هندسی همگرا است اگر و فقط اگر |r| < 1 باشد."
+                            },
+                            {
+                                question: "در دنباله فیبوناچی که با ۱ و ۱ شروع می‌شود، نسبت جمله n+۱ به جمله n با افزایش n به چه عددی میل می‌کند؟",
+                                options: [
+                                    "A. عدد طلایی (۱ + √۵)/۲",
+                                    "B. عدد e",
+                                    "C. π",
+                                    "D. √۲"
+                                ],
+                                correctAnswer: "A",
+                                explanation: "نسبت جمله‌های متوالی در دنباله فیبوناچی به عدد طلایی φ = (1 + √5)/2 ≈ 1.618 میل می‌کند."
+                            }
+                        ]
+                    },
+                    { 
+                        number: 2, 
+                        name: 'مثلثات', 
+                        persian: 'مثلثات',
+                        questions: [
+                            {
+                                question: "اگر در یک مثلث قائم‌الزاویه، زاویه تند θ باشد و ضلع مقابل آن ۳ و وتر ۵ باشد، مقدار sin(θ) برابر است با:",
+                                options: [
+                                    "A. ۳/۵",
+                                    "B. ۴/۵",
+                                    "C. ۳/۴",
+                                    "D. ۵/۳"
+                                ],
+                                correctAnswer: "A",
+                                explanation: "در مثلث قائم‌الزاویه: sin(θ) = ضلع مقابل / وتر = 3/5"
+                            },
+                            {
+                                question: "کدام یک از روابط زیر برای هر زاویه θ صادق است؟",
+                                options: [
+                                    "A. sin²(θ) + cos²(θ) = ۱",
+                                    "B. sin(θ) + cos(θ) = ۱",
+                                    "C. tan(θ) = sin(θ) + cos(θ)",
+                                    "D. cot(θ) = ۱/sin(θ)"
+                                ],
+                                correctAnswer: "A",
+                                explanation: "این رابطه هویت مثلثاتی اصلی است که برای هر زاویه θ صادق است."
+                            },
+                            {
+                                question: "اگر tan(θ) = ۲ و θ در ربع اول باشد، مقدار cos(θ) برابر است با:",
+                                options: [
+                                    "A. ۱/√۵",
+                                    "B. ۲/√۵",
+                                    "C. ۱/√۳",
+                                    "D. √۵/۲"
+                                ],
+                                correctAnswer: "A",
+                                explanation: "اگر tan(θ) = 2، پس sin(θ) = 2cos(θ). با استفاده از هویت اصلی: (2cos(θ))² + cos²(θ) = 1 → 5cos²(θ) = 1 → cos(θ) = 1/√5"
+                            }
+                        ]
+                    },
+                    { 
+                        number: 3, 
+                        name: 'توان‌های گویا و عبارات جبری', 
+                        persian: 'توان‌های گویا و عبارات جبری',
+                        questions: [
+                            {
+                                book: "میکروطلایی گاج",
+                                question: "مقدار عبارت \\( 2^{1/3} \\times 2^{2/3} \\) برابر است با:",
+                                options: [
+                                    "A. ۲",
+                                    "B. ۴",
+                                    "C. ۸",
+                                    "D. ۱۶"
+                                ],
+                                correctAnswer: "A",
+                                explanation: "با استفاده از قانون ضرب توان‌ها: 2^(1/3) × 2^(2/3) = 2^(1/3 + 2/3) = 2^1 = 2"
+                            },
+                            {
+                                book: "مهروماه",
+                                question: "اگر \\( x = \\sqrt[3]{8} \\) و \\( y = 2^{-1} \\)، مقدار \\( x^2 y \\) برابر است با:",
+                                options: [
+                                    "A. ۱",
+                                    "B. ۲",
+                                    "C. ۴",
+                                    "D. ۸"
+                                ],
+                                correctAnswer: "B",
+                                explanation: "x = ∛8 = 2، y = 2^(-1) = 1/2. پس x²y = 2² × (1/2) = 4 × (1/2) = 2"
+                            },
+                            {
+                                book: "خیلی سبز",
+                                question: "عبارت \\( \\frac{a^2 - b^2}{a - b} \\) با فرض \\( a \\neq b \\) ساده می‌شود به:",
+                                options: [
+                                    "A. a + b",
+                                    "B. a - b",
+                                    "C. a² + b²",
+                                    "D. ab"
+                                ],
+                                correctAnswer: "A",
+                                explanation: "a² - b² = (a + b)(a - b). پس (a² - b²)/(a - b) = (a + b)(a - b)/(a - b) = a + b"
+                            }
+                        ]
+                    }
                 ],
                 'یازدهم': [
-                    { number: 1, name: 'هندسه تحلیلی', persian: 'هندسه تحلیلی' },
-                    { number: 2, name: 'توابع نمایی و لگاریتمی', persian: 'توابع نمایی و لگاریتمی', questions: [
-                        {
-                            question: "دامنهٔ تابع \\( f(x) = \\log(x^2 - 4x) \\) کدام است؟",
-                            options: {
-                                "A": "(0,4)",
-                                "B": "(-∞,4)",
-                                "C": "(0,∞)",
-                                "D": "(-∞,0) ∪ (4,∞)"
+                    { 
+                        number: 1, 
+                        name: 'هندسه تحلیلی', 
+                        persian: 'هندسه تحلیلی',
+                        questions: [
+                            {
+                                book: "میکروطلایی گاج",
+                                question: "در یک دستگاه مختصات، معادله خطی \\( y = 2x - 3 \\) چه تعداد نقطه تقاطع با محور \\( x \\) دارد و مختصات آن چیست؟",
+                                options: [
+                                    "A. یک نقطه، \\( (1.5, 0) \\)",
+                                    "B. یک نقطه، \\( (3, 0) \\)",
+                                    "C. دو نقطه، \\( (1.5, 0) \\) و \\( (-1.5, 0) \\)",
+                                    "D. هیچ نقطه‌ای"
+                                ],
+                                correctAnswer: "A",
+                                explanation: "برای یافتن نقطه تقاطع با محور x، y = 0 قرار می‌دهیم: 0 = 2x - 3 → 2x = 3 → x = 1.5. پس نقطه تقاطع (1.5, 0) است."
                             },
-                            correctAnswer: "D",
-                            explanation: "دامنه تابع لگاریتمی باید مثبت باشد: x² - 4x > 0 → x(x-4) > 0 → x < 0 یا x > 4"
-                        },
-                        {
-                            question: "مقدار زیر را بیابید: \\( \\log_2 32 + \\log_2 \\left(\\frac{1}{4}\\right) \\)",
-                            options: {
-                                "A": "2",
-                                "B": "3",
-                                "C": "4",
-                                "D": "1"
+                            {
+                                book: "مهروماه",
+                                question: "اگر تابع \\( f(x) = 3x + 5 \\) باشد، معکوس این تابع \\( f^{-1}(x) \\) کدام است؟",
+                                options: [
+                                    "A. f^{-1}(x) = \\frac{x - 5}{3}",
+                                    "B. f^{-1}(x) = \\frac{x + 5}{3}",
+                                    "C. f^{-1}(x) = 3x - 5",
+                                    "D. f^{-1}(x) = \\frac{3}{x - 5}"
+                                ],
+                                correctAnswer: "A",
+                                explanation: "برای یافتن معکوس: y = 3x + 5 → y - 5 = 3x → x = (y - 5)/3. پس f^{-1}(x) = (x - 5)/3"
                             },
+                            {
+                                book: "خیلی سبز",
+                                question: "در یک دستگاه مختصات، فاصله بین دو نقطه \\( A(2, 3) \\) و \\( B(-1, 7) \\) برابر است با:",
+                                options: [
+                                    "A. ۵",
+                                    "B. √۲۰",
+                                    "C. √۲۹",
+                                    "D. √۳۴"
+                                ],
+                                correctAnswer: "A",
+                                explanation: "با استفاده از فرمول فاصله: d = √[(2-(-1))² + (3-7)²] = √[3² + (-4)²] = √[9 + 16] = √25 = 5"
+                            }
+                        ]
+                    },
+                    { 
+                        number: 2, 
+                        name: 'توابع نمایی و لگاریتمی', 
+                        persian: 'توابع نمایی و لگاریتمی',
+                        questions: [
+                            {
+                                book: "میکروطلایی گاج",
+                                question: "اگر \\( 2^x = 8 \\)، مقدار \\( x \\) برابر است با:",
+                                options: [
+                                    "A. ۲",
+                                    "B. ۳",
+                                    "C. ۴",
+                                    "D. ۸"
+                                ],
                             correctAnswer: "B",
-                            explanation: "log₂32 = 5 و log₂(1/4) = log₂(2⁻²) = -2 پس 5 + (-2) = 3"
-                        },
-                        {
-                            question: "حل معادله \\( 2^{x+1} = 16 \\): مقدار \\(x\\) چیست؟",
-                            options: {
-                                "A": "2",
-                                "B": "3",
-                                "C": "4",
-                                "D": "5"
+                                explanation: "2^x = 8 → 2^x = 2^3 → x = 3"
                             },
+                            {
+                                book: "مهروماه",
+                                question: "مقدار \\( \\log_2(16) + \\log_3(9) \\) برابر است با:",
+                                options: [
+                                    "A. ۴",
+                                    "B. ۶",
+                                    "C. ۸",
+                                    "D. ۱۰"
+                                ],
+                                correctAnswer: "C",
+                                explanation: "log₂(16) = log₂(2⁴) = 4 و log₃(9) = log₃(3²) = 2. پس 4 + 2 = 6"
+                            },
+                            {
+                                book: "خیلی سبز",
+                                question: "اگر \\( f(x) = e^{2x} \\) باشد و \\( g(x) = \\ln(x) \\)، ترکیب تابع \\( f(g(x)) \\) برابر است با:",
+                                options: [
+                                    "A. x²",
+                                    "B. e^{x²}",
+                                    "C. x",
+                                    "D. e^{2\\ln(x)}"
+                                ],
+                                correctAnswer: "A",
+                                explanation: "f(g(x)) = f(ln(x)) = e^(2ln(x)) = e^(ln(x²)) = x²"
+                            }
+                        ]
+                    },
+                    { 
+                        number: 3, 
+                        name: 'حد و پیوستگی', 
+                        persian: 'حد و پیوستگی',
+                        questions: [
+                            {
+                                book: "میکروطلایی گاج",
+                                question: "حد \\( \\lim_{x \\to 2} \\frac{x^2 - 4}{x - 2} \\) برابر است با:",
+                                options: [
+                                    "A. ۲",
+                                    "B. ۴",
+                                    "C. ۶",
+                                    "D. حد وجود ندارد"
+                                ],
                             correctAnswer: "B",
-                            explanation: "2ˣ⁺¹ = 16 → 2ˣ⁺¹ = 2⁴ → x+1 = 4 → x = 3"
-                        },
-                        {
-                            question: "مقدار \\( \\log_3 9 + \\log_3 27 - \\log_3 81 \\) برابر است با:",
-                            options: {
-                                "A": "0",
-                                "B": "1",
-                                "C": "2",
-                                "D": "3"
+                                explanation: "با ساده‌سازی: (x² - 4)/(x - 2) = (x + 2)(x - 2)/(x - 2) = x + 2. پس حد برابر است با 2 + 2 = 4"
                             },
+                            {
+                                book: "مهروماه",
+                                question: "کدام یک از شرایط زیر برای پیوستگی تابع \\( f(x) \\) در نقطه \\( x = c \\) ضروری نیست؟",
+                                options: [
+                                    "A. وجود حد \\( \\lim_{x \\to c} f(x) \\)",
+                                    "B. تعریف بودن \\( f(c) \\)",
+                                    "C. برابر بودن \\( \\lim_{x \\to c} f(x) = f(c) \\)",
+                                    "D. صعودی بودن تابع در اطراف \\( x = c \\)"
+                                ],
+                                correctAnswer: "D",
+                                explanation: "شرایط پیوستگی: 1) وجود حد، 2) تعریف بودن تابع در نقطه، 3) برابر بودن حد با مقدار تابع. صعودی بودن ضروری نیست."
+                            },
+                            {
+                                book: "خیلی سبز",
+                                question: "اگر \\( f(x) = \\frac{1}{x - 3} \\)، حد چپ و راست تابع در \\( x = 3 \\) به ترتیب کدام است؟",
+                                options: [
+                                    "A. منفی بی‌نهایت و مثبت بی‌نهایت",
+                                    "B. مثبت بی‌نهایت و منفی بی‌نهایت",
+                                    "C. صفر و صفر",
+                                    "D. حد وجود ندارد"
+                                ],
                             correctAnswer: "A",
-                            explanation: "log₃9 = 2, log₃27 = 3, log₃81 = 4 پس 2 + 3 - 4 = 1"
+                                explanation: "حد چپ: lim(x→3⁻) 1/(x-3) = -∞ و حد راست: lim(x→3⁺) 1/(x-3) = +∞"
                         }
-                    ] },
-                    { number: 3, name: 'حد و پیوستگی', persian: 'حد و پیوستگی' }
+                        ]
+                        }
                 ],
                 'دوازدهم': [
-                    { number: 1, name: 'مشتق', persian: 'مشتق' },
-                    { number: 2, name: 'کاربردهای مشتق', persian: 'کاربردهای مشتق' },
-                    { number: 3, name: 'انتگرال', persian: 'انتگرال' }
+                    { 
+                        number: 1, 
+                        name: 'مشتق', 
+                        persian: 'مشتق',
+                        questions: [
+                            {
+                                book: "میکروطلایی گاج",
+                                question: "اگر تابع \\( f(x) = x^4 - 4x^2 + 3 \\) باشد، نقاطی که در آن‌ها مشتق اول صفر است، کدام‌اند؟",
+                                options: [
+                                    "A. x = 0, x = ±1",
+                                    "B. x = ±√2",
+                                    "C. x = 0, x = ±√2",
+                                    "D. x = ±1, x = ±√2"
+                                ],
+                                correctAnswer: "C",
+                                explanation: "f'(x) = 4x³ - 8x = 4x(x² - 2). پس f'(x) = 0 → x = 0 یا x² = 2 → x = 0, ±√2"
+                            },
+                            {
+                                book: "مهروماه",
+                                question: "مشتق دوم تابع \\( f(x) = \\sin(2x) + \\cos(x) \\) در نقطه \\( x = \\frac{\\pi}{2} \\) برابر است با:",
+                                options: [
+                                    "A. -۳",
+                                    "B. -۱",
+                                    "C. ۱",
+                                    "D. ۳"
+                                ],
+                                explanation: "f'(x) = 2cos(2x) - sin(x), f''(x) = -4sin(2x) - cos(x). در x = π/2: f''(π/2) = -4sin(π) - cos(π/2) = -4(0) - 0 = 0"
+                            },
+                            {
+                                book: "خیلی سبز",
+                                question: "اگر \\( f(x) = e^{2x} \\cdot \\ln(x) \\)، مشتق تابع \\( f'(x) \\) کدام است؟",
+                                options: [
+                                    "A. 2e^{2x} \\cdot \\ln(x) + \\frac{e^{2x}}{x}",
+                                    "B. e^{2x} \\cdot \\ln(x) + \\frac{e^{2x}}{x}",
+                                    "C. 2e^{2x} \\cdot \\ln(x) + e^{2x}",
+                                    "D. e^{2x} \\cdot \\ln(x) + \\frac{2e^{2x}}{x}"
+                                ],
+                                 explanation: "با استفاده از قاعده ضرب: f'(x) = d/dx(e^(2x))·ln(x) + e^(2x)·d/dx(ln(x)) = 2e^(2x)·ln(x) + e^(2x)·(1/x)"
+                            }
+                        ]
+                    },
+                    { 
+                        number: 2, 
+                        name: 'کاربردهای مشتق', 
+                        persian: 'کاربردهای مشتق',
+                        questions: [
+                            {
+                                book: "میکروطلایی گاج",
+                                question: "تابع \\( f(x) = x^3 - 3x^2 + 4 \\) در کدام بازه صعودی است؟",
+                                options: [
+                                    "A. (-∞, 0) ∪ (2, +∞)",
+                                    "B. (0, 2)",
+                                    "C. (-∞, 1) ∪ (2, +∞)",
+                                    "D. (1, +∞)"
+                                ],
+                                explanation: "f'(x) = 3x² - 6x = 3x(x - 2). تابع صعودی است وقتی f'(x) > 0، یعنی x < 0 یا x > 2"
+                            },
+                            {
+                                book: "مهروماه",
+                                question: "نقطه اکسترمم نسبی تابع \\( f(x) = 2x^3 - 6x^2 + 6x + 1 \\) در کدام نقطه رخ می‌دهد و نوع آن چیست؟",
+                                options: [
+                                    "A. x = 1، بیشینه",
+                                    "B. x = 1، کمینه",
+                                    "C. x = 0، بیشینه",
+                                    "D. x = 0، کمینه"
+                                ],
+                                explanation: "f'(x) = 6x² - 12x + 6 = 6(x² - 2x + 1) = 6(x - 1)². f'(x) = 0 → x = 1. f''(x) = 12x - 12. f''(1) = 0. با تست نقاط: f'(0) = 6 > 0 و f'(2) = 6 > 0. پس x = 1 کمینه است."
+                            },
+                            {
+                                book: "خیلی سبز",
+                                question: "اگر سرعت یک متحرک در زمان \\( t \\) بر حسب \\( v(t) = 3t^2 - 12t + 9 \\) باشد، در چه زمانی شتاب متحرک صفر است؟",
+                                options: [
+                                    "A. t = 1",
+                                    "B. t = 2",
+                                    "C. t = 3",
+                                    "D. t = 4"
+                                ],
+                                explanation: "شتاب = مشتق سرعت: a(t) = v'(t) = 6t - 12. a(t) = 0 → 6t - 12 = 0 → t = 2"
+                            }
+                        ]
+                    },
+                    { 
+                        number: 3, 
+                        name: 'انتگرال', 
+                        persian: 'انتگرال',
+                        questions: [
+                            {
+                                book: "میکروطلایی گاج",
+                                question: "انتگرال نامعین \\( \\int (3x^2 + 2x + 1) \\, dx \\) برابر است با:",
+                                options: [
+                                    "A. x³ + x² + x + C",
+                                    "B. 3x³ + x² + x + C",
+                                    "C. x³ + 2x² + x + C",
+                                    "D. 3x³ + 2x² + x + C"
+                                ],
+                                explanation: "∫(3x² + 2x + 1)dx = ∫3x²dx + ∫2xdx + ∫1dx = 3(x³/3) + 2(x²/2) + x + C = x³ + x² + x + C"
+                            },
+                            {
+                                book: "مهروماه",
+                                question: "مقدار انتگرال معین \\( \\int_{0}^{1} (2x + 1) \\, dx \\) برابر است با:",
+                                options: [
+                                    "A. ۱",
+                                    "B. ۲",
+                                    "C. ۳",
+                                    "D. ۴"
+                                ],
+                                correctAnswer: "B",
+                                explanation: "∫₀¹(2x + 1)dx = [x² + x]₀¹ = (1² + 1) - (0² + 0) = 2 - 0 = 2"
+                            },
+                            {
+                                book: "خیلی سبز",
+                                question: "اگر \\( f(x) = x^2 \\) و \\( F(x) \\) انتگرال نامعین \\( f(x) \\) باشد، مقدار \\( F(2) - F(1) \\) برابر است با:",
+                                options: [
+                                    "A. ۷/۳",
+                                    "B. ۸/۳",
+                                    "C. ۵/۳",
+                                    "D. ۴/۳"
+                                ],
+                                correctAnswer: "A",
+                                explanation: "F(x) = ∫x²dx = x³/3 + C. F(2) - F(1) = (2³/3 + C) - (1³/3 + C) = 8/3 - 1/3 = 7/3"
+                            }
+                        ]
+                    }
+                ]
+            },
+            physics: {
+                'دهم': [
+                    { 
+                        number: 1, 
+                        name: 'فیزیک و اندازه‌گیری', 
+                        persian: 'فیزیک و اندازه‌گیری',
+                        questions: [
+                            {
+                                question: "کدام یک از کمیت‌های زیر یک کمیت نرده‌ای است؟",
+                                options: {
+                                    "الف": "سرعت",
+                                    "ب": "شتاب",
+                                    "ج": "نیرو",
+                                    "د": "جرم"
+                                },
+                                correctAnswer: "د",
+                                explanation: "جرم یک کمیت نرده‌ای است زیرا فقط دارای اندازه است و جهت ندارد. سرعت، شتاب و نیرو کمیت‌های برداری هستند که هم اندازه و هم جهت دارند."
+                            },
+                            {
+                                question: "اگر جسمی با جرم 2 کیلوگرم تحت نیروی ثابت 10 نیوتن قرار گیرد، شتاب آن بر حسب متر بر مجذور ثانیه چند است؟",
+                                options: {
+                                    "الف": "2",
+                                    "ب": "5",
+                                    "ج": "10",
+                                    "د": "20"
+                                },
+                                correctAnswer: "ب",
+                                explanation: "با استفاده از قانون دوم نیوتن: F = ma → a = F/m = 10/2 = 5 متر بر مجذور ثانیه"
+                            },
+                            {
+                                question: "در یک حرکت یکنواخت، اگر سرعت اولیه جسم 5 متر بر ثانیه و زمان حرکت 4 ثانیه باشد، مسافت طی شده چند متر است؟",
+                                options: {
+                                    "الف": "10",
+                                    "ب": "15",
+                                    "ج": "20",
+                                    "د": "25"
+                                },
+                                correctAnswer: "ج",
+                                explanation: "در حرکت یکنواخت: s = vt = 5 × 4 = 20 متر"
+                            }
+                        ]
+                    },
+                    { number: 2, name: 'کار، انرژی و توان', persian: 'کار، انرژی و توان' },
+                    { number: 3, name: 'ویژگی‌های فیزیکی مواد', persian: 'ویژگی‌های فیزیکی مواد' }
+                ],
+                'یازدهم': [
+                    { number: 1, name: 'الکتریسیته ساکن', persian: 'الکتریسیته ساکن' },
+                    { number: 2, name: 'جریان الکتریکی و مدارهای جریان مستقیم', persian: 'جریان الکتریکی و مدارهای جریان مستقیم' },
+                    { number: 3, name: 'مغناطیس و القای الکترومغناطیسی', persian: 'مغناطیس و القای الکترومغناطیسی' }
+                ],
+                'دوازدهم': [
+                    { number: 1, name: 'حرکت نوسانی', persian: 'حرکت نوسانی' },
+                    { number: 2, name: 'امواج مکانیکی', persian: 'امواج مکانیکی' },
+                    { number: 3, name: 'امواج الکترومغناطیسی', persian: 'امواج الکترومغناطیسی' }
                 ]
             },
             biology: {
                 'دهم': [
-                    { number: 1, name: 'جهان زنده', persian: 'جهان زنده' },
-                    { number: 2, name: 'هضم و جذب', persian: 'هضم و جذب' },
-                    { number: 3, name: 'تبادل گازها', persian: 'تبادل گازها' }
+                    { 
+                        number: 1, 
+                        name: 'جهان زنده', 
+                        persian: 'جهان زنده',
+                        questions: [
+                            {
+                                book: "IQ گاج",
+                                question: "کدام یک از ویژگی‌های زیر برای همه موجودات زنده صدق می‌کند؟",
+                                options: [
+                                    "A. حرکت مستقل",
+                                    "B. تنفس هوازی",
+                                    "C. رشد و نمو",
+                                    "D. تولید مثل جنسی"
+                                ]
+                            },
+                            {
+                                book: "خیلی سبز",
+                                question: "کدام سطح سازمان‌یافتگی در موجودات زنده، شامل مجموعه‌ای از مولکول‌ها است که با هم یک ساختار عملکردی را تشکیل می‌دهند؟",
+                                options: [
+                                    "A. سلول",
+                                    "B. بافت",
+                                    "C. اندامک",
+                                    "D. دستگاه"
+                                ]
+                            },
+                            {
+                                book: "ازمونیوم مهر و ماه",
+                                question: "کدام یک از موارد زیر به عنوان شاخه‌ای از زیست‌شناسی به مطالعه روابط موجودات زنده با محیط اطرافشان می‌پردازد؟",
+                                options: [
+                                    "A. ژنتیک",
+                                    "B. اکولوژی",
+                                    "C. فیزیولوژی",
+                                    "D. میکروبیولوژی"
+                                ]
+                            }
+                        ]
+                    },
+                                         { 
+                         number: 2, 
+                         name: 'هضم و جذب', 
+                         persian: 'هضم و جذب',
+                         questions: [
+                             {
+                                 book: "IQ گاج",
+                                 question: "کدام یک از ساختارهای زیر در گوارش شیمیایی کربوهیدرات‌ها در دهان نقش دارد؟",
+                                 options: [
+                                     "A. آمیلاز بزاقی",
+                                     "B. لیپاز معدی",
+                                     "C. پپسین",
+                                     "D. تریپسین"
+                                 ]
+                             },
+                             {
+                                 book: "خیلی سبز",
+                                 question: "کدام بخش از دستگاه گوارش انسان بیشترین جذب مواد مغذی را انجام می‌دهد؟",
+                                 options: [
+                                     "A. معده",
+                                     "B. روده باریک",
+                                     "C. روده بزرگ",
+                                     "D. مری"
+                                 ]
+                             },
+                             {
+                                 book: "ازمونیوم مهر و ماه",
+                                 question: "نقش اصلی کیسه صفرا در دستگاه گوارش چیست؟",
+                                 options: [
+                                     "A. تولید صفرا",
+                                     "B. ذخیره و ترشح صفرا",
+                                     "C. گوارش پروتئین‌ها",
+                                     "D. جذب ویتامین‌ها"
+                                 ]
+                             }
+                         ]
+                     },
+                                         { 
+                         number: 3, 
+                         name: 'تبادل گازها', 
+                         persian: 'تبادل گازها',
+                         questions: [
+                             {
+                                 book: "IQ گاج",
+                                 question: "کدام ساختار در دستگاه تنفسی انسان مسئول اصلی تبادل گازها بین خون و هوای تنفسی است؟",
+                                 options: [
+                                     "A. نای",
+                                     "B. کیسه‌های هوایی",
+                                     "C. نایژه‌ها",
+                                     "D. حنجره"
+                                 ]
+                             },
+                             {
+                                 book: "خیلی سبز",
+                                 question: "در فرآیند تنفس سلولی، اکسیژن در نهایت در کدام بخش سلول مصرف می‌شود؟",
+                                 options: [
+                                     "A. هسته",
+                                     "B. میتوکندری",
+                                     "C. شبکه آندوپلاسمی",
+                                     "D. دستگاه گلژی"
+                                 ]
+                             },
+                             {
+                                 book: "ازمونیوم مهر و ماه",
+                                 question: "کدام گاز در خون عمدتاً به صورت ترکیب با هموگلوبین حمل می‌شود؟",
+                                 options: [
+                                     "A. دی‌اکسید کربن",
+                                     "B. نیتروژن",
+                                     "C. اکسیژن",
+                                     "D. مونوکسید کربن"
+                                 ]
+                             }
+                         ]
+                     }
                 ],
                 'یازدهم': [
-                    { number: 1, name: 'تنظیم عصبی', persian: 'تنظیم عصبی' },
-                    { number: 2, name: 'حواس', persian: 'حواس' },
-                    { number: 3, name: 'دستگاه عضلانی اسکلتی', persian: 'دستگاه عضلانی اسکلتی' }
+                    { 
+                        number: 1, 
+                        name: 'تنظیم عصبی', 
+                        persian: 'تنظیم عصبی',
+                        questions: [
+                            {
+                                book: "IQ گاج",
+                                question: "در یک نورون، اگر پتانسیل استراحت غشا حدود -70 میلی‌ولت باشد و در اثر تحریک، پتانسیل عمل به +30 میلی‌ولت برسد، این تغییر پتانسیل عمدتاً به دلیل حرکت کدام یون‌ها از طریق کانال‌های غشایی است؟",
+                                options: [
+                                    "A. ورود یون‌های پتاسیم و خروج یون‌های سدیم",
+                                    "B. ورود یون‌های سدیم و خروج یون‌های پتاسیم",
+                                    "C. ورود یون‌های کلسیم و خروج یون‌های کلر",
+                                    "D. خروج یون‌های کلسیم و ورود یون‌های پتاسیم"
+                                ]
+                            },
+                            {
+                                book: "خیلی سبز",
+                                question: "کدام یک از موارد زیر در مورد نقش هسته‌های قاعده‌ای در مغز صحیح است؟",
+                                options: [
+                                    "A. تنظیم ضربان قلب و تنفس",
+                                    "B. کنترل حرکات ارادی و هماهنگی آن‌ها",
+                                    "C. پردازش اطلاعات حسی مانند بینایی",
+                                    "D. تنظیم چرخه خواب و بیداری"
+                                ]
+                            },
+                            {
+                                book: "ازمونیوم مهر و ماه",
+                                question: "اگر در یک سیناپس شیمیایی، آزاد شدن انتقال‌دهنده عصبی به دلیل کمبود یون‌های کلسیم متوقف شود، کدام مرحله از انتقال پیام عصبی مختل می‌شود؟",
+                                options: [
+                                    "A. تولید پتانسیل عمل در نورون پس‌سیناپسی",
+                                    "B. ورود یون‌های سدیم به آکسون",
+                                    "C. آزاد شدن انتقال‌دهنده عصبی به فضای سیناپسی",
+                                    "D. بازجذب انتقال‌دهنده عصبی توسط نورون پیش‌سیناپسی"
+                                ]
+                            }
+                        ]
+                    },
+                    { 
+                        number: 2, 
+                        name: 'حواس', 
+                        persian: 'حواس',
+                        questions: [
+                            {
+                                book: "IQ گاج",
+                                question: "کدام یک از سلول‌های گیرنده در شبکیه چشم، مسئول تشخیص رنگ‌ها در نور زیاد است و در دید مرکزی نقش اصلی دارد؟",
+                                options: [
+                                    "A. سلول‌های استوانه‌ای",
+                                    "B. سلول‌های مخروطی",
+                                    "C. سلول‌های گانگلیونی",
+                                    "D. سلول‌های دوقطبی"
+                                ]
+                            },
+                            {
+                                book: "خیلی سبز",
+                                question: "اگر در گوش داخلی، سلول‌های مویی در حلزون آسیب ببینند، کدام جنبه از حس شنوایی بیشتر تحت تأثیر قرار می‌گیرد؟",
+                                options: [
+                                    "A. تشخیص جهت منبع صدا",
+                                    "B. تعادل و موقعیت بدن",
+                                    "C. تشخیص شدت و فرکانس صدا",
+                                    "D. انتقال ارتعاشات به استخوانچه‌ها"
+                                ]
+                            },
+                            {
+                                book: "ازمونیوم مهر و ماه",
+                                question: "در حس چشایی، گیرنده‌های حسی برای کدام طعم به طور مستقیم با کانال‌های یونی سدیم در ارتباط هستند و نیازی به پروتئین G ندارند؟",
+                                options: [
+                                    "A. شیرین",
+                                    "B. ترش",
+                                    "C. شور",
+                                    "D. تلخ"
+                                ]
+                            }
+                        ]
+                    },
+                    { 
+                        number: 3, 
+                        name: 'دستگاه عضلانی اسکلتی', 
+                        persian: 'دستگاه عضلانی اسکلتی',
+                        questions: [
+                            {
+                                book: "IQ گاج",
+                                question: "در فرآیند انقباض عضلانی، نقش اصلی یون‌های کلسیم در فیبرهای عضلانی چیست؟",
+                                options: [
+                                    "A. اتصال به میوزین برای شروع حرکت سر میوزین",
+                                    "B. اتصال به تروپونین برای جابجایی تروپومیوزین و آزاد شدن جایگاه‌های اتصال اکتین",
+                                    "C. فعال‌سازی آنزیم ATPآز برای تجزیه ATP",
+                                    "D. افزایش نفوذپذیری غشای سارکولم به یون‌های سدیم"
+                                ]
+                            },
+                            {
+                                book: "خیلی سبز",
+                                question: "کدام یک از موارد زیر در مورد تفاوت بین عضله اسکلتی و عضله صاف صحیح است؟",
+                                options: [
+                                    "A. عضله صاف دارای تارهای عرضی است، اما عضله اسکلتی خیر",
+                                    "B. عضله اسکلتی تحت کنترل ارادی است، اما عضله صاف غیرارادی است",
+                                    "C. عضله صاف از میتوکندری بیشتری نسبت به عضله اسکلتی برخوردار است",
+                                    "D. عضله اسکلتی فاقد پروتئین‌های اکتین و میوزین است"
+                                ]
+                            },
+                            {
+                                book: "ازمونیوم مهر و ماه",
+                                question: "اگر در یک مفصل زانو، رباط صلیبی قدامی (ACL) پاره شود، کدام عملکرد مفصل بیشتر تحت تأثیر قرار می‌گیرد؟",
+                                options: [
+                                    "A. خم شدن زانو به سمت عقب",
+                                    "B. پایداری زانو در برابر جابجایی قدامی استخوان درشت‌نی",
+                                    "C. چرخش جانبی زانو",
+                                    "D. حفظ تعادل مایع سینوویال در مفصل"
+                                ]
+                            }
+                        ]
+                    }
                 ],
                 'دوازدهم': [
-                    { number: 1, name: 'مولکول‌های اطلاعاتی', persian: 'مولکول‌های اطلاعاتی' },
-                    { number: 2, name: 'جریان اطلاعات ژنتیکی در سلول', persian: 'جریان اطلاعات ژنتیکی در سلول' },
-                    { number: 3, name: 'انتقال اطلاعات ژنتیکی بین نسل‌ها', persian: 'انتقال اطلاعات ژنتیکی بین نسل‌ها' }
+                    { 
+                        number: 1, 
+                        name: 'مولکول‌های اطلاعاتی', 
+                        persian: 'مولکول‌های اطلاعاتی',
+                        questions: [
+                            {
+                                book: "IQ گاج",
+                                question: "کدام ویژگی DNA در مقایسه با RNA باعث پایداری بیشتر آن در برابر تجزیه شیمیایی می‌شود؟",
+                                options: [
+                                    "A. وجود قند ریبوز در ساختار RNA",
+                                    "B. دو رشته‌ای بودن DNA در مقابل تک‌رشته‌ای بودن RNA",
+                                    "C. حضور تیمین در DNA به جای یوراسیل در RNA",
+                                    "D. اتصال فسفودی‌استر قوی‌تر در RNA"
+                                ]
+                            },
+                            {
+                                book: "خیلی سبز",
+                                question: "در فرآیند همانندسازی DNA، آنزیم هلیکاز چه نقشی ایفا می‌کند و در کدام مرحله از این فرآیند دخیل است؟",
+                                options: [
+                                    "A. اتصال نوکلئوتیدها به رشته در حال ساخت، در مرحله طویل‌سازی",
+                                    "B. باز کردن پیچ‌خوردگی‌های DNA، در مرحله آغاز",
+                                    "C. اتصال قطعات اوکازاکی، در مرحله پایان",
+                                    "D. تشکیل پرایمر RNA، در مرحله طویل‌سازی"
+                                ]
+                            },
+                            {
+                                book: "ازمونیوم مهر و ماه",
+                                question: "اگر در یک قطعه DNA، توالی نوکلئوتیدی یک رشته 5'-AGCT-3' باشد، توالی رشته مکمل آن چیست؟",
+                                options: [
+                                    "A. 5'-TCGA-3'",
+                                    "B. 3'-TCGA-5'",
+                                    "C. 5'-AGCT-3'",
+                                    "D. 3'-AGCT-5'"
+                                ]
+                            }
+                        ]
+                    },
+                    { 
+                        number: 2, 
+                        name: 'جریان اطلاعات ژنتیکی در سلول', 
+                        persian: 'جریان اطلاعات ژنتیکی در سلول',
+                        questions: [
+                            {
+                                book: "IQ گاج",
+                                question: "در فرآیند ترجمه (ترانسلیشن)، کدون AUG روی mRNA چه نقشی ایفا می‌کند و چه آمینواسیدی را کد می‌کند؟",
+                                options: [
+                                    "A. کدون توقف، هیچ آمینواسیدی",
+                                    "B. کدون شروع، متیونین",
+                                    "C. کدون شروع، فنیل‌آلانین",
+                                    "D. کدون توقف، آرژنین"
+                                ]
+                            },
+                            {
+                                book: "خیلی سبز",
+                                question: "اگر در فرآیند رونویسی، یک جهش نقطه‌ای باعث تغییر یک نوکلئوتید در ژن شود و این تغییر منجر به تشکیل کدون توقف زودرس شود، چه اتفاقی در پروتئین نهایی رخ می‌دهد؟",
+                                options: [
+                                    "A. پروتئین طولانی‌تر از حالت عادی تولید می‌شود",
+                                    "B. پروتئین کوتاه‌تر و احتمالاً غیرفعال تولید می‌شود",
+                                    "C. پروتئین با همان طول اما با یک آمینواسید متفاوت تولید می‌شود",
+                                    "D. هیچ پروتئینی تولید نمی‌شود"
+                                ]
+                            },
+                            {
+                                book: "ازمونیوم مهر و ماه",
+                                question: "کدام یک از موارد زیر به درستی نقش tRNA را در فرآیند ترجمه توصیف می‌کند؟",
+                                options: [
+                                    "A. حمل کدون‌های مکمل به ریبوزوم برای ساخت mRNA",
+                                    "B. اتصال به DNA و کپی‌برداری از اطلاعات ژنتیکی",
+                                    "C. حمل آمینواسیدها و تطبیق آنتی‌کدون با کدون‌های mRNA",
+                                    "D. تشکیل ساختار ریبوزوم و کاتالیز پیوند پپتیدی"
+                                ]
+                            }
+                        ]
+                    },
+                    { 
+                        number: 3, 
+                        name: 'انتقال اطلاعات ژنتیکی بین نسل‌ها', 
+                        persian: 'انتقال اطلاعات ژنتیکی بین نسل‌ها',
+                        questions: [
+                            {
+                                book: "IQ گاج",
+                                question: "در یک جاندار دیپلوئید با دو جفت کروموزوم (2n=4)، اگر ژن A روی یک کروموزوم و ژن B روی کروموزوم دیگر باشد، در صورت وقوع نوترکیبی (crossing over) بین این دو ژن، چه درصدی از گامت‌ها حاوی ترکیب جدید AB خواهند بود؟",
+                                options: [
+                                    "A. 25%",
+                                    "B. 50%",
+                                    "C. 75%",
+                                    "D. 100%"
+                                ]
+                            },
+                            {
+                                book: "خیلی سبز",
+                                question: "اگر در یک صفت وابسته به جنس که روی کروموزوم X قرار دارد، زنی با ژنوتیپ X^aX^A و مردی با ژنوتیپ X^AY ازدواج کنند، احتمال اینکه فرزند پسر آن‌ها دارای صفت مغلوب باشد، چقدر است؟",
+                                options: [
+                                    "A. 0%",
+                                    "B. 25%",
+                                    "C. 50%",
+                                    "D. 100%"
+                                ]
+                            },
+                            {
+                                book: "ازمونیوم مهر و ماه",
+                                question: "کدام یک از موارد زیر به درستی قانون دوم مندل (تفکیک مستقل) را توضیح می‌دهد؟",
+                                options: [
+                                    "A. الل‌های یک ژن به طور مستقل از هم به گامت‌ها منتقل می‌شوند",
+                                    "B. ژن‌های مختلف روی کروموزوم‌های غیرهومولوگ به طور مستقل از هم تفکیک می‌شوند",
+                                    "C. الل‌های غالب همیشه در گامت‌ها نسبت به الل‌های مغلوب غالب هستند",
+                                    "D. ژن‌های روی کروموزوم‌های هومولوگ همیشه با هم منتقل می‌شوند"
+                                ]
+                            }
+                        ]
+                    }
                 ]
             }
         };
@@ -276,6 +988,7 @@
         function updatePageContent() {
             const subjectNames = {
                 'math': 'ریاضی',
+                'physics': 'فیزیک',
                 'biology': 'زیست‌شناسی'
             };
 
@@ -314,7 +1027,8 @@
                 // Create main chapter button
                 const button = document.createElement('button');
                 button.className = `chapter-button w-full p-6 rounded-full text-left transition-all duration-200 ${
-                    currentSubject === 'math' ? 'math-gradient' : 'biology-gradient'
+                    currentSubject === 'math' ? 'math-gradient' : 
+                    currentSubject === 'physics' ? 'physics-gradient' : 'biology-gradient'
                 } hover:shadow-lg`;
                 
                 button.innerHTML = `
@@ -352,6 +1066,9 @@
                 // Get book options
                 let bookOptions = [];
                 if (currentSubject === 'biology') {
+                    // For biology, we don't need regular book options since each book has its own question
+                    bookOptions = [];
+                } else if (currentSubject === 'physics') {
                     bookOptions = ['IQ گاج', 'خیلی سبز', 'ازمونیوم مهر و ماه', 'میکروطلایی گاج'];
                 } else if (currentSubject === 'math') {
                     if (currentField === 'experimental') {
@@ -367,7 +1084,8 @@
                 // Create a mixed array of books and questions
                 let mixedOptions = [];
                 
-                // Add book options
+                // Add book options (only for non-biology subjects)
+                if (currentSubject !== 'biology') {
                 bookOptions.forEach((book, index) => {
                     mixedOptions.push({
                         type: 'book',
@@ -375,19 +1093,35 @@
                         testCount: testCounts[index]
                     });
                 });
+                }
                 
                 // Add questions if chapter has them - make them look exactly like book options
                 if (chapter.questions && chapter.questions.length > 0) {
+                    // For biology, show questions as separate book options
+                    if (currentSubject === 'biology') {
+                        chapter.questions.forEach((question) => {
+                            const questionOption = {
+                                type: 'question',
+                                data: question.book || `کتاب ${question.book}`,
+                                testCount: 'سوال',
+                                questionData: question
+                            };
+                            mixedOptions.push(questionOption);
+                        });
+                    } else {
+                        // For other subjects (like math), use book names for questions
+                if (chapter.questions && chapter.questions.length > 0) {
                     chapter.questions.forEach((question, qIndex) => {
-                        // Create question option that looks exactly like a book option
                         const questionOption = {
-                            type: 'question', // Keep as question type
-                            data: `سوال تمرینی ${qIndex + 1}`,
+                                    type: 'question',
+                                    data: question.book || `سوال ${qIndex + 1}`,
                             testCount: 'تمرین',
                             questionData: question
                         };
                         mixedOptions.push(questionOption);
                     });
+                        }
+                    }
                 }
                 
                 // Shuffle the mixed options randomly
@@ -496,3 +1230,5 @@
     </script>
 </body>
 </html>
+
+

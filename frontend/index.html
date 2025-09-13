@@ -1,12 +1,13 @@
 <!DOCTYPE html>
-<html lang="en" class="no-scroll">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="theme-color" content="#191b1a">
+    <meta name="apple-mobile-web-app-status-bar-style" content="light-content">
+    <meta name="theme-color" content="#E8E8E4">
+    <meta name="msapplication-navbutton-color" content="#E8E8E4">
     
     <!-- Preload critical resources -->
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&display=swap" as="style">
@@ -30,10 +31,48 @@
     <title>مِنو - یادگیری هوشمند</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link rel="preconnect" href="https://polyfill.io">
     <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Enhanced MathJax for comprehensive math rendering -->
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true,
+                processEnvironments: true,
+                packages: {'[+]': ['ams', 'amscd', 'amssymb', 'mathtools', 'physics', 'bm', 'cancel', 'cases', 'empheq', 'geometry', 'mhchem', 'pgf', 'textmacros', 'unicode', 'upgreek', 'verbatim']}
+            },
+            options: {
+                skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+                ignoreHtmlClass: 'tex2jax_ignore',
+                processHtmlClass: 'tex2jax_process'
+            },
+            loader: {
+                load: ['[tex]/ams', '[tex]/amscd', '[tex]/amssymb', '[tex]/mathtools', '[tex]/physics', '[tex]/bm', '[tex]/cancel', '[tex]/cases', '[tex]/empheq', '[tex]/geometry', '[tex]/mhchem', '[tex]/pgf', '[tex]/textmacros', '[tex]/unicode', '[tex]/upgreek', '[tex]/verbatim']
+            }
+        };
+    </script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
     <script>
+        // Check login status on page load - DISABLED FOR NOW
+        function checkLoginStatus() {
+            // Set default user data for testing
+            if (!localStorage.getItem('user_id')) {
+                localStorage.setItem('user_id', '1');
+                localStorage.setItem('is_verified', 'true');
+                localStorage.setItem('user_phone', '+1234567890');
+            }
+            return true;
+        }
+        
+        // Check login status immediately - DISABLED FOR NOW
+        checkLoginStatus();
+        
         tailwind.config = {
             theme: {
                 extend: {
@@ -67,14 +106,14 @@
         }
         
         /* Keep buttons and clickable elements non-selectable for mobile UX */
-        button, .clickable, .subject-icon, nav, .bottom-navigation {
+        button, nav {
             -webkit-user-select: none;
             user-select: none;
         }
         
         html, body {
-            font-family: 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            font-size: 16px;
+            font-family: 'IranSans', 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-size: 18px;
             line-height: 1.6;
             background-color: #F8F9FA !important;
             -webkit-font-smoothing: antialiased;
@@ -85,6 +124,7 @@
         .chat-container {
             min-height: 400px; /* Ensure minimum height for content */
             padding-bottom: 20px;
+            background-color: #F8F9FA;
         }
         
         /* Fix input bar layout */
@@ -94,13 +134,13 @@
             padding: 0 1.5rem;
             height: 55px;
             border-radius: 9999px;
-            background-color: #c0c0c0;
+            background-color: #e8e8e4;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
         
         .user-input-container {
-            width: 100%;
-            max-width: 800px;
+            width: 95%;
+            max-width: 600px;
             margin: 0 auto;
             margin-top: auto;
             margin-bottom: 2rem;
@@ -112,6 +152,7 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+            background-color: #F8F9FA;
         }
         
         .ai-message-font {
@@ -144,70 +185,101 @@
             cursor: text;
         }
         
-        /* Fix icon layout and spacing */
-        .icons-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 2rem;
-            margin-top: 2rem;
+        /* Prevent main page scrolling */
+        html, body {
+            overflow: hidden;
+            height: 100%;
         }
         
-        .icon-button {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0.75rem;
-            border-radius: 0.75rem;
-            transition: all 0.2s ease;
-            background: transparent;
-            border: none;
-            cursor: pointer;
+        /* Force consistent background color throughout */
+        html, body, main, .chat-container, .chat-messages, .main {
+            background-color: #F8F9FA !important;
         }
         
-        .icon-button:hover {
-            background-color: rgba(0, 0, 0, 0.05);
-            transform: scale(1.05);
+        /* Bottom navigation styling - same as other pages */
+        
+        /* Navigation icon states */
+        .nav-icon {
+            color: #9CA3AF; /* Pale gray for inactive icons */
+            transition: color 0.3s ease;
         }
         
-        .icon-button:active {
-            transform: scale(0.95);
+        .nav-icon.active {
+            color: #374151; /* Full color for active icon */
         }
         
-        /* Responsive icon spacing */
-        @media (max-width: 640px) {
-            .icons-container {
-                gap: 1.5rem;
-                margin-top: 1.5rem;
-            }
-            
-            .icon-button {
-                padding: 0.5rem;
-            }
-            
-            .icon-button svg {
-                width: 1.25rem;
-                height: 1.25rem;
-            }
+        .nav-icon:hover {
+            color: #6B7280; /* Slightly darker on hover */
         }
         
         /* Basic chat styling - clean slate for new system */
         .chat-messages {
             line-height: 1.6;
+            background-color: #F8F9FA;
         }
         
         .chat-messages p {
             margin-bottom: 1rem;
         }
         
+        /* Enhanced AI response styling for mobile */
+        .chat-messages .message-bubble {
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            hyphens: auto;
+        }
+        
+        /* Force maximum width for AI responses - same as detailed analysis */
+        .chat-messages .message-bubble:not([class*="bg-[#e8e8e4]"]) {
+            width: 100% !important;
+            max-width: 100% !important;
+        }
+        
+        /* Better mobile typography */
+        @media (max-width: 640px) {
+            .chat-messages .message-bubble {
+                font-size: 16px !important;
+                line-height: 1.5;
+                padding: 1rem !important;
+            }
+            
+            /* AI messages (right-aligned) - maximum width - same as detailed analysis */
+            .chat-messages .message-bubble:not([class*="bg-[#e8e8e4]"]) {
+                width: 100% !important;
+                max-width: 100% !important;
+                margin-right: 0 !important;
+            }
+            
+            /* User messages (left-aligned) - full width */
+            .chat-messages .message-bubble[class*="bg-[#e8e8e4]"] {
+                max-width: 99% !important;
+                margin-left: 0.5rem !important;
+            }
+            
+            .chat-messages p {
+                margin-bottom: 0.75rem;
+            }
+            
+            .chat-messages li {
+                margin-bottom: 0.5rem;
+            }
+            
+            /* Simple mobile styling */
+            p {
+                font-size: 18px !important;
+                line-height: 1.6;
+                margin-bottom: 1rem;
+            }
+        }
+        
         /* Mobile touch optimizations */
-        button, .clickable {
+        button {
             touch-action: manipulation;
             -webkit-tap-highlight-color: transparent;
             transition: all 0.2s ease;
         }
         
-        button:active, .clickable:active {
+        button:active {
             transform: scale(0.95);
         }
         
@@ -235,45 +307,11 @@
             display: none !important;
         }
         
-        /* Subject icons styling */
-        .subject-icon {
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-        
-        .subject-icon:hover {
-            transform: scale(1.05);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-        }
-        
-        .subject-icon:active {
-            transform: scale(0.95);
-        }
-        
-        /* Ensure the test icon is always clickable */
-        nav button[onclick*="goToTest"] {
-            z-index: 102;
-            pointer-events: auto !important;
-        }
+
         
 
         
-        .typewriter {
-            overflow: hidden;
-            border-right: 2px solid #3B82F6;
-            white-space: nowrap;
-            animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
-        }
-        
-        @keyframes typing {
-            from { width: 0 }
-            to { width: 100% }
-        }
-        
-        @keyframes blink-caret {
-            from, to { border-color: transparent }
-            50% { border-color: #3B82F6 }
-        }
+
 
         /* Chat message content styling */
         .chat-message p {
@@ -287,18 +325,7 @@
 
         .chat-message li {
             
-        /* Mathematical formulas styling - SymPy removed for deployment */
-        .math-formula {
-            font-family: 'Times New Roman', serif;
-            font-size: 18px;
-            color: #1e293b;
-            background: #f8fafc;
-            padding: 8px 12px;
-            border-radius: 6px;
-            border: 1px solid #e2e8f0;
-            display: inline-block;
-            margin: 4px 0;
-        }
+
         
         .math-display {
             text-align: center !important;
@@ -336,64 +363,102 @@
             text-align: right;
         }
 
-        /* Advanced AI list styling */
-        .ai-list {
-            list-style: none;
+        /* Study-mode content styling - GPT-like experience */
+        /* Enhanced ChatGPT Study Mode Styling */
+        /* ChatGPT Study Mode Styling - Integrated with main chat */
+        .study-message {
+            background: transparent;
+            border-radius: 0;
+            box-shadow: none;
             padding: 0;
-            margin: 0.5rem 0;
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #374151;
+            max-width: 100%;
+            word-wrap: break-word;
         }
-
-        .ai-list .list-item {
-            position: relative;
-            padding-right: 1.5rem;
-            margin-bottom: 0.5rem;
+        
+        .study-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #1f2937;
+            margin: 1.2rem 0 0.8rem 0;
+            padding-bottom: 0.3rem;
+            border-bottom: 1px solid #e5e7eb;
+            text-align: right;
+        }
+        
+        .study-paragraph {
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 0.8rem;
+            color: #374151;
             text-align: right;
         }
 
-        .ai-list .list-item:before {
-            content: "•";
-            position: absolute;
-            right: 0;
-            top: 0;
-            color: #6B7280;
-            font-weight: bold;
-        }
-
-        /* Mathematical symbols styling */
-        .math-symbol {
-            font-family: 'Times New Roman', serif;
-            font-weight: bold;
-            color: #1F2937;
-        }
-
-        /* Advanced AI list styling */
-        .ai-list {
-            list-style: none;
-            padding: 0;
-            margin: 0.5rem 0;
-        }
-
-        .ai-list .list-item {
-            position: relative;
+        .study-list {
+            margin: 0.8rem 0;
             padding-right: 1.5rem;
-            margin-bottom: 0.5rem;
-            text-align: right;
+            list-style-type: disc !important;
+            list-style-position: outside !important;
         }
 
-        .ai-list .list-item:before {
-            content: "•";
+        .study-list-item {
+            margin-bottom: 0.4rem;
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #374151;
+            text-align: right;
+            display: list-item !important;
+            list-style-type: disc !important;
+        }
+        
+        .study-list ol {
+            counter-reset: list-counter;
+        }
+
+        .study-list ol .study-list-item {
+            counter-increment: list-counter;
+        }
+
+        .study-list ol .study-list-item::before {
+            content: counter(list-counter) ".";
+            color: #6b7280;
+            font-weight: bold;
+            font-size: 1rem;
             position: absolute;
             right: 0;
             top: 0;
-            color: #6B7280;
-            font-weight: bold;
         }
-
-        /* Mathematical symbols styling */
-        .math-symbol {
+        
+        .study-math {
+            background: transparent;
+            border: none;
+            border-radius: 0;
+            padding: 0.5rem 0;
+            margin: 0.5rem 0;
+            text-align: center;
             font-family: 'Times New Roman', serif;
-            font-weight: bold;
-            color: #1F2937;
+            font-size: 1.1rem;
+            color: #374151;
+        }
+        
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .study-title {
+                font-size: 1.1rem;
+                margin: 1rem 0 0.6rem 0;
+            }
+            
+            .study-paragraph {
+                font-size: 0.9rem;
+            }
+            
+            .study-list-item {
+                font-size: 0.9rem;
+            }
         }
 
         /* Emoji styling */
@@ -426,369 +491,13 @@
             margin-right: 1rem;
         }
 
-        /* Welcome message styling */
-        .welcome-container {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 10;
-            pointer-events: none;
-            width: 100%;
-            text-align: center;
-        }
 
-        /* Educational background styling */
-        body {
-            background: #dcdcdc !important;
-            position: relative;
-            transition: background-color 0.3s ease;
-        }
 
-        /* Professional Scientific Background */
-        .scientific-background {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1;
-            opacity: 1;
-            transition: opacity 0.8s ease;
-            background: #dcdcdc !important;
-        }
 
-        .scientific-background.chat-mode {
-            opacity: 0;
-        }
 
-        /* Professional Formula Styling */
-        .formula-section {
-            position: absolute;
-            font-family: 'Times New Roman', serif;
-            color: rgba(156, 163, 175, 0.15);
-            font-size: 1rem;
-            line-height: 1.6;
-            text-align: center;
-            transition: all 0.3s ease;
-        }
 
-        .formula-section:hover {
-            color: rgba(156, 163, 175, 0.25);
-            transform: scale(1.02);
-        }
-
-        /* Scattered Formula Positions */
-        .formula-top-left {
-            top: 8%;
-            left: 8%;
-            transform: rotate(-3deg);
-        }
-
-        .formula-top-right {
-            top: 10%;
-            right: 10%;
-            transform: rotate(4deg);
-        }
-
-        .formula-middle-left {
-            top: 35%;
-            left: 8%;
-            transform: rotate(-2deg);
-        }
-
-        .formula-middle-right {
-            top: 40%;
-            right: 8%;
-            transform: rotate(3deg);
-        }
-
-        .formula-bottom {
-            bottom: 8%;
-            left: 50%;
-            transform: translateX(-50%) rotate(1deg);
-        }
-
-        /* Additional scattered positions */
-        .formula-top-center {
-            top: 15%;
-            left: 50%;
-            transform: translateX(-50%) rotate(0deg);
-        }
-
-        .formula-center-left {
-            top: 50%;
-            left: 5%;
-            transform: translateY(-50%) rotate(-1deg);
-        }
-
-        .formula-center-right {
-            top: 50%;
-            right: 5%;
-            transform: translateY(-50%) rotate(2deg);
-        }
-
-        .formula-bottom-left {
-            bottom: 15%;
-            left: 15%;
-            transform: rotate(-2deg);
-        }
-
-        .formula-bottom-right {
-            bottom: 12%;
-            right: 15%;
-            transform: rotate(3deg);
-        }
-
-        .formula-random-1 {
-            top: 25%;
-            left: 25%;
-            transform: rotate(1deg);
-        }
-
-        .formula-random-2 {
-            top: 65%;
-            left: 30%;
-            transform: rotate(-1deg);
-        }
-
-        .formula-random-3 {
-            top: 30%;
-            right: 25%;
-            transform: rotate(2deg);
-        }
-
-        .formula-random-4 {
-            top: 70%;
-            right: 30%;
-            transform: rotate(-2deg);
-        }
-
-        /* Mathematical Notation */
-        .math-formula {
-            font-family: 'Times New Roman', serif;
-            font-style: italic;
-            margin: 0.2rem 0;
-        }
-
-        .math-sup {
-            font-size: 0.7em;
-            vertical-align: super;
-        }
-
-        .math-sub {
-            font-size: 0.7em;
-            vertical-align: sub;
-        }
-
-        .math-sqrt {
-            text-decoration: overline;
-            text-decoration-thickness: 1px;
-        }
-
-        .math-frac {
-            display: inline-block;
-            vertical-align: middle;
-            text-align: center;
-        }
-
-        .math-frac .numerator {
-            border-bottom: 1px solid currentColor;
-            padding-bottom: 1px;
-            margin-bottom: 1px;
-        }
-
-        /* Chemical Notation */
-        .chem-formula {
-            font-family: 'Times New Roman', serif;
-            font-weight: normal;
-        }
-
-        .chem-sub {
-            font-size: 0.7em;
-            vertical-align: sub;
-        }
-
-        /* Graph Elements */
-        .graph-element {
-            position: relative;
-            display: inline-block;
-            margin: 0.3rem 0;
-        }
-
-        .graph-line {
-            width: 40px;
-            height: 2px;
-            background: currentColor;
-            margin: 0.2rem auto;
-            position: relative;
-        }
-
-        .graph-line::before {
-            content: '';
-            position: absolute;
-            top: -2px;
-            left: 0;
-            width: 100%;
-            height: 6px;
-            background: linear-gradient(90deg, transparent 0%, currentColor 50%, transparent 100%);
-        }
-
-        body.chat-mode {
-            background: #dcdcdc !important;
-        }
-
-        /* Centered Welcome Text */
-        .welcome-center {
-            position: absolute;
-            top: 30%;
-            left: 40%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-            z-index: 2;
-            pointer-events: none;
-        }
-
-        .welcome-center h1 {
-            font-family: 'Times New Roman', serif;
-            color: rgba(156, 163, 175, 0.4);
-            font-weight: 300;
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
-            transition: opacity 0.8s ease;
-            font-size: 2rem;
-        }
-
-        .chat-mode .welcome-center {
-            opacity: 0;
-        }
-
-        /* Chat container initial state */
-        .chat-container.no-scroll {
-            overflow: hidden !important;
-            max-height: 100vh;
-        }
-
-        /* Chat container when scrolling enabled */
-        .chat-container {
-            min-height: 200px;
-            max-height: none; /* Allow full page scroll */
-            padding-bottom: 100px; /* Space above the input bar */
-            overflow-y: visible; /* Allow content to flow naturally */
-            margin-bottom: 0;
-            margin-top: 0;
-        }
         
-        /* Enhanced chat container spacing */
-        .chat-container {
-            padding-bottom: 100px; /* Space above the input bar */
-            margin-bottom: 0;
-        }
-        
-        /* Ensure chat messages are properly spaced and visible */
-        .chat-message {
-            margin-bottom: 1.5rem;
-        }
-        
-        /* Ensure the last message has proper bottom spacing */
-        .chat-message:last-child {
-            margin-bottom: 2rem;
-        }
-        
-        /* User input container - integrated into main page */
-        .user-input-container {
-            /* No background color - inherits from main page */
-            /* No fixed positioning - flows naturally in main page */
-            background: transparent !important;
-            position: relative !important;
-            width: 99.99% !important;
-            max-width: 800px !important;
-            margin: 0 auto !important;
-            margin-top: auto !important;
-            margin-bottom: 2rem !important;
-        }
-        
-        /* Main container */
-        
-        /* Spinning logo for AI response waiting */
-        .spinning-logo-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 1rem;
-        }
-        
-        .thinking-text {
-            font-size: 1.1rem;
-            color: #6B7280;
-            font-weight: 500;
-        }
-        
-        @keyframes spin {
-            from {
-                transform: rotate(0deg);
-            }
-            to {
-                transform: rotate(360deg);
-            }
-        }
-        
-        /* Main container - single version */
-        main {
-            overflow-y: visible;
-            height: auto;
-            background-color: #dcdcdc !important;
-            min-height: 100vh;
-            display: flex !important;
-            flex-direction: column !important;
-        }
 
-        /* User input - single version */
-        .user-input {
-            border: 1px solid #d1d5db;
-            border-radius: 8px;
-            transition: all 0.2s ease;
-            font-family: 'Vazirmatn', 'Inter', sans-serif;
-            font-size: 16px;
-            line-height: 1.5;
-            min-height: 40px;
-            max-height: 120px;
-            width: 100%;
-            color: #000000 !important; /* Pure black text */
-        }
-
-        .user-input:focus {
-            outline: none;
-            border-color: #3B82F6;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-        }
-
-        /* Mobile optimization */
-        @media (max-width: 640px) {
-            .user-input {
-                font-size: 16px;
-                padding: 12px 16px;
-                border-radius: 8px;
-                min-height: 40px;
-            }
-        }
-
-        .transform-scale-75 {
-            transform: scale(0.75);
-        }
-
-        .transform-scale-100 {
-            transform: scale(1);
-        }
-
-        /* Welcome text styles */
-        .welcome-text {
-            font-family: 'Vazirmatn', 'Inter', sans-serif;
-            font-weight: 300;
-            color: #9ca3af;
-            text-align: center;
-            line-height: 1.6;
-        }
         /* Mobile Performance Optimizations */
         @media (max-width: 768px) {
             /* Optimize animations for mobile */
@@ -814,135 +523,35 @@
         }
         
         /* Critical CSS for above-the-fold content */
-        .welcome-center,
         .user-input-container {
             will-change: transform;
             transform: translateZ(0);
         }
-        /* User input container - integrated into main page */
-        .user-input-container {
-            margin: 2rem auto; /* Proper spacing within main page */
-            width: 60%;
-            max-width: 400px;
-        }
-        
-        /* Input bar styling - exact specifications */
-        .input-bar {
-            background-color: #f5f5f5 !important; /* Light gray background color */
-            border-radius: 9999px !important; /* Proper oval shape like chapter buttons */
-            height: 55px !important; /* Increased height for better usability */
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-        }
-        
-        /* Input field styling */
-        #user-input {
-            font-family: 'Inter', 'Roboto', sans-serif !important;
-            font-size: 16px !important; /* Original font size */
-            color: #000000 !important; /* Pure black */
-            text-align: center !important;
-            line-height: 20px !important;
-        }
-        
-        #user-input::placeholder {
-            color: #1e1e1e !important; /* Dark gray for placeholder */
-        }
-        
-        /* Force text color for user input content */
-        #user-input:focus {
-            color: #000000 !important;
-        }
-        
-        #user-input:active {
-            color: #000000 !important;
-        }
-        
-        /* Icons container styling */
-        .icons-container {
-            margin-top: 32px; /* Original spacing */
-            gap: 3rem !important; /* Increased space between icons */
-        }
-        
-        /* Icon button styling */
-        .icon-button {
-            transition: all 0.2s ease;
-            border-radius: 50%;
-            padding: 8px; /* Original padding */
-        }
-        
-        .icon-button:hover {
-            background-color: rgba(156, 163, 175, 0.1);
-            transform: scale(1.05);
-        }
-        
-        .icon-button:active {
-            transform: scale(0.95);
-        }
-        
-        /* Ensure content area takes available space */
-        main > div:first-child {
-            flex: 1 !important;
-        }
-        
-        /* User input container - single version */
-        .user-input-container {
-            margin: 2rem auto;
-            width: 60%;
-            max-width: 400px;
-            background: transparent !important;
-            position: relative !important;
-            pointer-events: auto !important;
-            z-index: 10 !important;
-        }
-        
-        /* Input bar styling - single version */
-        .input-bar {
-            background-color: #c0c0c0 !important;
-            border-radius: 9999px !important;
-            height: 55px !important;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-        }
-        
-        /* User input textarea - single version */
-        #user-input {
-            cursor: text !important;
-            pointer-events: auto !important;
-            position: relative !important;
-            z-index: 10 !important;
-            background-color: transparent !important;
-            border: none !important;
-            outline: none !important;
-        }
-        
-        #user-input:focus {
-            outline: none !important;
-            border: none !important;
-            box-shadow: none !important;
-        }
+
     </style>
 </head>
     <body style="background-color: #F8F9FA;">
     <!-- Header -->
-    <header class="fixed top-0 left-0 right-0 bg-white/80 backdrop-blur-sm border-b border-gray-200 z-50">
-        <div class="flex justify-between items-center px-4 sm:px-6 py-3">
+            <header id="main-header" class="fixed top-0 left-0 right-0 z-50 border-b border-gray-200" style="background-color: #F8F9FA;">
+        <div class="flex justify-between items-center px-2 sm:px-3 py-3">
             <!-- Left: Menu Icon -->
             <div class="flex items-center">
-                <button class="p-2 hover:bg-gray-100 rounded-lg transition-colors" onclick="resetPageToInitialState()" title="Menu">
+                <button class="p-2 hover:bg-gray-100 rounded-lg transition-colors" onclick="toggleUserMenu()" title="User Menu">
                 <div class="flex flex-col space-y-1">
                         <div class="w-5 h-0.5 bg-gray-600"></div>
                         <div class="w-4 h-0.5 bg-gray-600"></div>
-                        <div class="w-3 h-0.5 bg-gray-600"></div>
                 </div>
                 </button>
             </div>
             
             <!-- Center: App Title -->
             <div class="absolute left-1/2 transform -translate-x-1/2">
-                <h1 class="text-lg sm:text-xl font-semibold text-gray-800">مِنو</h1>
+                <h1 class="text-lg sm:text-xl font-semibold text-gray-800">High School</h1>
             </div>
             
-            <!-- Right: Settings/Profile -->
+            <!-- Right: Settings -->
             <div class="flex items-center space-x-4">
-                <button class="p-2 hover:bg-gray-100 rounded-lg transition-colors" title="Settings">
+                <button class="p-2 hover:bg-gray-100 rounded-lg transition-colors" title="Share" onclick="shareMainConversation()">
                     <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z"></path>
                     </svg>
@@ -951,23 +560,58 @@
         </div>
     </header>
 
+    <!-- User Menu Overlay -->
+    <div id="user-menu-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden" onclick="closeUserMenu()"></div>
+    
+    <!-- User Menu Panel -->
+    <div id="user-menu-panel" class="fixed top-0 left-0 h-full w-80 bg-white shadow-lg z-50 transform -translate-x-full transition-transform duration-300">
+        <div class="p-6">
+            <!-- User Info Header -->
+            <div class="flex items-center space-x-4 mb-6">
+                <div class="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center">
+                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                    </svg>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-800">حساب کاربری</h3>
+                    <p id="user-phone-display" class="text-sm text-gray-600"></p>
+                </div>
+            </div>
+            
+            <!-- Menu Items -->
+            <div class="space-y-2">
+                <button class="w-full text-right py-3 px-4 hover:bg-gray-100 rounded-lg transition-colors" onclick="closeUserMenu()">
+                    <span class="text-gray-700">بازگشت</span>
+                </button>
+                <button class="w-full text-right py-3 px-4 hover:bg-gray-100 rounded-lg transition-colors text-red-600" onclick="logout()">
+                    <span>خروج</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- Main Chat Container -->
-            <main class="pt-24 px-4 sm:px-6 relative flex flex-col" style="background-color: #F8F9FA; min-height: 100vh; z-index: 1;">
-        <div class="max-w-4xl mx-auto flex-1">
+            <main class="pt-24 px-2 sm:px-3 relative flex flex-col" style="background-color: #F8F9FA; min-height: 100vh;">
+        <div class="max-w-full mx-auto flex-1">
             <!-- Chat Messages Container -->
             <div id="chat-messages" class="chat-container space-y-6 hidden" style="padding-bottom: 100px;">
                 <!-- Messages will be populated by JavaScript -->
             </div>
         </div>
-        
-        <!-- User Input - Integrated at bottom of main page -->
-        <div class="user-input-container mx-auto mt-auto mb-8" style="width: 99.99%; max-width: 800px;">
+    </main>
+    
+    <!-- User Input - Fixed positioning above icons -->
+            <div id="main-user-input" class="user-input-container fixed left-1/2 transform -translate-x-1/2" style="width: 95%; max-width: 600px; bottom: 70px;">
             <!-- Input Bar (Search Bar) -->
-            <div class="input-bar bg-[#c0c0c0] rounded-full shadow-lg flex items-center px-6 py-3" style="height: 55px; border-radius: 9999px;">
-                <!-- Left: Microphone Icon -->
-                <button class="p-1 text-[#9CA3AF] hover:text-gray-600 transition-colors">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"></path>
+                            <div class="input-bar bg-[#e8e8e4] rounded-full shadow-lg flex items-center px-6 py-3" style="height: 65px; border-radius: 9999px;">
+                <!-- Recorder Button - Left Side -->
+                <button class="recorder-button p-2 hover:bg-gray-200 rounded-full transition-colors" onclick="startRecording()" title="Voice Recording">
+                    <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M19 10v2a7 7 0 0 1-14 0v-2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <line x1="12" y1="19" x2="12" y2="23" stroke-width="2" stroke-linecap="round"/>
+                        <line x1="8" y1="23" x2="16" y2="23" stroke-width="2" stroke-linecap="round"/>
                     </svg>
                 </button>
                 
@@ -975,93 +619,134 @@
                 <div class="flex-1 mx-4">
                     <textarea 
                         id="user-input" 
-                        class="w-full bg-transparent border-none resize-none focus:outline-none text-[#000000] text-center font-sans text-base placeholder-[#1e1e1e]"
-                        placeholder="...Ask anything"
+                        class="w-full bg-transparent border-none resize-none focus:outline-none text-[#000000] text-right font-sans placeholder-[#1e1e1e]"
+                        placeholder="Learn anything..."
                         rows="1"
+                        dir="rtl"
                         oninput="autoResize(this)"
                         onkeydown="handleKeyDown(event, this)"
-                        onclick="showExpandedInput()"
-                        style="min-height: 20px; max-height: 120px; line-height: 20px; cursor: text;"
+                        onclick="showExpandedInput(); hideBottomIcons(); disableScrolling()"
+                        style="min-height: 20px; max-height: 120px; line-height: 20px; cursor: text; font-size: 16px;"
                     ></textarea>
                 </div>
                 
-                <!-- Right: Magnifying Glass Icon -->
-                <button class="p-1 text-[#1E40AF] hover:text-blue-700 transition-colors">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <circle cx="11" cy="11" r="8"/>
-                        <path d="m21 21-4.35-4.35"/>
-                    </svg>
-                </button>
-            </div>
-            
-            <!-- Four Icons Below Input Bar -->
-            <div class="icons-container mt-8 flex justify-center items-center space-x-10">
-                <!-- First Icon: Checkmark inside a circle -->
-                <button class="icon-button p-2 text-gray-800 hover:text-gray-600 transition-colors" onclick="handleChatClick()">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <circle cx="12" cy="12" r="10" stroke-width="2"/>
-                        <path d="M9 12l2 2 4-4" stroke-width="2"/>
-                    </svg>
-                </button>
-                
-                <!-- Second Icon: Open book -->
-                <button class="icon-button p-2 text-gray-800 hover:text-gray-600 transition-colors" onclick="window.location.href='chapters.html'">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" stroke-width="2"/>
-                    </svg>
-                </button>
-                
-                <!-- Third Icon: Document with a pencil -->
-                <button class="icon-button p-2 text-gray-800 hover:text-gray-600 transition-colors" onclick="goToTest()">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" stroke-width="2"/>
-                        <path d="M14 2v6h6" stroke-width="2"/>
-                        <path d="M16 13H8" stroke-width="2"/>
-                        <path d="M16 17H8" stroke-width="2"/>
-                        <path d="M10 9H8" stroke-width="2"/>
-                    </svg>
-                </button>
-                
-                <!-- Fourth Icon: Reserved for future use -->
-                <button class="icon-button p-2 text-gray-800 hover:text-gray-600 transition-colors" onclick="handleSearchClick()">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <circle cx="12" cy="12" r="10" stroke-width="2"/>
+                <!-- Paperclip Icon Button - Very Right Side -->
+                <button class="document-button ml-2 p-2 hover:bg-gray-200 rounded-full transition-colors" onclick="attachDocument()" title="Attach Document">
+                    <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66L9.64 16.2a2 2 0 0 1-2.83-2.83l8.49-8.49" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
                 </button>
             </div>
         </div>
         
+        <!-- Thin Border Separator -->
+        <div class="border-b border-gray-200 mx-auto" style="width: 95%; max-width: 600px;"></div>
+    </main>
+    
+    <!-- Four Icons - Standard Mobile Navigation Bar - Separated for independent positioning -->
+    <div class="icons-container fixed bottom-4 left-0 right-0 py-4 px-3 sm:px-4 flex justify-around items-center space-x-8 z-40">
+                         <!-- First Icon: Document with pencil (Chat page) -->
+             <button class="icon-button p-2 hover:text-gray-600 transition-colors" onclick="handleChatClick()">
+                 <svg class="w-6 h-6 nav-icon active" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                     <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" stroke-width="2"/>
+                     <path d="M14 2v6h6" stroke-width="2"/>
+                     <path d="M16 13H8" stroke-width="2"/>
+                     <path d="M16 17H8" stroke-width="2"/>
+                     <path d="M10 9H8" stroke-width="2"/>
+                 </svg>
+             </button>
+             
+             <!-- Second Icon: Open book (Library) -->
+             <button class="icon-button p-2 hover:text-gray-600 transition-colors" onclick="window.location.href='library.html'">
+                 <svg class="w-6 h-6 nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                     <path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" stroke-width="2"/>
+                 </svg>
+             </button>
+             
+             <!-- Third Icon: Circle with tick inside (Test page) -->
+             <button class="icon-button p-2 hover:text-gray-600 transition-colors" onclick="goToTest()">
+                 <svg class="w-6 h-6 nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                     <circle cx="12" cy="12" r="10" stroke-width="2"/>
+                     <path d="M9 12l2 2 4-4" stroke-width="2"/>
+                 </svg>
+             </button>
+            
+            
+        </div>
+        
                  <!-- Second Gainsboro Page (Hidden by default) - This is the REAL second page -->
-                 <div id="second-gainsboro-page" class="fixed inset-0 bg-[#F8F9FA] z-10 hidden">
-                     <!-- Chat Messages Area - Covers entire second gainsboro page -->
-                     <div id="second-page-chat-area" class="absolute top-20 left-3 right-3 sm:left-4 sm:right-4 bottom-32 overflow-y-auto p-2 sm:p-3">
+                 <div id="second-gainsboro-page" class="fixed inset-0 bg-[#F8F9FA] z-90 hidden">
+                     <!-- Header for Second Page (matching thread UI) -->
+                     <div id="second-page-header" class="fixed top-0 left-0 right-0 border-b border-gray-200 z-100" style="height: 60px; background-color: #F8F9FA;">
+                         <div class="flex items-center justify-between h-full px-2 sm:px-3">
+                             <!-- Left: Menu and New Chat buttons -->
+                             <div class="flex items-center gap-2">
+                                 <!-- Menu button (three vertical dots) -->
+                                 <button onclick="showThreadMenu()" class="w-10 h-10 rounded-full bg-transparent hover:bg-gray-200 flex items-center justify-center transition-colors">
+                                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="color: #333;">
+                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" stroke="currentColor" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"></path>
+                                     </svg>
+                                 </button>
+                                 
+                                 <!-- Share button (share icon) -->
+                                 <button onclick="shareConversation()" class="w-10 h-10 rounded-full bg-transparent hover:bg-gray-200 flex items-center justify-center transition-colors">
+                                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="color: #333;">
+                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" stroke="currentColor" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z"></path>
+                                     </svg>
+                                 </button>
+                             </div>
+                             
+                             <!-- Right: Back button (cross icon) -->
+                             <button onclick="hideSecondPage()" class="w-10 h-10 rounded-full bg-transparent hover:bg-gray-200 flex items-center justify-center transition-colors">
+                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="color: #333;">
+                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" stroke="currentColor" d="M6 18L18 6M6 6l12 12"></path>
+                                 </svg>
+                             </button>
+                         </div>
+                     </div>
+                     
+                     <!-- Chat Messages Area - Adjusted for header -->
+                     <div id="second-page-chat-area" class="absolute top-16 left-1 right-1 sm:left-2 sm:right-2 bottom-32 overflow-y-auto p-0.5 sm:p-1">
                          <!-- Messages will appear here on the second gainsboro page -->
                      </div>
                      
-                     <!-- Close Button - Top Right -->
-                     <button id="close-second-page" class="absolute top-4 right-4 w-8 h-8 bg-gray-600 rounded-full flex items-center justify-center hover:bg-gray-700 transition-colors shadow-lg" onclick="hideSecondPage()">
-                         <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                    </svg>
-                </button>
-                </div>
+
+                 </div>
                 
                  <!-- Expanded Input (Hidden by default) - Just for typing -->
-                 <div id="expanded-input-container" class="fixed bottom-0 left-0 right-0 bg-[#e8e8e4] rounded-t-3xl shadow-2xl hidden z-20" style="height: 110px;">
-                     <div class="relative h-full p-6">
+                 <div id="expanded-input-container" class="fixed bottom-0 left-0 right-0 bg-[#e8e8e4] rounded-t-3xl shadow-2xl hidden z-100" style="height: 100px; border-top: 1px solid #d1d5db;">
+                     <div class="relative h-full p-3 sm:p-4">
                          <!-- Expanded Textarea - Full Section -->
                          <textarea 
                              id="expanded-user-input" 
-                             class="w-full bg-transparent border-none resize-none focus:outline-none text-[#000000] font-sans text-lg placeholder-[#1e1e1e] pr-20 text-right"
-                             placeholder="Type your message here..."
+                             class="w-full bg-transparent border-none resize-none focus:outline-none text-[#000000] font-sans text-3xl placeholder-[#1e1e1e] pr-20 text-right absolute top-2 right-0"
+                             placeholder="Learn anything..."
                              rows="3"
                              onkeydown="handleExpandedInputKeyDown(event)"
+                             oninput="handleInputChange(this)"
                              style="min-height: 80px; line-height: 1.5; cursor: text;"
                          ></textarea>
                          
+                        <!-- Paperclip Icon Button - Very Right Side -->
+                        <button class="document-button absolute bottom-3 right-4 w-8 h-8 bg-transparent rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors" onclick="attachDocument()" title="Attach Document">
+                            <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66L9.64 16.2a2 2 0 0 1-2.83-2.83l8.49-8.49" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+                        
+                        <!-- Recorder Button - Left of Paperclip -->
+                        <button class="recorder-button absolute bottom-3 right-12 w-8 h-8 bg-transparent rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors" onclick="startRecording()" title="Voice Recording">
+                            <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M19 10v2a7 7 0 0 1-14 0v-2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <line x1="12" y1="19" x2="12" y2="23" stroke-width="2" stroke-linecap="round"/>
+                                <line x1="8" y1="23" x2="16" y2="23" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                        </button>
+                         
                          <!-- Send Button - Circle with Arrow at Left Bottom -->
-                         <button id="send-button" class="absolute bottom-4 left-6 w-12 h-12 bg-black rounded-full flex items-center justify-center hover:bg-gray-800 transition-colors shadow-lg" onclick="sendMessage()">
-                             <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <button id="send-button" class="absolute bottom-3 left-4 w-8 h-8 bg-gray-400 rounded-full flex items-center justify-center hover:bg-gray-600 transition-colors shadow-lg" onclick="event.preventDefault(); sendMessage(); return false;">
+                            <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19V5M5 12l7-7 7 7"/>
                     </svg>
                 </button>
@@ -1108,10 +793,12 @@
             const sendButton = document.getElementById('send-button');
             if (textarea.value.trim() !== '') {
                 textarea.classList.add('typing-active');
+                // Send button black when typing
                 sendButton.classList.remove('bg-gray-400');
                 sendButton.classList.add('bg-black');
             } else {
                 textarea.classList.remove('typing-active');
+                // Send button pale gray when empty
                 sendButton.classList.remove('bg-black');
                 sendButton.classList.add('bg-gray-400');
             }
@@ -1131,7 +818,7 @@
                 sendButton.classList.remove('bg-gray-400');
                 sendButton.classList.add('bg-black');
             } else {
-                // No text - make button gray
+                // No text - make button pale gray
                 sendButton.classList.remove('bg-black');
                 sendButton.classList.add('bg-gray-400');
             }
@@ -1139,11 +826,20 @@
         
         // Function to show expanded input
         function showExpandedInput() {
-            // Hide main user input container and icons
-            const userInputContainer = document.querySelector('.user-input-container');
+            // Hide main header to prevent overlap
+            const mainHeader = document.getElementById('main-header');
+            if (mainHeader) {
+                mainHeader.style.display = 'none';
+            }
+            
+            // Hide main user input container
+            const userInputContainer = document.getElementById('main-user-input');
             if (userInputContainer) {
                 userInputContainer.style.display = 'none';
             }
+            
+            // Hide bottom navigation icons
+            hideBottomIcons();
             
             // Show second gainsboro page FIRST (background)
             const secondPage = document.getElementById('second-gainsboro-page');
@@ -1168,13 +864,102 @@
             }, 100);
         }
         
+        // Function to hide bottom icons
+        function hideBottomIcons() {
+            const iconsContainer = document.querySelector('.icons-container');
+            if (iconsContainer) {
+                iconsContainer.style.display = 'none';
+            }
+        }
+        
+        // Function to disable page scrolling
+        function disableScrolling() {
+            document.body.style.overflow = 'hidden';
+            document.documentElement.style.overflow = 'hidden';
+        }
+        
+        // Function to enable page scrolling
+        function enableScrolling() {
+            document.body.style.overflow = 'auto';
+            document.documentElement.style.overflow = 'auto';
+        }
+        
+        // Function to show bottom icons
+        function showBottomIcons() {
+            const iconsContainer = document.querySelector('.icons-container');
+            if (iconsContainer) {
+                iconsContainer.style.display = 'flex';
+            }
+        }
+        
+        // Function to collapse only the expanded input but stay on same page
+        function collapseExpandedInputOnly() {
+            // Hide expanded input container
+            const expandedInput = document.getElementById('expanded-input-container');
+            if (expandedInput) {
+                expandedInput.classList.add('hidden');
+                expandedInput.style.display = 'none';
+            }
+            
+            // Show main user input container (oval input) but keep it on the second page
+            const userInputContainer = document.getElementById('main-user-input');
+            if (userInputContainer) {
+                userInputContainer.style.display = 'block';
+                // Position it at the very bottom with 1px distance
+                userInputContainer.style.position = 'fixed';
+                userInputContainer.style.bottom = '1px';
+                userInputContainer.style.left = '50%';
+                userInputContainer.style.transform = 'translateX(-50%)';
+                userInputContainer.style.zIndex = '1000';
+                userInputContainer.style.width = '95%';
+                userInputContainer.style.maxWidth = '600px';
+                
+                // Add border for second page user input
+                const inputBar = userInputContainer.querySelector('.input-bar');
+                if (inputBar) {
+                    inputBar.style.border = '0.5px solid #6b7280';
+                }
+            }
+            
+            // Adjust chat area to have bottom padding so text doesn't go behind input
+            const chatArea = document.getElementById('second-page-chat-area');
+            if (chatArea) {
+                chatArea.style.paddingBottom = '120px'; // More space for proper positioning
+                chatArea.style.bottom = '0px'; // Ensure it goes to the very bottom
+                chatArea.scrollTop = chatArea.scrollHeight; // Scroll to bottom
+            }
+            
+            // Keep the second gainsboro page visible (don't hide it)
+            const secondPage = document.getElementById('second-gainsboro-page');
+            if (secondPage) {
+                secondPage.classList.remove('hidden');
+                secondPage.style.display = 'block';
+            }
+            
+            // Keep bottom icons hidden (as requested)
+            const iconsContainer = document.querySelector('.icons-container');
+            if (iconsContainer) {
+                iconsContainer.style.display = 'none';
+            }
+            
+            // Keep scrolling disabled to maintain the chat view
+            document.body.style.overflow = 'hidden';
+            document.documentElement.style.overflow = 'hidden';
+        }
+        
         // Function to hide expanded input
         function hideExpandedInput() {
             // Show main user input container and icons
-            const userInputContainer = document.querySelector('.user-input-container');
+            const userInputContainer = document.getElementById('main-user-input');
             if (userInputContainer) {
                 userInputContainer.style.display = 'block';
             }
+            
+            // Show bottom icons again
+            showBottomIcons();
+            
+            // Enable scrolling again
+            enableScrolling();
             
             // Hide expanded input
             const expandedInput = document.getElementById('expanded-input-container');
@@ -1193,6 +978,12 @@
         
         // Function to hide second page
         function hideSecondPage() {
+            // Show main header again
+            const mainHeader = document.getElementById('main-header');
+            if (mainHeader) {
+                mainHeader.style.display = 'block';
+            }
+            
             // Hide second gainsboro page
             const secondPage = document.getElementById('second-gainsboro-page');
             if (secondPage) {
@@ -1208,10 +999,16 @@
             }
             
             // Show main user input container and icons
-            const userInputContainer = document.querySelector('.user-input-container');
+            const userInputContainer = document.getElementById('main-user-input');
             if (userInputContainer) {
                 userInputContainer.style.display = 'block';
             }
+            
+            // Show bottom icons again
+            showBottomIcons();
+            
+            // Enable scrolling again
+            enableScrolling();
         }
         
         // Handle Enter key in expanded input
@@ -1231,10 +1028,10 @@
             messageDiv.className = `flex w-full ${isUser ? 'justify-start' : 'justify-end'} mb-4`;
             
             const messageBubble = document.createElement('div');
-            messageBubble.className = `max-w-[90%] sm:max-w-[85%] px-3 sm:px-4 py-2 sm:py-3 rounded-2xl ${
+            messageBubble.className = `px-3 sm:px-4 py-4 sm:py-5 rounded-2xl ${
                 isUser 
-                    ? 'bg-[#c0c0c0] text-black text-left' 
-                    : 'text-black text-right'
+                    ? 'max-w-[99%] sm:max-w-[98%] lg:max-w-[97%] bg-[#e8e8e4] text-black text-left' 
+                    : 'w-full text-black text-right'
             } leading-relaxed text-base`;
             
             // Use proper formatting for user messages too
@@ -1244,13 +1041,32 @@
                 // For AI messages, use the robust formatting system
                 const formattedContent = formatChatContent(content);
                 messageBubble.innerHTML = formattedContent;
+                // Force width override with inline styles - same as detailed analysis
+                messageBubble.style.width = '100%';
+                messageBubble.style.maxWidth = '100%';
             }
             
             messageDiv.appendChild(messageBubble);
             chatArea.appendChild(messageDiv);
             
+            // VISUAL DEBUG: Check if message was actually added
+            console.log('🔍 VISUAL DEBUG - Message added to DOM:', {
+                messageDiv: messageDiv,
+                messageDivClasses: messageDiv.classList.toString(),
+                messageDivStyles: messageDiv.style.cssText,
+                messageDivOffsetWidth: messageDiv.offsetWidth,
+                messageDivOffsetHeight: messageDiv.offsetHeight,
+                chatAreaChildrenCount: chatArea.children.length,
+                chatAreaScrollHeight: chatArea.scrollHeight
+            });
+            
+            // Ensure proper spacing from bottom input
+            if (chatArea.style.paddingBottom) {
+                chatArea.scrollTop = chatArea.scrollHeight;
+            } else {
             // Scroll to bottom
             chatArea.scrollTop = chatArea.scrollHeight;
+            }
         }
         
         // Add streaming message placeholder in second gainsboro page
@@ -1266,23 +1082,32 @@
             messageDiv.className = 'flex w-full justify-end mb-4';
             
             const messageBubble = document.createElement('div');
-            messageBubble.className = 'max-w-[90%] sm:max-w-[85%] px-3 sm:px-4 py-2 sm:py-3 rounded-2xl text-black text-right leading-relaxed font-medium';
+            messageBubble.className = 'w-full px-3 sm:px-4 py-4 sm:py-5 rounded-2xl text-black text-right leading-relaxed font-medium';
             messageBubble.style.cssText = 'font-size: 18px !important; font-weight: 500 !important;';
             messageBubble.innerHTML = '<span class="typing-indicator">...</span>';
             
             // Add a data attribute to make it easier to find
             messageBubble.setAttribute('data-message-bubble', 'true');
             
+            // Force width override with inline styles - same as detailed analysis
+            messageBubble.style.width = '100%';
+            messageBubble.style.maxWidth = '100%';
+            
             messageDiv.appendChild(messageBubble);
             chatArea.appendChild(messageDiv);
             
+            // Ensure proper spacing from bottom input
+            if (chatArea.style.paddingBottom) {
+                chatArea.scrollTop = chatArea.scrollHeight;
+            } else {
             // Scroll to bottom
             chatArea.scrollTop = chatArea.scrollHeight;
+            }
             
             return messageId;
         }
         
-        // Update streaming message in second gainsboro page
+        // Update streaming message in second gainsboro page - Simple typewriter + Enhanced final formatting
         function updateExpandedStreamingMessage(messageId, content) {
             console.log('🔄 updateExpandedStreamingMessage called with:', messageId, content);
             const messageElement = document.getElementById(messageId);
@@ -1292,20 +1117,27 @@
                 if (bubble) {
                     console.log('✅ Found bubble element, updating content');
                     
-                    // Use the robust content formatting system instead of raw innerHTML
+                    // Enhanced Study Mode formatting during streaming
                     const formattedContent = formatChatContent(content);
-                    console.log('🔍 Formatted content for streaming:', formattedContent.substring(0, 200));
-                    
-                    // Replace the typing indicator with the properly formatted content
                     bubble.innerHTML = formattedContent;
                     
                     // Ensure font size is preserved
                     bubble.style.cssText = 'font-size: 18px !important; font-weight: 500 !important;';
                     
+                    // Force width override with inline styles
+                    bubble.style.width = '100%';
+                    bubble.style.maxWidth = '100%';
+                    
+                    // Add interactive elements after content is set
+                    setTimeout(() => {
+                        addInteractiveElements(messageElement);
+                    }, 100);
+                    
                     // Ensure the content is selectable
                     bubble.style.webkitUserSelect = 'text';
                     bubble.style.userSelect = 'text';
                     bubble.style.cursor = 'text';
+                    
                 } else {
                     console.log('❌ Bubble element not found');
                 }
@@ -1320,73 +1152,291 @@
         
         
         
-        // Simple function to show bottom navigation - INSTANT
-        function showBottomNavigation() {
-            // Hide main chat user input and icons - INSTANT
-            const userInputContainer = document.querySelector('.user-input-container');
-            if (userInputContainer) {
-                userInputContainer.style.display = 'none';
+
+        
+                // Enable scrolling without hiding navigation
+        function enableScrollingWithoutHidingNav() {
+            // Enable scrolling for the page
+            document.body.style.overflow = 'auto';
+            document.documentElement.style.overflow = 'auto';
+            console.log('✅ Scrolling enabled without hiding navigation');
+        }
+
+        // Scroll to bottom of chat
+        function scrollToBottom() {
+            const chatMessages = document.getElementById('chat-messages');
+            if (chatMessages) {
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+        }
+        
+        // Start new chat function
+        function startNewChat() {
+            // Clear current conversation
+            const chatMessages = document.getElementById('chat-messages');
+            if (chatMessages) {
+                chatMessages.innerHTML = '';
             }
             
-            // Show bottom navigation - INSTANT
-            const bottomNav = document.getElementById('bottom-navigation');
-            if (bottomNav) {
-                bottomNav.classList.remove('hidden');
-                bottomNav.style.display = 'block';
-            }
-        }
-        
-        // Simple function to hide bottom navigation - INSTANT
-        function hideBottomNavigation() {
-            // Show main chat user input and icons - INSTANT
-            const userInputContainer = document.querySelector('.user-input-container');
-            if (userInputContainer) {
-                userInputContainer.style.display = 'block';
+            // Clear second page chat area
+            const secondPageChatArea = document.getElementById('second-page-chat-area');
+            if (secondPageChatArea) {
+                secondPageChatArea.innerHTML = '';
             }
             
-            // Hide bottom navigation - INSTANT
-            const bottomNav = document.getElementById('bottom-navigation');
-            if (bottomNav) {
-                bottomNav.classList.add('hidden');
-                bottomNav.style.display = 'none';
+            // Reset conversation state
+            currentConversationId = null;
+            currentThreadId = null;
+            
+            // Clear input
+            const messageInput = document.getElementById('message-input');
+            if (messageInput) {
+                messageInput.value = '';
+            }
+            
+            // Clear expanded input
+            const expandedInput = document.getElementById('expanded-user-input');
+            if (expandedInput) {
+                expandedInput.value = '';
+            }
+            
+            // Initialize new conversation
+            initializeConversation();
+            
+            console.log('🆕 New chat started');
+        }
+        
+        // Show thread menu function
+        function showThreadMenu() {
+            const options = [
+                'حذف گفتگو',
+                'آرشیو گفتگو', 
+                'اشتراک‌گذاری',
+                'کپی گفتگو',
+                'تنظیمات'
+            ];
+            
+            const choice = prompt(`گزینه‌های گفتگو:\n\n${options.map((option, index) => `${index + 1}. ${option}`).join('\n')}\n\nلطفاً شماره گزینه مورد نظر را وارد کنید:`);
+            
+            if (choice) {
+                const optionIndex = parseInt(choice) - 1;
+                if (optionIndex >= 0 && optionIndex < options.length) {
+                    const selectedOption = options[optionIndex];
+                    console.log('🔍 Selected option:', selectedOption);
+                    
+                    switch(selectedOption) {
+                        case 'حذف گفتگو':
+                            if (confirm('آیا مطمئن هستید که می‌خواهید این گفتگو را حذف کنید؟')) {
+                                deleteCurrentThread();
+                            }
+                            break;
+                        case 'آرشیو گفتگو':
+                            archiveCurrentThread();
+                            break;
+                        case 'اشتراک‌گذاری':
+                            shareConversation();
+                            break;
+                        case 'کپی گفتگو':
+                            copyConversation();
+                            break;
+                        case 'تنظیمات':
+                            showThreadSettings();
+                            break;
+                    }
+                } else {
+                    alert('گزینه نامعتبر انتخاب شده است.');
+                }
             }
         }
         
-        // Simplified focus and blur functions
-        function handleInputFocus(textarea) {
-            console.log('🎯 INPUT FOCUSED');
-            showBottomNavigation();
+        // Share conversation function for second page
+        function shareConversation() {
+            const chatArea = document.getElementById('second-page-chat-area');
+            if (!chatArea || chatArea.children.length === 0) {
+                alert('هیچ گفتگویی برای اشتراک‌گذاری وجود ندارد');
+                return;
+            }
+            
+            // Collect all messages from second page
+            let conversationText = 'گفتگوی من با High School AI:\n\n';
+            const messages = chatArea.children;
+            
+            for (let i = 0; i < messages.length; i++) {
+                const message = messages[i];
+                const isUser = message.classList.contains('justify-start');
+                const messageContent = message.querySelector('[data-message-bubble="true"]');
+                
+                if (messageContent) {
+                    const role = isUser ? 'من' : 'AI';
+                    conversationText += `${role}: ${messageContent.textContent}\n\n`;
+                }
+            }
+            
+            // Try to use Web Share API if available
+            if (navigator.share) {
+                navigator.share({
+                    title: 'گفتگوی من با High School AI',
+                    text: conversationText,
+                    url: window.location.href
+                }).catch(err => {
+                    console.log('Error sharing:', err);
+                    fallbackShare(conversationText);
+                });
+            } else {
+                fallbackShare(conversationText);
+            }
         }
         
-        function handleInputBlur(textarea) {
-            console.log('🎯 INPUT BLURRED');
-            hideBottomNavigation();
+        // Copy conversation function
+        function copyConversation() {
+            const chatArea = document.getElementById('second-page-chat-area');
+            if (!chatArea || chatArea.children.length === 0) {
+                alert('هیچ گفتگویی برای کپی کردن وجود ندارد');
+                return;
+            }
+            
+            // Collect all messages
+            let conversationText = 'گفتگوی من با High School AI:\n\n';
+            const messages = chatArea.children;
+            
+            for (let i = 0; i < messages.length; i++) {
+                const message = messages[i];
+                const isUser = message.classList.contains('justify-start');
+                const messageContent = message.querySelector('[data-message-bubble="true"]');
+                
+                if (messageContent) {
+                    const role = isUser ? 'من' : 'AI';
+                    conversationText += `${role}: ${messageContent.textContent}\n\n`;
+                }
+            }
+            
+            // Copy to clipboard
+            navigator.clipboard.writeText(conversationText).then(() => {
+                alert('گفتگو کپی شد! می‌توانید آن را در هر جایی پیست کنید.');
+            }).catch(() => {
+                alert('خطا در کپی کردن گفتگو');
+            });
         }
         
-                function addMessage(content, isUser = false, messageId = null) {
-            console.log('📨 addMessage called with:', { content, isUser, messageId });
+        // Delete current thread function
+        function deleteCurrentThread() {
+            if (currentThreadId) {
+                // Here you would call API to delete the thread
+                console.log('🗑️ Deleting thread:', currentThreadId);
+                alert('گفتگو حذف شد');
+                hideSecondPage();
+            } else {
+                alert('هیچ گفتگویی برای حذف کردن وجود ندارد');
+            }
+        }
+        
+        // Archive current thread function
+        function archiveCurrentThread() {
+            if (currentThreadId) {
+                // Here you would call API to archive the thread
+                console.log('📦 Archiving thread:', currentThreadId);
+                alert('گفتگو آرشیو شد');
+            } else {
+                alert('هیچ گفتگویی برای آرشیو کردن وجود ندارد');
+            }
+        }
+        
+        // Show thread settings function
+        function showThreadSettings() {
+            alert('تنظیمات گفتگو (در حال توسعه)');
+        }
+        
+        // Share main conversation function
+        function shareMainConversation() {
+            const chatMessages = document.getElementById('chat-messages');
+            if (!chatMessages || chatMessages.children.length === 0) {
+                alert('هیچ گفتگویی برای اشتراک‌گذاری وجود ندارد');
+                return;
+            }
+            
+            // Collect all messages from main chat area
+            let conversationText = 'گفتگوی من با High School AI:\n\n';
+            const messages = chatMessages.children;
+            
+            for (let i = 0; i < messages.length; i++) {
+                const message = messages[i];
+                const isUser = message.classList.contains('justify-start');
+                const messageContent = message.querySelector('[data-message-bubble="true"]');
+                
+                if (messageContent) {
+                    const role = isUser ? 'من' : 'AI';
+                    conversationText += `${role}: ${messageContent.textContent}\n\n`;
+                }
+            }
+            
+            // Try to use Web Share API if available
+            if (navigator.share) {
+                navigator.share({
+                    title: 'گفتگوی من با High School AI',
+                    text: conversationText,
+                    url: window.location.href
+                }).catch(err => {
+                    console.log('Error sharing:', err);
+                    fallbackShare(conversationText);
+                });
+            } else {
+                fallbackShare(conversationText);
+            }
+        }
+        
+        // Fallback share function
+        function fallbackShare(text) {
+            // Copy to clipboard
+            navigator.clipboard.writeText(text).then(() => {
+                alert('گفتگو کپی شد! می‌توانید آن را در هر جایی پیست کنید.');
+            }).catch(() => {
+                // If clipboard fails, show the text in a prompt
+                prompt('گفتگو کپی شده (Ctrl+C برای کپی):', text);
+            });
+        }
+        
+                function addMessage(content, isUser = false, messageId = null, skipFormatting = false) {
+            console.log('🔍 ===== ADD MESSAGE DEBUG START =====');
+            console.log('📨 addMessage called with:', { content: content.substring(0, 100) + '...', isUser, messageId, skipFormatting });
+            
             const messagesContainer = document.getElementById('chat-messages');
             console.log('📨 Messages container:', messagesContainer);
+            console.log('📨 Messages container current display:', messagesContainer ? messagesContainer.style.display : 'null');
+            console.log('📨 Messages container current classes:', messagesContainer ? messagesContainer.classList.toString() : 'null');
+            
             const messageDiv = document.createElement('div');
             
             if (messageId) {
                 messageDiv.id = messageId;
+                console.log('📨 Message ID set:', messageId);
             }
             
             // Proper message positioning - user left, AI right
             messageDiv.className = `flex w-full ${isUser ? 'justify-start' : 'justify-end'} mb-6`;
+            console.log('📨 Message div classes:', messageDiv.className);
+            
+            // Check if content is already formatted (contains HTML tags)
+            const isAlreadyFormatted = content.includes('<div') || content.includes('<p') || content.includes('<ul') || content.includes('<ol') || content.includes('<li');
+            console.log('📨 Is content already formatted:', isAlreadyFormatted);
+            
+            // Format content properly for AI messages (only if not already formatted and not skipping)
+            const displayContent = isUser ? content : (isAlreadyFormatted || skipFormatting ? content : formatChatContent(content));
+            console.log('📨 Display content length:', displayContent.length);
+            console.log('📨 Display content preview:', displayContent.substring(0, 100) + '...');
             
             const messageContent = `
-                <div class="max-w-3xl ${isUser ? 'bg-gray-200 text-gray-900' : 'text-gray-900'} rounded-3xl px-6 py-4 ${isUser ? 'shadow-sm' : ''} ${!isUser ? 'ml-auto' : ''}">
-                    <p class="${isUser ? 'text-base' : 'text-lg'} leading-relaxed" ${!isUser ? 'dir="rtl"' : ''}>${content}</p>
+                <div class="max-w-full ${isUser ? 'bg-gray-200 text-gray-900' : 'text-gray-900'} rounded-3xl px-3 py-4 ${isUser ? 'shadow-sm' : ''} ${!isUser ? 'ml-auto' : ''}">
+                    <div class="${isUser ? 'text-base' : 'text-lg'} leading-relaxed" ${!isUser ? 'dir="rtl"' : ''}>${displayContent}</div>
                 </div>
             `;
             
             messageDiv.innerHTML = messageContent;
             messagesContainer.appendChild(messageDiv);
+            console.log('📨 Message appended to container');
             
             // Enable scrolling after first message without hiding navigation
             enableScrollingWithoutHidingNav();
+            
             
             // Mathematical rendering simplified for deployment
             if (!isUser) {
@@ -1405,6 +1455,7 @@
             }, 100);
             
             console.log(`Message added: ${isUser ? 'User' : 'AI'} - Total messages: ${messagesContainer.children.length}`);
+            console.log('🔍 ===== ADD MESSAGE DEBUG END =====');
             
             return messageDiv;
         }
@@ -1419,7 +1470,7 @@
             messageDiv.className = 'flex w-full justify-end mb-4';
             
             const messageContent = `
-                <div class="ml-auto max-w-3xl text-gray-900 rounded-3xl px-6 py-4">
+                <div class="ml-auto max-w-full text-gray-900 rounded-3xl px-3 py-4">
                     <div class="text-lg leading-relaxed flex items-center justify-center">
                         <div class="spinning-logo-container">
                             <div class="thinking-text">در حال فکر کردن...</div>
@@ -1451,10 +1502,15 @@
                 messageDiv.className = 'flex w-full justify-end';
                 
                 const textElement = messageDiv.querySelector('div');
-                // Format the content with bullet points and proper structure
+                
+                // Enhanced Study Mode formatting during streaming
                 const formattedContent = formatChatContent(content);
-                // Wrap content in a div that maintains right alignment
                 textElement.innerHTML = `<div class="text-right"><span class="text-lg leading-relaxed">${formattedContent}</span></div>`;
+                
+                // Add interactive elements after content is set
+                setTimeout(() => {
+                    addInteractiveElements(messageDiv);
+                }, 100);
                 
                         // Mathematical rendering simplified for deployment
         console.log('✅ Mathematical rendering simplified for deployment');
@@ -1468,49 +1524,167 @@
             }
         }
 
-        // Content formatting - only bullet points and numbered lists, no headers or bold
+        // Enhanced ChatGPT Study Mode formatting with typewriter effect preserved
+        // Enhanced Study Mode Rendering System
         function formatChatContent(content) {
-            console.log('🔍 Raw AI content:', content);
-            
             if (!content || typeof content !== 'string') {
-                console.warn('⚠️ Invalid content received:', content);
-                return '<p>متأسفانه محتوایی برای نمایش وجود ندارد.</p>';
+                return '<div class="study-message">متأسفانه محتوایی برای نمایش وجود ندارد.</div>';
             }
             
-            let formatted = content;
-            
-            // FIRST: Remove ALL markdown symbols from the entire content
-            formatted = formatted.replace(/#+\s*/g, ''); // Remove all headers (#, ##, ###, etc.)
-            formatted = formatted.replace(/\*\*(.*?)\*\*/g, '$1'); // Remove bold
-            formatted = formatted.replace(/\*(.*?)\*/g, '$1'); // Remove italic
-            formatted = formatted.replace(/`(.*?)`/g, '$1'); // Remove code blocks
-            formatted = formatted.replace(/~~(.*?)~~/g, '$1'); // Remove strikethrough
-            
-            // SECOND: Convert bullet points (lines starting with - or •)
-            formatted = formatted.replace(/^[-•]\s*(.+)$/gm, '<li class="mb-1">$1</li>');
-            
-            // THIRD: Convert numbered lists (lines starting with 1. 2. etc.)
-            formatted = formatted.replace(/^\d+\.\s*(.+)$/gm, '<li class="mb-1">$1</li>');
-            
-            // FOURTH: Wrap lists in proper HTML structure with dynamic spacing
-            formatted = formatted.replace(/(<li class="mb-1">.*<\/li>)/gs, '<ul class="list-disc list-inside space-y-1 mb-3">$1</ul>');
-            
-            // FIFTH: Handle line breaks
-            formatted = formatted.replace(/\n\n/g, '</p><p>');
-            formatted = formatted.replace(/\n/g, '<br>');
-            
-            // Wrap in basic structure
-            formatted = `<div dir="rtl" class="text-right"><p>${formatted}</p></div>`;
-            
-            console.log('🔍 Formatted content:', formatted);
-            return formatted;
+            // Parse and format the content
+            const parsedContent = parseStudyContent(content);
+            return `<div class="study-message" dir="rtl">${parsedContent}</div>`;
         }
+        
+        // Parse AI output text into structured HTML (Simple bullet points only)
+        function parseStudyContent(text) {
+            // Remove all markdown formatting - keep only bullet points
+            let processedText = text;
+            
+            // Remove markdown bold (convert **text** to plain text)
+            processedText = processedText.replace(/\*\*(.*?)\*\*/g, '$1');
+            
+            // Remove markdown italic (convert *text* to plain text)
+            processedText = processedText.replace(/\*(.*?)\*/g, '$1');
+            
+            // Remove markdown code (convert `text` to plain text)
+            processedText = processedText.replace(/`(.*?)`/g, '$1');
+            
+            // Remove markdown headers
+            processedText = processedText.replace(/^#{1,6}\s+(.+)$/gm, '$1');
+            
+            // Convert lines starting with - to start with • instead
+            processedText = processedText.replace(/^- /gm, '• ');
+            
+            // Remove any remaining dash symbols from content - only use •
+            processedText = processedText.replace(/-/g, '');
+            
+            const lines = processedText.split('\n');
+            let result = [];
+            let currentList = [];
+            let listType = 'ul';
+            let inList = false;
+            
+            for (let i = 0; i < lines.length; i++) {
+                const line = lines[i].trim();
+                
+                if (!line) {
+                    // Empty line - close current list if exists
+                    if (inList && currentList.length > 0) {
+                        result.push(`<${listType} class="study-list">${currentList.join('')}</${listType}>`);
+                        currentList = [];
+                        inList = false;
+                    }
+                    continue;
+                }
+                
+                // Detect bullet points (ONLY lines starting with • - ignore -, *, etc.)
+                if (line.startsWith('•')) {
+                    if (!inList) {
+                        inList = true;
+                        listType = 'ul';
+                        currentList = [];
+                    }
+                    // Remove the • symbol and get the content
+                    const content = line.substring(1).trim();
+                    currentList.push(`<li class="study-list-item">${content}</li>`);
+                    console.log('🔵 Creating bullet point:', content);
+                    continue;
+                }
+                
+                // Detect numbered lists (lines starting with 1., 2., etc.)
+                const numberedMatch = line.match(/^(\d+)\.\s+(.+)$/);
+                if (numberedMatch) {
+                    if (!inList || listType !== 'ol') {
+                    if (inList && currentList.length > 0) {
+                            result.push(`<${listType} class="study-list">${currentList.join('')}</${listType}>`);
+                        }
+                        inList = true;
+                        listType = 'ol';
+                        currentList = [];
+                    }
+                    currentList.push(`<li class="study-list-item">${numberedMatch[2]}</li>`);
+                    continue;
+                }
+                
+                // Detect math equations (comprehensive LaTeX detection)
+                if (line.includes('\\(') || line.includes('\\[') || line.includes('\\frac') || line.includes('\\times') || 
+                    line.includes('\\sqrt') || line.includes('\\sum') || line.includes('\\int') || line.includes('\\lim') ||
+                    line.includes('\\sin') || line.includes('\\cos') || line.includes('\\tan') || line.includes('\\log') ||
+                    line.includes('\\alpha') || line.includes('\\beta') || line.includes('\\gamma') || line.includes('\\delta') ||
+                    line.includes('\\pi') || line.includes('\\theta') || line.includes('\\lambda') || line.includes('\\mu') ||
+                    line.includes('\\sigma') || line.includes('\\omega') || line.includes('\\infty') || line.includes('\\partial') ||
+                    line.includes('\\nabla') || line.includes('\\pm') || line.includes('\\mp') || line.includes('\\leq') ||
+                    line.includes('\\geq') || line.includes('\\neq') || line.includes('\\approx') || line.includes('\\equiv') ||
+                    line.includes('\\in') || line.includes('\\subset') || line.includes('\\supset') || line.includes('\\cup') ||
+                    line.includes('\\cap') || line.includes('\\emptyset') || line.includes('\\rightarrow') || line.includes('\\leftarrow') ||
+                    line.includes('\\Rightarrow') || line.includes('\\Leftarrow') || line.includes('\\Leftrightarrow') ||
+                    line.includes('\\begin') || line.includes('\\end') || line.includes('\\matrix') || line.includes('\\pmatrix') ||
+                    line.includes('\\bmatrix') || line.includes('\\vmatrix') || line.includes('\\det') || line.includes('\\text') ||
+                    line.match(/\\[a-zA-Z]+/) || line.match(/\$.*\$/) || line.match(/\\[\[\](){}]/)) {
+            if (inList && currentList.length > 0) {
+                        result.push(`<${listType} class="study-list">${currentList.join('')}</${listType}>`);
+                        currentList = [];
+                        inList = false;
+                    }
+                    result.push(`<div class="study-math">${line}</div>`);
+                    continue;
+                }
+                
+                // Regular paragraph
+                if (inList && currentList.length > 0) {
+                    result.push(`<${listType} class="study-list">${currentList.join('')}</${listType}>`);
+                    currentList = [];
+                    inList = false;
+                }
+                result.push(`<p class="study-paragraph">${line}</p>`);
+            }
+            
+            // Close any remaining list
+            if (inList && currentList.length > 0) {
+                result.push(`<${listType} class="study-list">${currentList.join('')}</${listType}>`);
+            }
+            
+            return result.join('');
+        }
+        
+        // Add interactive elements (simplified - no buttons, no collapsible)
+        function addInteractiveElements(messageElement) {
+            const studyMessage = messageElement.querySelector('.study-message');
+            if (!studyMessage) return;
+            
+            // Process math equations with MathJax
+            const mathElements = studyMessage.querySelectorAll('.study-math');
+            mathElements.forEach(math => {
+                // MathJax will automatically process these elements
+                math.style.display = 'block';
+            });
+            
+            // Re-render MathJax
+            waitForMathJax(() => {
+                if (window.MathJax && window.MathJax.typesetPromise) {
+                    console.log('🔢 Processing MathJax for study message');
+                    MathJax.typesetPromise([studyMessage]).then(() => {
+                        console.log('✅ MathJax processing completed');
+                    });
+                }
+            });
+        }
+        
+        
+        
+        
         
 
         
         async function sendMessage() {
             console.log('🚀 sendMessage function called');
-            if (isStreaming) return;
+            if (isStreaming) {
+                console.log('⚠️ Already streaming, ignoring new message');
+                return;
+            }
+            
+            try {
             
             // Get message from expanded input
             const expandedInput = document.getElementById('expanded-user-input');
@@ -1523,26 +1697,226 @@
             console.log('📝 Message content:', message);
             if (!message) return;
             
+            // Create new thread if none exists
+            if (!currentThreadId) {
+                const title = message.length > 50 ? message.substring(0, 50) + '...' : message;
+                await createNewThread(title);
+            }
+            
             // Add user message to second gainsboro page
             addExpandedMessage(message, true);
             
-            // Clear the expanded input but keep it open
+            // Clear the expanded input
             if (expandedInput) {
                 expandedInput.value = '';
+            }
+            
+            // Hide expanded input but don't show oval input yet - wait for response completion
+            const expandedInputContainer = document.getElementById('expanded-input-container');
+            if (expandedInputContainer) {
+                expandedInputContainer.classList.add('hidden');
+                expandedInputContainer.style.display = 'none';
             }
             
             // Add AI response placeholder in second gainsboro page
             const streamingMessageId = addExpandedStreamingMessage();
             isStreaming = true;
             
+            // Add timeout safety to reset streaming flag
+            const streamingTimeout = setTimeout(() => {
+                console.log('⚠️ Streaming timeout reached, resetting flag');
+                isStreaming = false;
+            }, 60000); // 60 second timeout
+            
             try {
-                // Use streaming API for real-time response
-                await streamAIResponse(message, streamingMessageId, true); // true = expanded mode
+                // Use streaming API for real-time response with conversation context
+                const aiResponse = await streamAIResponseWithContext(message, streamingMessageId, true); // true = expanded mode
+                
+                // Add AI response placeholder in second gainsboro page
+                await saveMessageToThread(message, aiResponse);
+                
+                // Clear timeout since streaming completed successfully
+                clearTimeout(streamingTimeout);
+                
+                // Show oval input when response is complete for better UX
+                collapseExpandedInputOnly();
+                
             } catch (error) {
                 console.error('Failed to get AI response:', error);
                 updateExpandedStreamingMessage(streamingMessageId, 'متأسفانه خطایی رخ داد. لطفاً دوباره تلاش کنید.');
+                
+                // Clear timeout on error
+                clearTimeout(streamingTimeout);
+                
+                // Show oval input on error for retry
+                collapseExpandedInputOnly();
             } finally {
+                // Always reset streaming flag
                 isStreaming = false;
+                console.log('✅ Streaming completed, flag reset');
+            }
+            } catch (error) {
+                console.error('❌ Error in sendMessage:', error);
+                // Always reset streaming flag on error
+                isStreaming = false;
+                // Show oval input on error for retry
+                collapseExpandedInputOnly();
+            }
+        }
+
+        // Stream AI response with thread context
+        async function streamAIResponseWithContext(message, messageId, isExpanded = false) {
+            try {
+                console.log('🚀 Starting AI call with thread context');
+                console.log('📝 User message:', message);
+                console.log('🆔 Thread ID:', currentThreadId);
+                
+                // Ensure we have a thread ID
+                if (!currentThreadId) {
+                    console.log('🔍 No thread ID, creating new thread...');
+                    const title = message.length > 50 ? message.substring(0, 50) + '...' : message;
+                    currentThreadId = await createNewThread(title);
+                    if (!currentThreadId) {
+                        console.error('❌ Failed to create thread');
+                        return;
+                    }
+                }
+                
+                // Get thread context for AI
+                const contextMessages = await getThreadContext(4000); // 4000 token limit
+                console.log('📚 Context messages for AI:', contextMessages.length);
+                
+                // Prepare context for AI
+                const contextForAI = contextMessages.map(msg => ({
+                    role: msg.sender_role === 'user' ? 'user' : 'assistant',
+                    content: msg.content
+                }));
+                
+                console.log('📚 Using context messages:', contextForAI.length);
+                
+                const response = await fetch('/api/chat/stream', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        message: message,
+                        conversationId: currentThreadId || 'new_thread',
+                        context: contextForAI
+                    })
+                });
+                
+                console.log('📡 Response status:', response.status);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const reader = response.body.getReader();
+                const decoder = new TextDecoder();
+                let fullResponse = '';
+                
+                while (true) {
+                    const { done, value } = await reader.read();
+                    
+                    if (done) break;
+                    
+                    const chunk = decoder.decode(value);
+                    const lines = chunk.split('\n');
+                    
+                    for (const line of lines) {
+                        if (line.startsWith('data: ')) {
+                            const data = line.slice(6);
+                            console.log('🔍 Processing data line:', data.substring(0, 100));
+                            
+                            if (data === '[DONE]') {
+                                console.log('✅ Received [DONE] signal');
+                                return fullResponse;
+                            }
+                            
+                            try {
+                                const parsed = JSON.parse(data);
+                                console.log('📝 Parsed data:', parsed);
+                                
+                                if (parsed.content && parsed.type === 'chunk') {
+                                    console.log('✅ Valid chunk received, content:', parsed.content);
+                                    fullResponse += parsed.content;
+                                
+                                    // Original fast streaming - no delay
+                                
+                                    // Update message based on mode
+                                    if (isExpanded) {
+                                        console.log('🔄 Updating expanded streaming message');
+                                        updateExpandedStreamingMessage(messageId, fullResponse);
+                                    } else {
+                                        console.log('🔄 Updating main streaming message');
+                                        updateStreamingMessage(messageId, fullResponse);
+                                    }
+                                } else {
+                                    console.log('⚠️ Invalid chunk format:', parsed);
+                                }
+                            } catch (e) {
+                                console.log('❌ JSON parsing error:', e.message);
+                                // Ignore parsing errors for incomplete chunks
+                            }
+                        }
+                    }
+                }
+                
+                return fullResponse;
+                
+            } catch (error) {
+                console.error('Streaming error:', error);
+                throw error;
+            }
+        }
+
+        // Save conversation to database
+        async function saveConversationToDatabase(userMessage, aiResponse) {
+            try {
+                // Get user ID from localStorage
+                const userId = localStorage.getItem('user_id');
+                
+                // If no user is logged in, don't save
+                if (!userId) {
+                    console.log('⚠️ No user logged in, skipping save');
+                    return;
+                }
+                
+                // Create a title from the user message (first 50 characters)
+                const title = userMessage.length > 50 ? userMessage.substring(0, 50) + '...' : userMessage;
+                
+                // Create the full conversation content with formatted AI response
+                const content = `سوال: ${userMessage}\n\nپاسخ: ${formatChatContent(aiResponse)}`;
+                
+                const response = await fetch('/api/conversations', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        user_id: userId,
+                        title: title,
+                        content: content,
+                        type: 'chat',
+                        subject: null,
+                        grade: null,
+                        field: null,
+                        chapter: null,
+                        book: null
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    console.log('✅ Conversation saved to database with ID:', data.id);
+                } else {
+                    console.error('❌ Failed to save conversation:', data.error);
+                }
+                
+            } catch (error) {
+                console.error('❌ Error saving conversation to database:', error);
             }
         }
         
@@ -1601,6 +1975,8 @@
                                     console.log('✅ Valid chunk received, content:', parsed.content);
                                         fullResponse += parsed.content;
                                     
+                                    // Original fast streaming - no delay
+                                    
                                     // Update message based on mode
                                     if (isExpanded) {
                                         console.log('🔄 Updating expanded streaming message');
@@ -1609,9 +1985,6 @@
                                         console.log('🔄 Updating main streaming message');
                                         updateStreamingMessage(messageId, fullResponse);
                                     }
-                                        
-                                        // Reduced delay for faster typewriter effect
-                                        await new Promise(resolve => setTimeout(resolve, 10));
                                 } else {
                                     console.log('⚠️ Invalid chunk format:', parsed);
                                     }
@@ -1631,6 +2004,17 @@
             }
         }
         
+        // Voice recording function
+        function startRecording() {
+            console.log('🎤 Starting voice recording...');
+            alert('Voice recording feature (to be implemented)');
+        }
+        
+        function attachDocument() {
+            console.log('📄 Attaching document...');
+            alert('Document attachment feature (to be implemented)');
+        }
+        
         // Handle Enter key for both input fields
         function handleKeyDown(event, textarea) {
             if (event.key === 'Enter' && !event.shiftKey) {
@@ -1639,141 +2023,81 @@
             }
         }
         
-        // Handle Enter key
-        document.getElementById('user-input').addEventListener('keydown', function(e) {
-            if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                sendMessage();
-            }
-        });
 
-        // SymPy processing removed for deployment
-        // function processSymPy(element) {
-        //     SymPy backend rendering - content already processed
-        //     console.log('🔍 SymPy backend rendering - content already processed');
-        //     Content is already rendered by SymPy on the backend
-        // }
         
-        // Function to enable scrolling and hide welcome message
-        function enableScrolling() {
-            const chatContainer = document.getElementById('chat-messages');
-            const scientificBackground = document.getElementById('scientific-background');
-            
-            // Enable scrolling on chat container
-            chatContainer.classList.remove('no-scroll');
-            chatContainer.style.overflow = 'auto';
-            chatContainer.style.overflowY = 'auto';
-            
-            // Hide scientific background
-            if (scientificBackground) {
-                scientificBackground.classList.add('chat-mode');
-            }
-            
-            // Add chat-mode class to body for clean white background
-            document.body.classList.add('chat-mode');
-            
-            // Hide bottom navigation when scrolling is enabled
-            const bottomNav = document.getElementById('bottom-navigation');
-            if (bottomNav) {
-                bottomNav.style.opacity = '0';
-                bottomNav.style.pointerEvents = 'none';
-            }
-        }
 
-        // Function to enable scrolling without hiding navigation
-        function enableScrollingWithoutHidingNav() {
-            const chatContainer = document.getElementById('chat-messages');
-            const scientificBackground = document.getElementById('scientific-background');
-            
-            // Only set positioning once - don't change it on every call
-            if (!chatContainer.dataset.positioned) {
-                chatContainer.style.maxHeight = 'none'; // Allow full page scroll
-                chatContainer.style.marginBottom = '0';
-                chatContainer.style.paddingBottom = '100px'; // Space above input bar
-                chatContainer.style.height = 'auto'; // Let height adjust to content
-                chatContainer.dataset.positioned = 'true'; // Mark as positioned
-            }
-            
-            // Enable scrolling on chat container
-            chatContainer.classList.remove('no-scroll');
-            chatContainer.style.overflow = 'auto';
-            chatContainer.style.overflowY = 'auto';
-            
-            // Hide scientific background
-            if (scientificBackground) {
-                scientificBackground.classList.add('chat-mode');
-            }
-            
-            // Add chat-mode class to body for clean white background
-            document.body.classList.add('chat-mode');
-            
-            // Hide bottom navigation when input is focused
-            const bottomNav = document.getElementById('bottom-navigation');
-            if (bottomNav) {
-                bottomNav.style.display = 'none';
-            }
-        }
-
-
-
-        // Function to handle input focus/change
-        function handleInputChange(input) {
-            // Enable scrolling when user starts typing without hiding navigation
-            enableScrollingWithoutHidingNav();
-        }
         
 
 
-        // Initialize page
+        // Initialize page with comprehensive debugging
         document.addEventListener('DOMContentLoaded', function() {
-            // Register service worker for mobile performance
-            // Temporarily disabled service worker to fix navigation issues
-            /*
-            if ('serviceWorker' in navigator) {
-                const swPath = self.location.hostname === 'localhost' ? 'sw.js' : '/sw.js';
-                navigator.serviceWorker.register(swPath)
-                    .then(registration => {
-                        console.log('✅ Service Worker registered successfully');
-                    })
-                    .catch(error => {
-                        console.log('⚠️ Service Worker registration failed:', error);
-                    });
-            }
-            */
+            console.log('🔍 ===== DOM CONTENT LOADED DEBUG START =====');
+            console.log('🔍 Page URL:', window.location.href);
+            console.log('🔍 Page title:', document.title);
+            console.log('🔍 Viewing thread from localStorage:', localStorage.getItem('viewing_thread'));
             
             // Preload critical pages for faster mobile navigation
+            console.log('🔍 Step 1: Preloading pages...');
             preloadPages();
             
             // Initialize chat functionality
+            console.log('🔍 Step 2: Initializing chat...');
             initializeChat();
             
-            // Ensure page starts in correct state
-            resetPageToInitialState();
+            // Initialize user menu
+            console.log('🔍 Step 3: Initializing user menu...');
+            initializeUserMenu();
+            
+            console.log('🔍 ===== DOM CONTENT LOADED DEBUG END =====');
         });
         
-        // Function to reset page to initial state
-        function resetPageToInitialState() {
-            // Show welcome text
-            const welcomeText = document.getElementById('welcome-text');
-            if (welcomeText) {
-                welcomeText.style.opacity = '1';
-                welcomeText.style.display = 'block';
-            }
+
+        
+        // User Menu Functions
+        function initializeUserMenu() {
+            const userPhone = localStorage.getItem('user_phone');
+            const userPhoneDisplay = document.getElementById('user-phone-display');
             
-            // Hide chat messages
-            const chatMessages = document.getElementById('chat-messages');
-            if (chatMessages) {
-                chatMessages.classList.add('hidden');
-                chatMessages.style.display = 'none';
+            if (userPhone && userPhoneDisplay) {
+                // Format phone number for display (show first 3 and last 4 digits)
+                const formattedPhone = userPhone.replace(/(\d{3})(\d{4})(\d{4})/, '$1***$3');
+                userPhoneDisplay.textContent = formattedPhone;
             }
+        }
+        
+        function toggleUserMenu() {
+            const overlay = document.getElementById('user-menu-overlay');
+            const panel = document.getElementById('user-menu-panel');
             
-            // Clear input field
-            const userInput = document.getElementById('user-input');
-            if (userInput) {
-                userInput.value = '';
-                userInput.style.height = 'auto';
-                userInput.placeholder = "...Ask anything";
+            if (overlay.classList.contains('hidden')) {
+                // Open menu
+                overlay.classList.remove('hidden');
+                panel.classList.remove('-translate-x-full');
+            } else {
+                // Close menu
+                closeUserMenu();
             }
+        }
+        
+        function closeUserMenu() {
+            const overlay = document.getElementById('user-menu-overlay');
+            const panel = document.getElementById('user-menu-panel');
+            
+            overlay.classList.add('hidden');
+            panel.classList.add('-translate-x-full');
+        }
+        
+        function logout() {
+            localStorage.removeItem('user_id');
+            localStorage.removeItem('user_phone');
+            localStorage.removeItem('is_verified');
+            localStorage.removeItem('is_logged_in');
+            
+            // Close menu
+            closeUserMenu();
+            
+            // Redirect to auth page
+            window.location.href = 'auth.html';
         }
         
         // Preload pages for faster mobile navigation
@@ -1787,18 +2111,1620 @@
             });
         }
         
-        // Initialize chat functionality
+        // Thread Management Variables
+        let currentThreadId = null;
+        let threadMessages = [];
+        let isThreadLoaded = false;
+        
+        // Thread Management Functions
+
+        // Initialize chat functionality with comprehensive debugging
         function initializeChat() {
-            initializeConversation();
+            console.log('🔍 ===== INITIALIZE CHAT DEBUG START =====');
+            console.log('🔍 Current URL:', window.location.href);
+            console.log('🔍 Current thread ID:', currentThreadId);
+            console.log('🔍 Is thread loaded:', isThreadLoaded);
             
-            // Debug: Check conversation state every 2 seconds
-            setInterval(() => {
-                const messagesContainer = document.getElementById('chat-messages');
-                if (messagesContainer) {
-                    console.log(`Current conversation state: ${messagesContainer.children.length} messages`);
-                    console.log('Message IDs:', Array.from(messagesContainer.children).map(el => el.id));
+            checkUserStatus();
+            
+            // Check if we're loading from library (viewing a thread)
+            const viewingThread = localStorage.getItem('viewing_thread');
+            console.log('🔍 Viewing thread from localStorage:', viewingThread);
+            
+            if (viewingThread) {
+                console.log('🔍 Loading thread from library:', viewingThread);
+                loadThreadFromLibrary(viewingThread);
+            } else {
+                console.log('🔍 Normal initialization - starting new session');
+                initializeConversation();
+            }
+            
+            console.log('🔍 ===== INITIALIZE CHAT DEBUG END =====');
+        }
+
+        // Load thread from library with comprehensive debugging and robust state reset
+        async function loadThreadFromLibrary(threadId) {
+            console.log('🔍 ===== THREAD LOADING DEBUG START =====');
+            console.log('🔍 Thread ID:', threadId);
+            
+            try {
+                let userId = localStorage.getItem('user_id');
+                console.log('🔍 User ID:', userId);
+                
+                // For MVP, use default user ID if not found
+                if (!userId) {
+                    userId = '1';
+                    localStorage.setItem('user_id', userId);
+                    console.log('🔧 Using default user ID for MVP in loadThreadFromLibrary:', userId);
                 }
-            }, 2000);
+
+                console.log('🔍 Step 1: Getting thread data...');
+                // Get thread data
+                const threadResponse = await fetch(`/api/threads/${threadId}?user_id=${userId}`);
+                const threadData = await threadResponse.json();
+                
+                console.log('🔍 Thread response:', threadData);
+                
+                if (!threadData.success) {
+                    console.error('🔍 ERROR: Failed to load thread:', threadData.error);
+                    return;
+                }
+
+                console.log('🔍 Step 2: Getting thread messages...');
+                // Get thread messages
+                const messagesResponse = await fetch(`/api/threads/${threadId}/messages?limit=100`);
+                const messagesData = await messagesResponse.json();
+                
+                console.log('🔍 Messages response:', messagesData);
+                
+                if (!messagesData.success) {
+                    console.error('🔍 ERROR: Failed to load messages:', messagesData.error);
+                    return;
+                }
+
+                console.log('🔍 Step 3: Setting up thread data...');
+                // Set up thread data
+                currentThreadId = threadId;
+                threadMessages = messagesData.messages;
+                isThreadLoaded = true;
+                
+                console.log('🔍 Thread loaded:', threadData.thread.title);
+                console.log('🔍 Messages loaded:', threadMessages.length);
+                console.log('🔍 Current thread ID set to:', currentThreadId);
+
+                console.log('🔍 Step 4: COMPLETE PAGE STATE RESET...');
+                // Complete page state reset - more aggressive approach
+                await completePageStateReset();
+                
+                console.log('🔍 Step 5: Ensuring second page is visible...');
+                // Ensure second page is visible before loading thread context
+                const secondPage = document.getElementById('second-gainsboro-page');
+                if (secondPage) {
+                    secondPage.style.display = 'block';
+                    secondPage.style.visibility = 'visible';
+                    secondPage.style.opacity = '1';
+                    secondPage.classList.remove('hidden');
+                    console.log('🔍 Second page made visible');
+                }
+                
+                console.log('🔍 Step 6: Loading thread context into UI...');
+                // Load thread context into UI
+                loadThreadContext(threadData.thread, threadMessages);
+                
+                console.log('🔍 Step 7: Clearing stored thread ID...');
+                // Clear the stored thread ID
+                localStorage.removeItem('viewing_thread');
+                
+                console.log('🔍 ===== THREAD LOADING DEBUG END =====');
+                
+            } catch (error) {
+                console.error('🔍 ERROR in loadThreadFromLibrary:', error);
+                console.log('🔍 ===== THREAD LOADING DEBUG END (ERROR) =====');
+            }
+        }
+        
+        // Complete page state reset - ULTRA AGGRESSIVE approach
+        async function completePageStateReset() {
+            console.log('🔍 ===== ULTRA AGGRESSIVE PAGE STATE RESET START =====');
+            
+            // Hide ALL possible UI elements that could cause conflicts - EXPANDED LIST
+            const elementsToHide = [
+                'main-user-input',
+                'chat-messages', 
+                'second-gainsboro-page',
+                'expanded-input-container',
+                'initial-chat-container',
+                'welcome-container',
+                'chat-start-container',
+                'welcome-message',
+                'initial-state',
+                'chat-container',
+                'user-input-container',
+                'input-bar',
+                'main-container',
+                'app-container',
+                'page-container'
+            ];
+            
+            elementsToHide.forEach(elementId => {
+                const element = document.getElementById(elementId);
+                if (element) {
+                    console.log(`🔍 ULTRA HIDING element: ${elementId}`);
+                    // Don't hide essential elements for thread display
+                    if (elementId !== 'second-gainsboro-page' && elementId !== 'chat-messages' && elementId !== 'main-user-input') {
+                        // Ultra aggressive hiding
+                        element.style.display = 'none !important';
+                        element.style.visibility = 'hidden !important';
+                        element.style.opacity = '0 !important';
+                        element.style.zIndex = '-999 !important';
+                        element.style.position = 'absolute';
+                        element.style.left = '-9999px';
+                        element.style.top = '-9999px';
+                        element.classList.add('hidden');
+                        element.classList.add('ultra-hidden');
+                } else {
+                        console.log(`🔍 SKIPPING essential element: ${elementId}`);
+                    }
+                }
+            });
+            
+            // Hide any elements with specific classes - EXPANDED LIST
+            const classSelectors = [
+                '.border-b.border-gray-200',
+                '.input-bar',
+                '.chat-container',
+                '.user-input-container',
+                '.welcome-message',
+                '.initial-state',
+                '.welcome-container',
+                '.chat-start-container',
+                '.main-container',
+                '.app-container',
+                '.page-container',
+                '.fixed',
+                '.absolute',
+                '.relative'
+            ];
+            
+            classSelectors.forEach(selector => {
+                const elements = document.querySelectorAll(selector);
+                elements.forEach(element => {
+                    console.log(`🔍 ULTRA HIDING element with class: ${selector}`);
+                    // Ultra aggressive hiding
+                    element.style.display = 'none !important';
+                    element.style.visibility = 'hidden !important';
+                    element.style.opacity = '0 !important';
+                    element.style.zIndex = '-999 !important';
+                    element.classList.add('hidden');
+                    element.classList.add('ultra-hidden');
+                });
+            });
+            
+            // Hide ALL divs that might be causing issues - BUT NOT THE SECOND PAGE
+            const allDivs = document.querySelectorAll('div');
+            allDivs.forEach((div, index) => {
+                // Only hide divs that are likely to be UI elements
+                if (div.id || div.className.includes('container') || div.className.includes('page') || div.className.includes('main')) {
+                    console.log(`🔍 Checking div ${index}:`, div.id, div.className);
+                    // Don't hide the second page - we need it for thread display
+                    if (div.id !== 'second-gainsboro-page' && div.id !== 'chat-messages' && div.id !== 'main-user-input') {
+                        div.style.display = 'none';
+                        div.style.visibility = 'hidden';
+                        div.style.opacity = '0';
+                    }
+                }
+            });
+            
+            // Clear any existing messages
+            const chatMessages = document.getElementById('chat-messages');
+            if (chatMessages) {
+                console.log('🔍 Clearing chat messages container');
+                chatMessages.innerHTML = '';
+            }
+            
+            // Reset body styles
+            document.body.style.overflow = 'auto';
+            document.body.style.backgroundColor = '#F8F9FA';
+            document.body.style.position = 'relative';
+            
+            // Maximum speed page transition - minimal delay
+            await new Promise(resolve => setTimeout(resolve, 10));
+            
+            console.log('🔍 ===== ULTRA AGGRESSIVE PAGE STATE RESET END =====');
+        }
+
+        // Load thread context into UI with comprehensive debugging - simplified approach
+        function loadThreadContext(thread, messages) {
+            console.log('🔍 ===== LOAD THREAD CONTEXT DEBUG START =====');
+            console.log('🔍 Thread title:', thread.title);
+            console.log('🔍 Messages count:', messages.length);
+            
+            // Direct approach - no delays, just show the thread content
+            console.log('🔍 Step 1: Showing second page directly...');
+            
+            // Show the second gainsboro page
+            const secondPage = document.getElementById('second-gainsboro-page');
+            console.log('🔍 Second page element:', secondPage);
+            if (secondPage) {
+                console.log('🔍 Second page current classes:', secondPage.classList.toString());
+                console.log('🔍 Second page current display:', secondPage.style.display);
+                
+                // Show the second page - RESET ALL POSITION STYLES
+                secondPage.classList.remove('hidden');
+                secondPage.classList.remove('ultra-hidden');
+                secondPage.style.display = 'block';
+                secondPage.style.visibility = 'visible';
+                secondPage.style.opacity = '1';
+                secondPage.style.zIndex = '90';
+                // Reset position styles that were set by ultra-aggressive hiding
+                secondPage.style.position = 'fixed';
+                secondPage.style.left = '0';
+                secondPage.style.top = '0';
+                secondPage.style.right = '0';
+                secondPage.style.bottom = '0';
+                console.log('🔍 Second page shown directly with position reset');
+                
+                // Force show the second page with maximum visibility
+                console.log('🔍 FORCE SHOWING second page with maximum visibility...');
+                
+                // Remove all conflicting classes and styles
+                secondPage.className = 'fixed inset-0 bg-[#F8F9FA] z-90';
+                secondPage.removeAttribute('style');
+                
+                // Apply maximum visibility styles
+                secondPage.style.cssText = `
+                    position: fixed !important;
+                    top: 0 !important;
+                    left: 0 !important;
+                    right: 0 !important;
+                    bottom: 0 !important;
+                    width: 100vw !important;
+                    height: 100vh !important;
+                    background-color: #F8F9FA !important;
+                    z-index: 90 !important;
+                    display: block !important;
+                    visibility: visible !important;
+                    opacity: 1 !important;
+                    margin: 0 !important;
+                    padding: 0 !important;
+                    border: none !important;
+                    overflow: visible !important;
+                `;
+                
+                console.log('🔍 Second page FORCE SHOWN with maximum visibility');
+                console.log('🔍 Second page final styles:', secondPage.style.cssText);
+                
+                // Setup the thread UI immediately with original chat system
+                setupThreadUI(messages);
+                    } else {
+                console.error('🔍 ERROR: Second page element not found!');
+            }
+            
+            console.log('🔍 ===== LOAD THREAD CONTEXT DEBUG END =====');
+        }
+        
+        // Create a completely new, simple thread display
+        function createSimpleThreadDisplay(thread, messages) {
+            console.log('🔍 ===== CREATE SIMPLE THREAD DISPLAY START =====');
+            console.log('🔍 Creating simple thread display for:', thread.title);
+            
+            // Clear the second page completely
+            const secondPage = document.getElementById('second-gainsboro-page');
+            if (secondPage) {
+                secondPage.innerHTML = '';
+                console.log('🔍 Second page cleared');
+            }
+            
+            // Create a simple container
+            const container = document.createElement('div');
+            container.style.cssText = `
+                position: fixed !important;
+                top: 0 !important;
+                left: 0 !important;
+                right: 0 !important;
+                bottom: 0 !important;
+                width: 100vw !important;
+                height: 100vh !important;
+                background-color: #F8F9FA !important;
+                z-index: 100 !important;
+                display: block !important;
+                visibility: visible !important;
+                opacity: 1 !important;
+                padding: 20px !important;
+                overflow-y: auto !important;
+                font-family: Arial, sans-serif !important;
+            `;
+            
+            // Add thread title
+            const title = document.createElement('h1');
+            title.textContent = thread.title;
+            title.style.cssText = `
+                color: #333 !important;
+                font-size: 24px !important;
+                margin-bottom: 20px !important;
+                text-align: center !important;
+                background: white !important;
+                padding: 15px !important;
+                border-radius: 10px !important;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+            `;
+            container.appendChild(title);
+            
+            // Add messages
+            messages.forEach((message, index) => {
+                const messageDiv = document.createElement('div');
+                messageDiv.style.cssText = `
+                    margin: 15px 0 !important;
+                    padding: 15px !important;
+                    border-radius: 10px !important;
+                    max-width: 80% !important;
+                    word-wrap: break-word !important;
+                    ${message.sender_role === 'user' 
+                        ? 'background-color: #e3f2fd !important; margin-left: 0 !important; margin-right: auto !important;' 
+                        : 'background-color: transparent !important; margin-left: auto !important; margin-right: 0 !important;'
+                    }
+                `;
+                
+                const content = document.createElement('div');
+                content.innerHTML = message.content;
+                content.style.cssText = `
+                    color: #333 !important;
+                    font-size: 16px !important;
+                    line-height: 1.5 !important;
+                `;
+                
+                messageDiv.appendChild(content);
+                container.appendChild(messageDiv);
+            });
+            
+            // Add input area
+            const inputArea = document.createElement('div');
+            inputArea.style.cssText = `
+                position: fixed !important;
+                bottom: 20px !important;
+                left: 20px !important;
+                right: 20px !important;
+                background: white !important;
+                padding: 15px !important;
+                border-radius: 25px !important;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
+                z-index: 101 !important;
+            `;
+            
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.placeholder = 'Type your message...';
+            input.style.cssText = `
+                width: 100% !important;
+                border: none !important;
+                outline: none !important;
+                font-size: 16px !important;
+                padding: 10px !important;
+            `;
+            
+            inputArea.appendChild(input);
+            container.appendChild(inputArea);
+            
+            // Add to second page
+            if (secondPage) {
+                secondPage.appendChild(container);
+                console.log('🔍 Simple thread display created and added to second page');
+            }
+            
+            console.log('🔍 ===== CREATE SIMPLE THREAD DISPLAY END =====');
+        }
+        
+        // Visual debugging function to identify visible elements
+        function debugVisibleElements() {
+            console.log('🔍 ===== VISUAL DEBUGGING START =====');
+            
+            // Check all visible elements
+            const allElements = document.querySelectorAll('*');
+            const visibleElements = [];
+            
+            allElements.forEach(element => {
+                const computedStyle = window.getComputedStyle(element);
+                const isVisible = computedStyle.display !== 'none' && 
+                                computedStyle.visibility !== 'hidden' && 
+                                computedStyle.opacity !== '0' &&
+                                computedStyle.position !== 'absolute' &&
+                                element.offsetWidth > 0 && 
+                                element.offsetHeight > 0;
+                
+                if (isVisible && (element.id || element.className)) {
+                    visibleElements.push({
+                        element: element,
+                        id: element.id,
+                        className: element.className,
+                        tagName: element.tagName,
+                        display: computedStyle.display,
+                        visibility: computedStyle.visibility,
+                        opacity: computedStyle.opacity,
+                        position: computedStyle.position,
+                        zIndex: computedStyle.zIndex
+                    });
+                }
+            });
+            
+            console.log('🔍 VISIBLE ELEMENTS:', visibleElements.length);
+            visibleElements.forEach((item, index) => {
+                console.log(`🔍 Visible element ${index + 1}:`, {
+                    tag: item.tagName,
+                    id: item.id,
+                    class: item.className,
+                    display: item.display,
+                    visibility: item.visibility,
+                    opacity: item.opacity,
+                    position: item.position,
+                    zIndex: item.zIndex
+                });
+            });
+            
+            console.log('🔍 ===== VISUAL DEBUGGING END =====');
+            return visibleElements;
+        }
+        
+        // Setup thread UI with SIMPLE UI approach that actually works
+        function setupThreadUI(messages) {
+            console.log('🔍 ===== SETUP THREAD UI WITH SIMPLE APPROACH START =====');
+            
+            const secondPage = document.getElementById('second-gainsboro-page');
+            if (!secondPage) {
+                console.log('❌ Second page not found');
+                return;
+            }
+            
+            // CLEAR everything and start fresh (like simple UI)
+            console.log('🔍 Clearing second page completely...');
+            secondPage.innerHTML = '';
+            
+            // Create main container with AGGRESSIVE inline styles (like simple UI)
+            const container = document.createElement('div');
+            container.style.cssText = `
+                position: fixed !important;
+                top: 0 !important;
+                left: 0 !important;
+                right: 0 !important;
+                bottom: 0 !important;
+                width: 100vw !important;
+                height: 100vh !important;
+                background-color: #f5f5f5 !important;
+                z-index: 90 !important;
+                display: block !important;
+                visibility: visible !important;
+                opacity: 1 !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                border: none !important;
+                overflow: visible !important;
+            `;
+            
+            // Create chat area with AGGRESSIVE inline styles and proper scrolling
+            const chatArea = document.createElement('div');
+            chatArea.style.cssText = `
+                position: absolute !important;
+                top: 60px !important;
+                left: 4px !important;
+                right: 4px !important;
+                bottom: 40px !important;
+                overflow-y: scroll !important;
+                overflow-x: hidden !important;
+                padding: 8px 4px 100px 4px !important;
+                background-color: transparent !important;
+                z-index: 50 !important;
+                display: block !important;
+                visibility: visible !important;
+                opacity: 1 !important;
+                scroll-behavior: smooth !important;
+                -webkit-overflow-scrolling: touch !important;
+            `;
+            
+            // Add messages directly to chat area
+            if (messages && messages.length > 0) {
+                console.log(`🔍 Loading ${messages.length} messages with SIMPLE approach...`);
+                
+                messages.forEach((message, index) => {
+                    console.log(`🔍 Loading message ${index + 1}:`, message.sender_role);
+                    
+                    const messageDiv = document.createElement('div');
+                    messageDiv.style.cssText = `
+                        display: flex !important;
+                        width: 100% !important;
+                        margin-bottom: 16px !important;
+                        justify-content: ${message.sender_role === 'user' ? 'flex-start' : 'flex-end'} !important;
+                        visibility: visible !important;
+                        opacity: 1 !important;
+                    `;
+                    
+                    const messageBubble = document.createElement('div');
+                    messageBubble.style.cssText = `
+                        padding: 16px 20px !important;
+                        border-radius: 16px !important;
+                        max-width: 95% !important;
+                        background-color: ${message.sender_role === 'user' ? '#e8e8e4' : 'transparent'} !important;
+                        color: black !important;
+                        text-align: ${message.sender_role === 'user' ? 'left' : 'right'} !important;
+                        line-height: 1.6 !important;
+                        font-size: 16px !important;
+                        display: block !important;
+                        visibility: visible !important;
+                        opacity: 1 !important;
+                        width: ${message.sender_role === 'user' ? 'auto' : '100%'} !important;
+                    `;
+                    
+                    if (message.sender_role === 'user') {
+                        messageBubble.textContent = message.content;
+                    } else {
+                        // Use the formatting system for AI messages
+                        const formattedContent = formatChatContent(message.content);
+                        messageBubble.innerHTML = formattedContent;
+                    }
+                    
+                    messageDiv.appendChild(messageBubble);
+                    chatArea.appendChild(messageDiv);
+                });
+                
+                console.log(`🔍 Successfully loaded ${messages.length} messages with SIMPLE approach`);
+                
+                // Auto-scroll to bottom after loading messages
+                setTimeout(() => {
+                    chatArea.scrollTop = chatArea.scrollHeight;
+                    console.log('🔍 Auto-scrolled to bottom after loading messages');
+                }, 100);
+            }
+            
+            // Create user input area (like real chat) - starts visible with proper positioning
+            const userInputArea = document.createElement('div');
+            userInputArea.id = 'thread-user-input';
+            userInputArea.style.cssText = `
+                position: fixed !important;
+                bottom: 2px !important;
+                left: 50% !important;
+                transform: translateX(-50%) !important;
+                width: 90% !important;
+                max-width: 500px !important;
+                height: 65px !important;
+                background-color: #E8E8E4 !important;
+                border-radius: 30px !important;
+                border: 1px solid #6b7280 !important;
+                display: flex !important;
+                align-items: center !important;
+                padding: 0 20px !important;
+                z-index: 2000 !important;
+                visibility: visible !important;
+                opacity: 1 !important;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.1) !important;
+                margin-bottom: 20px !important;
+            `;
+            
+            const userInput = document.createElement('input');
+            userInput.type = 'text';
+            userInput.placeholder = 'Type your message...';
+            userInput.style.cssText = `
+                flex: 1 !important;
+                border: none !important;
+                outline: none !important;
+                background: transparent !important;
+                font-size: 16px !important;
+                color: black !important;
+                padding: 0 !important;
+                margin: 0 !important;
+            `;
+            
+            // Create microphone/recorder icon
+            const microphoneIcon = document.createElement('button');
+            microphoneIcon.innerHTML = `
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M19 10v2a7 7 0 0 1-14 0v-2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <line x1="12" y1="19" x2="12" y2="23" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    <line x1="8" y1="23" x2="16" y2="23" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+            `;
+            microphoneIcon.style.cssText = `
+                width: 32px !important;
+                height: 32px !important;
+                border-radius: 50% !important;
+                background-color: transparent !important;
+                border: none !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                cursor: pointer !important;
+                color: #666 !important;
+                transition: all 0.2s !important;
+                margin-right: 8px !important;
+            `;
+            
+            // Add hover effect for microphone
+            microphoneIcon.addEventListener('mouseenter', () => {
+                microphoneIcon.style.backgroundColor = '#f0f0f0';
+                microphoneIcon.style.color = '#333';
+            });
+            microphoneIcon.addEventListener('mouseleave', () => {
+                microphoneIcon.style.backgroundColor = 'transparent';
+                microphoneIcon.style.color = '#666';
+            });
+            
+            // Add click event for microphone (placeholder)
+            microphoneIcon.addEventListener('click', () => {
+                console.log('🔍 Microphone clicked, starting recording...');
+                alert('Voice recording (to be implemented)');
+            });
+            
+            // Create paperclip/attachment icon
+            const paperclipIcon = document.createElement('button');
+            paperclipIcon.innerHTML = `
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66L9.64 16.2a2 2 0 0 1-2.83-2.83l8.49-8.49" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            `;
+            paperclipIcon.style.cssText = `
+                position: absolute !important;
+                right: 8px !important;
+                top: 50% !important;
+                transform: translateY(-50%) !important;
+                width: 32px !important;
+                height: 32px !important;
+                border-radius: 50% !important;
+                background-color: transparent !important;
+                border: none !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                cursor: pointer !important;
+                color: #666 !important;
+                transition: all 0.2s !important;
+                z-index: 10 !important;
+            `;
+            
+            // Add hover effect for paperclip
+            paperclipIcon.addEventListener('mouseenter', () => {
+                paperclipIcon.style.backgroundColor = '#f0f0f0';
+                paperclipIcon.style.color = '#333';
+            });
+            paperclipIcon.addEventListener('mouseleave', () => {
+                paperclipIcon.style.backgroundColor = 'transparent';
+                paperclipIcon.style.color = '#666';
+            });
+            
+            // Add click event for paperclip (placeholder)
+            paperclipIcon.addEventListener('click', () => {
+                console.log('📎 Paperclip clicked, attaching document...');
+                alert('Document attachment (to be implemented)');
+            });
+            
+            userInputArea.appendChild(userInput);
+            userInputArea.appendChild(microphoneIcon);
+            userInputArea.appendChild(paperclipIcon);
+            
+            // Create expanded input area (like real chat) - starts hidden with proper positioning
+            const expandedInputArea = document.createElement('div');
+            expandedInputArea.id = 'thread-expanded-input';
+            expandedInputArea.style.cssText = `
+                position: fixed !important;
+                bottom: 0 !important;
+                left: 0 !important;
+                right: 0 !important;
+                height: 100px !important;
+                background-color: #e8e8e4 !important;
+                border-radius: 24px 24px 0 0 !important;
+                border-top: 1px solid #d1d5db !important;
+                display: none !important;
+                z-index: 2001 !important;
+                padding: 24px !important;
+            `;
+            
+            const expandedInput = document.createElement('textarea');
+            expandedInput.placeholder = 'Learn anything...';
+            expandedInput.style.cssText = `
+                width: 100% !important;
+                min-height: 80px !important;
+                border: none !important;
+                outline: none !important;
+                background: transparent !important;
+                font-size: 24px !important;
+                color: black !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                resize: none !important;
+                font-family: sans-serif !important;
+                line-height: 1.5 !important;
+                cursor: text !important;
+                text-align: right !important;
+                position: absolute !important;
+                top: 8px !important;
+                right: 0 !important;
+                padding-right: 80px !important;
+            `;
+            
+            // Create send button for expanded input
+            const expandedSendButton = document.createElement('button');
+            expandedSendButton.innerHTML = `
+                <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19V5M5 12l7-7 7 7"/>
+                </svg>
+            `;
+            expandedSendButton.style.cssText = `
+                position: absolute !important;
+                bottom: 12px !important;
+                left: 16px !important;
+                width: 40px !important;
+                height: 40px !important;
+                border-radius: 50% !important;
+                background-color: black !important;
+                border: none !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                cursor: pointer !important;
+                transition: background-color 0.2s !important;
+                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1) !important;
+            `;
+            
+            // Add focus event to show expanded input (like real chat)
+            userInput.addEventListener('focus', () => {
+                console.log('🔍 User input focused, showing expanded input...');
+                userInputArea.style.display = 'none';
+                expandedInputArea.style.display = 'block';
+                expandedInput.focus();
+            });
+            
+            // Add blur event to hide expanded input if empty
+            expandedInput.addEventListener('blur', () => {
+                setTimeout(() => {
+                    if (!expandedInput.value.trim()) {
+                        console.log('🔍 Expanded input blurred and empty, hiding...');
+                        expandedInputArea.style.display = 'none';
+                        userInputArea.style.display = 'flex';
+                    }
+                }, 100);
+            });
+            
+            // Add input change event for button state
+            expandedInput.addEventListener('input', () => {
+                if (expandedInput.value.trim()) {
+                    expandedSendButton.style.backgroundColor = 'black';
+                    expandedSendButton.style.opacity = '1';
+            } else {
+                    expandedSendButton.style.backgroundColor = '#CCCCCC';
+                    expandedSendButton.style.opacity = '0.6';
+                }
+            });
+            
+            // Add click event to expanded send button
+            expandedSendButton.addEventListener('click', () => {
+                const message = expandedInput.value.trim();
+                if (message) {
+                    console.log('🔍 Expanded send button clicked, message:', message);
+                    sendMessageFromThreadUI(message, chatArea, expandedInput, userInputArea, expandedInputArea);
+                }
+            });
+            
+            // Add Enter key event to expanded input
+            expandedInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    const message = expandedInput.value.trim();
+                    if (message) {
+                        console.log('🔍 Enter key pressed in expanded input, message:', message);
+                        sendMessageFromThreadUI(message, chatArea, expandedInput, userInputArea, expandedInputArea);
+                    }
+                }
+            });
+            
+            // Assemble the input areas
+            userInputArea.appendChild(userInput);
+            expandedInputArea.appendChild(expandedInput);
+            expandedInputArea.appendChild(expandedSendButton);
+            
+            // Create recorder button for thread expanded input
+            const threadExpandedRecorderButton = document.createElement('button');
+            threadExpandedRecorderButton.innerHTML = `
+                <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M19 10v2a7 7 0 0 1-14 0v-2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <line x1="12" y1="19" x2="12" y2="23" stroke-width="2" stroke-linecap="round"/>
+                    <line x1="8" y1="23" x2="16" y2="23" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+            `;
+            threadExpandedRecorderButton.style.cssText = `
+                position: absolute !important;
+                bottom: 12px !important;
+                right: 48px !important;
+                width: 32px !important;
+                height: 32px !important;
+                border-radius: 50% !important;
+                background-color: transparent !important;
+                border: none !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                cursor: pointer !important;
+                color: #666 !important;
+                transition: all 0.2s !important;
+            `;
+            
+            // Create document button for thread expanded input
+            const threadExpandedDocumentButton = document.createElement('button');
+            threadExpandedDocumentButton.innerHTML = `
+                <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66L9.64 16.2a2 2 0 0 1-2.83-2.83l8.49-8.49" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            `;
+            threadExpandedDocumentButton.style.cssText = `
+                position: absolute !important;
+                bottom: 12px !important;
+                right: 16px !important;
+                width: 32px !important;
+                height: 32px !important;
+                border-radius: 50% !important;
+                background-color: transparent !important;
+                border: none !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                cursor: pointer !important;
+                color: #666 !important;
+                transition: all 0.2s !important;
+            `;
+            
+            // Add click events
+            threadExpandedRecorderButton.addEventListener('click', () => {
+                console.log('🎤 Thread expanded recorder clicked');
+                alert('Voice recording (to be implemented)');
+            });
+            
+            threadExpandedDocumentButton.addEventListener('click', () => {
+                console.log('📎 Thread expanded document clicked');
+                alert('Document attachment (to be implemented)');
+            });
+            
+            expandedInputArea.appendChild(threadExpandedRecorderButton);
+            expandedInputArea.appendChild(threadExpandedDocumentButton);
+            
+            // Initial button state
+            expandedSendButton.style.backgroundColor = '#CCCCCC';
+            expandedSendButton.style.opacity = '0.6';
+            
+            // Create top navigation bar (like real chat)
+            const topNavBar = document.createElement('div');
+            topNavBar.style.cssText = `
+                position: fixed !important;
+                top: 0 !important;
+                left: 0 !important;
+                right: 0 !important;
+                height: 60px !important;
+                background-color: #f5f5f5 !important;
+                border-bottom: 1px solid #e0e0e0 !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: space-between !important;
+                padding: 0 20px !important;
+                z-index: 2002 !important;
+            `;
+            
+            // Create left top element (user account icon - two thin lines, one shorter)
+            const leftTopButton = document.createElement('button');
+            leftTopButton.innerHTML = `
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 6h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    <path d="M4 12h12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+            `;
+            leftTopButton.style.cssText = `
+                width: 40px !important;
+                height: 40px !important;
+                border-radius: 50% !important;
+                background-color: transparent !important;
+                border: none !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                cursor: pointer !important;
+                color: #333 !important;
+                transition: background-color 0.2s !important;
+            `;
+            
+            // Add hover effect for user account button
+            leftTopButton.addEventListener('mouseenter', () => {
+                leftTopButton.style.backgroundColor = '#f0f0f0';
+            });
+            leftTopButton.addEventListener('mouseleave', () => {
+                leftTopButton.style.backgroundColor = 'transparent';
+            });
+            
+            // Add click event for user account button (go back to library)
+            leftTopButton.addEventListener('click', () => {
+                console.log('🔍 User account button clicked, returning to library...');
+                window.location.href = '/library.html';
+            });
+            
+            // Create left side container for menu button
+            const leftButtonsContainer = document.createElement('div');
+            leftButtonsContainer.style.cssText = `
+                display: flex !important;
+                align-items: center !important;
+                gap: 8px !important;
+            `;
+            
+            // Create menu button (three vertical dots) - moved to left
+            const menuButton = document.createElement('button');
+            menuButton.innerHTML = `
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="12" cy="12" r="2" fill="currentColor"/>
+                    <circle cx="12" cy="5" r="2" fill="currentColor"/>
+                    <circle cx="12" cy="19" r="2" fill="currentColor"/>
+                </svg>
+            `;
+            menuButton.style.cssText = `
+                width: 40px !important;
+                height: 40px !important;
+                border-radius: 50% !important;
+                background-color: transparent !important;
+                border: none !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                cursor: pointer !important;
+                color: #333 !important;
+                transition: background-color 0.2s !important;
+            `;
+            
+            // Add hover effect for menu button
+            menuButton.addEventListener('mouseenter', () => {
+                menuButton.style.backgroundColor = '#f0f0f0';
+            });
+            menuButton.addEventListener('mouseleave', () => {
+                menuButton.style.backgroundColor = 'transparent';
+            });
+            
+            // Add click event for menu button (delete/options)
+            menuButton.addEventListener('click', () => {
+                console.log('🔍 Menu button clicked, showing options...');
+                showThreadMenu();
+            });
+            
+            // Create right side container for back button (cross icon)
+            const rightButtonsContainer = document.createElement('div');
+            rightButtonsContainer.style.cssText = `
+                display: flex !important;
+                align-items: center !important;
+                gap: 8px !important;
+                margin-left: auto !important;
+            `;
+            
+            // Create back button (cross icon) for returning to library
+            const backButton = document.createElement('button');
+            backButton.innerHTML = `
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" stroke="currentColor" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            `;
+            backButton.style.cssText = `
+                width: 40px !important;
+                height: 40px !important;
+                border-radius: 50% !important;
+                background-color: transparent !important;
+                border: none !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                cursor: pointer !important;
+                color: #333 !important;
+                transition: background-color 0.2s !important;
+            `;
+            
+            // Add hover effect for back button
+            backButton.addEventListener('mouseenter', () => {
+                backButton.style.backgroundColor = '#f0f0f0';
+            });
+            
+            backButton.addEventListener('mouseleave', () => {
+                backButton.style.backgroundColor = 'transparent';
+            });
+            
+            // Add click event for back button (return to library)
+            backButton.addEventListener('click', () => {
+                console.log('🔍 Back button clicked, returning to library...');
+                // Navigate to library page
+                window.location.href = '/library.html';
+            });
+            
+            // Add back button to right container
+            rightButtonsContainer.appendChild(backButton);
+            
+            // Create share button (will go in left container next to menu)
+            const shareButton = document.createElement('button');
+            shareButton.innerHTML = `
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="color: #333 !important;">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" stroke="currentColor" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z"></path>
+                </svg>
+            `;
+            shareButton.style.cssText = `
+                width: 40px !important;
+                height: 40px !important;
+                border-radius: 50% !important;
+                background-color: transparent !important;
+                border: none !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                cursor: pointer !important;
+                color: #333 !important;
+                transition: background-color 0.2s !important;
+                visibility: visible !important;
+                opacity: 1 !important;
+            `;
+            
+            // Force SVG color
+            shareButton.querySelector('svg').style.color = '#333';
+            shareButton.querySelector('path').style.stroke = '#333';
+            
+            // Add hover effect for share button
+            shareButton.addEventListener('mouseenter', () => {
+                shareButton.style.backgroundColor = '#f0f0f0';
+            });
+            shareButton.addEventListener('mouseleave', () => {
+                shareButton.style.backgroundColor = 'transparent';
+            });
+            
+            // Add click event for share button
+            shareButton.addEventListener('click', () => {
+                console.log('🔍 Share button clicked, sharing thread...');
+                alert('Share thread (to be implemented)');
+            });
+            
+            // Assemble the left buttons container (both menu and share buttons)
+            leftButtonsContainer.appendChild(menuButton);
+            leftButtonsContainer.appendChild(shareButton);
+            
+            // Assemble the top navigation (left container with menu+share, right container with back)
+            topNavBar.appendChild(leftButtonsContainer);
+            topNavBar.appendChild(rightButtonsContainer);
+            
+            // Debug: Check if buttons are properly added
+            console.log('🔍 Left buttons container added:', leftButtonsContainer);
+            console.log('🔍 Right buttons container added:', rightButtonsContainer);
+            console.log('🔍 Share button added:', shareButton);
+            console.log('🔍 Menu button added:', menuButton);
+            console.log('🔍 Back button added:', backButton);
+            console.log('🔍 Top nav bar children:', topNavBar.children.length);
+            console.log('🔍 Share button innerHTML:', shareButton.innerHTML);
+            console.log('🔍 Share button computed display:', window.getComputedStyle(shareButton).display);
+            console.log('🔍 Share button computed visibility:', window.getComputedStyle(shareButton).visibility);
+            
+            // Debug: Check button visibility
+            console.log('🔍 Share button computed styles:', window.getComputedStyle(shareButton));
+            console.log('🔍 Menu button computed styles:', window.getComputedStyle(menuButton));
+            console.log('🔍 Share button display:', window.getComputedStyle(shareButton).display);
+            console.log('🔍 Menu button display:', window.getComputedStyle(menuButton).display);
+            
+            // Assemble the container
+            container.appendChild(topNavBar);
+            container.appendChild(chatArea);
+            container.appendChild(userInputArea);
+            container.appendChild(expandedInputArea);
+            secondPage.appendChild(container);
+            
+            // Scroll to bottom
+            setTimeout(() => {
+                chatArea.scrollTop = chatArea.scrollHeight;
+                console.log('🔍 Scrolled to bottom with SIMPLE approach');
+            }, 100);
+            
+            console.log('🔍 ===== SETUP THREAD UI WITH SIMPLE APPROACH END =====');
+        }
+        
+        // Send message from thread UI with proper input flow
+        async function sendMessageFromThreadUI(message, chatArea, inputElement, userInputArea, expandedInputArea) {
+            console.log('🔍 ===== SEND MESSAGE FROM THREAD UI START =====');
+            console.log('🔍 Message:', message);
+            console.log('🔍 Current thread ID:', currentThreadId);
+            
+            if (!message.trim()) {
+                console.log('❌ Empty message, ignoring');
+                return;
+            }
+            
+            // Ensure we have a thread ID before proceeding
+            if (!currentThreadId) {
+                console.log('🔍 No thread ID, creating new thread...');
+                const title = message.length > 50 ? message.substring(0, 50) + '...' : message;
+                currentThreadId = await createNewThread(title);
+                if (!currentThreadId) {
+                    console.error('❌ Failed to create thread');
+                    return;
+                }
+            }
+            
+            // Clear input and hide expanded input (like real chat)
+            inputElement.value = '';
+            if (expandedInputArea) {
+                expandedInputArea.style.display = 'none';
+            }
+            // Don't show user input immediately - wait for response completion
+            // User input will be shown when streaming completes for better UX
+            console.log('🔍 Input cleared and expanded input hidden');
+            
+            // Add user message to chat area immediately
+            const userMessageDiv = document.createElement('div');
+            userMessageDiv.style.cssText = `
+                display: flex !important;
+                width: 100% !important;
+                margin-bottom: 16px !important;
+                justify-content: flex-start !important;
+                visibility: visible !important;
+                opacity: 1 !important;
+            `;
+            
+            const userMessageBubble = document.createElement('div');
+            userMessageBubble.style.cssText = `
+                padding: 16px 20px !important;
+                border-radius: 16px !important;
+                max-width: 95% !important;
+                background-color: #e8e8e4 !important;
+                color: black !important;
+                text-align: left !important;
+                line-height: 1.6 !important;
+                font-size: 16px !important;
+                display: block !important;
+                visibility: visible !important;
+                opacity: 1 !important;
+                width: auto !important;
+            `;
+            userMessageBubble.textContent = message;
+            
+            userMessageDiv.appendChild(userMessageBubble);
+            chatArea.appendChild(userMessageDiv);
+            
+            // Add AI response placeholder
+            const aiMessageDiv = document.createElement('div');
+            aiMessageDiv.style.cssText = `
+                display: flex !important;
+                width: 100% !important;
+                margin-bottom: 16px !important;
+                justify-content: flex-end !important;
+                visibility: visible !important;
+                opacity: 1 !important;
+            `;
+            
+            const aiMessageBubble = document.createElement('div');
+            aiMessageBubble.style.cssText = `
+                padding: 16px 20px !important;
+                border-radius: 16px !important;
+                max-width: 95% !important;
+                background-color: transparent !important;
+                color: black !important;
+                text-align: right !important;
+                line-height: 1.6 !important;
+                font-size: 16px !important;
+                display: block !important;
+                visibility: visible !important;
+                opacity: 1 !important;
+                width: 100% !important;
+            `;
+            aiMessageBubble.innerHTML = '<span class="typing-indicator">...</span>';
+            
+            aiMessageDiv.appendChild(aiMessageBubble);
+            chatArea.appendChild(aiMessageDiv);
+            
+            // Scroll to bottom
+            chatArea.scrollTop = chatArea.scrollHeight;
+            
+            try {
+                // Step 1: Load thread message history for context
+                console.log('🔍 Loading thread context for conversation management...');
+                const contextResponse = await fetch(`/api/threads/${currentThreadId}/messages`);
+                if (!contextResponse.ok) {
+                    throw new Error(`Failed to load thread context: ${contextResponse.status}`);
+                }
+                
+                const contextData = await contextResponse.json();
+                console.log('🔍 Thread context loaded:', contextData.messages.length, 'messages');
+                
+                // Convert thread messages to conversation context format (last 10 messages)
+                const recentMessages = contextData.messages.slice(-10); // Last 10 messages
+                const conversationContext = recentMessages.map(msg => ({
+                    role: msg.sender_role,
+                    content: msg.content
+                    // Remove timestamp as it's not needed for the API
+                }));
+                
+                console.log('🔍 Conversation context prepared:', conversationContext.length, 'messages');
+                console.log('🔍 Context preview:', conversationContext.map(msg => ({
+                    role: msg.role,
+                    content: msg.content.substring(0, 50) + '...'
+                })));
+                
+                // Step 2: Send user message to backend
+                console.log('🔍 Sending user message to backend...');
+                console.log('🔍 Thread ID:', currentThreadId);
+                console.log('🔍 Message content:', message);
+                
+                const response = await fetch(`/api/threads/${currentThreadId}/messages`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        content: message,
+                        sender_role: 'user'
+                    })
+                });
+                
+                console.log('🔍 Response status:', response.status);
+                console.log('🔍 Response ok:', response.ok);
+                
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    console.error('❌ Server error response:', errorText);
+                    throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
+                }
+                
+                const result = await response.json();
+                console.log('🔍 Message sent successfully:', result);
+                
+                // Step 3: Get AI response using streaming endpoint with context
+                const aiResponse = await fetch('/api/chat/stream', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        message: message,
+                        conversationId: currentThreadId,
+                        context: conversationContext // Send conversation history as context
+                    })
+                });
+                
+                if (!aiResponse.ok) {
+                    throw new Error(`HTTP error! status: ${aiResponse.status}`);
+                }
+                
+                // Handle streaming response
+                console.log('🔍 Starting to process streaming response...');
+                const reader = aiResponse.body.getReader();
+                const decoder = new TextDecoder();
+                let fullResponse = '';
+                
+                try {
+                    while (true) {
+                        const { done, value } = await reader.read();
+                        if (done) {
+                            console.log('🔍 Streaming completed');
+                            break;
+                        }
+                        
+                        const chunk = decoder.decode(value);
+                        console.log('🔍 Received chunk:', chunk.substring(0, 100) + '...');
+                        const lines = chunk.split('\n');
+                        
+                        for (const line of lines) {
+                            if (line.startsWith('data: ')) {
+                                const data = line.slice(6);
+                                console.log('🔍 Processing data line:', data.substring(0, 50) + '...');
+                                if (data && data !== '[DONE]') {
+                                    try {
+                                        const parsed = JSON.parse(data);
+                                        console.log('🔍 Parsed data:', parsed);
+                                        if (parsed.content) {
+                                            fullResponse += parsed.content;
+                                            console.log('🔍 Full response so far:', fullResponse.substring(0, 100) + '...');
+                                            // Update AI message with current response
+                                            const formattedContent = formatChatContent(fullResponse);
+                                            aiMessageBubble.innerHTML = formattedContent;
+                                            // Scroll to bottom
+                                            chatArea.scrollTop = chatArea.scrollHeight;
+                                        }
+                                    } catch (e) {
+                                        console.log('🔍 JSON parse error:', e.message);
+                                        // Try to handle plain text response
+                                        if (data && !data.includes('{') && !data.includes('}')) {
+                                            fullResponse += data;
+                                            console.log('🔍 Added plain text:', data);
+                                            const formattedContent = formatChatContent(fullResponse);
+                                            aiMessageBubble.innerHTML = formattedContent;
+                                            chatArea.scrollTop = chatArea.scrollHeight;
+                                        }
+                                    }
+                                } else if (data === '[DONE]') {
+                                    console.log('🔍 Streaming completed');
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                } finally {
+                    reader.releaseLock();
+                }
+                
+                console.log('🔍 Final full response:', fullResponse);
+                
+                console.log('🔍 AI response received (streaming):', fullResponse);
+                
+                // Save AI response to database (only if we have content)
+                if (fullResponse && fullResponse.trim()) {
+                    try {
+                        console.log('🔍 Saving AI response to database:', fullResponse.substring(0, 100) + '...');
+                        const aiResponseSave = await fetch(`/api/threads/${currentThreadId}/messages`, {
+                    method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                    body: JSON.stringify({
+                                content: fullResponse,
+                                sender_role: 'assistant'
+                    })
+                });
+                
+                        if (aiResponseSave.ok) {
+                            console.log('🔍 AI response saved to database');
+            } else {
+                            const errorText = await aiResponseSave.text();
+                            console.log('⚠️ Failed to save AI response to database:', errorText);
+                }
+            } catch (error) {
+                        console.log('⚠️ Error saving AI response:', error);
+                    }
+                } else {
+                    console.log('⚠️ AI response is empty, not saving to database');
+                }
+                
+                // Scroll to bottom
+                chatArea.scrollTop = chatArea.scrollHeight;
+                
+                // Show user input when response is complete for better UX
+                if (userInputArea) {
+                    userInputArea.style.display = 'flex';
+                    console.log('🔍 User input shown after response completion');
+                }
+                
+                console.log('🔍 ===== SEND MESSAGE FROM THREAD UI SUCCESS =====');
+                
+            } catch (error) {
+                console.error('❌ Error sending message:', error);
+                aiMessageBubble.innerHTML = '<span style="color: red;">خطا در ارسال پیام. لطفاً دوباره تلاش کنید.</span>';
+                
+                // Show user input on error for retry
+                if (userInputArea) {
+                    userInputArea.style.display = 'flex';
+                    console.log('🔍 User input shown after error');
+                }
+            }
+        }
+
+        // Hide initial chat state when loading from library with comprehensive debugging
+        function hideInitialChatState() {
+            console.log('🔍 ===== HIDE INITIAL STATE DEBUG START =====');
+            
+            // Hide the main user input initially
+            const mainUserInput = document.getElementById('main-user-input');
+            console.log('🔍 Main user input element:', mainUserInput);
+            if (mainUserInput) {
+                console.log('🔍 Main user input current display:', mainUserInput.style.display);
+                mainUserInput.style.display = 'none';
+                console.log('🔍 Main user input hidden');
+            }
+            
+            // Hide the main chat messages container initially
+            const chatMessages = document.getElementById('chat-messages');
+            console.log('🔍 Chat messages element:', chatMessages);
+            if (chatMessages) {
+                console.log('🔍 Chat messages current display:', chatMessages.style.display);
+                chatMessages.style.display = 'none';
+                console.log('🔍 Chat messages hidden');
+            }
+            
+            // Hide the thin border separator
+            const separator = document.querySelector('.border-b.border-gray-200');
+            console.log('🔍 Separator element:', separator);
+            if (separator) {
+                console.log('🔍 Separator current display:', separator.style.display);
+                separator.style.display = 'none';
+                console.log('🔍 Separator hidden');
+            }
+            
+            // Ensure the second page is hidden initially - be more aggressive
+            const secondPage = document.getElementById('second-gainsboro-page');
+            console.log('🔍 Second page element:', secondPage);
+            if (secondPage) {
+                console.log('🔍 Second page classes:', secondPage.classList.toString());
+                console.log('🔍 Second page current display:', secondPage.style.display);
+                
+                // Force hide with multiple methods to ensure it's hidden
+                secondPage.classList.add('hidden');
+                secondPage.style.display = 'none';
+                secondPage.style.visibility = 'hidden';
+                secondPage.style.opacity = '0';
+                secondPage.style.zIndex = '-1';
+                console.log('🔍 Second page aggressively hidden');
+            }
+            
+            // Hide expanded input if it exists
+            const expandedInput = document.getElementById('expanded-input-container');
+            console.log('🔍 Expanded input element:', expandedInput);
+            if (expandedInput) {
+                console.log('🔍 Expanded input classes:', expandedInput.classList.toString());
+                console.log('🔍 Expanded input current display:', expandedInput.style.display);
+                expandedInput.classList.add('hidden');
+                expandedInput.style.display = 'none';
+                console.log('🔍 Expanded input hidden');
+            }
+            
+            // Hide any streaming messages
+            const streamingMessages = document.querySelectorAll('[id^="streaming-message-"]');
+            console.log('🔍 Streaming messages found:', streamingMessages.length);
+            streamingMessages.forEach((msg, index) => {
+                console.log(`🔍 Streaming message ${index + 1}:`, msg.id, 'display:', msg.style.display);
+                msg.style.display = 'none';
+            });
+            
+            // Hide any existing messages in chat container
+            if (chatMessages) {
+                console.log('🔍 Chat messages innerHTML length:', chatMessages.innerHTML.length);
+                chatMessages.innerHTML = '';
+                console.log('🔍 Chat messages cleared');
+            }
+            
+            // Reset any conflicting styles
+            const body = document.body;
+            console.log('🔍 Body element:', body);
+            if (body) {
+                console.log('🔍 Body current overflow:', body.style.overflow);
+                body.style.overflow = 'auto';
+                console.log('🔍 Body overflow reset to auto');
+            }
+            
+            console.log('🔍 ===== HIDE INITIAL STATE DEBUG END =====');
+        }
+
+        // Save message to current thread
+        async function saveMessageToThread(userMessage, aiResponse) {
+            if (!currentThreadId) {
+                console.log('⚠️ No thread loaded, skipping save');
+                return;
+            }
+            
+            try {
+                const userId = localStorage.getItem('user_id');
+                if (!userId) {
+                    console.log('⚠️ No user logged in, skipping save');
+                    return;
+                }
+
+                // Add user message to thread
+                const userMessageResponse = await fetch(`/api/threads/${currentThreadId}/messages`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        sender_role: 'user',
+                        content: userMessage,
+                        token_count: estimateTokenCount(userMessage)
+                    })
+                });
+
+                // Add AI response to thread
+                const aiMessageResponse = await fetch(`/api/threads/${currentThreadId}/messages`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        sender_role: 'assistant',
+                        content: aiResponse,
+                        token_count: estimateTokenCount(aiResponse)
+                    })
+                });
+
+                if (userMessageResponse.ok && aiMessageResponse.ok) {
+                    console.log('✅ Messages saved to thread:', currentThreadId);
+                    } else {
+                    console.error('❌ Failed to save messages to thread');
+                    }
+                
+                } catch (error) {
+                console.error('❌ Error saving messages to thread:', error);
+            }
+        }
+
+        // Create new thread when starting a new conversation
+        async function createNewThread(title) {
+            try {
+                // For MVP, use default user ID if no user is logged in
+                let userId = localStorage.getItem('user_id');
+                if (!userId) {
+                    userId = '1'; // Default user ID for MVP
+                    localStorage.setItem('user_id', userId);
+                    console.log('🔧 Using default user ID for MVP:', userId);
+                }
+
+                const response = await fetch('/api/threads', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        user_id: userId,
+                        title: title,
+                        summary: null
+                    })
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    currentThreadId = data.thread.id;
+                    threadMessages = [];
+                    isThreadLoaded = true;
+                    console.log('✅ New thread created:', currentThreadId);
+                    return currentThreadId;
+                } else {
+                    console.error('❌ Failed to create thread:', data.error);
+                    return null;
+                }
+            } catch (error) {
+                console.error('❌ Error creating thread:', error);
+                return null;
+            }
+        }
+
+        // Get recent messages for AI context
+        async function getThreadContext(maxTokens = 4000) {
+            if (!currentThreadId) {
+                return [];
+            }
+
+            try {
+                const response = await fetch(`/api/threads/${currentThreadId}/context?max_tokens=${maxTokens}`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    return data.messages;
+                } else {
+                    console.error('Failed to get thread context:', data.error);
+                    return [];
+                }
+            } catch (error) {
+                console.error('Error getting thread context:', error);
+                return [];
+            }
+        }
+
+        // Estimate token count (simple approximation)
+        function estimateTokenCount(text) {
+            // Rough approximation: 1 token ≈ 4 characters for Persian/Arabic text
+            return Math.ceil(text.length / 4);
+        }
+
+        // Check user login status
+        function checkUserStatus() {
+            const userId = localStorage.getItem('user_id');
+            const userPhone = localStorage.getItem('user_phone');
+            const isLoggedIn = localStorage.getItem('is_logged_in') === 'true';
+            const isVerified = localStorage.getItem('is_verified') === 'true';
+            
+            if (!isLoggedIn || !userId || !userPhone || !isVerified) {
+                // For MVP, set default values instead of clearing data
+                localStorage.setItem('user_id', '1');
+                localStorage.setItem('user_phone', '09123456789');
+                localStorage.setItem('is_logged_in', 'true');
+                localStorage.setItem('is_verified', 'true');
+                console.log('🔧 Set default user values for MVP');
+            }
+        }
+
+        // Show login prompt
+        function showLoginPrompt() {
+            const chatMessages = document.getElementById('chat-messages');
+            const loginPrompt = document.createElement('div');
+            loginPrompt.className = 'flex justify-center items-center py-8';
+            loginPrompt.innerHTML = `
+                <div class="text-center">
+                    <div class="text-gray-500 mb-4">🔐</div>
+                    <h3 class="text-lg font-medium mb-2">برای ذخیره گفتگوها وارد شوید</h3>
+                    <p class="text-gray-500 mb-4">گفتگوهای شما در کتابخانه ذخیره خواهد شد</p>
+                    <button onclick="window.location.href='auth.html'" class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg font-medium transition-colors">
+                        ورود / ثبت نام
+                    </button>
+                </div>
+            `;
+            chatMessages.appendChild(loginPrompt);
         }
         
         // Function to go to test page
@@ -1812,37 +3738,9 @@
                 window.location = 'test.html';
             }
         }
-        
-        // Function to start a new chat
-        function startNewChat() {
-            // Clear chat messages
-            const chatMessages = document.getElementById('chat-messages');
-            if (chatMessages) {
-                chatMessages.innerHTML = '';
-                chatMessages.classList.add('hidden');
-            }
-            
-            // Show welcome message
-            const welcomeMessage = document.getElementById('welcome-message');
-            if (welcomeMessage) {
-                welcomeMessage.classList.remove('hidden');
-            }
-            
-            // Start new conversation
-            initializeConversation();
-            
-            // Clear input
-            const userInput = document.getElementById('user-input');
-            if (userInput) {
-                userInput.value = '';
-                userInput.style.height = 'auto';
-            }
-        }
-        
-        // SymPy processing removed for deployment
-        // console.log('✅ Using SymPy backend for mathematical rendering');
     </script>
 </body>
 </html>
+
 
 

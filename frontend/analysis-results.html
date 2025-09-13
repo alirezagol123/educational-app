@@ -3,12 +3,81 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#E8E8E4">
+    <meta name="msapplication-navbutton-color" content="#E8E8E4">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="light-content">
     <title>مِنو - نتایج تحلیل سوال</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Enhanced MathJax for comprehensive math rendering -->
     <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true,
+                processEnvironments: true,
+                packages: {'[+]': ['ams', 'amscd', 'amssymb', 'mathtools', 'physics', 'bm', 'cancel', 'cases', 'empheq', 'geometry', 'mhchem', 'pgf', 'textmacros', 'unicode', 'upgreek', 'verbatim']}
+            },
+            options: {
+                skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+                ignoreHtmlClass: 'tex2jax_ignore',
+                processHtmlClass: 'tex2jax_process'
+            },
+            loader: {
+                load: ['[tex]/ams', '[tex]/amscd', '[tex]/amssymb', '[tex]/mathtools', '[tex]/physics', '[tex]/bm', '[tex]/cancel', '[tex]/cases', '[tex]/empheq', '[tex]/geometry', '[tex]/mhchem', '[tex]/pgf', '[tex]/textmacros', '[tex]/unicode', '[tex]/upgreek', '[tex]/verbatim']
+            }
+        };
+    </script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>
+        // Global error handling to prevent error dialogs
+        window.addEventListener('error', function(e) {
+            console.error('Global error caught:', e.error);
+            // Don't prevent default - let the page handle errors normally
+            // e.preventDefault();
+            // return false;
+        });
+        
+        window.addEventListener('unhandledrejection', function(e) {
+            console.error('Global unhandled promise rejection:', e.reason);
+            // Don't prevent default - let the page handle errors normally
+            // e.preventDefault();
+            // return false;
+        });
+        
+        // Prevent any alert/confirm dialogs
+        const originalAlert = window.alert;
+        const originalConfirm = window.confirm;
+        
+        window.alert = function(message) {
+            console.log('Alert prevented:', message);
+            return;
+        };
+        
+        window.confirm = function(message) {
+            console.log('Confirm prevented:', message);
+            return true; // Always return true to prevent navigation
+        };
+        
+        // Check login status on page load - DISABLED FOR NOW
+        function checkLoginStatus() {
+            // Set default user data for testing
+            if (!localStorage.getItem('user_id')) {
+                localStorage.setItem('user_id', '1');
+                localStorage.setItem('is_verified', 'true');
+                localStorage.setItem('user_phone', '+1234567890');
+            }
+            return true;
+        }
+        
+        // Check login status immediately - DISABLED FOR NOW
+        checkLoginStatus();
+        
         tailwind.config = {
             theme: {
                 extend: {
@@ -253,35 +322,36 @@
             font-weight: 700;
             color: #1e40af;
             margin-left: 0.5rem;
-            font-size: 1rem; /* Changed from 1.2rem to match chat page */
+            font-size: 1.5rem; /* Made bigger like GPT study mode */
+            vertical-align: middle; /* Align with text baseline */
+            line-height: 1; /* Prevent extra spacing */
         }
         
         /* Enhanced list styling for all responses */
         .bullet-list {
             margin: 1rem 0;
-            padding-right: 1.5rem;
+            padding-right: 0; /* Remove padding, we'll use individual item padding */
             list-style: none;
         }
         
         .bullet-list li {
             margin-bottom: 0.8rem;
             color: #374151;
-            position: relative;
-            padding-right: 1.5rem;
+            text-align: right;
         }
         
         .bullet-list li::before {
-            content: "•";
+            content: "• ";
             font-weight: 700;
             color: #1e40af;
-            position: absolute;
-            right: 0;
-            font-size: 1rem; /* Changed from 1.2rem to match chat page */
+            font-size: 1.5rem; /* Made bigger like GPT study mode */
+            line-height: 1; /* Prevent extra spacing */
+            margin-left: 0.5rem; /* Space between bullet and text */
         }
         
         .numbered-list {
             margin: 1rem 0;
-            padding-right: 1.5rem;
+            padding-right: 0; /* Remove padding, we'll use individual item padding */
             counter-reset: item;
         }
         
@@ -289,17 +359,16 @@
             margin-bottom: 0.8rem;
             color: #374151;
             counter-increment: item;
-            position: relative;
-            padding-right: 1.5rem;
+            text-align: right;
         }
         
         .numbered-list li::before {
-            content: counter(item) ".";
+            content: counter(item) ". ";
             font-weight: 700;
             color: #1e40af;
-            position: absolute;
-            right: 0;
-            font-size: 1.1rem;
+            font-size: 1.5rem; /* Made bigger like GPT study mode */
+            line-height: 1; /* Prevent extra spacing */
+            margin-left: 0.5rem; /* Space between number and text */
         }
         
                  /* Button hover effects */
@@ -348,24 +417,23 @@
          /* Enhanced list styling for helper question responses */
          .helper-response-content ul.bullet-list {
              margin: 1rem 0;
-             padding-right: 1.5rem;
+             padding-right: 0; /* Remove padding, we'll use individual item padding */
              list-style: none;
          }
          
          .helper-response-content ul.bullet-list li {
              margin-bottom: 0.8rem;
              color: #374151;
-             position: relative;
-             padding-right: 1.5rem;
+             text-align: right;
          }
          
          .helper-response-content ul.bullet-list li::before {
-             content: "•";
+            content: "• ";
              font-weight: 700;
              color: #1e40af;
-             position: absolute;
-             right: 0;
-             font-size: 1.2rem; /* Increased for better readability */
+            font-size: 1.5rem; /* Made bigger like GPT study mode */
+            line-height: 1; /* Prevent extra spacing */
+            margin-left: 0.5rem; /* Space between bullet and text */
          }
          
          .helper-response-content ol.numbered-list {
@@ -947,13 +1015,71 @@
                background-color: #e0eaff !important;
            }
           
-                     /* Loading state styling */
-           .question-button.loading {
-               background-color: #f3f4f6 !important;
-               color: #6b7280 !important;
-               cursor: not-allowed !important;
-               pointer-events: none !important;
+        /* Study-mode content styling - simple and standard with bigger font */
+            .study-mode-content {
+                text-align: right;
+            line-height: 1.6;
+                color: #374151;
+                font-family: 'IranSans', 'Vazirmatn', sans-serif;
+            font-size: 18px;
+            max-width: 100%;
+            word-wrap: break-word;
+            }
+
+            .study-paragraph {
+            margin-bottom: 1rem;
+            font-size: 18px;
+            line-height: 1.6;
+                color: #374151;
+                font-family: 'IranSans', 'Vazirmatn', sans-serif;
+            text-align: right;
+            }
+
+            .study-list {
+            margin: 1rem 0;
+            padding-right: 0;
+                list-style: none;
+            }
+
+            .study-list-item {
+            margin-bottom: 0.5rem;
+            font-size: 18px;
+                line-height: 1.6;
+                color: #374151;
+                font-family: 'IranSans', 'Vazirmatn', sans-serif;
+            text-align: right;
+                position: relative;
+            }
+
+        /* Good bullet points */
+        .study-list .study-list-item:before {
+            content: "•";
+                color: #6B7280;
+            font-weight: bold;
+            font-size: 1.4rem;
+            line-height: 1;
+            margin-left: 0.5rem;
+            vertical-align: middle;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+                .study-mode-content {
+                font-size: 18px;
+                    line-height: 1.6;
+                }
+                
+                .study-paragraph {
+                font-size: 18px;
+                line-height: 1.6;
+                }
+                
+                .study-list-item {
+                font-size: 18px;
+                line-height: 1.6;
+                }
            }
+
            
                        /* Chat Input Section Styling - No border, just calm gray background */
             .user-input {
@@ -1059,7 +1185,7 @@
             /* Mobile responsiveness for chat input */
             @media (max-width: 768px) {
                 #chat-input-section {
-                    bottom: 20px; /* Position much closer to bottom navigation */
+                    bottom: 2px; /* Position much closer to bottom navigation */
                     padding-bottom: 0;
                     /* Mobile-specific positioning fixes */
                     transform: translateY(100%) !important; /* Force initial hidden state */
@@ -1300,11 +1426,29 @@
                     }
                 }
             }
+            
+            /* Input bar styling with dark gray border */
+            .input-bar {
+                border: 1px solid #6b7280;
+            }
+        /* Navigation icon states */
+        .nav-icon {
+            color: #9CA3AF; /* Pale gray for inactive icons */
+            transition: color 0.3s ease;
+        }
+        
+        .nav-icon.active {
+            color: #374151; /* Full color for active icon */
+        }
+        
+        .nav-icon:hover {
+            color: #6B7280; /* Slightly darker on hover */
+        }
         </style>
 </head>
          <body style="background-color: #F8F9FA;">
     <!-- Header -->
-    <header class="fixed top-0 left-0 right-0 bg-gradient-to-r from-gray-50 via-gray-75 to-gray-50 border-b border-gray-200 z-50">
+    <header class="fixed top-0 left-0 right-0 border-b border-gray-200 z-50" style="background-color: #F8F9FA;">
         <div class="flex justify-center items-center px-6 py-4 relative">
             <!-- Center: Page Title -->
             <div class="text-center">
@@ -1412,75 +1556,134 @@
                   <div class="px-4 sm:px-6 pb-4" style="z-index: 10; pointer-events: none;">
                       <div class="max-w-5xl mx-auto flex justify-center">
                           <div class="relative w-full max-w-2xl">
+                              <div class="input-bar bg-[#e8e8e4] rounded-full shadow-lg flex items-center px-6 py-3" style="height: 65px; border-radius: 9999px;">
                               <textarea 
                                   id="chat-input-field" 
-                                  class="user-input w-full px-5 py-4 pr-20 resize-none text-gray-900 placeholder-gray-500 text-xl transition-all duration-200"
-                                  placeholder="...Learn anything"
+                                      class="user-input w-full px-2 py-2 pr-20 resize-none text-gray-900 placeholder-gray-500 text-xl transition-all duration-200 bg-transparent border-none outline-none"
+                                      placeholder="Learn anything..."
                                   rows="1"
                                   oninput="autoResize(this)"
                                   onfocus="handleInputFocus(this)"
                                   onblur="handleInputBlur(this)"
-                                  onclick="handleInputFocus(this)"
-                                  style="pointer-events: auto; min-height: 56px; border: none; outline: none;"
+                                  onclick="showChatInput()"
+                                      style="pointer-events: auto; min-height: 40px;"
                               ></textarea>
+                                  
+                                  <!-- Microphone/Recorder Icon - Left Side -->
+                                  <button 
+                                      id="microphone-button"
+                                      class="absolute left-2 top-1/2 w-8 h-8 text-gray-600 rounded-full transition-all duration-200 flex items-center justify-center z-20 hover:bg-gray-200"
+                                      style="transform: translateY(-50%);"
+                                      onclick="startRecording()"
+                                  >
+                                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                          <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                          <path d="M19 10v2a7 7 0 0 1-14 0v-2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                          <line x1="12" y1="19" x2="12" y2="23" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                          <line x1="8" y1="23" x2="16" y2="23" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                      </svg>
+                                  </button>
+                              
+                              <!-- Document Icon - Very Right Edge -->
+                              <button 
+                                  id="document-button"
+                                  class="absolute right-2 top-1/2 w-8 h-8 text-gray-600 rounded-full transition-all duration-200 flex items-center justify-center z-20 hover:bg-gray-200"
+                                  style="transform: translateY(-50%);"
+                                  onclick="attachDocument()"
+                                  title="Attach Document"
+                              >
+                                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                      <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66L9.64 16.2a2 2 0 0 1-2.83-2.83l8.49-8.49" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                  </svg>
+                              </button>
                               
                               <!-- Send Button - Hidden initially, shown on input focus -->
                               <button 
                                   id="send-chat-button"
-                                  class="absolute right-2 top-1/2 w-16 h-16 bg-gray-400 text-white rounded-full transition-all duration-200 flex items-center justify-center z-20"
+                                      class="absolute right-12 top-1/2 w-12 h-12 bg-black text-white rounded-full transition-all duration-200 flex items-center justify-center z-20"
                                   style="opacity: 0; pointer-events: none; transform: translateY(-50%) scale(0.75);"
                               >
                                   <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
+                                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19V5M5 12l7-7 7 7"/>
                                   </svg>
                               </button>
+                              </div>
                           </div>
                       </div>
+                  </div>
+              </div>
+              
+              <!-- Expanded Input Container (Hidden by default) -->
+              <div id="analysis-expanded-input-container" class="fixed bottom-0 left-0 right-0 bg-[#e8e8e4] rounded-t-3xl shadow-2xl hidden z-100" style="height: 100px; border-top: 1px solid #d1d5db;">
+                  <div class="relative h-full p-6">
+                      <!-- Expanded Textarea -->
+                      <textarea 
+                          id="analysis-expanded-user-input" 
+                          class="w-full bg-transparent border-none resize-none focus:outline-none text-[#000000] font-sans text-2xl placeholder-[#1e1e1e] pr-20 text-right absolute top-2 right-0"
+                          placeholder="Learn anything..."
+                          rows="3"
+                          onkeydown="handleAnalysisExpandedInputKeyDown(event)"
+                          style="min-height: 80px; line-height: 1.5; cursor: text;"
+                      ></textarea>
+                      
+                      <!-- Send Button -->
+                      <button id="analysis-send-button" class="absolute bottom-3 left-4 w-8 h-8 bg-gray-400 rounded-full flex items-center justify-center hover:bg-gray-600 transition-colors shadow-lg" onclick="sendCustomQuestion()">
+                          <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19V5M5 12l7-7 7 7"/>
+                          </svg>
+                      </button>
+                      
+                      <!-- Recorder Button - Left of Document -->
+                      <button class="recorder-button absolute bottom-3 right-12 w-8 h-8 bg-transparent rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors" onclick="startRecording()" title="Voice Recording">
+                          <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                              <path d="M19 10v2a7 7 0 0 1-14 0v-2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                              <line x1="12" y1="19" x2="12" y2="23" stroke-width="2" stroke-linecap="round"/>
+                              <line x1="8" y1="23" x2="16" y2="23" stroke-width="2" stroke-linecap="round"/>
+                          </svg>
+                      </button>
+                      
+                      <!-- Document Button - Very Right Side -->
+                      <button class="document-button absolute bottom-3 right-4 w-8 h-8 bg-transparent rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors" onclick="attachDocument()" title="Attach Document">
+                          <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66L9.64 16.2a2 2 0 0 1-2.83-2.83l8.49-8.49" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                          </svg>
+                      </button>
                   </div>
               </div>
             
         </div>
     </main>
 
-    <!-- Bottom Mobile Navigation -->
-    <nav id="bottom-navigation" class="fixed bottom-0 left-0 right-0 bg-[#e8e8e4] z-50 transition-opacity duration-300">
-        <div class="flex justify-around items-center py-4 px-6">
-            <!-- Chat Icon (Document with Pencil) -->
-            <button class="flex flex-col items-center justify-center p-3 rounded-2xl transition-all duration-300 hover:bg-gray-100/40 active:scale-90 hover:scale-105" onclick="window.location.href='index.html'">
-                <div class="w-6 h-6 relative">
-                    <!-- Document with text lines -->
-                    <svg class="w-6 h-6 text-gray-400" fill="white" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <rect x="3" y="3" width="18" height="18" rx="2" fill="white" stroke="currentColor" stroke-width="2"/>
-                        <line x1="9" y1="9" x2="15" y2="9" stroke="currentColor" stroke-width="2"/>
-                        <line x1="9" y1="13" x2="15" y2="13" stroke="currentColor" stroke-width="2"/>
-                </svg>
-                    <!-- Pencil positioned diagonally from bottom-right -->
-                    <svg class="w-4 h-4 text-gray-400 absolute -bottom-1 -right-1 transform rotate-45" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/>
-                    </svg>
-                </div>
-                                        <span class="text-xs text-gray-400 mt-1">چت</span>
-            </button>
-            
-            <!-- Library Icon -->
-            <button class="flex flex-col items-center justify-center p-3 rounded-2xl transition-all duration-300 hover:bg-gray-100/40 active:scale-90 hover:scale-105" onclick="window.location.href='chapters.html'">
-                <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
-                </svg>
-                                        <span class="text-xs text-gray-400 mt-1">کتابخانه</span>
-            </button>
-            
-            <!-- Analysis/Test Icon (Checkmark) -->
-            <button class="flex flex-col items-center justify-center p-3 rounded-2xl transition-all duration-300 hover:bg-gray-100/40 active:scale-90 hover:scale-105 bg-blue-100" onclick="window.location.href='#'">
-                <div class="w-6 h-6 rounded-full border-2 border-gray-900 flex items-center justify-center bg-white">
-                    <svg class="w-4 h-4 text-gray-900" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
-                </svg>
-                </div>
-                                        <span class="text-xs text-blue-600 mt-1 font-medium">تحلیل</span>
-            </button>
-        </div>
-    </nav>
+
+    <!-- Bottom Mobile Navigation - Matching Chat Page Icons -->
+    <div id="bottom-navigation" class="icons-container fixed bottom-0 left-0 right-0 pt-2 pb-6 px-6 flex justify-around items-center space-x-8 z-40 rounded-t-2xl shadow-lg" style="background-color: #E8E8E4;">
+        <!-- First Icon: Circle with tick inside (Test page) -->
+        <button class="icon-button p-2 hover:text-gray-600 transition-colors" onclick="window.location.href='test.html'">
+            <svg class="w-6 h-6 nav-icon active" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10" stroke-width="2"/>
+                <path d="M9 12l2 2 4-4" stroke-width="2"/>
+            </svg>
+        </button>
+        
+        <!-- Second Icon: Open book (Library) -->
+        <button class="icon-button p-2 hover:text-gray-600 transition-colors" onclick="window.location.href='library.html'">
+            <svg class="w-6 h-6 nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" stroke-width="2"/>
+            </svg>
+        </button>
+        
+        <!-- Third Icon: Document with pencil (Chat page) -->
+        <button class="icon-button p-2 hover:text-gray-600 transition-colors" onclick="window.location.href='index.html'">
+            <svg class="w-6 h-6 nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" stroke-width="2"/>
+                <path d="M14 2v6h6" stroke-width="2"/>
+                <path d="M16 13H8" stroke-width="2"/>
+                <path d="M16 17H8" stroke-width="2"/>
+                <path d="M10 9H8" stroke-width="2"/>
+            </svg>
+        </button>
+    </div>
 
     <script>
         let questionData = null;
@@ -1491,9 +1694,15 @@
         let conversationMessages = [];
         let isConversationInitialized = false;
 
+        // Debug display function
+        function showDebug(message, type = 'info') {
+            console.log(`[DEBUG ${type.toUpperCase()}] ${message}`);
+        }
+
         // Initialize conversation history system
         async function initializeConversation() {
             try {
+                // Start new conversation for new analysis
                 const response = await fetch('/api/chat/start', {
                     method: 'POST',
                     headers: {
@@ -1512,6 +1721,27 @@
             }
         }
         
+        // Display analysis content
+        function displayAnalysisContent(content) {
+            const analysisContainer = document.getElementById('analysis-content');
+            if (analysisContainer) {
+                analysisContainer.innerHTML = content;
+                console.log('📊 Analysis content displayed');
+            }
+        }
+        
+        // Display conversation history
+        function displayConversationHistory() {
+            console.log('📚 Current conversation history:');
+            conversationMessages.forEach((msg, index) => {
+                const role = msg.role || 'unknown';
+                const type = msg.type || 'unknown';
+                const content = msg.content || 'no content';
+                console.log(`${index + 1}. [${role.toUpperCase()}] ${type}: ${content.substring(0, 100)}...`);
+            });
+            console.log(`📊 Total messages: ${conversationMessages.length}`);
+        }
+        
         // Add message to conversation history
         function addToConversationHistory(role, content, messageType = 'text') {
             const message = {
@@ -1520,17 +1750,32 @@
                 type: messageType,
                 timestamp: new Date().toISOString()
             };
-            
             conversationMessages.push(message);
-            console.log(`📝 Added ${role} message to conversation history. Total: ${conversationMessages.length}`);
+            console.log(`💬 Added message to history: ${role} - ${content.substring(0, 50)}...`);
+        }
+        
+        // Get detailed analysis content from conversation history
+        function getDetailedAnalysisFromConversation() {
+            // Find the first assistant message that contains detailed analysis
+            const analysisMessage = conversationMessages.find(msg => 
+                msg.role === 'assistant' && 
+                msg.content && 
+                msg.content.length > 100 // Detailed analysis should be substantial
+            );
             
-            // Keep only last 20 messages to prevent memory issues
-            if (conversationMessages.length > 20) {
-                conversationMessages.splice(0, conversationMessages.length - 20);
+            if (analysisMessage) {
+                console.log('📋 Found detailed analysis from conversation history');
+                return analysisMessage.content;
             }
             
-            // Display updated conversation history for debugging
-            displayConversationHistory();
+            // Fallback to questionData analysis if available
+            if (questionData && questionData.analysis) {
+                console.log('📋 Using questionData analysis as fallback');
+                return questionData.analysis;
+            }
+            
+            console.log('⚠️ No detailed analysis found, using empty string');
+            return '';
         }
         
         // Get conversation context for AI responses
@@ -1541,19 +1786,79 @@
             }));
         }
         
-        // Display conversation history (for debugging and user reference)
-        function displayConversationHistory() {
-            console.log('📚 Current conversation history:');
-            conversationMessages.forEach((msg, index) => {
-                console.log(`${index + 1}. [${msg.role.toUpperCase()}] ${msg.type}: ${msg.content.substring(0, 100)}...`);
-            });
-            console.log(`📊 Total messages: ${conversationMessages.length}`);
-        }
-        
-        // Clear conversation history (useful for starting fresh)
-        function clearConversationHistory() {
-            conversationMessages = [];
-            console.log('🗑️ Conversation history cleared');
+        // Load analysis from library
+        async function loadAnalysisFromLibrary(sessionId) {
+            try {
+                console.log('🔍 Loading analysis from library:', sessionId);
+                
+                const userId = localStorage.getItem('user_id') || '1';
+                const response = await fetch(`/api/conversations?userId=${userId}&type=analysis`);
+                const data = await response.json();
+                
+                if (!data.success) {
+                    throw new Error('Failed to load conversations');
+                }
+                
+                // Find the specific analysis
+                const analysis = data.conversations.find(conv => conv.sessionId === sessionId);
+                
+                if (!analysis) {
+                    throw new Error('Analysis not found');
+                }
+                
+                console.log('✅ Found analysis:', analysis.title);
+                
+                // Set question data from analysis metadata
+                questionData = {
+                    subject: analysis.subject || 'biology',
+                    grade: analysis.grade || 'دوازدهم',
+                    field: analysis.field || 'experimental',
+                    chapter: analysis.chapter || '1',
+                    book: analysis.book || null
+                };
+                currentSubject = questionData.subject;
+                
+                // Load conversation messages
+                conversationMessages = analysis.messages || [];
+                
+                // Display the analysis content
+                const analysisContainer = document.getElementById('analysis-content');
+                if (analysisContainer) {
+                    analysisContainer.innerHTML = analysis.content;
+                    analysisContainer.classList.remove('hidden');
+                    console.log('✅ Analysis content displayed');
+                    console.log('📊 Analysis container visibility:', analysisContainer.style.display);
+                    console.log('📊 Analysis container classes:', analysisContainer.className);
+                    console.log('📊 Analysis content length:', analysis.content.length);
+                    
+                    // Force visibility
+                    analysisContainer.style.display = 'block';
+                    analysisContainer.style.visibility = 'visible';
+                    analysisContainer.style.opacity = '1';
+                }
+                
+                // Update page title
+                document.title = `مِنو - ${analysis.title}`;
+                
+                console.log('✅ Analysis loaded successfully from library');
+                
+            } catch (error) {
+                console.error('❌ Failed to load analysis from library:', error);
+                // Show error message
+                const analysisContainer = document.getElementById('analysis-content');
+                if (analysisContainer) {
+                    analysisContainer.innerHTML = `
+                        <div class="text-center p-8">
+                            <h2 class="text-xl font-bold text-red-600 mb-4">خطا در بارگذاری تحلیل</h2>
+                            <p class="text-gray-600 mb-4">متأسفانه مشکلی در بارگذاری تحلیل پیش آمده است.</p>
+                            <button onclick="window.location.href='/library.html'" class="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600">
+                                بازگشت به کتابخانه
+                            </button>
+                        </div>
+                    `;
+                    analysisContainer.classList.remove('hidden');
+                }
+            }
         }
         
                 // Get URL parameters and decode data
@@ -1562,23 +1867,505 @@
             const dataParam = urlParams.get('data');
             
             console.log('🔍 getUrlParams() called');
-            console.log('📊 URL data param:', dataParam);
+            
+            // Check if we're viewing an existing analysis from library
+            const viewingSession = localStorage.getItem('viewing_session');
+            const viewingType = localStorage.getItem('viewing_type');
+            
+            if (viewingSession && viewingType === 'analysis') {
+                console.log('📚 Loading existing analysis from library:', viewingSession);
+                // Clear the viewing flags
+                localStorage.removeItem('viewing_session');
+                localStorage.removeItem('viewing_type');
+                
+                // Load the actual analysis content
+                loadAnalysisFromLibrary(viewingSession);
+                return;
+            }
+            
+            // Check for analysis data in localStorage first
+            const analysisDataString = localStorage.getItem('analysisData');
+            if (analysisDataString) {
+                try {
+                    // Initialize new analysis session for new analysis
+                    if (!currentSessionId) {
+                        initializeNewAnalysisSession();
+                    }
+                    
+                    // Parse data from localStorage
+                    questionData = JSON.parse(analysisDataString);
+                    currentSubject = questionData.subject;
+                    
+                    console.log('✅ Question data parsed successfully from localStorage:', questionData);
+                    console.log('🚀 About to call displayResults()...');
+                    
+                    // Clear the data from localStorage after using it
+                    localStorage.removeItem('analysisData');
+                    
+                    displayResults();
+                    return;
+                } catch (error) {
+                    console.error('Error parsing data from localStorage:', error);
+                    localStorage.removeItem('analysisData');
+                }
+            }
+            
+            console.log('📊 No localStorage data, checking URL...');
+            
+            // Check if we're viewing a conversation from library
+            const viewingConversation = localStorage.getItem('viewing_conversation');
+            if (viewingConversation) {
+                try {
+                    const conversation = JSON.parse(viewingConversation);
+                    localStorage.removeItem('viewing_conversation');
+                    
+                    // Display the conversation from library
+                    loadAnalysisFromLibrary(conversation);
+                    return;
+                } catch (error) {
+                    console.error('Error parsing library conversation:', error);
+                    localStorage.removeItem('viewing_conversation');
+                }
+            }
             
             if (dataParam) {
                 try {
-                    questionData = JSON.parse(decodeURIComponent(dataParam));
+                    // Initialize new analysis session for new analysis
+                    if (!currentSessionId) {
+                        initializeNewAnalysisSession();
+                    }
+                    
+                    // Decode base64 data with proper UTF-8 handling
+                    const decodedData = decodeURIComponent(Array.prototype.map.call(atob(dataParam), (c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)).join(''));
+                    questionData = JSON.parse(decodedData);
                     currentSubject = questionData.subject;
                     console.log('✅ Question data parsed successfully:', questionData);
                     console.log('🚀 About to call displayResults()...');
                     displayResults();
                 } catch (error) {
                     console.error('Error parsing data:', error);
+                    console.error('Raw data param:', dataParam);
+                    
+                    // Try to show a fallback message
+                    try {
+                        const container = document.getElementById('result-container');
+                        container.innerHTML = `
+                            <div class="text-center p-8">
+                                <h2 class="text-xl font-bold text-red-600 mb-4">خطا در بارگذاری اطلاعات</h2>
+                                <p class="text-gray-600 mb-4">متأسفانه مشکلی در بارگذاری اطلاعات سوال پیش آمده است.</p>
+                                <button onclick="goBack()" class="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600">
+                                    بازگشت
+                                </button>
+                            </div>
+                        `;
+                    } catch (fallbackError) {
                     alert('خطا در بارگذاری اطلاعات سوال');
+                        goBack();
+                    }
                 }
             } else {
                 console.log('⚠️ No question data found in URL');
+                // Check if we're loading from library (has viewing_session)
+                const viewingSession = localStorage.getItem('viewing_session');
+                if (viewingSession) {
+                    console.log('📚 Loading from library, not redirecting');
+                    showDebug('📚 Loading from library, not redirecting', 'info');
+                    return; // Don't redirect, let the analysis loading handle it
+                } else {
                 alert('اطلاعات سوال یافت نشد');
                 goBack();
+                }
+            }
+        }
+
+        // Load analysis from library
+        async function loadAnalysisFromLibrary(sessionId) {
+            try {
+                console.log('🔍 Loading analysis from library:', sessionId);
+                
+                const userId = localStorage.getItem('user_id') || '1';
+                const response = await fetch(`/api/conversations?userId=${userId}&type=analysis`);
+                const data = await response.json();
+                
+                if (!data.success) {
+                    throw new Error('Failed to load conversations');
+                }
+                
+                // Find the specific analysis
+                const analysis = data.conversations.find(conv => conv.sessionId === sessionId);
+                
+                if (!analysis) {
+                    throw new Error('Analysis not found');
+                }
+                
+                console.log('✅ Found analysis:', analysis.title);
+                
+                // Set question data from analysis metadata
+                questionData = {
+                    subject: analysis.subject || 'biology',
+                    grade: analysis.grade || 'دوازدهم',
+                    field: analysis.field || 'experimental',
+                    chapter: analysis.chapter || '1',
+                    book: analysis.book || null
+                };
+                currentSubject = questionData.subject;
+                
+                // Load conversation messages
+                conversationMessages = analysis.messages || [];
+                
+                // Display the analysis content
+                const analysisContainer = document.getElementById('analysis-content');
+                if (analysisContainer) {
+                    analysisContainer.innerHTML = analysis.content;
+                    analysisContainer.classList.remove('hidden');
+                    console.log('✅ Analysis content displayed');
+                    console.log('📊 Analysis container visibility:', analysisContainer.style.display);
+                    console.log('📊 Analysis container classes:', analysisContainer.className);
+                    console.log('📊 Analysis content length:', analysis.content.length);
+                    
+                    // Force visibility
+                    analysisContainer.style.display = 'block';
+                    analysisContainer.style.visibility = 'visible';
+                    analysisContainer.style.opacity = '1';
+                }
+                
+                // Update page title
+                document.title = `مِنو - ${analysis.title}`;
+                
+                console.log('✅ Analysis loaded successfully from library');
+                
+            } catch (error) {
+                console.error('❌ Failed to load analysis from library:', error);
+                // Show error message
+                const analysisContainer = document.getElementById('analysis-content');
+                if (analysisContainer) {
+                    analysisContainer.innerHTML = `
+                        <div class="text-center p-8">
+                            <h2 class="text-xl font-bold text-red-600 mb-4">خطا در بارگذاری تحلیل</h2>
+                            <p class="text-gray-600 mb-4">متأسفانه مشکلی در بارگذاری تحلیل پیش آمده است.</p>
+                            <button onclick="window.location.href='/library.html'" class="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600">
+                                بازگشت به کتابخانه
+                            </button>
+                        </div>
+                    `;
+                    analysisContainer.classList.remove('hidden');
+                }
+            }
+        }
+
+        // Load existing analysis session from database
+        async function loadAnalysisSession(sessionId) {
+            try {
+                // Get user ID from localStorage
+                const userId = localStorage.getItem('user_id');
+                if (!userId) {
+                    console.log('⚠️ No user logged in, cannot load analysis session');
+                    return false;
+                }
+                
+                const response = await fetch(`/api/conversations/session/${sessionId}?user_id=${userId}`);
+                const data = await response.json();
+                
+                if (data.success && data.conversation) {
+                    currentSessionId = sessionId;
+                    
+                    // Parse analysis history
+                    if (data.conversation.messages) {
+                        if (typeof data.conversation.messages === 'string') {
+                            try {
+                                analysisHistory = JSON.parse(data.conversation.messages);
+                            } catch (e) {
+                                console.error('Error parsing analysis messages JSON:', e);
+                                analysisHistory = [];
+                            }
+                        } else {
+                            analysisHistory = data.conversation.messages;
+                        }
+                    } else if (data.conversation.content) {
+                        // Old format: parse from content field
+                        analysisHistory = parseAnalysisContentToHistory(data.conversation.content);
+                    } else {
+                        analysisHistory = [];
+                    }
+                    
+                    sessionStartTime = data.conversation.created_at;
+                    
+                    console.log('📚 Parsed analysis history:', analysisHistory);
+                    
+                    // Load analysis context into UI
+                    loadAnalysisContext(data.conversation);
+                    console.log('📚 Analysis session loaded:', sessionId);
+                    return true;
+                } else {
+                    console.error('❌ Failed to load analysis session:', data.error);
+                    return false;
+                }
+            } catch (error) {
+                console.error('❌ Error loading analysis session:', error);
+                return false;
+            }
+        }
+
+        // Load old format analysis conversation
+        async function loadOldFormatAnalysis(conversation) {
+            try {
+                console.log('📚 Loading old format analysis:', conversation);
+                
+                // Set current session to the conversation ID for compatibility
+                currentSessionId = conversation.id.toString();
+                
+                // Parse analysis from content field
+                if (conversation.content) {
+                    analysisHistory = parseAnalysisContentToHistory(conversation.content);
+                } else {
+                    analysisHistory = [];
+                }
+                
+                sessionStartTime = conversation.created_at;
+                
+                console.log('📚 Parsed analysis history from old format:', analysisHistory);
+                
+                // Load analysis context into UI
+                loadAnalysisContext(conversation);
+                console.log('📚 Old format analysis loaded:', conversation.id);
+                
+            } catch (error) {
+                console.error('❌ Error loading old format analysis:', error);
+            }
+        }
+
+        // Parse old analysis content to history format
+        function parseAnalysisContentToHistory(content) {
+            const history = [];
+            const lines = content.split('\n');
+            
+            let question = '';
+            let userAnswer = '';
+            let analysis = '';
+            let currentSection = '';
+            
+            for (const line of lines) {
+                if (line.startsWith('سوال:')) {
+                    currentSection = 'question';
+                    question = line.replace('سوال:', '').trim();
+                } else if (line.startsWith('پاسخ کاربر:')) {
+                    currentSection = 'userAnswer';
+                    userAnswer = line.replace('پاسخ کاربر:', '').trim();
+                } else if (line.startsWith('تحلیل تفصیلی:')) {
+                    currentSection = 'analysis';
+                    analysis = line.replace('تحلیل تفصیلی:', '').trim();
+                } else if (currentSection === 'question' && question) {
+                    question += '\n' + line;
+                } else if (currentSection === 'userAnswer' && userAnswer) {
+                    userAnswer += '\n' + line;
+                } else if (currentSection === 'analysis' && analysis) {
+                    analysis += '\n' + line;
+                }
+            }
+            
+            if (question && userAnswer && analysis) {
+                history.push({
+                    type: 'question',
+                    question: question,
+                    userAnswer: userAnswer,
+                    content: analysis,
+                    timestamp: new Date().toISOString()
+                });
+            }
+            
+            return history;
+        }
+
+        // Load analysis context into UI
+        function loadAnalysisContext(conversation) {
+            console.log('📚 Loading analysis context:', conversation);
+            console.log('📚 Analysis history:', analysisHistory);
+            
+            // Show FAB button when loading from library so user can ask follow-ups
+            showFloatingActionButton();
+            
+            // Show the results container
+            const loadingContainer = document.getElementById('loading-container');
+            const resultsContainer = document.getElementById('results-container');
+            
+            if (loadingContainer) {
+                loadingContainer.classList.add('hidden');
+            }
+            if (resultsContainer) {
+                resultsContainer.classList.remove('hidden');
+            }
+            
+            // Load the analysis from history
+            if (analysisHistory && analysisHistory.length > 0) {
+                const latestAnalysis = analysisHistory[analysisHistory.length - 1];
+                
+                // Set question data from the latest analysis
+                questionData = {
+                    question: latestAnalysis.question,
+                    userAnswer: latestAnalysis.userAnswer,
+                    correctAnswer: latestAnalysis.correctAnswer || 'غیر مشخص',
+                    subject: latestAnalysis.subject || conversation.subject,
+                    grade: latestAnalysis.grade || conversation.grade,
+                    field: latestAnalysis.field || conversation.field,
+                    chapter: latestAnalysis.chapter || conversation.chapter,
+                    book: latestAnalysis.book || conversation.book
+                };
+                
+                // Clear existing conversation messages and populate with analysis context
+                clearConversationHistory();
+                
+                // Add the original question and user answer to conversation context
+                addToConversationHistory('user', `سوال: ${latestAnalysis.question}\nپاسخ من: ${latestAnalysis.userAnswer}`, 'question_submission');
+                
+                // Add the detailed analysis to conversation context
+                addToConversationHistory('assistant', latestAnalysis.content, 'detailed_analysis');
+                
+                console.log('📚 Loaded analysis context into conversation history');
+                console.log('📊 Conversation context messages:', conversationMessages.length);
+                console.log('📋 Detailed analysis content length:', latestAnalysis.content.length);
+                
+                // Display the question result section first
+                const resultDisplay = document.getElementById('result-display');
+                if (resultDisplay) {
+                    resultDisplay.innerHTML = `
+                        <div class="text-center p-6 bg-gradient-to-r from-blue-50 to-blue-100 rounded-lg border border-blue-200 shadow-sm">
+                            <h2 class="text-2xl font-bold text-gray-900 mb-4">نتیجه سوال</h2>
+                            <div class="bg-white rounded-lg p-4 mb-4 shadow-sm">
+                                <p class="text-lg text-gray-700 mb-2"><strong>سوال:</strong> ${latestAnalysis.question}</p>
+                                <p class="text-lg text-gray-700"><strong>پاسخ شما:</strong> ${latestAnalysis.userAnswer}</p>
+                            </div>
+                            <button id="analysis-btn" class="bg-blue-500 hover:bg-blue-600 text-white px-8 py-3 rounded-lg font-medium text-lg transition-colors shadow-md" onclick="showDetailedAnalysis()">
+                                تحلیل سوال
+                            </button>
+                        </div>
+                    `;
+                }
+                
+                // Automatically show the detailed analysis section (main page state)
+                const analysisSection = document.getElementById('detailed-analysis-section');
+                if (analysisSection) {
+                    analysisSection.classList.remove('hidden');
+                    analysisSection.classList.add('show');
+                }
+                
+                // Display the detailed analysis content in the main analysis container
+                const analysisContent = document.getElementById('analysis-content');
+                if (analysisContent) {
+                    analysisContent.innerHTML = `
+                        <div class="study-mode-content">
+                            ${formatChatContent(latestAnalysis.content)}
+                        </div>
+                    `;
+                }
+                
+                // Collapse the result container to focus on analysis
+                const resultContainer = document.getElementById('result-container');
+                if (resultContainer) {
+                    resultContainer.classList.add('collapsed');
+                }
+                
+                // Make sure the analysis section is fully visible only if user is not interacting
+                setTimeout(() => {
+                    if (!isUserInteracting) {
+                    const analysisSection = document.getElementById('detailed-analysis-section');
+                    if (analysisSection) {
+                        analysisSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }
+                    } else {
+                        console.log('🚫 Skipping analysis section scroll - user is interacting with input');
+                    }
+                }, 500);
+                
+            } else {
+                console.log('📚 No analysis history to display');
+            }
+        }
+
+        // Display conversation from library
+        function displayLibraryConversation(conversation) {
+            console.log('📚 Displaying library conversation:', conversation);
+            
+            // Parse the conversation content
+            const content = conversation.content;
+            const lines = content.split('\n');
+            
+            let question = '';
+            let userAnswer = '';
+            let analysis = '';
+            let currentSection = '';
+            
+            for (const line of lines) {
+                if (line.startsWith('سوال:')) {
+                    currentSection = 'question';
+                    question = line.replace('سوال:', '').trim();
+                } else if (line.startsWith('پاسخ کاربر:')) {
+                    currentSection = 'userAnswer';
+                    userAnswer = line.replace('پاسخ کاربر:', '').trim();
+                } else if (line.startsWith('تحلیل تفصیلی:')) {
+                    currentSection = 'analysis';
+                    analysis = line.replace('تحلیل تفصیلی:', '').trim();
+                } else if (currentSection === 'question' && question) {
+                    question += '\n' + line;
+                } else if (currentSection === 'userAnswer' && userAnswer) {
+                    userAnswer += '\n' + line;
+                } else if (currentSection === 'analysis' && analysis) {
+                    analysis += '\n' + line;
+                }
+            }
+            
+            // Create mock questionData for display
+            questionData = {
+                question: question,
+                userAnswer: userAnswer,
+                subject: conversation.subject,
+                grade: conversation.grade,
+                field: conversation.field,
+                chapter: conversation.chapter,
+                book: conversation.book
+            };
+            
+            // Show the results container
+            document.getElementById('loading-container').classList.add('hidden');
+            document.getElementById('results-container').classList.remove('hidden');
+            
+            // Display the analysis
+            const analysisContainer = document.getElementById('detailed-analysis-container');
+            if (analysisContainer) {
+                analysisContainer.innerHTML = `
+                    <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-4">تحلیل تفصیلی</h3>
+                        <div class="study-mode-content">
+                            ${formatChatContent(analysis)}
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // Display question and answer
+            const resultDisplay = document.getElementById('result-display');
+            if (resultDisplay) {
+                resultDisplay.innerHTML = `
+                    <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-4">سوال</h3>
+                        <p class="text-gray-700 mb-4">${question}</p>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-4">پاسخ شما</h3>
+                        <p class="text-gray-700">${userAnswer}</p>
+                    </div>
+                `;
+            }
+            
+            // Add a "Continue with new question" button
+            const continueButton = document.createElement('div');
+            continueButton.className = 'flex justify-center mt-6 mb-8';
+            continueButton.innerHTML = `
+                <button onclick="window.location.href='chapters.html'" class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg font-medium transition-colors">
+                    سوال جدید بپرسید
+                </button>
+            `;
+            
+            const resultsContainer = document.getElementById('results-container');
+            if (resultsContainer) {
+                resultsContainer.appendChild(continueButton);
             }
         }
 
@@ -1694,6 +2481,85 @@
             console.log('👁️ Results element classes:', questionResults.className);
         }
         
+        // Simple content formatting - standard with bullet points only
+        function formatChatContent(content) {
+            if (!content || typeof content !== 'string') {
+                return '<p>متأسفانه محتوایی برای نمایش وجود ندارد.</p>';
+            }
+            
+            let formatted = content;
+            
+            // Remove markdown symbols
+            formatted = formatted.replace(/#+\s*/g, ''); // Remove headers
+            formatted = formatted.replace(/\*\*(.*?)\*\*/g, '$1'); // Remove bold
+            formatted = formatted.replace(/\*(.*?)\*/g, '$1'); // Remove italic
+            formatted = formatted.replace(/`(.*?)`/g, '$1'); // Remove code blocks
+            
+            // Split into lines and process
+            const lines = formatted.split('\n');
+            let result = [];
+            let currentList = [];
+            let inList = false;
+            
+            for (let i = 0; i < lines.length; i++) {
+                const line = lines[i];
+                const trimmedLine = line.trim();
+                
+                if (!trimmedLine) {
+                    // Empty line - end current list if exists
+                    if (inList && currentList.length > 0) {
+                        result.push(`<ul class="study-list">${currentList.join('')}</ul>`);
+                        inList = false;
+                        currentList = [];
+                    }
+                    continue;
+                }
+                
+                // Check if this line should be a bullet point (only • and -)
+                const isBulletPoint = /^[•-]\s*(.+)$/.test(trimmedLine);
+                
+                if (isBulletPoint) {
+                    if (!inList) {
+                        inList = true;
+                        currentList = [];
+                    }
+                    
+                    // Clean the content (remove bullet markers)
+                    let cleanContent = trimmedLine.replace(/^[•-]\s*/, '');
+                    currentList.push(`<li class="study-list-item">${cleanContent}</li>`);
+                } else {
+                    // End current list if exists
+                    if (inList && currentList.length > 0) {
+                        result.push(`<ul class="study-list">${currentList.join('')}</ul>`);
+                        inList = false;
+                        currentList = [];
+                    }
+                    
+                    // Add as paragraph
+                    result.push(`<p class="study-paragraph">${trimmedLine}</p>`);
+                }
+            }
+            
+            // Handle any remaining list
+            if (inList && currentList.length > 0) {
+                result.push(`<ul class="study-list">${currentList.join('')}</ul>`);
+            }
+            
+            formatted = result.join('');
+            
+            // Wrap in simple structure
+            formatted = `<div dir="rtl" class="study-mode-content">${formatted}</div>`;
+            
+            return formatted;
+        }
+        
+        // Simple function to process MathJax
+        function processMathJax(element) {
+            if (window.MathJax) {
+                MathJax.typesetPromise([element]);
+            }
+        }
+        
         // Display AI-generated result
         function displayAIResult(content) {
             console.log('🎯 Displaying AI result...');
@@ -1720,16 +2586,51 @@
                 questionResults.classList.remove('hidden');
                 console.log('✅ Loading hidden, AI results shown');
                 
-                // Parse the AI response to determine if answer is correct (check for Persian words)
+                // Parse the AI response to determine if answer is correct (original simple logic)
                 const isCorrect = content.includes('صحیح') || content.includes('درست');
                 const colorClass = isCorrect ? 'green' : 'red';
                 
-                console.log('📊 AI result analysis:', { isCorrect, colorClass });
+                // Update the main result container border/background based on correctness
+                const resultContainer = document.getElementById('result-container');
+                if (resultContainer) {
+                    // Add dynamic border and glow effect
+                    if (isCorrect) {
+                        resultContainer.style.border = '4px solid #10B981'; // Green border
+                        resultContainer.style.boxShadow = '0 0 20px rgba(16, 185, 129, 0.3)'; // Green glow
+                    } else {
+                        resultContainer.style.border = '4px solid #EF4444'; // Red border
+                        resultContainer.style.boxShadow = '0 0 20px rgba(239, 68, 68, 0.3)'; // Red glow
+                    }
+                }
                 
-                // Convert numbered lists to bullet points and format content
-                let formattedContent = content
-                    .replace(/^\d+\.\s+/gm, '• ') // Convert numbered lists to bullet points
-                    .replace(/\n/g, '<br>');
+                // Extract correct answer from AI response (for detailed analysis)
+                let correctAnswer = null;
+                const correctAnswerPatterns = [
+                    /پاسخ صحیح:\s*([ABCD])/i,
+                    /گزینه صحیح:\s*([ABCD])/i,
+                    /پاسخ درست:\s*([ABCD])/i,
+                    /صحیح:\s*([ABCD])/i,
+                    /درست:\s*([ABCD])/i
+                ];
+                
+                for (const pattern of correctAnswerPatterns) {
+                    const match = content.match(pattern);
+                    if (match) {
+                        correctAnswer = match[1].toUpperCase();
+                        questionData.correctAnswer = correctAnswer;
+                        console.log('✅ Correct answer extracted from AI response:', correctAnswer);
+                        break;
+                    }
+                }
+                
+                // If still no correct answer found, set a fallback to enable detailed analysis
+                if (!questionData.correctAnswer) {
+                    questionData.correctAnswer = 'A'; // Fallback to enable detailed analysis
+                    console.log('🔄 Set fallback correct answer for detailed analysis');
+                }
+                
+                // Convert numbered lists to bullet points and format content using study-mode
+                const aiFormattedContent = formatChatContent(content);
                 
                 questionResults.innerHTML = `
                     <div class="bg-${colorClass}-50 rounded-xl p-6 border border-${colorClass}-200 mb-6">
@@ -1744,7 +2645,7 @@
                             </div>
                             <div class="text-center">
                                 <div class="analysis-content text-xl font-semibold text-black">
-                                    ${formattedContent}
+                                    ${aiFormattedContent}
                                 </div>
                             </div>
                         </div>
@@ -1772,6 +2673,20 @@
             
             const isCorrect = questionData.userAnswer === questionData.correctAnswer;
             const colorClass = isCorrect ? 'green' : 'red';
+            
+            // Update the main result container border/background based on correctness
+            const resultContainer = document.getElementById('result-container');
+            if (resultContainer) {
+                // Add dynamic border and glow effect
+                if (isCorrect) {
+                    resultContainer.style.border = '4px solid #10B981'; // Green border
+                    resultContainer.style.boxShadow = '0 0 20px rgba(16, 185, 129, 0.3)'; // Green glow
+                } else {
+                    resultContainer.style.border = '4px solid #EF4444'; // Red border
+                    resultContainer.style.boxShadow = '0 0 20px rgba(239, 68, 68, 0.3)'; // Red glow
+                }
+            }
+            
             questionResults.innerHTML = `
                 <div class="bg-${colorClass}-50 rounded-xl p-6 border border-${colorClass}-200 mb-6">
                     <div class="flex items-center justify-center space-x-4 space-x-reverse">
@@ -1827,6 +2742,20 @@
                      // Show the analysis section
                      detailedAnalysisSection.classList.remove('hidden');
                      detailedAnalysisSection.style.display = 'block';
+                     
+                     // Enable/disable analysis button based on correctAnswer availability
+                     const analysisBtn = document.getElementById('analysis-btn');
+                     if (analysisBtn) {
+                         if (questionData.correctAnswer) {
+                             analysisBtn.disabled = false;
+                             analysisBtn.textContent = 'تحلیل سوال';
+                             analysisBtn.className = 'bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-bold py-3 px-6 rounded-full transition-all transform hover:scale-105 shadow-lg';
+                         } else {
+                             analysisBtn.disabled = true;
+                             analysisBtn.textContent = 'پاسخ صحیح یافت نشد';
+                             analysisBtn.className = 'bg-gray-400 text-white font-bold py-3 px-6 rounded-full cursor-not-allowed';
+                         }
+                     }
                  }
                 
                                  // Prepare analysis content area with loading state immediately
@@ -1886,6 +2815,12 @@
             document.getElementById('analysis-btn').textContent = 'در حال تحلیل...';
             
             try {
+                // Check if correctAnswer is available
+                if (!questionData.correctAnswer) {
+                    console.error('❌ correctAnswer is missing from questionData:', questionData);
+                    throw new Error('پاسخ صحیح یافت نشد. لطفاً ابتدا پاسخ خود را ارسال کنید.');
+                }
+                
                 // Prepare the analysis request
                 const analysisData = {
                     question: questionData.question,
@@ -1894,10 +2829,12 @@
                     userAnswer: questionData.userAnswer,
                     subject: questionData.subject,
                     grade: questionData.grade,
-                    chapter: questionData.chapter
+                    field: questionData.field || 'experimental',
+                    chapter: questionData.chapter,
+                    book: questionData.book || 'IQ گاج'
                 };
                 
-                console.log('Sending analysis request:', analysisData); // Debug log
+                console.log('🚀 Sending analysis request:', analysisData);
                 
                 // Call the streaming LLM API
                 const response = await fetch('/api/chat/analysis/stream', {
@@ -1909,21 +2846,43 @@
                 });
                 
                 if (!response.ok) {
-                    throw new Error('خطا در ارتباط با سرور');
+                    const errorText = await response.text();
+                    console.error('❌ Server response error:', response.status, errorText);
+                    throw new Error(`خطا در ارتباط با سرور: ${response.status} - ${errorText}`);
                 }
                 
                 // Stream the analysis with typewriter effect
                 await streamAnalysisResponse(response);
                 
             } catch (error) {
-                console.error('Analysis error:', error);
+                console.error('❌ Analysis error:', error);
                 
-                // Show error message
-                document.getElementById('analysis-error').classList.remove('hidden');
+                // Show detailed error message
+                const errorElement = document.getElementById('analysis-error');
+                if (errorElement) {
+                    errorElement.classList.remove('hidden');
+                    errorElement.innerHTML = `
+                        <div class="bg-red-50 border border-red-200 rounded-lg p-4 mb-4">
+                            <div class="flex items-center">
+                                <svg class="w-5 h-5 text-red-400 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+                                </svg>
+                                <span class="text-red-800 font-medium">خطا در تحلیل سوال</span>
+                            </div>
+                            <p class="text-red-700 mt-2">${error.message}</p>
+                            <button onclick="startAnalysisRequest()" class="mt-3 bg-red-100 text-red-800 px-4 py-2 rounded-lg hover:bg-red-200 transition-colors">
+                                تلاش مجدد
+                            </button>
+                        </div>
+                    `;
+                }
             } finally {
                 // Re-enable analysis button
-                document.getElementById('analysis-btn').disabled = false;
-                document.getElementById('analysis-btn').textContent = 'تحلیل سوال';
+                const analysisBtn = document.getElementById('analysis-btn');
+                if (analysisBtn) {
+                    analysisBtn.disabled = false;
+                    analysisBtn.textContent = 'تحلیل سوال';
+                }
             }
         }
         
@@ -2009,53 +2968,10 @@
             }
         }
         
-                           // Format streaming content in real-time with smart bullet point detection
+                                   // Format streaming content in real-time - SIMPLE BASIC
           function formatStreamingContent(content) {
-              let formatted = content;
-              
-              // Replace line breaks with proper HTML
-              formatted = formatted.replace(/\n\n/g, '</p><p class="content-paragraph">');
-              formatted = formatted.replace(/\n/g, '<br>');
-              
-              // Smart bullet point detection - only convert actual list items
-              const lines = formatted.split('<br>');
-              const processedLines = lines.map(line => {
-                  // Only convert to bullet point if it looks like a list item
-                  if (line.trim().match(/^-\s+\w+/)) {
-                      // Check if the next line also starts with dash (indicating a list)
-                      const lineIndex = lines.indexOf(line);
-                      const nextLine = lines[lineIndex + 1];
-                      const prevLine = lines[lineIndex - 1];
-                      
-                      // Convert to bullet point if it's part of a list structure
-                      if ((nextLine && nextLine.trim().match(/^-\s+\w+/)) || 
-                          (prevLine && prevLine.trim().match(/^-\s+\w+/))) {
-                          return line.replace(/^-\s+/, '• ');
-                      }
-                  }
-                  return line;
-              });
-              
-              formatted = processedLines.join('<br>');
-              
-              // Add paragraph tags with proper font size class
-              formatted = `<p class="content-paragraph">${formatted}</p>`;
-              
-              // Add special styling for structured sections with clean formatting
-              formatted = formatted
-                  .replace(/1\. ✅\/❌/g, '<div class="analysis-section"><h3>1. ✅/❌ نتیجه پاسخ</h3>')
-                  .replace(/2\. 📝/g, '</div><div class="analysis-section"><h3>2. 📝 راه‌حل گام به گام</h3>')
-                  .replace(/3\. ⚡/g, '</div><div class="analysis-section"><h3>3. ⚡ روش سریع</h3>')
-                  .replace(/4\. ❗/g, '</div><div class="analysis-section"><h3>4. ❗ اشتباه رایج</h3>')
-                  .replace(/5\. 🎯/g, '</div><div class="analysis-section"><h3>5. 🎯 نکته کلیدی</h3>');
-              
-              // Close the last section
-              formatted += '</div>';
-              
-              // Clean up any extra formatting
-              formatted = formatted.replace(/<p><\/p>/g, '');
-              
-              return formatted;
+            // Use the same basic formatting as final display
+            return formatChatContent(content);
           }
           
                      // Function to clean content by removing JSON helper questions
@@ -2077,89 +2993,63 @@
          }
         
                                      // Final formatting after streaming is complete
-           function formatFinalAnalysis(content) {
+        async function formatFinalAnalysis(content) {
                const contentDiv = document.getElementById('analysis-content');
                if (contentDiv) {
-                    // First, extract helper questions from the original content
+                    // Extract questions first
                     const questions = extractRelatedQuestions(content);
                     
-                    // Then, remove ONLY the helper questions section from the content before formatting
-                    // Be very careful not to remove the main analysis content with dash-prefixed lines
+                    // Remove original questions from main content to avoid duplication
                     let cleanedContent = content;
                     if (questions && questions.length > 0) {
-                        // Use a more targeted approach to only remove the "Related Questions" section
-                        // without affecting the main analysis content (like نکته طلایی)
+                        console.log('🔍 Removing questions from main content:', questions);
                         
-                        // Strategy 1: Remove the entire "Related Questions:" section with its questions
-                        // Look for the specific pattern: header + newline + questions
-                        const relatedQuestionsPattern = /(?:Related Questions|سوالات مرتبط|سوالات کمکی|سوالات مشابه|سوالات)\s*:?\s*[\r\n]+((?:-\s*[^\r\n]+[\r\n]*)+)/gi;
-                        cleanedContent = cleanedContent.replace(relatedQuestionsPattern, '');
+                        questions.forEach(question => {
+                            console.log('🔍 Removing question:', question);
+                            
+                            // Remove various patterns of the question
+                            const patterns = [
+                                // Dash patterns
+                                new RegExp(`-\\s*${question.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}`, 'gi'),
+                                // Bullet patterns
+                                new RegExp(`•\\s*${question.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}`, 'gi'),
+                                // HTML patterns
+                                new RegExp(`<br>\\s*-\\s*${question.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}`, 'gi'),
+                                new RegExp(`<br>\\s*•\\s*${question.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}`, 'gi'),
+                                // Line break patterns
+                                new RegExp(`\\n\\s*-\\s*${question.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}`, 'gi'),
+                                new RegExp(`\\n\\s*•\\s*${question.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}`, 'gi'),
+                                // Just the question text (fallback)
+                                new RegExp(`${question.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}`, 'gi')
+                            ];
+                            
+                            patterns.forEach(pattern => {
+                                const beforeLength = cleanedContent.length;
+                                cleanedContent = cleanedContent.replace(pattern, '');
+                                if (cleanedContent.length !== beforeLength) {
+                                    console.log('✅ Removed question with pattern:', pattern);
+                                }
+                            });
+                        });
                         
-                        // Strategy 2: Remove HTML formatted helper questions section
-                        // Look for the pattern: header + <br> + questions
-                        const htmlQuestionsPattern = /(?:Related Questions|سوالات مرتبط|سوالات کمکی|سوالات مشابه|سوالات)\s*:?\s*<br>((?:-\s*[^<]+<br>)+)/gi;
-                        cleanedContent = cleanedContent.replace(htmlQuestionsPattern, '');
+                        // Clean up any remaining empty lines and extra spaces
+                        cleanedContent = cleanedContent.replace(/\n\s*\n/g, '\n');
+                        cleanedContent = cleanedContent.replace(/<br>\s*<br>/g, '<br>');
+                        cleanedContent = cleanedContent.replace(/\s+/g, ' ');
+                        cleanedContent = cleanedContent.trim();
                         
-                        // Strategy 3: Remove any remaining helper questions that might be at the end
-                        // This is the safest approach - only remove questions that come after the main content
-                        const endQuestionsPattern = /[\r\n]+\s*(?:Related Questions|سوالات مرتبط|سوالات کمکی|سوالات مشابه|سوالات)\s*:?\s*[\r\n]*((?:-\s*[^\r\n]+[\r\n]*)+)\s*$/gi;
-                        cleanedContent = cleanedContent.replace(endQuestionsPattern, '');
-                        
-                        // Strategy 4: Remove HTML end questions that are at the very end
-                        const htmlEndQuestionsPattern = /<br>\s*(?:Related Questions|سوالات مرتبط|سوالات کمکی|سوالات مشابه|سوالات)\s*:?\s*<br>((?:-\s*[^<]+<br>)+)\s*$/gi;
-                        cleanedContent = cleanedContent.replace(htmlEndQuestionsPattern, '');
-                        
-                        // Strategy 5: Remove the specific pattern we found in the AI response
-                        // This removes the pattern: "حالا بیایید تمرین کنیم تا مطمئن شویم مفهوم را خوب فهمیده‌ایم:" + questions
-                        const exercisePattern = /حالا بیایید تمرین کنیم تا مطمئن شویم مفهوم را خوب فهمیده‌ایم\s*:?\s*<br>((?:-\s*[^<]+<br>)+)/gi;
-                        cleanedContent = cleanedContent.replace(exercisePattern, '');
-                        
-                        // Strategy 6: Remove any remaining dash-prefixed questions at the end
-                        // This catches the specific format: "- سوال؟- سوال؟- سوال؟- سوال؟"
-                        const remainingQuestionsPattern = /<br>\s*-\s*[^<]+(?:-\s*[^<]+)*<br>\s*$/gi;
-                        cleanedContent = cleanedContent.replace(remainingQuestionsPattern, '');
-                        
-                        // Strategy 7: Remove ONLY the specific question section at the end (much safer)
-                        // This targets only the very end where questions appear, not the main content
-                        const endQuestionSectionPattern = /<br>\s*حالا بیایید تمرین کنیم تا مطمئن شویم مفهوم را خوب فهمیده‌ایم\s*:?\s*<br>((?:-\s*[^<]+<br>)+)\s*$/gi;
-                        cleanedContent = cleanedContent.replace(endQuestionSectionPattern, '');
-                        
-                        // Strategy 8: Remove any trailing questions that are clearly at the end
-                        // This is much more conservative and only removes questions at the very end
-                        const trailingQuestionsPattern = /<br>\s*-\s*[^<]+(?:<br>\s*-\s*[^<]+)*\s*$/gi;
-                        cleanedContent = cleanedContent.replace(trailingQuestionsPattern, '');
-                        
-                        // Strategy 9: SUPER SAFE - Only remove the very specific format at the very end
-                        // Look for the exact pattern: "حالا بیایید تمرین کنیم" followed by 4 dash questions
-                        const exactExercisePattern = /حالا بیایید تمرین کنیم تا مطمئن شویم مفهوم را خوب فهمیده‌ایم\s*:?\s*<br>\s*-\s*[^<]+<br>\s*-\s*[^<]+<br>\s*-\s*[^<]+<br>\s*-\s*[^<]+/gi;
-                        cleanedContent = cleanedContent.replace(exactExercisePattern, '');
-                        
-                        // Strategy 10: SUPER SAFE - Only remove if we see exactly 4 dash questions in sequence
-                        // This is much more conservative and only targets the specific case
-                        const fourDashPattern = /(?:<br>\s*-\s*[^<]+){4,}/gi;
-                        if (fourDashPattern.test(cleanedContent)) {
-                            // Only remove if we have exactly 4+ dash questions AND they're at the end
-                            const endFourDashPattern = /(?:<br>\s*-\s*[^<]+){4,}\s*$/gi;
-                            cleanedContent = cleanedContent.replace(endFourDashPattern, '');
-                        }
-                        
-                        // Clean up any trailing empty lines or br tags
-                        cleanedContent = cleanedContent.replace(/[\r\n\s]+$/, '');
-                        cleanedContent = cleanedContent.replace(/<br>\s*$/i, '');
-                        
-                        console.log('✅ Removed ONLY helper questions section from main content');
-                        console.log('✅ Preserved main analysis content with structured sections');
-                        console.log('✅ Content length before:', content.length, 'after:', cleanedContent.length);
-                        console.log('🔍 DEBUG: Original content preview:', content.substring(Math.max(0, content.length - 500)));
-                        console.log('🔍 DEBUG: Cleaned content preview:', cleanedContent.substring(Math.max(0, cleanedContent.length - 500)));
+                        console.log('🔍 Content length before:', content.length, 'after:', cleanedContent.length);
                     }
                     
-                    // Now format the cleaned content for display
-                   const formattedContent = formatAIResponseWithStructure(cleanedContent, 'detailed-analysis');
+                   // Format and display the cleaned content (questions already removed)
+                   const formattedContent = formatChatContent(cleanedContent);
                    contentDiv.innerHTML = formattedContent;
                    
+                   // Process MathJax for math equations
+                   setTimeout(() => { processMathJax(contentDiv); }, 100);
+                   
                    // Add detailed analysis to conversation history
-                   addToConversationHistory('assistant', cleanedContent, 'detailed_analysis');
+                   addToConversationHistory('assistant', content, 'detailed_analysis');
                    
                    // Ensure ai-help-questions div exists before rendering helper questions
                    let helpQuestionsDiv = document.getElementById('ai-help-questions');
@@ -2170,16 +3060,165 @@
                        contentDiv.appendChild(helpQuestionsDiv);
                    }
                    
-                   // Render helper questions with the extracted questions
+                   // Render helper questions using the already extracted questions
                    if (questions && questions.length > 0) {
                        renderQuestionsUI(questions);
                    }
+                   
+                   // Show the detailed analysis container
+                   contentDiv.classList.remove('hidden');
                     
-                    // FAB button will be shown only when helper questions are sent
-                    // showFloatingActionButton(); // Keep hidden until helper questions are used
+                    // FAB button will be shown when detailed analysis is completed
+                    showFloatingActionButton();
                } else {
                    console.error('analysis-content element not found in formatFinalAnalysis');
                }
+           }
+         
+        // Global variables for session management
+        let currentSessionId = null;
+        let analysisHistory = [];
+        let sessionStartTime = null;
+        let isUserInteracting = false; // Flag to prevent auto-scrolling during user interaction
+
+        // Generate unique session ID
+        function generateAnalysisSessionId() {
+            return `analysis_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+        }
+
+        // Initialize a new analysis session
+        function initializeNewAnalysisSession() {
+            currentSessionId = generateAnalysisSessionId();
+            analysisHistory = [];
+            sessionStartTime = new Date().toISOString();
+            console.log('🆕 New analysis session started:', currentSessionId);
+        }
+
+        // Save or update complete conversation to database
+        async function saveCompleteConversationToDatabase() {
+            try {
+                // Get user ID from localStorage
+                const userId = localStorage.getItem('user_id');
+
+                // If no user is logged in, don't save
+                if (!userId) {
+                    console.log('⚠️ No user logged in, skipping save');
+                    return;
+                }
+
+                // Create complete conversation history with proper message format
+                const completeHistory = [];
+                
+                // Add the original question and user answer as first messages
+                if (questionData?.question && questionData?.userAnswer) {
+                    completeHistory.push({
+                        type: 'user',
+                        content: `سوال: ${questionData.question}\nپاسخ من: ${questionData.userAnswer}`,
+                        timestamp: sessionStartTime || new Date().toISOString()
+                    });
+                }
+                
+                // Add detailed analysis
+                analysisHistory.forEach(analysis => {
+                    completeHistory.push({
+                        type: 'ai',
+                        content: analysis.content,
+                        timestamp: analysis.timestamp
+                    });
+                });
+                
+                // Add all conversation messages (helper questions and custom questions)
+                conversationMessages.forEach(msg => {
+                    completeHistory.push({
+                        type: msg.role === 'user' ? 'user' : 'ai',
+                        content: msg.content,
+                        timestamp: msg.timestamp
+                    });
+                });
+
+                // Create content field for library display (readable summary)
+                let contentSummary = '';
+                if (questionData?.question && questionData?.userAnswer) {
+                    contentSummary += `سوال: ${questionData.question}\n\n`;
+                    contentSummary += `پاسخ کاربر: ${questionData.userAnswer}\n\n`;
+                }
+                
+                // Add analysis content
+                if (analysisHistory.length > 0) {
+                    contentSummary += `تحلیل تفصیلی: ${analysisHistory[0].content}\n\n`;
+                }
+                
+                // Add helper questions and responses
+                conversationMessages.forEach(msg => {
+                    if (msg.role === 'user') {
+                        contentSummary += `سوال پیگیری: ${msg.content}\n\n`;
+                    } else {
+                        contentSummary += `پاسخ: ${msg.content}\n\n`;
+                    }
+                });
+
+                // Create session title from the question
+                const title = questionData?.question ?
+                    (questionData.question.length > 50 ? questionData.question.substring(0, 50) + '...' : questionData.question) :
+                    'تحلیل تفصیلی سوال';
+
+                console.log('💾 Saving/updating complete conversation with ID:', currentSessionId);
+                console.log('💾 Question:', questionData?.question);
+                console.log('💾 User Answer:', questionData?.userAnswer);
+                console.log('💾 Total analysis items:', analysisHistory.length);
+                console.log('💾 Total conversation messages:', conversationMessages.length);
+                console.log('💾 Total complete history:', completeHistory.length);
+
+                // Save/update analysis as a conversation in database (original approach)
+                const response = await fetch('/api/conversations/session', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        sessionId: currentSessionId,
+                        userId: userId,
+                        title: title,
+                        content: contentSummary, // For library display
+                        type: 'analysis',
+                        createdAt: sessionStartTime,
+                        updatedAt: new Date().toISOString(),
+                        subject: questionData?.subject || null,
+                        grade: questionData?.grade || null,
+                        field: questionData?.field || null,
+                        chapter: questionData?.chapter || null,
+                        book: questionData?.book || null,
+                        messages: completeHistory // For conversation loading
+                    })
+                });
+                const data = await response.json();
+                if (data.success) { 
+                    console.log('✅ Complete conversation saved/updated:', currentSessionId);
+                }
+                else { console.error('❌ Failed to save complete conversation:', data.error); }
+            } catch (error) { console.error('❌ Error saving complete conversation:', error); }
+        }
+
+        // Save detailed analysis to database with session management (legacy function - now calls complete save)
+        async function saveDetailedAnalysisToDatabase(content) {
+            // Add analysis to history if not already added
+            if (content && content !== 'Updated conversation with custom question' && content !== 'Updated conversation with helper question') {
+                const analysisObj = {
+                    type: 'question',
+                    question: questionData?.question || 'سوال',
+                    userAnswer: questionData?.userAnswer || 'پاسخ',
+                    content: content,
+                    timestamp: new Date().toISOString(),
+                    subject: questionData?.subject || null,
+                    grade: questionData?.grade || null,
+                    field: questionData?.field || null,
+                    chapter: questionData?.chapter || null,
+                    book: questionData?.book || null
+                };
+
+                analysisHistory.push(analysisObj);
+            }
+
+            // Always save the complete conversation
+            await saveCompleteConversationToDatabase();
            }
          
                              // REMOVED: Old helper question extraction system
@@ -2386,86 +3425,62 @@
         
         // REMOVED: All old helper question code - replaced with new system
 
-        // Function to format AI response with structure for detailed analysis
+        // Function to format AI response with structure for detailed analysis - USING STUDY MODE
         function formatAIResponseWithStructure(content, type) {
-            let formatted = content;
-            
-            // Replace line breaks with proper HTML
-            formatted = formatted.replace(/\n\n/g, '</p><p class="content-paragraph">');
-            formatted = formatted.replace(/\n/g, '<br>');
-            
-            // Add special styling for structured sections with clean formatting
-            formatted = formatted
-                .replace(/1\. ✅\/❌/g, '<div class="analysis-section"><h3>1. ✅/❌ نتیجه پاسخ</h3>')
-                .replace(/2\. 📝/g, '</div><div class="analysis-section"><h3>2. 📝 راه‌حل گام به گام</h3>')
-                .replace(/3\. ⚡/g, '</div><div class="analysis-section"><h3>3. ⚡ روش سریع</h3>')
-                .replace(/4\. ❗/g, '</div><div class="analysis-section"><h3>4. ❗ اشتباه رایج</h3>')
-                .replace(/5\. 🎯/g, '</div><div class="analysis-section"><h3>5. 🎯 نکته کلیدی</h3>');
-            
-            // Close the last section
-            formatted += '</div>';
-            
-            // Add paragraph tags with proper font size class
-            formatted = `<p class="content-paragraph">${formatted}</p>`;
-            
-            // Clean up any extra formatting
-            formatted = formatted.replace(/<p><\/p>/g, '');
-            
-            return formatted;
+            // Use the same study-mode formatting as chat page
+            const formattedContent = formatChatContent(content);
+            // Wrap in study-mode container for consistent styling
+            return `<div class="study-mode-content">${formattedContent}</div>`;
         }
         
-        // Function to format streaming chunks quickly (for real-time updates)
+        // Function to format streaming chunks quickly (for real-time updates) - USING STUDY MODE
         function formatStreamingChunk(content) {
-            let formatted = content;
-            
-            // Basic streaming formatting - just handle line breaks and basic structure
-            formatted = formatted.replace(/\n\n/g, '</p><p class="content-paragraph">');
-            formatted = formatted.replace(/\n/g, '<br>');
-            
-            // Wrap in paragraph tags with proper font size class
-            formatted = `<p class="content-paragraph">${formatted}</p>`;
-            
-            return formatted;
+            // Use the same study-mode formatting as chat page
+            const formattedContent = formatChatContent(content);
+            // Wrap in study-mode container for consistent styling
+            return `<div class="study-mode-content">${formattedContent}</div>`;
         }
         
-        // Function to format helper question responses - SIMPLE SYSTEM LIKE DETAILED ANALYSIS
-        // Only handles bullet points and numbered lists, NO markdown formatting
+        // Function to format helper question responses - USING STUDY MODE
         function formatHelperQuestionResponse(content) {
-            let formatted = content;
+            // Use the same study-mode formatting as chat page
+            const formattedContent = formatChatContent(content);
+            // Wrap in study-mode container for consistent styling
+            const result = `<div class="study-mode-content">${formattedContent}</div>`;
             
-            // Replace line breaks with proper HTML (same as detailed analysis)
-            formatted = formatted.replace(/\n\n/g, '</p><p class="content-paragraph">');
-            formatted = formatted.replace(/\n/g, '<br>');
+            // Process MathJax after content is set
+            setTimeout(() => {
+                const element = document.querySelector('.study-mode-content:last-child');
+                if (element) {
+                    processMathJax(element);
+                }
+            }, 100);
             
-            // Handle bullet points (dash format) - convert to HTML lists
-            formatted = formatted.replace(/^-\s+(.+)$/gm, '<li>$1</li>');
-            // Group consecutive list items into <ul> tags
-            formatted = formatted.replace(/(<li>.*<\/li>)/s, '<ul class="content-list">$1</ul>');
-            
-            // Handle numbered lists (1. 2. 3.) - convert to HTML lists
-            formatted = formatted.replace(/^(\d+)\.\s+(.+)$/gm, '<li>$1. $2</li>');
-            // Group consecutive numbered list items into <ol> tags
-            formatted = formatted.replace(/(<li>\d+\.\s+.*<\/li>)/s, '<ol class="content-list">$1</ol>');
-            
-            // Add paragraph tags with proper font size class (same as detailed analysis)
-            formatted = `<p class="content-paragraph">${formatted}</p>`;
-            
-            // Clean up any extra formatting
-            formatted = formatted.replace(/<p><\/p>/g, '');
-            
-            return formatted;
+            return result;
         }
 
         // Go back to previous page
         function goBack() {
             // Go back to chapters page
-            window.location.href = `chapters.html?subject=${questionData?.subject || 'biology'}&grade=${questionData?.grade || '12th'}&field=${questionData?.field || 'experimental'}`;
+            const gradeMapping = {
+                '10th': 'دهم',
+                '11th': 'یازدهم', 
+                '12th': 'دوازدهم'
+            };
+            const persianGrade = gradeMapping[questionData?.grade] || 'دوازدهم';
+            window.location.href = `chapters.html?subject=${questionData?.subject || 'biology'}&grade=${persianGrade}&field=${questionData?.field || 'experimental'}`;
         }
 
         // Go back to chapter page (cross icon)
         function goToChapter() {
             // Go back to chapters page
-            window.location.href = `chapters.html?subject=${questionData?.subject || 'biology'}&grade=${questionData?.grade || '12th'}&field=${questionData?.field || 'experimental'}`;
+            const gradeMapping = {
+                '10th': 'دهم',
+                '11th': 'یازدهم', 
+                '12th': 'دوازدهم'
+            };
+            const persianGrade = gradeMapping[questionData?.grade] || 'دوازدهم';
+            window.location.href = `chapters.html?subject=${questionData?.subject || 'biology'}&grade=${persianGrade}&field=${questionData?.field || 'experimental'}`;
         }
 
         // Initialize page
@@ -2480,14 +3495,8 @@
             // Ensure FAB is hidden initially
             hideFloatingActionButton();
             
-            // Initialize loading state - hide loading, show results container
-            const questionLoading = document.getElementById('question-loading');
-            const questionResults = document.getElementById('question-results');
-            if (questionLoading && questionResults) {
-                questionLoading.classList.add('hidden');
-                questionResults.classList.remove('hidden');
-                console.log('✅ Question elements initialized');
-            }
+            // Don't initialize loading state here - let displayResults() handle it
+            console.log('✅ Page elements ready for displayResults()');
             
             // Add mobile-specific touch event handling
             if ('ontouchstart' in window) {
@@ -2994,9 +4003,11 @@
                 type: typeof questions
             });
             
-                                                   // Modern UI design with individual borders for each question
+            // Create questions HTML with ONLY clickable buttons
                         const questionsHTML = `
-                  <div class="related-questions-section">
+                <div class="related-questions-section" style="margin-top: 2rem; padding: 1rem; background-color: #f9fafb; border-radius: 12px;">
+                    <h3 style="color: #374151; font-size: 18px; font-weight: 600; margin-bottom: 1rem; text-align: right;">سؤالات مرتبط:</h3>
+                    
                       <div class="max-w-2xl mx-auto">
                           <ul class="space-y-3" style="list-style: none; padding: 0; margin: 0;">
                               ${questions.map((questionText, idx) => {
@@ -3004,11 +4015,14 @@
                                 console.log(`🔍 Question ${idx + 1} type:`, typeof questionText);
                                 console.log(`🔍 Question ${idx + 1} length:`, questionText ? questionText.length : 'null/undefined');
                             
+                                // Ensure questionText is valid
+                                const safeQuestionText = questionText || `سوال ${idx + 1}`;
+                            
                             return `
                                       <li class="question-item" style="margin: 0; padding: 0;">
                                           <button
-                                            data-query="${questionText ? questionText.replace(/"/g, '&quot;') : ''}"
-                                            onclick="onSuggestionClick('${questionText ? questionText.replace(/'/g, '\\\'') : ''}')"
+                                            data-query="${safeQuestionText.replace(/"/g, '&quot;')}"
+                                            onclick="onSuggestionClick('${safeQuestionText.replace(/'/g, '\\\'')}')"
                                               class="question-button w-full text-right transition-all duration-300 cursor-pointer"
                                               style="
                                                   background-color: #f3f4f6;
@@ -3024,11 +4038,12 @@
                                                   align-items: center;
                                                   justify-content: flex-end;
                                                   margin-bottom: 12px;
+                                                width: 100%;
                                               "
                                               onmouseover="this.style.backgroundColor='#e0eaff'; this.style.transform='scale(1.02)'"
                                               onmouseout="this.style.backgroundColor='#f3f4f6'; this.style.transform='scale(1)'"
                                           >
-                                            <span class="question-text" style="line-height: 1.5;">${questionText || 'Question text missing'}</span>
+                                            <span class="question-text" style="line-height: 1.5;">- ${safeQuestionText}</span>
                                           </button>
                                       </li>
                             `;
@@ -3109,8 +4124,8 @@
                  helperQuestionMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
              }, 100);
              
-             // Show FAB button when helper question is sent
-             showFloatingActionButton();
+             // Hide FAB button when helper question is sent (will be shown again when response completes)
+             hideFloatingActionButton();
              
              // Make API call to get help response (without showing loading state in button)
             getHelpResponse(query);
@@ -3165,8 +4180,12 @@
                 
                 chatMessages.appendChild(aiLoadingMessage);
                 
-                // Scroll to show the loading message
+                // Scroll to show the loading message only if user is not interacting
+                if (!isUserInteracting) {
                 aiLoadingMessage.scrollIntoView({ behavior: 'smooth' });
+                } else {
+                    console.log('🚫 Skipping auto-scroll - user is interacting with input');
+                }
                 
                 const response = await fetch('/api/chat/help-question/stream', {
                     method: 'POST',
@@ -3203,7 +4222,7 @@
             const decoder = new TextDecoder();
             let fullResponse = '';
             let lastUpdateTime = 0;
-            const UPDATE_INTERVAL = 500; // Update every 500ms instead of every word
+            const UPDATE_INTERVAL = 0; // Maximum speed streaming - no delay
             
             try {
                 while (true) {
@@ -3229,12 +4248,8 @@
                                  if (parsed.content && parsed.type === 'chunk') {
                                     fullResponse += parsed.content;
                                     
-                                    // Only update every 500ms to avoid constant flickering
-                                    const currentTime = Date.now();
-                                    if (currentTime - lastUpdateTime >= UPDATE_INTERVAL) {
-                                        updateHelpResponseStreaming(query, fullResponse, aiLoadingMessage);
-                                        lastUpdateTime = currentTime;
-                                    }
+                                    // Maximum speed streaming - update immediately
+                                    updateHelpResponseStreaming(query, fullResponse, aiLoadingMessage);
                                 }
                             } catch (e) {
                                 // Ignore parsing errors for incomplete chunks
@@ -3281,51 +4296,35 @@
                  return;
              }
              
-             // Add AI response to conversation history
-             addToConversationHistory('assistant', response, 'helper_response');
+            // Add AI response to conversation history
+            addToConversationHistory('assistant', response, 'helper_response');
+            
+            // Update the existing loading message with the final formatted response
+            // Use the simple helper question formatting (bullet points and numbered lists only)
+            const messageBubble = aiLoadingMessage.querySelector('.message-bubble.ai');
+            if (messageBubble) {
+                // Simple final display with bullet points and numbered lists only
+                messageBubble.innerHTML = formatHelperQuestionResponse(response);
+                
+                // Process MathJax for the message bubble
+                setTimeout(() => {
+                    processMathJax(messageBubble);
+                }, 200);
+            }
+            
+            // Save the updated conversation to database
+            saveDetailedAnalysisToDatabase('Updated conversation with helper question');
              
-             // Update the existing loading message with the final formatted response
-             // Use the simple helper question formatting (bullet points and numbered lists only)
-             const messageBubble = aiLoadingMessage.querySelector('.message-bubble.ai');
-             if (messageBubble) {
-                 // Simple final display with bullet points and numbered lists only
-                 messageBubble.innerHTML = formatHelperQuestionResponse(response);
-             }
+             // Show FAB button again when helper question response is completed
+             showFloatingActionButton();
              
              console.log('✅ Helper question response displayed successfully with streaming effect');
         }
         
-        // Format response for display with enhanced structure
+        // Format response for display - USING STUDY MODE
         function formatResponse(response) {
-            let formatted = response;
-            
-            // Convert dashes and asterisks to proper bullet points
-            formatted = formatted.replace(/^[-*]\s+/gm, '• ');
-            formatted = formatted.replace(/\n[-*]\s+/g, '\n• ');
-            
-            // Convert numbered lists (1. 2. 3.) to proper HTML lists
-            formatted = formatted.replace(/^(\d+\.\s+)(.+)$/gm, '<li>$1$2</li>');
-            formatted = formatted.replace(/(<li>.*<\/li>)/s, '<ol class="numbered-list">$1</ol>');
-            
-            // Convert bullet points to proper HTML lists
-            formatted = formatted.replace(/^(•\s+)(.+)$/gm, '<li>$2</li>');
-            formatted = formatted.replace(/(<li>.*<\/li>)/s, '<ul class="bullet-list">$1</ul>');
-            
-            // Replace line breaks with proper HTML structure
-            formatted = formatted.replace(/\n\n/g, '</p><p class="content-paragraph">');
-            formatted = formatted.replace(/\n/g, '<br>');
-            
-            // Add paragraph tags with proper font size class
-            formatted = `<p class="content-paragraph">${formatted}</p>`;
-            
-            // Clean up any extra formatting
-            formatted = formatted.replace(/<p><\/p>/g, '');
-            formatted = formatted.replace(/<p><ul/g, '<ul');
-            formatted = formatted.replace(/<\/ul><\/p>/g, '</ul>');
-            formatted = formatted.replace(/<p><ol/g, '<ol');
-            formatted = formatted.replace(/<\/ol><\/p>/g, '</ol>');
-            
-            return formatted;
+            // Use the same study-mode formatting as chat page
+            return formatChatContent(response);
         }
         
         // Show error for suggestion
@@ -3428,6 +4427,10 @@
                  return;
              }
              
+             // Check if chat input is already visible
+             const isAlreadyVisible = chatInputSection.classList.contains('show');
+             
+             if (!isAlreadyVisible) {
              // Show chat input using the same approach as working test
              chatInputSection.classList.add('show');
              chatInputSection.style.transform = 'translateY(0)';
@@ -3443,9 +4446,13 @@
              fabContainer.style.opacity = '0';
              fabContainer.style.pointerEvents = 'none';
              fabContainer.style.transform = 'scale(0)';
+             } else {
+                 console.log('✅ Chat input already visible, just focusing input field');
+             }
              
-             // Reset input field to ensure consistent behavior
+             // Reset input field to ensure consistent behavior (only if not already visible)
              if (inputField) {
+                 if (!isAlreadyVisible) {
                  inputField.value = '';
                  inputField.style.height = '56px'; // Reset to original height
                  inputField.classList.remove('typing-active');
@@ -3475,14 +4482,30 @@
                      });
                  } else {
                      console.error('❌ Send button not found in showChatInput!');
+                     }
                  }
              }
              
              // Focus the input field
              setTimeout(() => {
                  if (inputField) {
-                     inputField.focus();
+                     // Set flag to prevent auto-scrolling during user interaction
+                     isUserInteracting = true;
+                     
+                     // Prevent scrolling to bottom when focusing input
+                     // Store current scroll position
+                     const currentScrollY = window.scrollY;
+                     
+                     // Focus the input without scrolling
+                     inputField.focus({ preventScroll: true });
                      console.log('✅ Input field focused');
+                     
+                     // Restore scroll position if it changed
+                     setTimeout(() => {
+                         if (Math.abs(window.scrollY - currentScrollY) > 100) {
+                             window.scrollTo(0, currentScrollY);
+                         }
+                     }, 50);
                  }
              }, 100);
              
@@ -3503,6 +4526,12 @@
              fabContainer.style.opacity = '1';
              fabContainer.style.pointerEvents = 'auto';
              fabContainer.style.transform = 'scale(1)';
+             
+             // Show bottom navigation when chat input is hidden
+             const bottomNav = document.getElementById('bottom-navigation');
+             if (bottomNav) {
+                 bottomNav.style.display = 'flex';
+             }
              
              console.log('✅ Chat input hidden with transform/opacity, FAB button shown again');
          }
@@ -3529,13 +4558,21 @@
          async function sendCustomQuestion() {
              console.log('🚀 sendCustomQuestion function called');
              
-             const inputField = document.getElementById('chat-input-field');
-             if (!inputField) {
-                 console.error('❌ Chat input field not found!');
-                 return;
-             }
+             // Get message from expanded input first, then fallback to regular input
+             const expandedInput = document.getElementById('analysis-expanded-user-input');
+             const regularInput = document.getElementById('chat-input-field');
              
-             const question = inputField.value.trim();
+             let inputField = expandedInput;
+             let question = '';
+             
+             if (expandedInput && expandedInput.value.trim() !== '') {
+                 question = expandedInput.value.trim();
+                 console.log('📝 Using expanded input');
+             } else if (regularInput && regularInput.value.trim() !== '') {
+                 question = regularInput.value.trim();
+                 inputField = regularInput;
+                 console.log('📝 Using regular input');
+             }
              
              if (!question) {
                  console.log('❌ No question entered');
@@ -3582,34 +4619,53 @@
              // Clear input field
              inputField.value = '';
              
+             // Hide expanded input
+             const expandedInputContainer = document.getElementById('analysis-expanded-input-container');
+             if (expandedInputContainer) {
+                 expandedInputContainer.classList.add('hidden');
+                 expandedInputContainer.style.display = 'none';
+             }
+             
+             // Show bottom navigation when input is hidden
+             const bottomNav = document.getElementById('bottom-navigation');
+             if (bottomNav) {
+                 bottomNav.style.display = 'flex';
+             }
+             
+             // Don't show user input immediately - wait for response completion
+             // User input will be shown when response is complete for better UX
+             
+             // Hide FAB button during AI response for cleaner UX
+             const fabContainer = document.getElementById('fab-container');
+             if (fabContainer) {
+                 fabContainer.style.opacity = '0';
+                 fabContainer.style.pointerEvents = 'none';
+                 fabContainer.style.transform = 'scale(0)';
+                 console.log('✅ FAB button hidden during AI response');
+             }
+             
              // Show loading state for custom question (separate from helper questions)
              showCustomQuestionLoading(question);
              
-             // Show FAB button when custom question is sent
-             showFloatingActionButton();
-             
-             // Hide chat input and show FAB button AFTER showing loading
-             // Add small delay to ensure loading message is visible
-             setTimeout(() => {
-                 hideChatInput();
-             }, 200);
-             
              // Make API call to get help response with streaming effect
              try {
+                 // Get detailed analysis content from conversation history
+                 const detailedAnalysisContent = getDetailedAnalysisFromConversation();
+                 
                  const requestBody = {
                      question: question,
                      subject: questionData?.subject || 'biology',
                      grade: questionData?.grade || 'دوم',
                      chapter: questionData?.chapter || '1',
-                     originalAnalysis: questionData?.analysis || '',
+                     originalAnalysis: detailedAnalysisContent,
                      conversationId: currentConversationId,
                      conversationContext: getConversationContext()
                  };
                  
-                 console.log('📤 Making API call to /api/chat/help-question/stream');
+                 console.log('📤 Making API call to /api/chat/custom-question/stream');
                  console.log('📤 Request body:', requestBody);
                  
-                 const response = await fetch('/api/chat/help-question/stream', {
+                 const response = await fetch('/api/chat/custom-question/stream', {
                      method: 'POST',
                      headers: {
                          'Content-Type': 'application/json',
@@ -3730,10 +4786,25 @@
                  console.error('Streaming error:', error);
                  showCustomQuestionError(question, error.message);
                  
-                 // Ensure FAB button is visible after streaming error
-                 setTimeout(() => {
-                     ensureFABVisible();
-                 }, 100);
+                 // Show user input after streaming error for retry
+                 const chatInputSection = document.getElementById('chat-input-section');
+                 if (chatInputSection) {
+                     chatInputSection.classList.remove('translate-y-full', 'opacity-0');
+                     chatInputSection.classList.add('show');
+                     chatInputSection.style.transform = 'translateY(0)';
+                     chatInputSection.style.opacity = '1';
+                     chatInputSection.style.display = 'block';
+                     console.log('✅ Chat input shown after streaming error');
+                 }
+                 
+                 // Hide FAB button when chat input is shown
+                 const fabContainer = document.getElementById('fab-container');
+                 if (fabContainer) {
+                     fabContainer.style.opacity = '0';
+                     fabContainer.style.pointerEvents = 'none';
+                     fabContainer.style.transform = 'scale(0)';
+                     console.log('✅ FAB button hidden after streaming error');
+                 }
              }
          }
          
@@ -3765,20 +4836,50 @@
              // Add AI response to conversation history
              addToConversationHistory('assistant', response, 'custom_response');
              
-             // Update the existing loading message with the final formatted response
-             // Use the simple helper question formatting (bullet points and numbered lists only)
-             const messageBubble = aiLoadingMessage.querySelector('.message-bubble.ai');
-             if (messageBubble) {
-                 // Simple final display with bullet points and numbered lists only
-                 messageBubble.innerHTML = formatHelperQuestionResponse(response);
+            // Update the existing loading message with the final formatted response
+            // Use the simple helper question formatting (bullet points and numbered lists only)
+            const messageBubble = aiLoadingMessage.querySelector('.message-bubble.ai');
+            if (messageBubble) {
+                // Simple final display with bullet points and numbered lists only
+                messageBubble.innerHTML = formatHelperQuestionResponse(response);
+                
+                // Process MathJax for the message bubble
+                setTimeout(() => {
+                    processMathJax(messageBubble);
+                }, 200);
+            }
+            
+            // Save the updated conversation to database
+            saveDetailedAnalysisToDatabase('Updated conversation with custom question');
+             
+             // Show user input when response is complete for better UX
+             const chatInputSection = document.getElementById('chat-input-section');
+             if (chatInputSection) {
+                 // Remove hidden classes and add show class
+                 chatInputSection.classList.remove('translate-y-full', 'opacity-0');
+                 chatInputSection.classList.add('show');
+                 chatInputSection.style.transform = 'translateY(0)';
+                 chatInputSection.style.opacity = '1';
+                 chatInputSection.style.display = 'block';
+                 console.log('✅ Chat input shown after response completion');
              }
              
-             // Ensure FAB button is visible after response is displayed
-             setTimeout(() => {
-                 ensureFABVisible();
-             }, 100);
+             // Hide bottom navigation when user input appears
+             const bottomNav = document.getElementById('bottom-navigation');
+             if (bottomNav) {
+                 bottomNav.style.display = 'none';
+             }
              
-             console.log('✅ Custom question response displayed successfully with streaming effect');
+             // Hide FAB button when chat input is shown
+             const fabContainer = document.getElementById('fab-container');
+             if (fabContainer) {
+                 fabContainer.style.opacity = '0';
+                 fabContainer.style.pointerEvents = 'none';
+                 fabContainer.style.transform = 'scale(0)';
+                 console.log('✅ FAB button hidden after response completion');
+             }
+             
+             console.log('✅ Custom question response displayed and saved to library');
          }
          
          // Show error for custom question
@@ -3888,11 +4989,28 @@
                   const chatInputSection = document.getElementById('chat-input-section');
                   const fabButton = document.getElementById('fab-button');
                   const fabContainer = document.getElementById('fab-container');
+                  const expandedInput = document.getElementById('analysis-expanded-input-container');
                   
                   if (chatInputSection && chatInputSection.classList.contains('show')) {
                       if (!chatInputSection.contains(e.target) && !fabButton.contains(e.target)) {
                           hideChatInput();
                           console.log('✅ Chat input closed (clicked outside), FAB button shown again');
+                      }
+                  }
+                  
+                  // Close expanded input when clicking outside
+                  if (expandedInput && expandedInput.style.display === 'block') {
+                      if (!expandedInput.contains(e.target)) {
+                          expandedInput.classList.add('hidden');
+                          expandedInput.style.display = 'none';
+                          
+                          // Show bottom navigation when expanded input is hidden
+                          const bottomNav = document.getElementById('bottom-navigation');
+                          if (bottomNav) {
+                              bottomNav.style.display = 'flex';
+                          }
+                          
+                          console.log('✅ Expanded input closed (clicked outside), navigation shown');
                       }
                   }
               });
@@ -3956,38 +5074,71 @@
           
                    // Function to handle input focus - make button black immediately
          function handleInputFocus(textarea) {
-             console.log('🎯 Input focused, showing send button');
+             console.log('🎯 Input focused, showing expanded input');
              
-             const sendButton = document.getElementById('send-chat-button');
-             if (!sendButton) {
-                 console.error('❌ Send button not found in handleInputFocus!');
-                 return;
+             // Hide the regular chat input section
+             const chatInputSection = document.getElementById('chat-input-section');
+             if (chatInputSection) {
+                 chatInputSection.style.display = 'none';
              }
              
-             // Show send button with animation
-             sendButton.style.opacity = '1';
-             sendButton.style.pointerEvents = 'auto';
-             sendButton.style.transform = 'translateY(-50%) scale(1)';
-             sendButton.style.cursor = 'pointer';
-             sendButton.style.zIndex = '20';
-             
-             sendButton.classList.remove('bg-gray-400');
-             sendButton.classList.add('bg-black');
-             textarea.classList.add('typing-active');
-             
-             console.log('✅ Send button shown on input focus');
-             
-             // Hide bottom navigation when input is focused
+             // Show bottom navigation when chat input is hidden
              const bottomNav = document.getElementById('bottom-navigation');
              if (bottomNav) {
-                 bottomNav.style.opacity = '0';
-                 bottomNav.style.pointerEvents = 'none';
+                 bottomNav.style.display = 'flex';
+             }
+             
+             // Show expanded input
+             const expandedInput = document.getElementById('analysis-expanded-input-container');
+             if (expandedInput) {
+                 expandedInput.classList.remove('hidden');
+                 expandedInput.style.display = 'block';
+             }
+             
+             // Hide bottom navigation when input appears
+             bottomNav.style.display = 'none';
+             
+            // Focus on the expanded textarea
+            setTimeout(() => {
+                const expandedTextarea = document.getElementById('analysis-expanded-user-input');
+                if (expandedTextarea) {
+                    expandedTextarea.focus();
+                    
+                    // Add input event listener for send button color
+                    expandedTextarea.addEventListener('input', () => {
+                        const sendButton = document.getElementById('analysis-send-button');
+                        if (sendButton) {
+                            if (expandedTextarea.value.trim()) {
+                                // User is typing - make button black
+                                sendButton.classList.remove('bg-gray-400');
+                                sendButton.classList.add('bg-black');
+                            } else {
+                                // No text - make button pale gray
+                                sendButton.classList.remove('bg-black');
+                                sendButton.classList.add('bg-gray-400');
+                            }
+                        }
+                    });
+                }
+            }, 100);
+         }
+          
+         // Handle Enter key in expanded input
+         function handleAnalysisExpandedInputKeyDown(event) {
+             if (event.key === 'Enter' && !event.shiftKey) {
+                 event.preventDefault();
+                 sendCustomQuestion();
              }
          }
           
                    // Function to handle input blur - make button gray if no text
          function handleInputBlur(textarea) {
              console.log('🎯 Input blur, checking if should hide send button');
+             
+             // Reset flag after user interaction
+             setTimeout(() => {
+                 isUserInteracting = false;
+             }, 1000); // Give some time for any pending operations
              
              if (textarea.value.length === 0) {
                  const sendButton = document.getElementById('send-chat-button');
@@ -4006,13 +5157,6 @@
              } else {
                  console.log('ℹ️ Text still present, keeping send button visible');
              }
-              
-              // Show bottom navigation when input loses focus
-              const bottomNav = document.getElementById('bottom-navigation');
-              if (bottomNav) {
-                  bottomNav.style.opacity = '1';
-                  bottomNav.style.pointerEvents = 'auto';
-              }
               
               // Auto-hide chat input after a delay if no text
               setTimeout(() => {
@@ -4038,6 +5182,25 @@
         
         // ========================================
         // END OF FAB FUNCTIONS
+         
+         // Microphone/Recorder Functions
+         function toggleMicrophone() {
+             console.log('🎤 Microphone button clicked');
+             // Placeholder for microphone functionality
+             // This would integrate with speech recognition API
+         }
+         
+         // Voice recording function
+         function startRecording() {
+             console.log('🎤 Starting voice recording...');
+             alert('Voice recording feature (to be implemented)');
+         }
+         
+         function attachDocument() {
+             console.log('📄 Attaching document...');
+             alert('Document attachment feature (to be implemented)');
+         }
+         
         // ========================================
     </script>
 </body>
