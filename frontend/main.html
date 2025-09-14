@@ -35,7 +35,7 @@
             bottom: 0;
             left: 0;
             right: 0;
-            height: 300px;
+            height: 18.75rem; /* 300px */
             background: linear-gradient(180deg, 
                 transparent 0%, 
                 rgba(139, 90, 60, 0.3) 30%, 
@@ -65,7 +65,7 @@
                 radial-gradient(1px 1px at 320px 35px, #fff, transparent),
                 radial-gradient(2px 2px at 360px 85px, #fff, transparent);
             background-repeat: repeat;
-            background-size: 400px 200px;
+            background-size: 25rem 12.5rem; /* 400px 200px */
             animation: sparkle 8s linear infinite;
             z-index: -1;
             opacity: 0.6;
@@ -80,7 +80,7 @@
         /* Header */
         .header {
             background: rgba(20, 20, 20, 0.95);
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(0.625rem); /* 10px */
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             padding: 1rem 2rem;
             display: flex;
@@ -95,8 +95,8 @@
         }
 
         .logo {
-            width: 40px;
-            height: 40px;
+            width: 2.5rem; /* 40px */
+            height: 2.5rem; /* 40px */
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             border-radius: 50%;
             display: flex;
@@ -149,13 +149,13 @@
         .auth-form {
             text-align: center;
             width: 100%;
-            max-width: 600px;
+            max-width: 37.5rem; /* 600px */
             margin: 0 auto;
         }
 
         .auth-logo {
-            width: 80px;
-            height: 80px;
+            width: 5rem; /* 80px */
+            height: 5rem; /* 80px */
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             border-radius: 50%;
             display: flex;
@@ -169,18 +169,18 @@
             border: 2px solid rgba(103, 126, 234, 0.3);
             border-radius: 50px;
             transition: all 0.3s ease;
-            font-size: 20px;
+            font-size: 1.25rem; /* 20px */
             font-weight: 500;
             color: #ffffff;
             width: 100%;
-            max-width: 500px;
+            max-width: 31.25rem; /* 500px */
             padding: 1.5rem 2rem;
         }
 
         .phone-input-container {
             position: relative;
             width: 100%;
-            max-width: 500px;
+            max-width: 31.25rem; /* 500px */
             margin: 0 auto;
         }
 
@@ -189,7 +189,7 @@
             left: 2rem;
             top: 50%;
             transform: translateY(-50%);
-            font-size: 20px;
+            font-size: 1.25rem; /* 20px */
             font-weight: 500;
             color: #ffffff;
             pointer-events: none;
@@ -201,7 +201,7 @@
             border: 2px solid rgba(103, 126, 234, 0.3);
             border-radius: 50px;
             transition: all 0.3s ease;
-            font-size: 20px;
+            font-size: 1.25rem; /* 20px */
             font-weight: 500;
             color: #ffffff;
             width: 100%;
@@ -234,11 +234,11 @@
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             border-radius: 50px;
             transition: all 0.3s ease;
-            font-size: 16px;
+            font-size: 1rem; /* 16px */
             font-weight: 500;
             color: #ffffff;
             width: 100%;
-            max-width: 500px;
+            max-width: 31.25rem; /* 500px */
             padding: 1.5rem 2rem;
         }
 
@@ -257,7 +257,7 @@
             color: #888888;
             transition: all 0.3s ease;
             width: 100%;
-            max-width: 500px;
+            max-width: 31.25rem; /* 500px */
             padding: 1.5rem 2rem;
         }
 
@@ -281,7 +281,7 @@
         }
 
         .message {
-            font-size: 14px;
+            font-size: 0.875rem; /* 14px */
             margin-bottom: 1.5rem;
         }
 
@@ -296,7 +296,7 @@
         .verification-input {
             letter-spacing: 0.5em;
             text-align: center;
-            font-size: 18px;
+            font-size: 1.125rem; /* 18px */
             font-weight: 600;
         }
 
@@ -349,7 +349,7 @@
             }
             
             .input-field, .btn-primary {
-                font-size: 16px;
+                font-size: 1rem; /* 16px */
             }
 
             .app-buttons {
@@ -438,6 +438,98 @@
                 left: 0 !important;
                 right: 0 !important;
                 z-index: 40 !important;
+            }
+        }
+        
+        /* Comprehensive Mobile Media Queries */
+        
+        /* Extra Small Devices (phones, 320px and up) */
+        @media (min-width: 320px) and (max-width: 479px) {
+            html, body {
+                font-size: 0.875rem; /* 14px */
+            }
+            
+            .icons-container {
+                padding: 0.75rem 0.5rem !important;
+                bottom: 0.5rem !important;
+            }
+            
+            main {
+                padding-left: 0.25rem !important;
+                padding-right: 0.25rem !important;
+            }
+            
+            .auth-form {
+                max-width: 95% !important;
+                padding: 0.5rem !important;
+            }
+        }
+        
+        /* Small Devices (phones, 480px and up) */
+        @media (min-width: 480px) and (max-width: 639px) {
+            html, body {
+                font-size: 1rem; /* 16px */
+            }
+            
+            .icons-container {
+                padding: 1rem 0.75rem !important;
+                bottom: 0.75rem !important;
+            }
+            
+            .auth-form {
+                max-width: 90% !important;
+                padding: 0.75rem !important;
+            }
+        }
+        
+        /* Medium Devices (tablets, 640px and up) */
+        @media (min-width: 640px) and (max-width: 767px) {
+            html, body {
+                font-size: 1.0625rem; /* 17px */
+            }
+            
+            .icons-container {
+                padding: 1rem 1rem !important;
+                bottom: 1rem !important;
+            }
+            
+            .auth-form {
+                max-width: 85% !important;
+                padding: 1rem !important;
+            }
+        }
+        
+        /* Large Devices (desktops, 768px and up) */
+        @media (min-width: 768px) and (max-width: 1023px) {
+            html, body {
+                font-size: 1.125rem; /* 18px */
+            }
+            
+            .icons-container {
+                padding: 1.25rem 1.25rem !important;
+                bottom: 1.25rem !important;
+            }
+            
+            .auth-form {
+                max-width: 80% !important;
+                padding: 1.25rem !important;
+            }
+        }
+        
+        /* Extra Large Devices (large desktops, 1024px and up) */
+        @media (min-width: 1024px) {
+            html, body {
+                font-size: 1.125rem; /* 18px */
+            }
+            
+            .icons-container {
+                padding: 1.5rem 1.5rem !important;
+                bottom: 1.5rem !important;
+            }
+            
+            .auth-form {
+                max-width: 75% !important;
+                padding: 1.5rem !important;
             }
         }
     </style>

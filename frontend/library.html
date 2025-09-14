@@ -48,7 +48,7 @@
             border-radius: 0;
             margin-bottom: 0;
             transition: background-color 0.2s ease;
-            padding: 16px 20px;
+            padding: 1rem 1.25rem; /* 16px 20px */
         }
 
         .conversation-item:hover {
@@ -64,16 +64,16 @@
         .conversation-title {
             color: #333333;
             font-weight: 500;
-            font-size: 16px;
+            font-size: 1rem; /* 16px */
             line-height: 1.4;
-            margin-bottom: 8px;
+            margin-bottom: 0.5rem; /* 8px */
         }
 
         .conversation-snippet {
             color: #666666;
-            font-size: 14px;
+            font-size: 0.875rem; /* 14px */
             line-height: 1.5;
-            margin-bottom: 12px;
+            margin-bottom: 0.75rem; /* 12px */
             display: -webkit-box;
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
@@ -82,7 +82,7 @@
 
         .conversation-meta {
             color: #888888;
-            font-size: 12px;
+            font-size: 0.75rem; /* 12px */
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -152,15 +152,15 @@
         /* Mobile optimizations */
         @media (max-width: 640px) {
             .conversation-title {
-                font-size: 16px;
+                font-size: 1rem; /* 16px */
             }
             
             .conversation-snippet {
-                font-size: 14px;
+                font-size: 0.875rem; /* 14px */
             }
             
             .conversation-meta {
-                font-size: 12px;
+                font-size: 0.75rem; /* 12px */
             }
         }
         
@@ -244,6 +244,93 @@
                 left: 0 !important;
                 right: 0 !important;
                 z-index: 40 !important;
+            }
+        }
+        
+        /* Comprehensive Mobile Media Queries */
+        
+        /* Extra Small Devices (phones, 320px and up) */
+        @media (min-width: 320px) and (max-width: 479px) {
+            html, body {
+                font-size: 0.875rem; /* 14px */
+            }
+            
+            .icons-container {
+                padding: 0.75rem 0.5rem !important;
+                bottom: 0.5rem !important;
+            }
+            
+            main {
+                padding-left: 0.25rem !important;
+                padding-right: 0.25rem !important;
+            }
+            
+            .library-container {
+                padding: 0.5rem !important;
+            }
+        }
+        
+        /* Small Devices (phones, 480px and up) */
+        @media (min-width: 480px) and (max-width: 639px) {
+            html, body {
+                font-size: 1rem; /* 16px */
+            }
+            
+            .icons-container {
+                padding: 1rem 0.75rem !important;
+                bottom: 0.75rem !important;
+            }
+            
+            .library-container {
+                padding: 0.75rem !important;
+            }
+        }
+        
+        /* Medium Devices (tablets, 640px and up) */
+        @media (min-width: 640px) and (max-width: 767px) {
+            html, body {
+                font-size: 1.0625rem; /* 17px */
+            }
+            
+            .icons-container {
+                padding: 1rem 1rem !important;
+                bottom: 1rem !important;
+            }
+            
+            .library-container {
+                padding: 1rem !important;
+            }
+        }
+        
+        /* Large Devices (desktops, 768px and up) */
+        @media (min-width: 768px) and (max-width: 1023px) {
+            html, body {
+                font-size: 1.125rem; /* 18px */
+            }
+            
+            .icons-container {
+                padding: 1.25rem 1.25rem !important;
+                bottom: 1.25rem !important;
+            }
+            
+            .library-container {
+                padding: 1.25rem !important;
+            }
+        }
+        
+        /* Extra Large Devices (large desktops, 1024px and up) */
+        @media (min-width: 1024px) {
+            html, body {
+                font-size: 1.125rem; /* 18px */
+            }
+            
+            .icons-container {
+                padding: 1.5rem 1.5rem !important;
+                bottom: 1.5rem !important;
+            }
+            
+            .library-container {
+                padding: 1.5rem !important;
             }
         }
     </style>
