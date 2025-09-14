@@ -38,13 +38,13 @@
     <style>
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            font-size: 16px;
+            font-size: 1rem; /* 16px */
             line-height: 1.6;
         }
         
         .question-container {
             background: linear-gradient(135deg, #E0F2FE 0%, #BAE6FD 100%);
-            border-radius: 50px;
+            border-radius: 3.125rem; /* 50px */
             transition: all 0.3s ease;
         }
         
@@ -54,12 +54,12 @@
         
         .choice-button {
             transition: all 0.2s ease;
-            border-radius: 30px;
+            border-radius: 1.875rem; /* 30px */
         }
         
         .choice-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            transform: translateY(-0.125rem); /* -2px */
+            box-shadow: 0 0.5rem 1.5625rem rgba(0, 0, 0, 0.15); /* 0 8px 25px */
         }
         
         .choice-button.selected {
@@ -97,12 +97,12 @@
         
         .analysis-section {
             transition: all 0.3s ease;
-            border-radius: 50px;
+            border-radius: 3.125rem; /* 50px */
         }
         
         .analysis-section.hidden {
             opacity: 0;
-            transform: translateY(20px);
+            transform: translateY(1.25rem); /* 20px */
             pointer-events: none;
         }
         
@@ -112,12 +112,12 @@
         }
         
         .submit-button {
-            border-radius: 30px;
+            border-radius: 1.875rem; /* 30px */
             transition: all 0.3s ease;
         }
         
         .submit-button:hover:not(:disabled) {
-            transform: translateY(-2px);
+            transform: translateY(-0.125rem); /* -2px */
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
         }
         
@@ -158,8 +158,183 @@
         }
         
         @keyframes slideUp {
-            from { opacity: 0; transform: translateY(20px); }
+            from { opacity: 0; transform: translateY(1.25rem); } /* 20px */
             to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Critical mobile viewport fixes */
+        html {
+            -webkit-text-size-adjust: 100%;
+            -ms-text-size-adjust: 100%;
+            overflow-x: hidden;
+        }
+        
+        body {
+            -webkit-text-size-adjust: 100%;
+            -ms-text-size-adjust: 100%;
+            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+        }
+        
+        /* Prevent mobile zoom on input focus */
+        input, textarea, select {
+            font-size: 1rem !important; /* 16px */
+        }
+        
+        /* Mobile Performance Optimizations */
+        @media (max-width: 768px) {
+            /* Fix mobile layout issues */
+            html, body {
+                width: 100% !important;
+                max-width: 100% !important;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+            
+            main {
+                width: 100% !important;
+                max-width: 100% !important;
+                margin: 0 !important;
+                padding-left: 0.5rem !important;
+                padding-right: 0.5rem !important;
+            }
+            
+            .icons-container {
+                width: 100% !important;
+                max-width: 100% !important;
+                padding-left: 1rem !important;
+                padding-right: 1rem !important;
+            }
+        }
+        
+        /* Additional mobile fixes */
+        @media (max-width: 480px) {
+            /* Extra small screens */
+            .icons-container {
+                padding-left: 0.5rem !important;
+                padding-right: 0.5rem !important;
+            }
+            
+            main {
+                padding-left: 0.25rem !important;
+                padding-right: 0.25rem !important;
+            }
+        }
+        
+        /* Ensure proper mobile layout on all devices */
+        @media screen and (max-width: 1024px) {
+            body {
+                -webkit-text-size-adjust: 100%;
+                -ms-text-size-adjust: 100%;
+            }
+            
+            /* Force proper mobile layout */
+            html {
+                -webkit-text-size-adjust: 100%;
+                -ms-text-size-adjust: 100%;
+            }
+            
+            /* Ensure icons container stays at bottom */
+            .icons-container {
+                position: fixed !important;
+                bottom: 1rem !important;
+                left: 0 !important;
+                right: 0 !important;
+                z-index: 40 !important;
+            }
+        }
+        
+        /* Comprehensive Mobile Media Queries */
+        
+        /* Extra Small Devices (phones, 320px and up) */
+        @media (min-width: 320px) and (max-width: 479px) {
+            html, body {
+                font-size: 0.875rem; /* 14px */
+            }
+            
+            .icons-container {
+                padding: 0.75rem 0.5rem !important;
+                bottom: 0.5rem !important;
+            }
+            
+            main {
+                padding-left: 0.25rem !important;
+                padding-right: 0.25rem !important;
+            }
+            
+            .question-container {
+                padding: 0.75rem !important;
+                margin-bottom: 0.75rem !important;
+            }
+        }
+        
+        /* Small Devices (phones, 480px and up) */
+        @media (min-width: 480px) and (max-width: 639px) {
+            html, body {
+                font-size: 1rem; /* 16px */
+            }
+            
+            .icons-container {
+                padding: 1rem 0.75rem !important;
+                bottom: 0.75rem !important;
+            }
+            
+            .question-container {
+                padding: 1rem !important;
+                margin-bottom: 1rem !important;
+            }
+        }
+        
+        /* Medium Devices (tablets, 640px and up) */
+        @media (min-width: 640px) and (max-width: 767px) {
+            html, body {
+                font-size: 1.0625rem; /* 17px */
+            }
+            
+            .icons-container {
+                padding: 1rem 1rem !important;
+                bottom: 1rem !important;
+            }
+            
+            .question-container {
+                padding: 1.125rem !important;
+                margin-bottom: 1.125rem !important;
+            }
+        }
+        
+        /* Large Devices (desktops, 768px and up) */
+        @media (min-width: 768px) and (max-width: 1023px) {
+            html, body {
+                font-size: 1.125rem; /* 18px */
+            }
+            
+            .icons-container {
+                padding: 1.25rem 1.25rem !important;
+                bottom: 1.25rem !important;
+            }
+            
+            .question-container {
+                padding: 1.25rem !important;
+                margin-bottom: 1.25rem !important;
+            }
+        }
+        
+        /* Extra Large Devices (large desktops, 1024px and up) */
+        @media (min-width: 1024px) {
+            html, body {
+                font-size: 1.125rem; /* 18px */
+            }
+            
+            .icons-container {
+                padding: 1.5rem 1.5rem !important;
+                bottom: 1.5rem !important;
+            }
+            
+            .question-container {
+                padding: 1.5rem !important;
+                margin-bottom: 1.5rem !important;
+            }
         }
     </style>
 </head>
