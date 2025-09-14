@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="light-content">
@@ -55,23 +55,53 @@
             }
         };
     </script>
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
     <script>
-        // Check login status on page load - DISABLED FOR NOW
+        // Check login status on page load
         function checkLoginStatus() {
-            // Set default user data for testing
-            if (!localStorage.getItem('user_id')) {
+            const authToken = localStorage.getItem('authToken');
+            const userPhone = localStorage.getItem('userPhone');
+            
+            console.log('🔍 Login Check:', { authToken: !!authToken, userPhone: !!userPhone });
+            console.log('🔍 Auth Token:', authToken);
+            console.log('🔍 User Phone:', userPhone);
+            
+            // For testing, let's always show login overlay
+            // You can remove this line later when SMS is working
+            const forceShowLogin = true;
+            
+            if (!authToken || !userPhone || forceShowLogin) {
+                // Show login overlay
+                const loginOverlay = document.getElementById('login-overlay');
+                console.log('🔍 Login overlay element:', loginOverlay);
+                if (loginOverlay) {
+                    loginOverlay.classList.remove('hidden');
+                    console.log('✅ Login overlay shown');
+                } else {
+                    console.error('❌ Login overlay not found');
+                }
+                return false;
+            }
+            
+            // Set user data for compatibility
                 localStorage.setItem('user_id', '1');
                 localStorage.setItem('is_verified', 'true');
-                localStorage.setItem('user_phone', '+1234567890');
+            localStorage.setItem('user_phone', userPhone);
+            
+            // Hide login overlay
+            const loginOverlay = document.getElementById('login-overlay');
+            if (loginOverlay) {
+                loginOverlay.classList.add('hidden');
+                console.log('✅ Login overlay hidden');
             }
             return true;
         }
         
-        // Check login status immediately - DISABLED FOR NOW
+        // Check login status after DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
         checkLoginStatus();
+        });
         
         tailwind.config = {
             theme: {
@@ -185,10 +215,12 @@
             cursor: text;
         }
         
-        /* Prevent main page scrolling */
+        /* Mobile-optimized scrolling */
         html, body {
-            overflow: hidden;
+            overflow-x: hidden;
+            overflow-y: auto;
             height: 100%;
+            -webkit-overflow-scrolling: touch;
         }
         
         /* Force consistent background color throughout */
@@ -500,6 +532,36 @@
 
         /* Mobile Performance Optimizations */
         @media (max-width: 768px) {
+            /* Fix mobile layout issues */
+            html, body {
+                width: 100% !important;
+                max-width: 100% !important;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+            
+            main {
+                width: 100% !important;
+                max-width: 100% !important;
+                margin: 0 !important;
+                padding-left: 0.5rem !important;
+                padding-right: 0.5rem !important;
+            }
+            
+            .user-input-container {
+                width: 95% !important;
+                max-width: 95% !important;
+                left: 2.5% !important;
+                transform: none !important;
+            }
+            
+            .icons-container {
+                width: 100% !important;
+                max-width: 100% !important;
+                padding-left: 1rem !important;
+                padding-right: 1rem !important;
+            }
+            
             /* Optimize animations for mobile */
             * {
                 -webkit-transform: translateZ(0);
@@ -526,6 +588,33 @@
         .user-input-container {
             will-change: transform;
             transform: translateZ(0);
+        }
+        
+        /* Additional mobile fixes */
+        @media (max-width: 480px) {
+            /* Extra small screens */
+            .user-input-container {
+                width: 98% !important;
+                left: 1% !important;
+            }
+            
+            .icons-container {
+                padding-left: 0.5rem !important;
+                padding-right: 0.5rem !important;
+            }
+            
+            main {
+                padding-left: 0.25rem !important;
+                padding-right: 0.25rem !important;
+            }
+        }
+        
+        /* Ensure proper mobile layout on all devices */
+        @media screen and (max-width: 1024px) {
+            body {
+                -webkit-text-size-adjust: 100%;
+                -ms-text-size-adjust: 100%;
+            }
         }
 
     </style>
@@ -560,6 +649,110 @@
         </div>
     </header>
 
+    <!-- Login Overlay -->
+    <div id="login-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md p-8">
+            <!-- Header -->
+            <div class="text-center mb-8">
+                <h1 class="text-3xl font-bold text-gray-800 mb-2">سیستم آموزشی</h1>
+                <p class="text-gray-600">ورود با شماره موبایل</p>
+            </div>
+
+            <!-- Step 1: Phone Number -->
+            <div id="login-step1" class="login-step active">
+                <form id="phoneForm">
+                    <div class="mb-6">
+                        <label class="block text-gray-700 text-sm font-bold mb-2">
+                            شماره موبایل
+                        </label>
+                        <input 
+                            type="tel" 
+                            id="phoneNumber" 
+                            class="phone-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            placeholder="09123456789"
+                            maxlength="11"
+                            required
+                            style="direction: ltr; text-align: left;"
+                        >
+                    </div>
+                    
+                    <button 
+                        type="submit" 
+                        id="sendCodeBtn"
+                        class="btn-primary w-full text-white font-bold py-3 px-4 rounded-lg"
+                        style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);"
+                    >
+                        <span id="sendText">ارسال کد تأیید</span>
+                        <span id="sendLoading" class="hidden">
+                            <svg class="animate-spin h-5 w-5 text-white inline-block ml-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                            در حال ارسال...
+                        </span>
+                    </button>
+                </form>
+            </div>
+
+            <!-- Step 2: Verification Code -->
+            <div id="login-step2" class="login-step hidden">
+                <form id="codeForm">
+                    <div class="mb-6">
+                        <label class="block text-gray-700 text-sm font-bold mb-2">
+                            کد تأیید ارسال شده
+                        </label>
+                        <input 
+                            type="text" 
+                            id="verificationCode" 
+                            class="code-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            placeholder="123456"
+                            maxlength="6"
+                            required
+                            style="direction: ltr; text-align: center; font-size: 1.5rem; letter-spacing: 0.5rem;"
+                        >
+                        <p class="text-sm text-gray-500 mt-2">
+                            کد تأیید به شماره <span id="displayPhone"></span> ارسال شد
+                        </p>
+                    </div>
+                    
+                    <button 
+                        type="submit" 
+                        id="verifyBtn"
+                        class="btn-primary w-full text-white font-bold py-3 px-4 rounded-lg mb-4"
+                        style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);"
+                    >
+                        <span id="verifyText">تأیید کد</span>
+                        <span id="verifyLoading" class="hidden">
+                            <svg class="animate-spin h-5 w-5 text-white inline-block ml-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                            در حال تأیید...
+                        </span>
+                    </button>
+
+                    <button 
+                        type="button" 
+                        id="resendBtn"
+                        class="w-full text-gray-600 font-medium py-2 px-4 rounded-lg border border-gray-300 hover:bg-gray-50"
+                    >
+                        ارسال مجدد کد
+                    </button>
+                </form>
+            </div>
+
+            <!-- Error Message -->
+            <div id="login-error" class="hidden mt-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg">
+                <span id="login-error-text"></span>
+            </div>
+
+            <!-- Success Message -->
+            <div id="login-success" class="hidden mt-4 p-4 bg-green-100 border border-green-400 text-green-700 rounded-lg">
+                <span id="login-success-text"></span>
+            </div>
+        </div>
+    </div>
+
     <!-- User Menu Overlay -->
     <div id="user-menu-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden" onclick="closeUserMenu()"></div>
     
@@ -584,8 +777,14 @@
                 <button class="w-full text-right py-3 px-4 hover:bg-gray-100 rounded-lg transition-colors" onclick="closeUserMenu()">
                     <span class="text-gray-700">بازگشت</span>
                 </button>
-                <button class="w-full text-right py-3 px-4 hover:bg-gray-100 rounded-lg transition-colors text-red-600" onclick="logout()">
-                    <span>خروج</span>
+                
+                <button class="w-full text-right py-3 px-4 hover:bg-red-100 rounded-lg transition-colors text-red-600" onclick="logout()">
+                    <span class="flex items-center justify-between">
+                        <span>خروج از حساب</span>
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+                        </svg>
+                    </span>
                 </button>
             </div>
         </div>
@@ -743,11 +942,11 @@
                                 <line x1="8" y1="23" x2="16" y2="23" stroke-width="2" stroke-linecap="round"/>
                             </svg>
                         </button>
-                         
-                         <!-- Send Button - Circle with Arrow at Left Bottom -->
+                        
+                        <!-- Send Button - Circle with Arrow at Left Bottom -->
                         <button id="send-button" class="absolute bottom-3 left-4 w-8 h-8 bg-gray-400 rounded-full flex items-center justify-center hover:bg-gray-600 transition-colors shadow-lg" onclick="event.preventDefault(); sendMessage(); return false;">
                             <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19V5M5 12l7-7 7 7"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19V5M5 12l7-7 7 7"/>
                     </svg>
                 </button>
             </div>
@@ -2063,6 +2262,241 @@
                 const formattedPhone = userPhone.replace(/(\d{3})(\d{4})(\d{4})/, '$1***$3');
                 userPhoneDisplay.textContent = formattedPhone;
             }
+        }
+        
+        // Login System Functions
+        let currentPhoneNumber = '';
+        let resendTimer = null;
+        let resendCountdown = 60;
+
+        // Phone form submission
+        document.addEventListener('DOMContentLoaded', function() {
+            const phoneForm = document.getElementById('phoneForm');
+            const codeForm = document.getElementById('codeForm');
+            const resendBtn = document.getElementById('resendBtn');
+
+            if (phoneForm) {
+                phoneForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    
+                    const phoneNumber = document.getElementById('phoneNumber').value.trim();
+                    if (!phoneNumber) {
+                        showLoginError('لطفاً شماره موبایل را وارد کنید');
+                        return;
+                    }
+
+                    if (!/^09\d{9}$/.test(phoneNumber)) {
+                        showLoginError('شماره موبایل باید با 09 شروع شده و 11 رقم باشد');
+                        return;
+                    }
+
+                    currentPhoneNumber = phoneNumber;
+                    await sendVerificationCode(phoneNumber);
+                });
+            }
+
+            if (codeForm) {
+                codeForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    
+                    const code = document.getElementById('verificationCode').value.trim();
+                    if (!code) {
+                        showLoginError('لطفاً کد تأیید را وارد کنید');
+                        return;
+                    }
+
+                    if (!/^\d{6}$/.test(code)) {
+                        showLoginError('کد تأیید باید 6 رقم باشد');
+                        return;
+                    }
+
+                    await verifyCode(currentPhoneNumber, code);
+                });
+            }
+
+            if (resendBtn) {
+                resendBtn.addEventListener('click', async () => {
+                    if (resendTimer) return;
+                    await sendVerificationCode(currentPhoneNumber);
+                });
+            }
+
+            // Format phone number input
+            const phoneInput = document.getElementById('phoneNumber');
+            if (phoneInput) {
+                phoneInput.addEventListener('input', (e) => {
+                    let value = e.target.value.replace(/\D/g, '');
+                    if (value.length > 11) value = value.substring(0, 11);
+                    e.target.value = value;
+                });
+            }
+
+            // Format verification code input
+            const codeInput = document.getElementById('verificationCode');
+            if (codeInput) {
+                codeInput.addEventListener('input', (e) => {
+                    let value = e.target.value.replace(/\D/g, '');
+                    if (value.length > 6) value = value.substring(0, 6);
+                    e.target.value = value;
+                });
+            }
+        });
+
+        // Send verification code
+        async function sendVerificationCode(phoneNumber) {
+            const sendBtn = document.getElementById('sendCodeBtn');
+            const sendText = document.getElementById('sendText');
+            const sendLoading = document.getElementById('sendLoading');
+            
+            setLoginLoading(sendBtn, sendText, sendLoading, true);
+            hideLoginMessages();
+
+            try {
+                const response = await fetch('/api/send-verification', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ phoneNumber })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    showLoginStep(2);
+                    document.getElementById('displayPhone').textContent = phoneNumber;
+                    startResendTimer();
+                    showLoginSuccess('کد تأیید با موفقیت ارسال شد');
+                } else {
+                    showLoginError(data.error || 'خطا در ارسال کد تأیید');
+                }
+            } catch (error) {
+                console.error('Send code error:', error);
+                showLoginError('خطا در ارتباط با سرور');
+            } finally {
+                setLoginLoading(sendBtn, sendText, sendLoading, false);
+            }
+        }
+
+        // Verify code
+        async function verifyCode(phoneNumber, code) {
+            const verifyBtn = document.getElementById('verifyBtn');
+            const verifyText = document.getElementById('verifyText');
+            const verifyLoading = document.getElementById('verifyLoading');
+            
+            setLoginLoading(verifyBtn, verifyText, verifyLoading, true);
+            hideLoginMessages();
+
+            try {
+                const response = await fetch('/api/verify-code', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ phoneNumber, code })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    // Store token and hide login overlay
+                    localStorage.setItem('authToken', data.token);
+                    localStorage.setItem('userPhone', data.phoneNumber);
+                    showLoginSuccess('ورود موفقیت‌آمیز!');
+                    
+                    // Update user data and hide overlay
+                    localStorage.setItem('user_id', '1');
+                    localStorage.setItem('is_verified', 'true');
+                    localStorage.setItem('user_phone', data.phoneNumber);
+                    
+                    setTimeout(() => {
+                        document.getElementById('login-overlay').classList.add('hidden');
+                    }, 1500);
+                } else {
+                    showLoginError(data.error || 'کد تأیید نامعتبر است');
+                }
+            } catch (error) {
+                console.error('Verify code error:', error);
+                showLoginError('خطا در ارتباط با سرور');
+            } finally {
+                setLoginLoading(verifyBtn, verifyText, verifyLoading, false);
+            }
+        }
+
+        // UI Helper functions
+        function showLoginStep(stepNumber) {
+            document.querySelectorAll('.login-step').forEach(step => {
+                step.classList.add('hidden');
+                step.classList.remove('active');
+            });
+            document.getElementById(`login-step${stepNumber}`).classList.remove('hidden');
+            document.getElementById(`login-step${stepNumber}`).classList.add('active');
+        }
+
+        function setLoginLoading(button, textElement, loadingElement, isLoading) {
+            if (isLoading) {
+                button.disabled = true;
+                textElement.style.display = 'none';
+                loadingElement.classList.remove('hidden');
+            } else {
+                button.disabled = false;
+                textElement.style.display = 'inline';
+                loadingElement.classList.add('hidden');
+            }
+        }
+
+        function showLoginError(message) {
+            const errorDiv = document.getElementById('login-error');
+            const errorText = document.getElementById('login-error-text');
+            errorText.textContent = message;
+            errorDiv.classList.remove('hidden');
+            document.getElementById('login-success').classList.add('hidden');
+        }
+
+        function showLoginSuccess(message) {
+            const successDiv = document.getElementById('login-success');
+            const successText = document.getElementById('login-success-text');
+            successText.textContent = message;
+            successDiv.classList.remove('hidden');
+            document.getElementById('login-error').classList.add('hidden');
+        }
+
+        function hideLoginMessages() {
+            document.getElementById('login-error').classList.add('hidden');
+            document.getElementById('login-success').classList.add('hidden');
+        }
+
+        function startResendTimer() {
+            const resendBtn = document.getElementById('resendBtn');
+            resendCountdown = 60;
+            resendBtn.disabled = true;
+            resendBtn.textContent = `ارسال مجدد (${resendCountdown})`;
+            
+            resendTimer = setInterval(() => {
+                resendCountdown--;
+                if (resendCountdown <= 0) {
+                    clearInterval(resendTimer);
+                    resendBtn.disabled = false;
+                    resendBtn.textContent = 'ارسال مجدد کد';
+                    resendTimer = null;
+                } else {
+                    resendBtn.textContent = `ارسال مجدد (${resendCountdown})`;
+                }
+            }, 1000);
+        }
+
+        // Logout function
+        function logout() {
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('userPhone');
+            localStorage.removeItem('user_id');
+            localStorage.removeItem('is_verified');
+            
+            // Show login overlay
+            document.getElementById('login-overlay').classList.remove('hidden');
+            
+            // Close user menu if open
+            closeUserMenu();
         }
         
         function toggleUserMenu() {

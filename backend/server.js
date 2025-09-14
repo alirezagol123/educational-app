@@ -6,13 +6,30 @@ const axios = require('axios');
 const path = require('path');
 const { spawn } = require('child_process');
 const db = require('./database-vercel');
+const Kavenegar = require('kavenegar');
 require('dotenv').config({ path: path.join(__dirname, '../config.env') });
+
+// Initialize SMS.ir
+if (process.env.SMS_IR_API_KEY) {
+  console.log('📱 SMS.ir service configured');
+} else {
+  console.log('⚠️ SMS_IR_API_KEY not found - SMS verification disabled');
+}
+
+// Store verification codes temporarily
+const verificationCodes = new Map();
+
+// Generate random 6-digit code
+function generateVerificationCode() {
+  return Math.floor(100000 + Math.random() * 900000).toString();
+}
 
 // Verify environment variables are loaded
 console.log('🔍 Environment Check:');
 console.log('API_BASE_URL:', process.env.API_BASE_URL);
 console.log('API_MODEL:', process.env.API_MODEL);
 console.log('API_KEY:', process.env.API_KEY ? 'Loaded' : 'Missing');
+console.log('SMS_IR_API_KEY:', process.env.SMS_IR_API_KEY ? 'Loaded' : 'Missing');
 
 const app = express();
 const PORT = process.env.PORT || 3000; // Use 3000 as default port
@@ -50,8 +67,123 @@ app.get('/api/health', (req, res) => {
     status: 'OK', 
     timestamp: new Date().toISOString(),
     port: PORT,
-    environment: process.env.NODE_ENV
+    environment: process.env.NODE_ENV, 
+    services: {
+      api: 'Connected',
+      sms: process.env.SMS_IR_API_KEY ? 'Available (SMS.ir)' : 'Disabled'
+    }
   });
+});
+
+// SMS Verification Endpoints
+app.post('/api/send-verification', async (req, res) => {
+  try {
+    const { phoneNumber } = req.body;
+    
+    if (!phoneNumber) {
+      return res.status(400).json({ error: 'Phone number required' });
+    }
+    
+    if (!process.env.SMS_IR_API_KEY) {
+      return res.status(500).json({ error: 'SMS service not configured' });
+    }
+    
+    const code = generateVerificationCode();
+    
+    // Store code temporarily (expires in 5 minutes)
+    verificationCodes.set(phoneNumber, {
+      code: code,
+      expires: Date.now() + 5 * 60 * 1000 // 5 minutes
+    });
+    
+    // Send SMS using SMS.ir API
+    if (process.env.SMS_IR_API_KEY) {
+      try {
+        // Use SMS.ir verification endpoint with template
+        const response = await axios.post('https://api.sms.ir/v1/send/verify', {
+          mobile: phoneNumber,
+          templateId: "100000", // Default verification template
+          parameters: [
+            { "name": "Code", "value": code }
+          ]
+        }, {
+          headers: {
+            'x-api-key': process.env.SMS_IR_API_KEY,
+            'Content-Type': 'application/json',
+            'Accept': 'text/plain'
+          }
+        });
+        
+        console.log('SMS.ir Response:', response.data);
+        
+        if (response.data.status === 1 || response.data.status === 'success') {
+          console.log('✅ SMS sent successfully via SMS.ir');
+        } else {
+          throw new Error(`SMS.ir Error: ${response.data.message || 'Unknown error'}`);
+        }
+      } catch (error) {
+        console.error('SMS.ir Error:', error.response?.data || error.message);
+        
+        // Fallback to mock SMS for testing
+        console.log(`📱 FALLBACK MOCK SMS: کد تأیید شما: ${code} - به شماره ${phoneNumber}`);
+        console.log('⚠️ SMS.ir failed, using mock SMS for testing');
+        await new Promise(resolve => setTimeout(resolve, 1000));
+      }
+    } else {
+      // Fallback to mock SMS for testing
+      console.log(`📱 MOCK SMS: کد تأیید شما: ${code} - به شماره ${phoneNumber}`);
+      console.log('⚠️ SMS_IR_API_KEY not configured - using mock SMS');
+      await new Promise(resolve => setTimeout(resolve, 1000));
+    }
+    
+    res.json({ success: true, message: 'Verification code sent' });
+    
+  } catch (error) {
+    console.error('SMS Error:', error);
+    res.status(500).json({ error: 'Failed to send SMS' });
+  }
+});
+
+app.post('/api/verify-code', (req, res) => {
+  try {
+    const { phoneNumber, code } = req.body;
+    
+    if (!phoneNumber || !code) {
+      return res.status(400).json({ error: 'Phone number and code required' });
+    }
+    
+    const storedData = verificationCodes.get(phoneNumber);
+    
+    if (!storedData) {
+      return res.status(400).json({ error: 'No verification code found' });
+    }
+    
+    if (Date.now() > storedData.expires) {
+      verificationCodes.delete(phoneNumber);
+      return res.status(400).json({ error: 'Verification code expired' });
+    }
+    
+    if (storedData.code !== code) {
+      return res.status(400).json({ error: 'Invalid verification code' });
+    }
+    
+    // Code is valid - create session/token
+    verificationCodes.delete(phoneNumber);
+    
+    // Generate a simple session token (you can improve this later)
+    const sessionToken = Math.random().toString(36).substring(2) + Date.now().toString(36);
+    
+    res.json({ 
+      success: true, 
+      message: 'Phone verified successfully',
+      token: sessionToken,
+      phoneNumber: phoneNumber
+    });
+    
+  } catch (error) {
+    console.error('Verification Error:', error);
+    res.status(500).json({ error: 'Verification failed' });
+  }
 });
 
 // Rate limiting

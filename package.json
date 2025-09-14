@@ -48,11 +48,12 @@
   },
   "homepage": "https://github.com/alirezagol123/educational-app#readme",
   "dependencies": {
-    "express": "^4.18.2",
-    "cors": "^2.8.5",
-    "helmet": "^7.0.0",
     "axios": "^1.4.0",
-    "dotenv": "^16.3.1"
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "helmet": "^7.0.0",
+    "kavenegar": "^1.1.4"
   },
   "devDependencies": {
     "live-server": "^1.2.2",
