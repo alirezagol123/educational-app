@@ -196,12 +196,24 @@
             cursor: text;
         }
         
-        /* Mobile-optimized scrolling */
-        html, body {
+        /* Critical mobile viewport fixes */
+        html {
+            -webkit-text-size-adjust: 100%;
+            -ms-text-size-adjust: 100%;
             overflow-x: hidden;
-            overflow-y: auto;
-            height: 100%;
-            -webkit-overflow-scrolling: touch;
+        }
+        
+        body {
+            -webkit-text-size-adjust: 100%;
+            -ms-text-size-adjust: 100%;
+            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+        }
+        
+        /* Prevent mobile zoom on input focus */
+        input, textarea, select {
+            font-size: 16px !important;
         }
         
         /* Force consistent background color throughout */
@@ -532,8 +544,9 @@
             .user-input-container {
                 width: 95% !important;
                 max-width: 95% !important;
-                left: 2.5% !important;
-                transform: none !important;
+                left: 50% !important;
+                transform: translateX(-50%) !important;
+                position: fixed !important;
             }
             
             .icons-container {
@@ -543,8 +556,12 @@
                 padding-right: 1rem !important;
             }
             
-            /* Optimize animations for mobile */
-            * {
+            /* Optimize animations for mobile - exclude positioning elements */
+            .chat-message,
+            .user-input,
+            .send-button,
+            .message-bubble,
+            .nav-icon {
                 -webkit-transform: translateZ(0);
                 transform: translateZ(0);
                 -webkit-backface-visibility: hidden;
@@ -576,7 +593,8 @@
             /* Extra small screens */
             .user-input-container {
                 width: 98% !important;
-                left: 1% !important;
+                left: 50% !important;
+                transform: translateX(-50%) !important;
             }
             
             .icons-container {
@@ -595,6 +613,29 @@
             body {
                 -webkit-text-size-adjust: 100%;
                 -ms-text-size-adjust: 100%;
+            }
+            
+            /* Force proper mobile layout */
+            html {
+                -webkit-text-size-adjust: 100%;
+                -ms-text-size-adjust: 100%;
+            }
+            
+            /* Ensure input container stays centered */
+            .user-input-container {
+                position: fixed !important;
+                left: 50% !important;
+                transform: translateX(-50%) !important;
+                z-index: 30 !important;
+            }
+            
+            /* Ensure icons container stays at bottom */
+            .icons-container {
+                position: fixed !important;
+                bottom: 1rem !important;
+                left: 0 !important;
+                right: 0 !important;
+                z-index: 40 !important;
             }
         }
 
