@@ -124,7 +124,7 @@
         
         html, body {
             font-family: 'IranSans', 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            font-size: 18px;
+            font-size: 1.125rem; /* 18px */
             line-height: 1.6;
             background-color: #F8F9FA !important;
             -webkit-font-smoothing: antialiased;
@@ -133,8 +133,8 @@
         }
         
         .chat-container {
-            min-height: 400px; /* Ensure minimum height for content */
-            padding-bottom: 20px;
+            min-height: 25rem; /* 400px */
+            padding-bottom: 1.25rem; /* 20px */
             background-color: #F8F9FA;
         }
         
@@ -143,7 +143,7 @@
             display: flex;
             align-items: center;
             padding: 0 1.5rem;
-            height: 55px;
+            height: 3.4375rem; /* 55px */
             border-radius: 9999px;
             background-color: #e8e8e4;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
@@ -151,7 +151,7 @@
         
         .user-input-container {
             width: 95%;
-            max-width: 600px;
+            max-width: 37.5rem; /* 600px */
             margin: 0 auto;
             margin-top: auto;
             margin-bottom: 2rem;
@@ -167,7 +167,7 @@
         }
         
         .ai-message-font {
-            font-size: 18px !important;
+            font-size: 1.125rem !important; /* 18px */
         }
         
         /* Ensure chat messages are selectable and copyable */
@@ -213,7 +213,7 @@
         
         /* Prevent mobile zoom on input focus */
         input, textarea, select {
-            font-size: 16px !important;
+            font-size: 1rem !important; /* 16px */
         }
         
         /* Force consistent background color throughout */
@@ -263,7 +263,7 @@
         /* Better mobile typography */
         @media (max-width: 640px) {
             .chat-messages .message-bubble {
-                font-size: 16px !important;
+                font-size: 1rem !important; /* 16px */
                 line-height: 1.5;
                 padding: 1rem !important;
             }
@@ -291,7 +291,7 @@
             
             /* Simple mobile styling */
             p {
-                font-size: 18px !important;
+                font-size: 1.125rem !important; /* 18px */
                 line-height: 1.6;
                 margin-bottom: 1rem;
             }
@@ -310,12 +310,12 @@
         
         /* Prevent zoom on input focus for mobile */
         input[type="text"], input[type="email"], textarea {
-            font-size: 16px !important;
+            font-size: 1rem !important; /* 16px */
         }
         
         /* Mobile scrollbar styling */
         ::-webkit-scrollbar {
-            width: 6px;
+            width: 0.375rem; /* 6px */
         }
         
         ::-webkit-scrollbar-track {
@@ -324,7 +324,7 @@
         
         ::-webkit-scrollbar-thumb {
             background: rgba(0, 0, 0, 0.2);
-            border-radius: 3px;
+            border-radius: 0.1875rem; /* 3px */
         }
         
         /* Hidden class for elements */
@@ -638,6 +638,111 @@
                 z-index: 40 !important;
             }
         }
+        
+        /* Comprehensive Mobile Media Queries */
+        
+        /* Extra Small Devices (phones, 320px and up) */
+        @media (min-width: 320px) and (max-width: 479px) {
+            html, body {
+                font-size: 0.875rem; /* 14px */
+            }
+            
+            .user-input-container {
+                width: 98% !important;
+                left: 50% !important;
+                transform: translateX(-50%) !important;
+                bottom: 3.5rem !important; /* 56px */
+            }
+            
+            .icons-container {
+                padding: 0.75rem 0.5rem !important;
+                bottom: 0.5rem !important;
+            }
+            
+            main {
+                padding-left: 0.25rem !important;
+                padding-right: 0.25rem !important;
+            }
+        }
+        
+        /* Small Devices (phones, 480px and up) */
+        @media (min-width: 480px) and (max-width: 639px) {
+            html, body {
+                font-size: 1rem; /* 16px */
+            }
+            
+            .user-input-container {
+                width: 95% !important;
+                left: 50% !important;
+                transform: translateX(-50%) !important;
+                bottom: 4rem !important; /* 64px */
+            }
+            
+            .icons-container {
+                padding: 1rem 0.75rem !important;
+                bottom: 0.75rem !important;
+            }
+        }
+        
+        /* Medium Devices (tablets, 640px and up) */
+        @media (min-width: 640px) and (max-width: 767px) {
+            html, body {
+                font-size: 1.0625rem; /* 17px */
+            }
+            
+            .user-input-container {
+                width: 90% !important;
+                max-width: 32rem !important; /* 512px */
+                left: 50% !important;
+                transform: translateX(-50%) !important;
+                bottom: 4.25rem !important; /* 68px */
+            }
+            
+            .icons-container {
+                padding: 1rem 1rem !important;
+                bottom: 1rem !important;
+            }
+        }
+        
+        /* Large Devices (desktops, 768px and up) */
+        @media (min-width: 768px) and (max-width: 1023px) {
+            html, body {
+                font-size: 1.125rem; /* 18px */
+            }
+            
+            .user-input-container {
+                width: 85% !important;
+                max-width: 37.5rem !important; /* 600px */
+                left: 50% !important;
+                transform: translateX(-50%) !important;
+                bottom: 4.5rem !important; /* 72px */
+            }
+            
+            .icons-container {
+                padding: 1.25rem 1.25rem !important;
+                bottom: 1.25rem !important;
+            }
+        }
+        
+        /* Extra Large Devices (large desktops, 1024px and up) */
+        @media (min-width: 1024px) {
+            html, body {
+                font-size: 1.125rem; /* 18px */
+            }
+            
+            .user-input-container {
+                width: 80% !important;
+                max-width: 37.5rem !important; /* 600px */
+                left: 50% !important;
+                transform: translateX(-50%) !important;
+                bottom: 4.75rem !important; /* 76px */
+            }
+            
+            .icons-container {
+                padding: 1.5rem 1.5rem !important;
+                bottom: 1.5rem !important;
+            }
+        }
 
     </style>
 </head>
@@ -817,16 +922,16 @@
             <main class="pt-24 px-2 sm:px-3 relative flex flex-col" style="background-color: #F8F9FA; min-height: 100vh;">
         <div class="max-w-full mx-auto flex-1">
             <!-- Chat Messages Container -->
-            <div id="chat-messages" class="chat-container space-y-6 hidden" style="padding-bottom: 100px;">
+            <div id="chat-messages" class="chat-container space-y-6 hidden" style="padding-bottom: 6.25rem;"> <!-- 100px -->
                 <!-- Messages will be populated by JavaScript -->
             </div>
         </div>
     </main>
     
     <!-- User Input - Fixed positioning above icons -->
-            <div id="main-user-input" class="user-input-container fixed left-1/2 transform -translate-x-1/2" style="width: 95%; max-width: 600px; bottom: 70px;">
+            <div id="main-user-input" class="user-input-container fixed left-1/2 transform -translate-x-1/2" style="width: 95%; max-width: 37.5rem; bottom: 4.375rem;"> <!-- 600px, 70px -->
             <!-- Input Bar (Search Bar) -->
-                            <div class="input-bar bg-[#e8e8e4] rounded-full shadow-lg flex items-center px-6 py-3" style="height: 65px; border-radius: 9999px;">
+                            <div class="input-bar bg-[#e8e8e4] rounded-full shadow-lg flex items-center px-6 py-3" style="height: 4.0625rem; border-radius: 9999px;"> <!-- 65px -->
                 <!-- Recorder Button - Left Side -->
                 <button class="recorder-button p-2 hover:bg-gray-200 rounded-full transition-colors" onclick="startRecording()" title="Voice Recording">
                     <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -848,7 +953,7 @@
                         oninput="autoResize(this)"
                         onkeydown="handleKeyDown(event, this)"
                         onclick="showExpandedInput(); hideBottomIcons(); disableScrolling()"
-                        style="min-height: 20px; max-height: 120px; line-height: 20px; cursor: text; font-size: 16px;"
+                        style="min-height: 1.25rem; max-height: 7.5rem; line-height: 1.25rem; cursor: text; font-size: 1rem;" <!-- 20px, 120px, 20px, 16px -->
                     ></textarea>
                 </div>
                 
@@ -862,7 +967,7 @@
         </div>
         
         <!-- Thin Border Separator -->
-        <div class="border-b border-gray-200 mx-auto" style="width: 95%; max-width: 600px;"></div>
+        <div class="border-b border-gray-200 mx-auto" style="width: 95%; max-width: 37.5rem;"></div> <!-- 600px -->
     </main>
     
     <!-- Four Icons - Standard Mobile Navigation Bar - Separated for independent positioning -->
@@ -899,7 +1004,7 @@
                  <!-- Second Gainsboro Page (Hidden by default) - This is the REAL second page -->
                  <div id="second-gainsboro-page" class="fixed inset-0 bg-[#F8F9FA] z-90 hidden">
                      <!-- Header for Second Page (matching thread UI) -->
-                     <div id="second-page-header" class="fixed top-0 left-0 right-0 border-b border-gray-200 z-100" style="height: 60px; background-color: #F8F9FA;">
+                     <div id="second-page-header" class="fixed top-0 left-0 right-0 border-b border-gray-200 z-100" style="height: 3.75rem; background-color: #F8F9FA;"> <!-- 60px -->
                          <div class="flex items-center justify-between h-full px-2 sm:px-3">
                              <!-- Left: Menu and New Chat buttons -->
                              <div class="flex items-center gap-2">
@@ -936,7 +1041,7 @@
                  </div>
                 
                  <!-- Expanded Input (Hidden by default) - Just for typing -->
-                 <div id="expanded-input-container" class="fixed bottom-0 left-0 right-0 bg-[#e8e8e4] rounded-t-3xl shadow-2xl hidden z-100" style="height: 100px; border-top: 1px solid #d1d5db;">
+                 <div id="expanded-input-container" class="fixed bottom-0 left-0 right-0 bg-[#e8e8e4] rounded-t-3xl shadow-2xl hidden z-100" style="height: 6.25rem; border-top: 1px solid #d1d5db;"> <!-- 100px -->
                      <div class="relative h-full p-3 sm:p-4">
                          <!-- Expanded Textarea - Full Section -->
                          <textarea 
@@ -946,7 +1051,7 @@
                              rows="3"
                              onkeydown="handleExpandedInputKeyDown(event)"
                              oninput="handleInputChange(this)"
-                             style="min-height: 80px; line-height: 1.5; cursor: text;"
+                             style="min-height: 5rem; line-height: 1.5; cursor: text;" <!-- 80px -->
                          ></textarea>
                          
                         <!-- Paperclip Icon Button - Very Right Side -->
@@ -2919,7 +3024,7 @@
                 content.innerHTML = message.content;
                 content.style.cssText = `
                     color: #333 !important;
-                    font-size: 16px !important;
+                    font-size: 1rem !important; /* 16px */
                     line-height: 1.5 !important;
                 `;
                 
@@ -2948,7 +3053,7 @@
                 width: 100% !important;
                 border: none !important;
                 outline: none !important;
-                font-size: 16px !important;
+                font-size: 1rem !important; /* 16px */
                 padding: 10px !important;
             `;
             
@@ -3095,7 +3200,7 @@
                         color: black !important;
                         text-align: ${message.sender_role === 'user' ? 'left' : 'right'} !important;
                         line-height: 1.6 !important;
-                        font-size: 16px !important;
+                        font-size: 1rem !important; /* 16px */
                         display: block !important;
                         visibility: visible !important;
                         opacity: 1 !important;
@@ -3155,7 +3260,7 @@
                 border: none !important;
                 outline: none !important;
                 background: transparent !important;
-                font-size: 16px !important;
+                font-size: 1rem !important; /* 16px */
                 color: black !important;
                 padding: 0 !important;
                 margin: 0 !important;
@@ -3717,7 +3822,7 @@
                 color: black !important;
                 text-align: left !important;
                 line-height: 1.6 !important;
-                font-size: 16px !important;
+                font-size: 1rem !important; /* 16px */
                 display: block !important;
                 visibility: visible !important;
                 opacity: 1 !important;
@@ -3748,7 +3853,7 @@
                 color: black !important;
                 text-align: right !important;
                 line-height: 1.6 !important;
-                font-size: 16px !important;
+                font-size: 1rem !important; /* 16px */
                 display: block !important;
                 visibility: visible !important;
                 opacity: 1 !important;
