@@ -60,41 +60,22 @@
     <script>
         // Check login status on page load
         function checkLoginStatus() {
-            const authToken = localStorage.getItem('authToken');
-            const userPhone = localStorage.getItem('userPhone');
+            // Login functionality disabled for mobile testing
+            console.log('🔍 Login check disabled for mobile testing');
             
-            console.log('🔍 Login Check:', { authToken: !!authToken, userPhone: !!userPhone });
-            console.log('🔍 Auth Token:', authToken);
-            console.log('🔍 User Phone:', userPhone);
-            
-            // For testing, let's always show login overlay
-            // You can remove this line later when SMS is working
-            const forceShowLogin = true;
-            
-            if (!authToken || !userPhone || forceShowLogin) {
-                // Show login overlay
-                const loginOverlay = document.getElementById('login-overlay');
-                console.log('🔍 Login overlay element:', loginOverlay);
-                if (loginOverlay) {
-                    loginOverlay.classList.remove('hidden');
-                    console.log('✅ Login overlay shown');
-                } else {
-                    console.error('❌ Login overlay not found');
-                }
-                return false;
-            }
-            
-            // Set user data for compatibility
-                localStorage.setItem('user_id', '1');
-                localStorage.setItem('is_verified', 'true');
-            localStorage.setItem('user_phone', userPhone);
-            
-            // Hide login overlay
+            // Always hide login overlay
             const loginOverlay = document.getElementById('login-overlay');
             if (loginOverlay) {
                 loginOverlay.classList.add('hidden');
-                console.log('✅ Login overlay hidden');
+                console.log('✅ Login overlay hidden (disabled)');
             }
+            
+            // Set default user data for testing
+            localStorage.setItem('user_id', '1');
+            localStorage.setItem('is_verified', 'true');
+            localStorage.setItem('userPhone', '09050512907');
+            localStorage.setItem('authToken', 'test_token');
+            
             return true;
         }
         
@@ -778,14 +759,15 @@
                     <span class="text-gray-700">بازگشت</span>
                 </button>
                 
-                <button class="w-full text-right py-3 px-4 hover:bg-red-100 rounded-lg transition-colors text-red-600" onclick="logout()">
+                <!-- Logout button disabled for mobile testing -->
+                <!-- <button class="w-full text-right py-3 px-4 hover:bg-red-100 rounded-lg transition-colors text-red-600" onclick="logout()">
                     <span class="flex items-center justify-between">
                         <span>خروج از حساب</span>
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
                         </svg>
                     </span>
-                </button>
+                </button> -->
             </div>
         </div>
     </div>
@@ -2487,15 +2469,8 @@
 
         // Logout function
         function logout() {
-            localStorage.removeItem('authToken');
-            localStorage.removeItem('userPhone');
-            localStorage.removeItem('user_id');
-            localStorage.removeItem('is_verified');
-            
-            // Show login overlay
-            document.getElementById('login-overlay').classList.remove('hidden');
-            
-            // Close user menu if open
+            // Logout disabled for mobile testing
+            console.log('🔍 Logout disabled for mobile testing');
             closeUserMenu();
         }
         
