@@ -4,9 +4,7 @@ const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const axios = require('axios');
 const path = require('path');
-const { spawn } = require('child_process');
 const db = require('./database-vercel');
-const Kavenegar = require('kavenegar');
 require('dotenv').config({ path: path.join(__dirname, '../config.env') });
 
 // Add global error handler for serverless environment
@@ -16,6 +14,15 @@ process.on('uncaughtException', (error) => {
 
 process.on('unhandledRejection', (reason, promise) => {
   console.error('🚨 Unhandled Rejection at:', promise, 'reason:', reason);
+});
+
+// Health check endpoint
+app.get('/api/health', (req, res) => {
+  res.json({ 
+    status: 'ok', 
+    timestamp: new Date().toISOString(),
+    environment: process.env.VERCEL ? 'production' : 'development'
+  });
 });
 
 // Initialize SMS.ir

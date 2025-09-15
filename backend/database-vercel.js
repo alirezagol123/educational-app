@@ -3,7 +3,8 @@ const fs = require('fs');
 const path = require('path');
 
 // Use different storage paths for local vs production
-const STORAGE_FILE = process.env.VERCEL ? '/tmp/threads.json' : './threads.json';
+// In Vercel, we'll use pure in-memory storage to avoid file system issues
+const STORAGE_FILE = process.env.VERCEL ? null : './threads.json';
 
 let inMemoryStorage = {
     threads: new Map(),
@@ -15,7 +16,7 @@ let inMemoryStorage = {
 // Load storage from file
 function loadStorageFromFile() {
     try {
-        if (fs.existsSync(STORAGE_FILE)) {
+        if (STORAGE_FILE && fs.existsSync(STORAGE_FILE)) {
             const data = fs.readFileSync(STORAGE_FILE, 'utf8');
             const parsed = JSON.parse(data);
             
@@ -35,9 +36,14 @@ function loadStorageFromFile() {
     }
 }
 
-// Save storage to file
+// Save storage to file (only for local development)
 function saveStorageToFile() {
     try {
+        if (!STORAGE_FILE) {
+            console.log('📝 Vercel environment - skipping file save (in-memory only)');
+            return;
+        }
+        
         // Convert Maps to objects for JSON serialization
         const dataToSave = {
             users: Object.fromEntries(inMemoryStorage.users),
