@@ -65,6 +65,17 @@
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
     <script>
+        // Suppress Tailwind CDN warning
+        window.addEventListener('DOMContentLoaded', function() {
+            const originalWarn = console.warn;
+            console.warn = function(message) {
+                if (typeof message === 'string' && message.includes('cdn.tailwindcss.com should not be used in production')) {
+                    return; // Suppress this specific warning
+                }
+                originalWarn.apply(console, arguments);
+            };
+        });
+        
         // Check login status on page load
         function checkLoginStatus() {
             // Login functionality disabled for mobile testing
@@ -78,8 +89,8 @@
             }
             
             // Set default user data for testing
-            localStorage.setItem('user_id', '1');
-            localStorage.setItem('is_verified', 'true');
+                localStorage.setItem('user_id', '1');
+                localStorage.setItem('is_verified', 'true');
             localStorage.setItem('userPhone', '09050512907');
             localStorage.setItem('authToken', 'test_token');
             
@@ -161,7 +172,8 @@
             max-width: 37.5rem; /* 600px */
             margin: 0 auto;
             margin-top: auto;
-            margin-bottom: 2rem;
+            /* Removed margin-bottom to allow proper fixed positioning */
+            z-index: 50; /* Ensure it stays above other content */
         }
         
         /* Ensure proper spacing between elements */
@@ -658,7 +670,7 @@
                 width: 98% !important;
                 left: 50% !important;
                 transform: translateX(-50%) !important;
-                bottom: 3.5rem !important; /* 56px */
+                bottom: 6.5rem !important; /* 104px */
             }
             
             .icons-container {
@@ -682,7 +694,7 @@
                 width: 95% !important;
                 left: 50% !important;
                 transform: translateX(-50%) !important;
-                bottom: 4rem !important; /* 64px */
+                bottom: 7rem !important; /* 112px */
             }
             
             .icons-container {
@@ -702,7 +714,7 @@
                 max-width: 32rem !important; /* 512px */
                 left: 50% !important;
                 transform: translateX(-50%) !important;
-                bottom: 4.25rem !important; /* 68px */
+                bottom: 7.5rem !important; /* 120px */
             }
             
             .icons-container {
@@ -722,7 +734,7 @@
                 max-width: 37.5rem !important; /* 600px */
                 left: 50% !important;
                 transform: translateX(-50%) !important;
-                bottom: 4.5rem !important; /* 72px */
+                bottom: 8rem !important; /* 128px */
             }
             
             .icons-container {
@@ -742,7 +754,7 @@
                 max-width: 37.5rem !important; /* 600px */
                 left: 50% !important;
                 transform: translateX(-50%) !important;
-                bottom: 4.75rem !important; /* 76px */
+                bottom: 8.5rem !important; /* 136px */
             }
             
             .icons-container {
@@ -936,16 +948,16 @@
     </main>
     
     <!-- User Input - Fixed positioning above icons -->
-            <div id="main-user-input" class="user-input-container fixed left-1/2 transform -translate-x-1/2" style="width: 95%; max-width: 37.5rem; bottom: 4.375rem;"> <!-- 600px, 70px -->
+            <div id="main-user-input" class="user-input-container fixed left-1/2 transform -translate-x-1/2" style="width: 95%; max-width: 37.5rem; bottom: 7.5rem;"> <!-- 600px, 120px -->
             <!-- Input Bar (Search Bar) -->
-                            <div class="input-bar bg-[#e8e8e4] rounded-full shadow-lg flex items-center px-6 py-3" style="height: 4.0625rem; border-radius: 9999px;"> <!-- 65px -->
+                            <div class="input-bar bg-[#e8e8e4] rounded-full shadow-lg flex items-center px-6 py-3" style="height: 65px; border-radius: 9999px;">
                 <!-- Recorder Button - Left Side -->
-                <button class="recorder-button p-2 hover:bg-gray-200 rounded-full transition-colors" onclick="startRecording()" title="Voice Recording">
-                    <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M19 10v2a7 7 0 0 1-14 0v-2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        <line x1="12" y1="19" x2="12" y2="23" stroke-width="2" stroke-linecap="round"/>
-                        <line x1="8" y1="23" x2="16" y2="23" stroke-width="2" stroke-linecap="round"/>
+                <button class="absolute left-2 top-1/2 w-8 h-8 text-gray-600 rounded-full transition-all duration-200 flex items-center justify-center z-20 hover:bg-gray-200" style="transform: translateY(-50%);" onclick="startRecording()" title="Voice Recording">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M19 10v2a7 7 0 0 1-14 0v-2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <line x1="12" y1="19" x2="12" y2="23" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        <line x1="8" y1="23" x2="16" y2="23" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
                     </svg>
                 </button>
                 
@@ -953,21 +965,36 @@
                 <div class="flex-1 mx-4">
                     <textarea 
                         id="user-input" 
-                        class="w-full bg-transparent border-none resize-none focus:outline-none text-[#000000] text-right font-sans placeholder-[#1e1e1e]"
+                        class="user-input w-full px-2 py-2 pr-20 resize-none text-gray-900 placeholder-gray-500 text-xl transition-all duration-200 bg-transparent border-none outline-none"
                         placeholder="Learn anything..."
                         rows="1"
-                        dir="rtl"
-                        oninput="autoResize(this)"
-                        onkeydown="handleKeyDown(event, this)"
-                        onclick="showExpandedInput(); hideBottomIcons(); disableScrolling()"
-                        style="min-height: 1.25rem; max-height: 7.5rem; line-height: 1.25rem; cursor: text; font-size: 1rem;" <!-- 20px, 120px, 20px, 16px -->
+                        onclick="handleInputFocus(this)"
+                        style="pointer-events: auto; min-height: 40px; cursor: pointer;"
                     ></textarea>
                 </div>
                 
-                <!-- Paperclip Icon Button - Very Right Side -->
-                <button class="document-button ml-2 p-2 hover:bg-gray-200 rounded-full transition-colors" onclick="attachDocument()" title="Attach Document">
-                    <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <!-- Paperclip Icon - Right Side -->
+                <button 
+                    class="absolute right-2 top-1/2 w-8 h-8 text-gray-600 rounded-full transition-all duration-200 flex items-center justify-center z-20 hover:bg-gray-200"
+                    style="transform: translateY(-50%);"
+                    onclick="attachDocument()"
+                    title="Attach Document"
+                >
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66L9.64 16.2a2 2 0 0 1-2.83-2.83l8.49-8.49" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+                
+                <!-- Send Button - Between Paperclip and Right Edge -->
+                <button 
+                    id="main-send-button"
+                    class="absolute right-12 top-1/2 w-12 h-12 bg-gray-400 text-white rounded-full transition-all duration-200 flex items-center justify-center z-20"
+                    style="opacity: 0; pointer-events: none; transform: translateY(-50%) scale(0.75);"
+                    onclick="sendMessage()"
+                    title="Send Message"
+                >
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19V5M5 12l7-7 7 7"/>
                     </svg>
                 </button>
             </div>
@@ -978,7 +1005,7 @@
     </main>
     
     <!-- Four Icons - Standard Mobile Navigation Bar - Separated for independent positioning -->
-    <div class="icons-container fixed bottom-4 left-0 right-0 py-4 px-3 sm:px-4 flex justify-around items-center space-x-8 z-40">
+    <div class="icons-container fixed bottom-0 left-0 right-0 py-4 px-3 sm:px-4 flex justify-around items-center space-x-8 z-50 bg-transparent">
                          <!-- First Icon: Document with pencil (Chat page) -->
              <button class="icon-button p-2 hover:text-gray-600 transition-colors" onclick="handleChatClick()">
                  <svg class="w-6 h-6 nav-icon active" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1008,82 +1035,110 @@
             
         </div>
         
-                 <!-- Second Gainsboro Page (Hidden by default) - This is the REAL second page -->
-                 <div id="second-gainsboro-page" class="fixed inset-0 bg-[#F8F9FA] z-90 hidden">
-                     <!-- Header for Second Page (matching thread UI) -->
-                     <div id="second-page-header" class="fixed top-0 left-0 right-0 border-b border-gray-200 z-100" style="height: 3.75rem; background-color: #F8F9FA;"> <!-- 60px -->
-                         <div class="flex items-center justify-between h-full px-2 sm:px-3">
-                             <!-- Left: Menu and New Chat buttons -->
-                             <div class="flex items-center gap-2">
-                                 <!-- Menu button (three vertical dots) -->
-                                 <button onclick="showThreadMenu()" class="w-10 h-10 rounded-full bg-transparent hover:bg-gray-200 flex items-center justify-center transition-colors">
-                                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="color: #333;">
-                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" stroke="currentColor" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"></path>
+                
+                 <!-- Expanded Input Container (Hidden by default) - Analysis Page Style -->
+                 <div id="analysis-expanded-input-container" class="fixed bottom-0 left-0 right-0 bg-[#e8e8e4] rounded-t-3xl shadow-2xl hidden z-100" style="height: 100px; border-top: 1px solid #d1d5db;">
+                     <div class="relative h-full p-6">
+                         <!-- Expanded Textarea -->
+                         <textarea 
+                             id="analysis-expanded-user-input" 
+                             class="w-full bg-transparent border-none resize-none focus:outline-none text-[#000000] font-sans text-2xl placeholder-[#1e1e1e] pr-20 text-right absolute top-2 right-0"
+                             placeholder="Learn anything..."
+                             rows="3"
+                             onkeydown="handleAnalysisExpandedInputKeyDown(event)"
+                             oninput="handleAnalysisInputChange(this)"
+                             style="min-height: 80px; line-height: 1.5; cursor: text;"
+                         ></textarea>
+                         
+                         <!-- Recorder Icon Button - Right Side -->
+                         <button class="recorder-button absolute bottom-3 right-12 w-10 h-10 rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors" style="background-color: #D1D5DB;" onclick="startRecording()" title="Voice Recording">
+                             <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                 <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                 <path d="M19 10v2a7 7 0 0 1-14 0v-2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                 <line x1="12" y1="19" x2="12" y2="23" stroke-width="2" stroke-linecap="round"/>
+                                 <line x1="8" y1="23" x2="16" y2="23" stroke-width="2" stroke-linecap="round"/>
                                      </svg>
                                  </button>
                                  
-                                 <!-- Share button (share icon) -->
-                                 <button onclick="shareConversation()" class="w-10 h-10 rounded-full bg-transparent hover:bg-gray-200 flex items-center justify-center transition-colors">
-                                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="color: #333;">
-                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" stroke="currentColor" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z"></path>
+                         <!-- Paperclip Icon Button - Very Right Side -->
+                         <button class="document-button absolute bottom-3 right-4 w-10 h-10 rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors" style="background-color: #D1D5DB;" onclick="attachDocument()" title="Attach Document">
+                             <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                 <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66L9.64 16.2a2 2 0 0 1-2.83-2.83l8.49-8.49" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                      </svg>
                                  </button>
-                             </div>
-                             
-                             <!-- Right: Back button (cross icon) -->
-                             <button onclick="hideSecondPage()" class="w-10 h-10 rounded-full bg-transparent hover:bg-gray-200 flex items-center justify-center transition-colors">
-                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="color: #333;">
-                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" stroke="currentColor" d="M6 18L18 6M6 6l12 12"></path>
+                         
+                         <!-- Send Button - Left Side -->
+                         <button 
+                             id="analysis-expanded-send-button"
+                             class="absolute bottom-3 left-4 w-10 h-10 bg-gray-400 rounded-full flex items-center justify-center hover:bg-gray-600 transition-colors shadow-lg"
+                             onclick="sendAnalysisExpandedMessage()"
+                         >
+                             <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19V5M5 12l7-7 7 7"/>
                                  </svg>
                              </button>
                          </div>
                      </div>
-                     
-                     <!-- Chat Messages Area - Adjusted for header -->
-                     <div id="second-page-chat-area" class="absolute top-16 left-1 right-1 sm:left-2 sm:right-2 bottom-32 overflow-y-auto p-0.5 sm:p-1">
-                         <!-- Messages will appear here on the second gainsboro page -->
                      </div>
                      
-
-                 </div>
-                
-                 <!-- Expanded Input (Hidden by default) - Just for typing -->
-                 <div id="expanded-input-container" class="fixed bottom-0 left-0 right-0 bg-[#e8e8e4] rounded-t-3xl shadow-2xl hidden z-100" style="height: 6.25rem; border-top: 1px solid #d1d5db;"> <!-- 100px -->
-                     <div class="relative h-full p-3 sm:p-4">
-                         <!-- Expanded Textarea - Full Section -->
+        <!-- Chat Input for After AI Response (Hidden by default) - Analysis Page Style -->
+        <div id="chat-input-after-response" class="fixed bottom-0 left-0 right-0 bg-transparent hidden z-50" style="padding-bottom: 0.25rem;">
+            <div class="px-4 sm:px-6 pb-4" style="z-index: 10; pointer-events: none;">
+                <div class="max-w-5xl mx-auto flex justify-center">
+                    <div class="relative w-full max-w-2xl">
+                        <div class="input-bar bg-[#e8e8e4] rounded-full shadow-lg flex items-center px-6 py-3" style="height: 65px; border-radius: 9999px;">
                          <textarea 
-                             id="expanded-user-input" 
-                             class="w-full bg-transparent border-none resize-none focus:outline-none text-[#000000] font-sans text-3xl placeholder-[#1e1e1e] pr-20 text-right absolute top-2 right-0"
+                                id="chat-input-field" 
+                                class="user-input w-full px-2 py-2 pr-20 resize-none text-gray-900 placeholder-gray-500 text-xl transition-all duration-200 bg-transparent border-none outline-none"
                              placeholder="Learn anything..."
-                             rows="3"
-                             onkeydown="handleExpandedInputKeyDown(event)"
-                             oninput="handleInputChange(this)"
-                             style="min-height: 5rem; line-height: 1.5; cursor: text;" <!-- 80px -->
+                                rows="1"
+                                onclick="showExpandedInputFromChat()"
+                                style="pointer-events: auto; min-height: 40px; cursor: pointer;"
+                                readonly
                          ></textarea>
                          
-                        <!-- Paperclip Icon Button - Very Right Side -->
-                        <button class="document-button absolute bottom-3 right-4 w-8 h-8 bg-transparent rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors" onclick="attachDocument()" title="Attach Document">
-                            <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66L9.64 16.2a2 2 0 0 1-2.83-2.83l8.49-8.49" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                        </button>
-                        
-                        <!-- Recorder Button - Left of Paperclip -->
-                        <button class="recorder-button absolute bottom-3 right-12 w-8 h-8 bg-transparent rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors" onclick="startRecording()" title="Voice Recording">
-                            <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M19 10v2a7 7 0 0 1-14 0v-2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                <line x1="12" y1="19" x2="12" y2="23" stroke-width="2" stroke-linecap="round"/>
-                                <line x1="8" y1="23" x2="16" y2="23" stroke-width="2" stroke-linecap="round"/>
-                            </svg>
-                        </button>
-                        
-                        <!-- Send Button - Circle with Arrow at Left Bottom -->
-                        <button id="send-button" class="absolute bottom-3 left-4 w-8 h-8 bg-gray-400 rounded-full flex items-center justify-center hover:bg-gray-600 transition-colors shadow-lg" onclick="event.preventDefault(); sendMessage(); return false;">
-                            <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19V5M5 12l7-7 7 7"/>
+                            <!-- Recorder Icon - Left Side -->
+                            <button 
+                                class="absolute left-2 top-1/2 w-8 h-8 text-gray-600 rounded-full transition-all duration-200 flex items-center justify-center z-20 hover:bg-gray-200"
+                                style="transform: translateY(-50%);"
+                                onclick="startRecording()"
+                                title="Voice Recording"
+                            >
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M19 10v2a7 7 0 0 1-14 0v-2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <line x1="12" y1="19" x2="12" y2="23" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                    <line x1="8" y1="23" x2="16" y2="23" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                </svg>
+                            </button>
+                            
+                            <!-- Paperclip Icon - Right Side -->
+                            <button 
+                                class="absolute right-2 top-1/2 w-8 h-8 text-gray-600 rounded-full transition-all duration-200 flex items-center justify-center z-20 hover:bg-gray-200"
+                                style="transform: translateY(-50%);"
+                                onclick="attachDocument()"
+                                title="Attach Document"
+                            >
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66L9.64 16.2a2 2 0 0 1-2.83-2.83l8.49-8.49" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </button>
+                            
+                            <!-- Send Button - Between Paperclip and Right Edge -->
+                            <button 
+                                id="chat-send-button"
+                                class="absolute right-12 top-1/2 w-12 h-12 bg-gray-400 text-white rounded-full transition-all duration-200 flex items-center justify-center z-20"
+                                style="opacity: 0; pointer-events: none; transform: translateY(-50%) scale(0.75);"
+                                onclick="sendChatMessage()"
+                                title="Send Message"
+                            >
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19V5M5 12l7-7 7 7"/>
                     </svg>
                 </button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         
@@ -1124,7 +1179,7 @@
             textarea.style.height = Math.min(textarea.scrollHeight, 120) + 'px';
             
             // Update button color based on typing
-            const sendButton = document.getElementById('send-button');
+            const sendButton = document.getElementById('main-send-button');
             if (textarea.value.trim() !== '') {
                 textarea.classList.add('typing-active');
                 // Send button black when typing
@@ -1146,7 +1201,7 @@
         
         // Function to handle input changes for button color
         function handleInputChange(textarea) {
-            const sendButton = document.getElementById('send-button');
+            const sendButton = document.getElementById('main-send-button');
             if (textarea.value.length > 0) {
                 // User is typing - make button black
                 sendButton.classList.remove('bg-gray-400');
@@ -1159,39 +1214,35 @@
         }
         
         // Function to show expanded input
-        function showExpandedInput() {
-            // Hide main header to prevent overlap
-            const mainHeader = document.getElementById('main-header');
-            if (mainHeader) {
-                mainHeader.style.display = 'none';
+        // Function to handle input focus - make button black immediately (Analysis Page Style)
+        function handleInputFocus(textarea) {
+            console.log('🎯 Input focused, showing expanded input');
+            
+            // Hide the regular chat input section
+            const chatInputSection = document.getElementById('main-user-input');
+            if (chatInputSection) {
+                chatInputSection.style.display = 'none';
             }
             
-            // Hide main user input container
-            const userInputContainer = document.getElementById('main-user-input');
-            if (userInputContainer) {
-                userInputContainer.style.display = 'none';
+            // Show bottom navigation when chat input is hidden
+            const bottomNav = document.querySelector('.icons-container');
+            if (bottomNav) {
+                bottomNav.style.display = 'flex';
             }
             
-            // Hide bottom navigation icons
-            hideBottomIcons();
-            
-            // Show second gainsboro page FIRST (background)
-            const secondPage = document.getElementById('second-gainsboro-page');
-            if (secondPage) {
-                secondPage.classList.remove('hidden');
-                secondPage.style.display = 'block';
-            }
-            
-            // Show expanded input ON TOP of second page
-            const expandedInput = document.getElementById('expanded-input-container');
+            // Show expanded input
+            const expandedInput = document.getElementById('analysis-expanded-input-container');
             if (expandedInput) {
                 expandedInput.classList.remove('hidden');
                 expandedInput.style.display = 'block';
             }
             
+            // Hide bottom navigation when input appears
+            bottomNav.style.display = 'none';
+            
             // Focus on the expanded textarea
             setTimeout(() => {
-                const expandedTextarea = document.getElementById('expanded-user-input');
+               const expandedTextarea = document.getElementById('analysis-expanded-user-input');
                 if (expandedTextarea) {
                     expandedTextarea.focus();
                 }
@@ -1226,98 +1277,245 @@
             }
         }
         
-        // Function to collapse only the expanded input but stay on same page
-        function collapseExpandedInputOnly() {
-            // Hide expanded input container
-            const expandedInput = document.getElementById('expanded-input-container');
-            if (expandedInput) {
-                expandedInput.classList.add('hidden');
-                expandedInput.style.display = 'none';
+        // Analysis Page Style Functions
+        function handleAnalysisExpandedInputKeyDown(event) {
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault();
+                sendAnalysisExpandedMessage();
             }
-            
-            // Show main user input container (oval input) but keep it on the second page
-            const userInputContainer = document.getElementById('main-user-input');
-            if (userInputContainer) {
-                userInputContainer.style.display = 'block';
-                // Position it at the very bottom with 1px distance
-                userInputContainer.style.position = 'fixed';
-                userInputContainer.style.bottom = '1px';
-                userInputContainer.style.left = '50%';
-                userInputContainer.style.transform = 'translateX(-50%)';
-                userInputContainer.style.zIndex = '1000';
-                userInputContainer.style.width = '95%';
-                userInputContainer.style.maxWidth = '600px';
-                
-                // Add border for second page user input
-                const inputBar = userInputContainer.querySelector('.input-bar');
-                if (inputBar) {
-                    inputBar.style.border = '0.5px solid #6b7280';
-                }
-            }
-            
-            // Adjust chat area to have bottom padding so text doesn't go behind input
-            const chatArea = document.getElementById('second-page-chat-area');
-            if (chatArea) {
-                chatArea.style.paddingBottom = '120px'; // More space for proper positioning
-                chatArea.style.bottom = '0px'; // Ensure it goes to the very bottom
-                chatArea.scrollTop = chatArea.scrollHeight; // Scroll to bottom
-            }
-            
-            // Keep the second gainsboro page visible (don't hide it)
-            const secondPage = document.getElementById('second-gainsboro-page');
-            if (secondPage) {
-                secondPage.classList.remove('hidden');
-                secondPage.style.display = 'block';
-            }
-            
-            // Keep bottom icons hidden (as requested)
-            const iconsContainer = document.querySelector('.icons-container');
-            if (iconsContainer) {
-                iconsContainer.style.display = 'none';
-            }
-            
-            // Keep scrolling disabled to maintain the chat view
-            document.body.style.overflow = 'hidden';
-            document.documentElement.style.overflow = 'hidden';
         }
         
-        // Function to hide expanded input
-        function hideExpandedInput() {
-            // Show main user input container and icons
-            const userInputContainer = document.getElementById('main-user-input');
-            if (userInputContainer) {
-                userInputContainer.style.display = 'block';
+        function handleAnalysisInputChange(textarea) {
+            const sendButton = document.getElementById('analysis-expanded-send-button');
+            if (sendButton) {
+                if (textarea.value.trim()) {
+                    sendButton.classList.remove('bg-gray-300');
+                    sendButton.classList.add('bg-gray-600');
+                } else {
+                    sendButton.classList.remove('bg-gray-600');
+                    sendButton.classList.add('bg-gray-300');
+                }
             }
+        }
+        
+        async function sendAnalysisExpandedMessage() {
+            const textarea = document.getElementById('analysis-expanded-user-input');
+            const message = textarea.value.trim();
             
-            // Show bottom icons again
-            showBottomIcons();
-            
-            // Enable scrolling again
-            enableScrolling();
-            
-            // Hide expanded input
-            const expandedInput = document.getElementById('expanded-input-container');
+            if (message) {
+                // Add message to chat (like analysis page)
+                addMessage(message, true);
+                
+                // Clear input
+                textarea.value = '';
+                
+                // Hide expanded input immediately (like analysis page)
+                const expandedInput = document.getElementById('analysis-expanded-input-container');
             if (expandedInput) {
                 expandedInput.classList.add('hidden');
                 expandedInput.style.display = 'none';
             }
             
-            // Hide second gainsboro page
-            const secondPage = document.getElementById('second-gainsboro-page');
-            if (secondPage) {
-                secondPage.classList.add('hidden');
-                secondPage.style.display = 'none';
+                // Hide bottom navigation during AI response (like analysis page)
+                const bottomNav = document.querySelector('.icons-container');
+                if (bottomNav) {
+                    bottomNav.style.display = 'none';
+                }
+                
+                // Send message to AI directly (like analysis page)
+                await sendMessageToAI(message);
             }
         }
+        
+        // Function to send message to AI (Analysis Page Style)
+        async function sendMessageToAI(message) {
+            console.log('🚀 sendMessageToAI function called with message:', message);
+            
+            if (isStreaming) {
+                console.log('⚠️ Already streaming, ignoring new message');
+                return;
+            }
+            
+            try {
+                isStreaming = true;
+                
+                // Create thread if needed
+                let threadId = currentThreadId;
+                if (!threadId) {
+                    threadId = await createNewThread('New Chat');
+                    if (!threadId) {
+                        console.error('❌ Failed to create thread');
+                        return;
+                    }
+                }
+                
+                console.log('📤 Making API call to /api/chat/stream');
+                const response = await fetch('/api/chat/stream', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        message: message,
+                        threadId: threadId
+                    })
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                // Handle streaming response
+                const reader = response.body.getReader();
+                const decoder = new TextDecoder();
+                
+                // Create AI message element
+                const messageId = `ai-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+                addMessage('', false, messageId);
+                
+                let fullResponse = '';
+                
+                while (true) {
+                    const { done, value } = await reader.read();
+                    if (done) break;
+                    
+                    const chunk = decoder.decode(value);
+                    const lines = chunk.split('\n');
+                    
+                    for (const line of lines) {
+                        if (line.trim() === '') continue;
+                        
+                        try {
+                            // Remove "data: " prefix if present
+                            let jsonLine = line;
+                            if (line.startsWith('data: ')) {
+                                jsonLine = line.substring(6);
+                            }
+                            
+                            const data = JSON.parse(jsonLine);
+                            console.log('📥 Received data:', data);
+                            if (data.content) {
+                                fullResponse += data.content;
+                                console.log('📝 Full response so far:', fullResponse);
+                                updateMessage(messageId, fullResponse);
+                            }
+                        } catch (e) {
+                            console.log('Non-JSON line:', line);
+                        }
+                    }
+                }
+                
+                console.log('✅ AI response completed');
+                
+                // If no response was received, show a fallback message
+                if (!fullResponse.trim()) {
+                    console.log('⚠️ No response content received, showing fallback');
+                    updateMessage(messageId, 'متأسفانه پاسخ مناسبی دریافت نشد. لطفاً دوباره تلاش کنید.');
+                }
+                
+            } catch (error) {
+                console.error('❌ Error in sendMessageToAI:', error);
+                addMessage('Sorry, there was an error processing your request.', false);
+            } finally {
+                isStreaming = false;
+                console.log('✅ Streaming completed, flag reset');
+                
+                // Show user input after response completes (Analysis Page Style)
+                showUserInputAfterResponse();
+            }
+        }
+        
+        // Function to update an existing message (for streaming)
+        function updateMessage(messageId, content) {
+            const messageElement = document.getElementById(messageId);
+            if (messageElement) {
+                const messageBubble = messageElement.querySelector('div[style*="max-width"]');
+                if (messageBubble) {
+                    const contentDiv = messageBubble.querySelector('div');
+                    if (contentDiv) {
+                        contentDiv.textContent = content;
+                        console.log('📝 Message updated:', messageId, 'Content length:', content.length);
+                    } else {
+                        console.error('❌ Content div not found in message bubble');
+                    }
+                } else {
+                    console.error('❌ Message bubble not found');
+                }
+            } else {
+                console.error('❌ Message element not found:', messageId);
+            }
+        }
+        
+        // Function to show user input after AI response completes (Analysis Page Style)
+        function showUserInputAfterResponse() {
+            // Show separate chat input (like analysis page)
+            const chatInputAfterResponse = document.getElementById('chat-input-after-response');
+            if (chatInputAfterResponse) {
+                chatInputAfterResponse.classList.remove('hidden');
+                chatInputAfterResponse.style.display = 'block';
+                console.log('✅ Chat input shown at bottom after response completion');
+            }
+            
+            // Hide bottom navigation when chat input appears (like analysis page)
+            const bottomNav = document.querySelector('.icons-container');
+            if (bottomNav) {
+                bottomNav.style.display = 'none';
+            }
+        }
+        
+        // Function to send message from chat input after response
+        async function sendChatMessage() {
+            const chatInputField = document.getElementById('chat-input-field');
+            const message = chatInputField.value.trim();
+            
+            if (message) {
+                // Hide chat input and bottom navigation during AI response
+                const chatInputAfterResponse = document.getElementById('chat-input-after-response');
+                const bottomNav = document.querySelector('.icons-container');
+                
+                if (chatInputAfterResponse) {
+                    chatInputAfterResponse.classList.add('hidden');
+                    chatInputAfterResponse.style.display = 'none';
+                }
+                
+                if (bottomNav) {
+                    bottomNav.style.display = 'none';
+                }
+                
+                // Send message to AI directly
+                await sendMessageToAI(message);
+            }
+        }
+        
+        // Function to show expanded input when clicking on chat input
+        function showExpandedInputFromChat() {
+            console.log('🎯 Chat input clicked, showing expanded input');
+            
+            // Hide chat input
+            const chatInputAfterResponse = document.getElementById('chat-input-after-response');
+            if (chatInputAfterResponse) {
+                chatInputAfterResponse.classList.add('hidden');
+                chatInputAfterResponse.style.display = 'none';
+            }
+            
+            // Show expanded input
+            const expandedInput = document.getElementById('analysis-expanded-input-container');
+            if (expandedInput) {
+                expandedInput.classList.remove('hidden');
+                expandedInput.style.display = 'block';
+                
+                // Focus on the expanded textarea
+                const expandedTextarea = document.getElementById('analysis-expanded-user-input');
+                if (expandedTextarea) {
+                    expandedTextarea.focus();
+                }
+            }
+        }
+        
+        // Chat Input Functions (Analysis Page Style) - Removed unused functions since chat input is readonly
         
         // Function to hide second page
         function hideSecondPage() {
-            // Show main header again
-            const mainHeader = document.getElementById('main-header');
-            if (mainHeader) {
-                mainHeader.style.display = 'block';
-            }
-            
             // Hide second gainsboro page
             const secondPage = document.getElementById('second-gainsboro-page');
             if (secondPage) {
@@ -1326,7 +1524,7 @@
             }
             
             // Hide expanded input
-            const expandedInput = document.getElementById('expanded-input-container');
+            const expandedInput = document.getElementById('analysis-expanded-input-container');
             if (expandedInput) {
                 expandedInput.classList.add('hidden');
                 expandedInput.style.display = 'none';
@@ -1336,6 +1534,14 @@
             const userInputContainer = document.getElementById('main-user-input');
             if (userInputContainer) {
                 userInputContainer.style.display = 'block';
+                // Ensure proper fixed positioning
+                userInputContainer.style.position = 'fixed';
+                userInputContainer.style.bottom = '4.375rem'; // Match the inline style
+                userInputContainer.style.left = '50%';
+                userInputContainer.style.transform = 'translateX(-50%)';
+                userInputContainer.style.zIndex = '50';
+                userInputContainer.style.width = '95%';
+                userInputContainer.style.maxWidth = '37.5rem';
             }
             
             // Show bottom icons again
@@ -1364,9 +1570,13 @@
             const messageBubble = document.createElement('div');
             messageBubble.className = `px-3 sm:px-4 py-4 sm:py-5 rounded-2xl ${
                 isUser 
-                    ? 'max-w-[99%] sm:max-w-[98%] lg:max-w-[97%] bg-[#e8e8e4] text-black text-left' 
+                    ? 'bg-[#e8e8e4] text-black text-left' 
                     : 'w-full text-black text-right'
             } leading-relaxed text-base`;
+            messageBubble.style.maxWidth = 'calc(32rem + 0.15rem)';
+            if (isUser) {
+                messageBubble.style.marginRight = 'auto';
+            }
             
             // Use proper formatting for user messages too
             if (isUser) {
@@ -1759,7 +1969,7 @@
             console.log('📨 Display content preview:', displayContent.substring(0, 100) + '...');
             
             const messageContent = `
-                <div class="max-w-full ${isUser ? 'bg-gray-200 text-gray-900' : 'text-gray-900'} rounded-3xl px-3 py-4 ${isUser ? 'shadow-sm' : ''} ${!isUser ? 'ml-auto' : ''}">
+                <div class="${isUser ? 'bg-gray-200 text-gray-900' : 'text-gray-900 ml-auto'} rounded-3xl px-3 py-4 ${isUser ? 'shadow-sm' : ''}" style="max-width: calc(32rem + 0.15rem); ${isUser ? 'margin-right: auto;' : ''}">
                     <div class="${isUser ? 'text-base' : 'text-lg'} leading-relaxed" ${!isUser ? 'dir="rtl"' : ''}>${displayContent}</div>
                 </div>
             `;
@@ -1767,6 +1977,12 @@
             messageDiv.innerHTML = messageContent;
             messagesContainer.appendChild(messageDiv);
             console.log('📨 Message appended to container');
+            
+            // Show chat messages container if it's hidden
+            if (messagesContainer.classList.contains('hidden')) {
+                messagesContainer.classList.remove('hidden');
+                console.log('📨 Chat messages container shown');
+            }
             
             // Enable scrolling after first message without hiding navigation
             enableScrollingWithoutHidingNav();
@@ -1995,14 +2211,14 @@
             });
             
             // Re-render MathJax
-            waitForMathJax(() => {
+            setTimeout(() => {
                 if (window.MathJax && window.MathJax.typesetPromise) {
                     console.log('🔢 Processing MathJax for study message');
                     MathJax.typesetPromise([studyMessage]).then(() => {
                         console.log('✅ MathJax processing completed');
                     });
                 }
-            });
+            }, 100);
         }
         
         
@@ -2021,7 +2237,7 @@
             try {
             
             // Get message from expanded input
-            const expandedInput = document.getElementById('expanded-user-input');
+            const expandedInput = document.getElementById('analysis-expanded-user-input');
             let message = '';
             
             if (expandedInput && expandedInput.value.trim() !== '') {
@@ -2037,8 +2253,8 @@
                 await createNewThread(title);
             }
             
-            // Add user message to second gainsboro page
-            addExpandedMessage(message, true);
+            // Add user message to main chat
+            addMessage(message, true);
             
             // Clear the expanded input
             if (expandedInput) {
@@ -2046,7 +2262,7 @@
             }
             
             // Hide expanded input but don't show oval input yet - wait for response completion
-            const expandedInputContainer = document.getElementById('expanded-input-container');
+            const expandedInputContainer = document.getElementById('analysis-expanded-input-container');
             if (expandedInputContainer) {
                 expandedInputContainer.classList.add('hidden');
                 expandedInputContainer.style.display = 'none';
@@ -2073,7 +2289,7 @@
                 clearTimeout(streamingTimeout);
                 
                 // Show oval input when response is complete for better UX
-                collapseExpandedInputOnly();
+                // Expanded input already hidden after sending - no need to show main input again
                 
             } catch (error) {
                 console.error('Failed to get AI response:', error);
@@ -2083,18 +2299,21 @@
                 clearTimeout(streamingTimeout);
                 
                 // Show oval input on error for retry
-                collapseExpandedInputOnly();
+                // Expanded input already hidden after sending - no need to show main input again
             } finally {
                 // Always reset streaming flag
                 isStreaming = false;
                 console.log('✅ Streaming completed, flag reset');
+                
+                // Show user input after response completes (Analysis Page Style)
+                showUserInputAfterResponse();
             }
             } catch (error) {
                 console.error('❌ Error in sendMessage:', error);
                 // Always reset streaming flag on error
                 isStreaming = false;
                 // Show oval input on error for retry
-                collapseExpandedInputOnly();
+                // Expanded input already hidden after sending - no need to show main input again
             }
         }
 

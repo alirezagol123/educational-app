@@ -1311,7 +1311,17 @@ app.post('/api/threads', async (req, res) => {
         console.log('🔍 Creating thread with type:', type);
         console.log('🔍 Thread data:', { user_id, title, type, thread_id, subject, grade, field, chapter, book });
         
+        console.log('🔍 Calling db.createThread...');
         const threadId = await db.createThread({ user_id, title, summary, type, thread_id, created_at, updated_at, subject, grade, field, chapter, book, messages });
+        console.log('🔍 Thread ID returned from db.createThread:', threadId);
+        
+        if (!threadId) {
+            console.log('❌ db.createThread returned null/undefined');
+            return res.status(500).json({ 
+                success: false, 
+                error: 'Failed to create thread - no ID returned' 
+            });
+        }
         
         res.json({ 
             success: true, 

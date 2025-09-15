@@ -5934,6 +5934,1154 @@
           "created_at": "2025-09-15T06:01:47.994Z"
         }
       ]
+    },
+    "thread_1757920935760_9mc6k07cw": {
+      "id": "thread_1757920935760_9mc6k07cw",
+      "user_id": "1",
+      "title": "hi                         >",
+      "type": "chat",
+      "created_at": "2025-09-15T07:22:15.760Z",
+      "updated_at": "2025-09-15T07:22:19.745Z",
+      "subject": null,
+      "grade": null,
+      "field": null,
+      "chapter": null,
+      "book": null,
+      "messages": [
+        {
+          "id": "msg_1757920939726_ghrinsght",
+          "message_id": "msg_1757920939726_ghrinsght",
+          "thread_id": "thread_1757920935760_9mc6k07cw",
+          "sender_role": "user",
+          "content": "hi                         >",
+          "metadata": {},
+          "token_count": 7,
+          "created_at": "2025-09-15T07:22:19.726Z"
+        },
+        {
+          "id": "msg_1757920939745_ajp8wyn2d",
+          "message_id": "msg_1757920939745_ajp8wyn2d",
+          "thread_id": "thread_1757920935760_9mc6k07cw",
+          "sender_role": "assistant",
+          "content": "سلام! خیلی خوش اومدی 😊  \nخوشحالم که اینجایی. دوست داری امروز روی چه درسی یا مبحثی کار کنیم؟  \nمثلاً ریاضی، فیزیک، زیست یا زبان انگلیسی؟  \nیه کم درباره سطح خودت و هدفت بهم بگو تا بهتر راهنماییت کنم!",
+          "metadata": {},
+          "token_count": 50,
+          "created_at": "2025-09-15T07:22:19.745Z"
+        }
+      ]
+    },
+    "thread_1757921279316_wjpxpuxza": {
+      "id": "thread_1757921279316_wjpxpuxza",
+      "user_id": "1",
+      "title": "hi",
+      "type": "chat",
+      "created_at": "2025-09-15T07:27:59.316Z",
+      "updated_at": "2025-09-15T07:28:03.622Z",
+      "subject": null,
+      "grade": null,
+      "field": null,
+      "chapter": null,
+      "book": null,
+      "messages": [
+        {
+          "id": "msg_1757921283583_chyvq8yoo",
+          "message_id": "msg_1757921283583_chyvq8yoo",
+          "thread_id": "thread_1757921279316_wjpxpuxza",
+          "sender_role": "user",
+          "content": "hi",
+          "metadata": {},
+          "token_count": 1,
+          "created_at": "2025-09-15T07:28:03.583Z"
+        },
+        {
+          "id": "msg_1757921283622_emadnqwcr",
+          "message_id": "msg_1757921283622_emadnqwcr",
+          "thread_id": "thread_1757921279316_wjpxpuxza",
+          "sender_role": "assistant",
+          "content": "سلام! خیلی خوش اومدی 😊  \nمی‌خوای با هم درباره چه موضوعی درس بخونیم؟ مثلاً ریاضی، فیزیک، زبان انگلیسی یا هر درس دیگه‌ای که دوست داری.  \nسطح و هدف یادگیریت رو هم بهم بگو تا بهتر راهنماییت کنم. آماده‌ای؟",
+          "metadata": {},
+          "token_count": 51,
+          "created_at": "2025-09-15T07:28:03.622Z"
+        }
+      ]
+    },
+    "thread_1757921501822_mtgzpdpcv": {
+      "id": "thread_1757921501822_mtgzpdpcv",
+      "user_id": "1",
+      "title": "hi                         >",
+      "type": "chat",
+      "created_at": "2025-09-15T07:31:41.822Z",
+      "updated_at": "2025-09-15T07:31:45.047Z",
+      "subject": null,
+      "grade": null,
+      "field": null,
+      "chapter": null,
+      "book": null,
+      "messages": [
+        {
+          "id": "msg_1757921505028_0rr4j07ba",
+          "message_id": "msg_1757921505028_0rr4j07ba",
+          "thread_id": "thread_1757921501822_mtgzpdpcv",
+          "sender_role": "user",
+          "content": "hi                         >",
+          "metadata": {},
+          "token_count": 7,
+          "created_at": "2025-09-15T07:31:45.028Z"
+        },
+        {
+          "id": "msg_1757921505047_wpwvunual",
+          "message_id": "msg_1757921505047_wpwvunual",
+          "thread_id": "thread_1757921501822_mtgzpdpcv",
+          "sender_role": "assistant",
+          "content": "سلام! 😊  \nخیلی خوش اومدی.  \nمی‌خوای امروز روی چه درسی یا موضوعی کار کنیم؟ مثلاً ریاضی، فیزیک، زیست‌شناسی یا زبان انگلیسی؟  \nسطح فعلیت چیه و دوست داری به کجا برسی؟  \nمنتظرم بدونم تا با هم برنامه‌ریزی کنیم!",
+          "metadata": {},
+          "token_count": 52,
+          "created_at": "2025-09-15T07:31:45.047Z"
+        }
+      ]
+    },
+    "thread_1757921869841_lrczk3vj6": {
+      "id": "thread_1757921869841_lrczk3vj6",
+      "user_id": "1",
+      "title": "hi                 >",
+      "type": "chat",
+      "created_at": "2025-09-15T07:37:49.841Z",
+      "updated_at": "2025-09-15T07:37:53.827Z",
+      "subject": null,
+      "grade": null,
+      "field": null,
+      "chapter": null,
+      "book": null,
+      "messages": [
+        {
+          "id": "msg_1757921873810_4qa3gwlas",
+          "message_id": "msg_1757921873810_4qa3gwlas",
+          "thread_id": "thread_1757921869841_lrczk3vj6",
+          "sender_role": "user",
+          "content": "hi                 >",
+          "metadata": {},
+          "token_count": 5,
+          "created_at": "2025-09-15T07:37:53.810Z"
+        },
+        {
+          "id": "msg_1757921873826_t1xg5mc31",
+          "message_id": "msg_1757921873826_t1xg5mc31",
+          "thread_id": "thread_1757921869841_lrczk3vj6",
+          "sender_role": "assistant",
+          "content": "سلام! 😊  \nخیلی خوش اومدی.  \nمی‌تونی بهم بگی الان چه درسی یا موضوعی رو دوست داری با هم کار کنیم؟  \nسطح فعلی‌ات رو هم اگر بگی (مثلاً کلاس چندمی، یا توی اون درس قوی هستی یا نه)، بهتر می‌تونم کمکت کنم.  \nدوست داری با چه سرعتی پیش بریم؟",
+          "metadata": {},
+          "token_count": 58,
+          "created_at": "2025-09-15T07:37:53.827Z"
+        }
+      ]
+    },
+    "thread_1757921970358_7xxde8usq": {
+      "id": "thread_1757921970358_7xxde8usq",
+      "user_id": "1",
+      "title": "hi                         >",
+      "type": "chat",
+      "created_at": "2025-09-15T07:39:30.358Z",
+      "updated_at": "2025-09-15T07:39:33.158Z",
+      "subject": null,
+      "grade": null,
+      "field": null,
+      "chapter": null,
+      "book": null,
+      "messages": [
+        {
+          "id": "msg_1757921973133_w9gpyo6gc",
+          "message_id": "msg_1757921973133_w9gpyo6gc",
+          "thread_id": "thread_1757921970358_7xxde8usq",
+          "sender_role": "user",
+          "content": "hi                         >",
+          "metadata": {},
+          "token_count": 7,
+          "created_at": "2025-09-15T07:39:33.134Z"
+        },
+        {
+          "id": "msg_1757921973158_zq9de28dg",
+          "message_id": "msg_1757921973158_zq9de28dg",
+          "thread_id": "thread_1757921970358_7xxde8usq",
+          "sender_role": "assistant",
+          "content": "سلام! خیلی خوش اومدی 😊  \nمی‌خوای امروز روی چه درسی یا موضوعی کار کنیم؟  \nمثلاً ریاضی، فیزیک، شیمی یا زبان انگلیسی؟  \nسطح فعلیت چیه و دوست داری به کجا برسی؟",
+          "metadata": {},
+          "token_count": 39,
+          "created_at": "2025-09-15T07:39:33.158Z"
+        }
+      ]
+    },
+    "thread_1757922100286_hf3kbthoe": {
+      "id": "thread_1757922100286_hf3kbthoe",
+      "user_id": "1",
+      "title": "hi                         >",
+      "type": "chat",
+      "created_at": "2025-09-15T07:41:40.286Z",
+      "updated_at": "2025-09-15T07:41:44.594Z",
+      "subject": null,
+      "grade": null,
+      "field": null,
+      "chapter": null,
+      "book": null,
+      "messages": [
+        {
+          "id": "msg_1757922104574_fewsx65x3",
+          "message_id": "msg_1757922104574_fewsx65x3",
+          "thread_id": "thread_1757922100286_hf3kbthoe",
+          "sender_role": "user",
+          "content": "hi                         >",
+          "metadata": {},
+          "token_count": 7,
+          "created_at": "2025-09-15T07:41:44.574Z"
+        },
+        {
+          "id": "msg_1757922104594_0rqy6bzto",
+          "message_id": "msg_1757922104594_0rqy6bzto",
+          "thread_id": "thread_1757922100286_hf3kbthoe",
+          "sender_role": "assistant",
+          "content": "سلام! 👋  \nخیلی خوش اومدی.  \nمی‌خوای امروز روی چه درسی یا موضوعی کار کنیم؟ مثلاً ریاضی، فیزیک، زیست‌شناسی، زبان انگلیسی یا چیز دیگه‌ای؟  \nسطح فعلیت رو هم بهم بگو تا بهتر راهنماییت کنم.",
+          "metadata": {},
+          "token_count": 46,
+          "created_at": "2025-09-15T07:41:44.594Z"
+        }
+      ]
+    },
+    "thread_1757922342464_l0yytddpw": {
+      "id": "thread_1757922342464_l0yytddpw",
+      "user_id": "1",
+      "title": "hi                         >",
+      "type": "chat",
+      "created_at": "2025-09-15T07:45:42.465Z",
+      "updated_at": "2025-09-15T07:45:46.028Z",
+      "subject": null,
+      "grade": null,
+      "field": null,
+      "chapter": null,
+      "book": null,
+      "messages": [
+        {
+          "id": "msg_1757922346009_oibkix8jy",
+          "message_id": "msg_1757922346009_oibkix8jy",
+          "thread_id": "thread_1757922342464_l0yytddpw",
+          "sender_role": "user",
+          "content": "hi                         >",
+          "metadata": {},
+          "token_count": 7,
+          "created_at": "2025-09-15T07:45:46.009Z"
+        },
+        {
+          "id": "msg_1757922346028_and1nqs7v",
+          "message_id": "msg_1757922346028_and1nqs7v",
+          "thread_id": "thread_1757922342464_l0yytddpw",
+          "sender_role": "assistant",
+          "content": "سلام! 😊  \nخیلی خوش اومدی!  \nدوست دارم بدونم الان توی چه مقطعی هستی و دوست داری روی چه درسی یا مبحثی کار کنیم؟  \nمثلاً ریاضی، فیزیک، شیمی یا زبان انگلیسی؟  \nهدفت چیه و دوست داری با چه سرعتی پیش بریم؟",
+          "metadata": {},
+          "token_count": 50,
+          "created_at": "2025-09-15T07:45:46.028Z"
+        }
+      ]
+    },
+    "thread_1757922744880_96fg13y0k": {
+      "id": "thread_1757922744880_96fg13y0k",
+      "user_id": "1",
+      "title": "hi",
+      "type": "chat",
+      "created_at": "2025-09-15T07:52:24.880Z",
+      "updated_at": "2025-09-15T07:52:28.389Z",
+      "subject": null,
+      "grade": null,
+      "field": null,
+      "chapter": null,
+      "book": null,
+      "messages": [
+        {
+          "id": "msg_1757922748365_la44obrh3",
+          "message_id": "msg_1757922748365_la44obrh3",
+          "thread_id": "thread_1757922744880_96fg13y0k",
+          "sender_role": "user",
+          "content": "hi",
+          "metadata": {},
+          "token_count": 1,
+          "created_at": "2025-09-15T07:52:28.365Z"
+        },
+        {
+          "id": "msg_1757922748389_3rka47fik",
+          "message_id": "msg_1757922748389_3rka47fik",
+          "thread_id": "thread_1757922744880_96fg13y0k",
+          "sender_role": "assistant",
+          "content": "سلام! خیلی خوش اومدی 😊  \nمن اینجا هستم تا بهت کمک کنم هر موضوعی که دوست داری بهتر یاد بگیری.\n\nمی‌خوای بهم بگی الان روی چه درسی یا مبحثی کار می‌کنی؟ یا اینکه دوست داری از کجا شروع کنیم؟  \nسطح فعلیت و هدفت رو هم اگر بگی، بهتر می‌تونم کمکت کنم!",
+          "metadata": {},
+          "token_count": 61,
+          "created_at": "2025-09-15T07:52:28.389Z"
+        }
+      ]
+    },
+    "thread_1757923074554_xg921nc9q": {
+      "id": "thread_1757923074554_xg921nc9q",
+      "user_id": "1",
+      "title": "hi",
+      "type": "chat",
+      "created_at": "2025-09-15T07:57:54.554Z",
+      "updated_at": "2025-09-15T07:57:58.567Z",
+      "subject": null,
+      "grade": null,
+      "field": null,
+      "chapter": null,
+      "book": null,
+      "messages": [
+        {
+          "id": "msg_1757923078551_hpab9xggm",
+          "message_id": "msg_1757923078551_hpab9xggm",
+          "thread_id": "thread_1757923074554_xg921nc9q",
+          "sender_role": "user",
+          "content": "hi",
+          "metadata": {},
+          "token_count": 1,
+          "created_at": "2025-09-15T07:57:58.551Z"
+        },
+        {
+          "id": "msg_1757923078567_lo0n6k2xn",
+          "message_id": "msg_1757923078567_lo0n6k2xn",
+          "thread_id": "thread_1757923074554_xg921nc9q",
+          "sender_role": "assistant",
+          "content": "سلام! خیلی خوش اومدی 😊  \nخوشحالم اینجا هستم تا کمکت کنم.  \nمی‌خوای درباره چه موضوعی با هم کار کنیم؟  \nمثلاً ریاضی، فیزیک، زیست، زبان انگلیسی یا هر درس دیگه‌ای؟  \nسطح فعلی‌ت و هدفت رو هم بهم بگو تا بهتر راهنماییت کنم.",
+          "metadata": {},
+          "token_count": 55,
+          "created_at": "2025-09-15T07:57:58.567Z"
+        }
+      ]
+    },
+    "thread_1757923262444_uzividk59": {
+      "id": "thread_1757923262444_uzividk59",
+      "user_id": "1",
+      "title": "ok",
+      "type": "chat",
+      "created_at": "2025-09-15T08:01:02.444Z",
+      "updated_at": "2025-09-15T08:01:07.211Z",
+      "subject": null,
+      "grade": null,
+      "field": null,
+      "chapter": null,
+      "book": null,
+      "messages": [
+        {
+          "id": "msg_1757923267190_us3gav9zy",
+          "message_id": "msg_1757923267190_us3gav9zy",
+          "thread_id": "thread_1757923262444_uzividk59",
+          "sender_role": "user",
+          "content": "ok",
+          "metadata": {},
+          "token_count": 1,
+          "created_at": "2025-09-15T08:01:07.190Z"
+        },
+        {
+          "id": "msg_1757923267211_pfsk6hx1a",
+          "message_id": "msg_1757923267211_pfsk6hx1a",
+          "thread_id": "thread_1757923262444_uzividk59",
+          "sender_role": "assistant",
+          "content": "خیلی عالی! 😊  \nخوشحالم که آماده‌ای شروع کنیم.\n\nقبل از اینکه وارد درس بشویم، می‌تونی بهم بگی که الان در چه پایه‌ای هستی و دوست داری روی کدوم درس یا موضوع کار کنیم؟  \nمثلاً ریاضی، فیزیک، شیمی، زیست‌شناسی یا زبان انگلیسی؟\n\nهمچنین دوست داری با چه سرعتی پیش بریم؟ (آروم و قدم به قدم یا سریع‌تر)  \nمنتظرم بدونم تا برات یه نقشه راه مناسب بچینم!",
+          "metadata": {},
+          "token_count": 85,
+          "created_at": "2025-09-15T08:01:07.211Z"
+        }
+      ]
+    },
+    "thread_1757923365516_1pp8eay2w": {
+      "id": "thread_1757923365516_1pp8eay2w",
+      "user_id": "1",
+      "title": "hi",
+      "type": "chat",
+      "created_at": "2025-09-15T08:02:45.516Z",
+      "updated_at": "2025-09-15T08:02:49.834Z",
+      "subject": null,
+      "grade": null,
+      "field": null,
+      "chapter": null,
+      "book": null,
+      "messages": [
+        {
+          "id": "msg_1757923369812_jhxbv8wyp",
+          "message_id": "msg_1757923369812_jhxbv8wyp",
+          "thread_id": "thread_1757923365516_1pp8eay2w",
+          "sender_role": "user",
+          "content": "hi",
+          "metadata": {},
+          "token_count": 1,
+          "created_at": "2025-09-15T08:02:49.812Z"
+        },
+        {
+          "id": "msg_1757923369834_mzkhie1pn",
+          "message_id": "msg_1757923369834_mzkhie1pn",
+          "thread_id": "thread_1757923365516_1pp8eay2w",
+          "sender_role": "assistant",
+          "content": "سلام! خیلی خوش اومدی 😊  \nمی‌خوای درباره چه موضوعی با هم کار کنیم؟ ریاضی، فیزیک، زیست، زبان یا چیز دیگه‌ای؟  \nسطح فعلی‌ت رو هم بگو (مثلاً سال چندم هستی یا چه بخش‌هایی رو بلدی)، تا بهتر بتونم کمکت کنم.  \nدوست داری با چه سرعتی پیش بریم؟",
+          "metadata": {},
+          "token_count": 59,
+          "created_at": "2025-09-15T08:02:49.834Z"
+        }
+      ]
+    },
+    "thread_1757923564618_uu8i7jfom": {
+      "id": "thread_1757923564618_uu8i7jfom",
+      "user_id": "1",
+      "title": "hi",
+      "type": "chat",
+      "created_at": "2025-09-15T08:06:04.618Z",
+      "updated_at": "2025-09-15T08:06:11.597Z",
+      "subject": null,
+      "grade": null,
+      "field": null,
+      "chapter": null,
+      "book": null,
+      "messages": [
+        {
+          "id": "msg_1757923571571_8km7ih7en",
+          "message_id": "msg_1757923571571_8km7ih7en",
+          "thread_id": "thread_1757923564618_uu8i7jfom",
+          "sender_role": "user",
+          "content": "hi",
+          "metadata": {},
+          "token_count": 1,
+          "created_at": "2025-09-15T08:06:11.571Z"
+        },
+        {
+          "id": "msg_1757923571596_apd8fq7wa",
+          "message_id": "msg_1757923571596_apd8fq7wa",
+          "thread_id": "thread_1757923564618_uu8i7jfom",
+          "sender_role": "assistant",
+          "content": "سلام! خیلی خوش اومدی 😊  \nچه خوب که اینجایی. دوست داری امروز روی چه موضوعی کار کنیم؟  \nمثلاً ریاضی، فیزیک، زیست، یا شاید زبان انگلیسی؟  \nیکم از خودت و هدفت بگو تا بهتر بتونم کمکت کنم.  \n\nسطح فعلی‌ات رو هم بگو (مثلاً سال چندمی یا چقدر با اون درس راحتی) تا با هم یک برنامه خوب بچینیم.  \nمنتظرتم!",
+          "metadata": {},
+          "token_count": 74,
+          "created_at": "2025-09-15T08:06:11.596Z"
+        }
+      ]
+    },
+    "thread_1757923786888_7k18lmx23": {
+      "id": "thread_1757923786888_7k18lmx23",
+      "user_id": "1",
+      "title": "hi",
+      "type": "chat",
+      "created_at": "2025-09-15T08:09:46.888Z",
+      "updated_at": "2025-09-15T08:09:51.405Z",
+      "subject": null,
+      "grade": null,
+      "field": null,
+      "chapter": null,
+      "book": null,
+      "messages": [
+        {
+          "id": "msg_1757923791382_gxxqcvaqg",
+          "message_id": "msg_1757923791382_gxxqcvaqg",
+          "thread_id": "thread_1757923786888_7k18lmx23",
+          "sender_role": "user",
+          "content": "hi",
+          "metadata": {},
+          "token_count": 1,
+          "created_at": "2025-09-15T08:09:51.382Z"
+        },
+        {
+          "id": "msg_1757923791405_8978py1ro",
+          "message_id": "msg_1757923791405_8978py1ro",
+          "thread_id": "thread_1757923786888_7k18lmx23",
+          "sender_role": "assistant",
+          "content": "سلام! خیلی خوش اومدی 😊  \nخوشحالم که اینجایی. می‌خوای امروز چه چیزی یاد بگیری یا تو کدوم درس کمک می‌خوای؟  \nمثلاً ریاضی، فیزیک، شیمی، زبان انگلیسی یا چیز دیگه‌ای؟  \nیه مقدار هم درباره سطح خودت بهم بگو (مثلاً کلاس چندمی هستی یا توی اون درس چه حسی داری).",
+          "metadata": {},
+          "token_count": 63,
+          "created_at": "2025-09-15T08:09:51.405Z"
+        }
+      ]
+    },
+    "thread_1757924026958_1v57y5uif": {
+      "id": "thread_1757924026958_1v57y5uif",
+      "user_id": "1",
+      "title": "hi",
+      "type": "chat",
+      "created_at": "2025-09-15T08:13:46.958Z",
+      "updated_at": "2025-09-15T08:13:55.313Z",
+      "subject": null,
+      "grade": null,
+      "field": null,
+      "chapter": null,
+      "book": null,
+      "messages": [
+        {
+          "id": "msg_1757924035292_ab0rf6f9z",
+          "message_id": "msg_1757924035292_ab0rf6f9z",
+          "thread_id": "thread_1757924026958_1v57y5uif",
+          "sender_role": "user",
+          "content": "hi",
+          "metadata": {},
+          "token_count": 1,
+          "created_at": "2025-09-15T08:13:55.292Z"
+        },
+        {
+          "id": "msg_1757924035313_xt785oj6c",
+          "message_id": "msg_1757924035313_xt785oj6c",
+          "thread_id": "thread_1757924026958_1v57y5uif",
+          "sender_role": "assistant",
+          "content": "سلام! خیلی خوش اومدی 😊  \nخوشحالم که اینجایی. می‌خوای درباره‌ی چه موضوعی یاد بگیری؟  \nمثلاً ریاضی، فیزیک، زیست یا هر درس دیگه‌ای که دوست داری.  \nمیتونی بهم بگی الان در چه سطحی هستی و هدفت چیه؟  \nمنتظرم تا بیشتر بدونم و با هم شروع کنیم!",
+          "metadata": {},
+          "token_count": 59,
+          "created_at": "2025-09-15T08:13:55.313Z"
+        }
+      ]
+    },
+    "thread_1757924068759_vj8p5zgnl": {
+      "id": "thread_1757924068759_vj8p5zgnl",
+      "user_id": "1",
+      "title": "hi",
+      "type": "chat",
+      "created_at": "2025-09-15T08:14:28.759Z",
+      "updated_at": "2025-09-15T08:14:31.723Z",
+      "subject": null,
+      "grade": null,
+      "field": null,
+      "chapter": null,
+      "book": null,
+      "messages": [
+        {
+          "id": "msg_1757924071702_jd35hvugx",
+          "message_id": "msg_1757924071702_jd35hvugx",
+          "thread_id": "thread_1757924068759_vj8p5zgnl",
+          "sender_role": "user",
+          "content": "hi",
+          "metadata": {},
+          "token_count": 1,
+          "created_at": "2025-09-15T08:14:31.702Z"
+        },
+        {
+          "id": "msg_1757924071723_lo5br64ky",
+          "message_id": "msg_1757924071723_lo5br64ky",
+          "thread_id": "thread_1757924068759_vj8p5zgnl",
+          "sender_role": "assistant",
+          "content": "سلام! خیلی خوش اومدی 😊  \nدوست دارم بدونم الان چه درسی یا موضوعی رو می‌خوای یاد بگیری؟  \nسطح فعلی‌ات چیه و دوست داری با چه سرعتی پیش بریم؟",
+          "metadata": {},
+          "token_count": 35,
+          "created_at": "2025-09-15T08:14:31.723Z"
+        }
+      ]
+    },
+    "thread_1757924164590_mmuf7rb2o": {
+      "id": "thread_1757924164590_mmuf7rb2o",
+      "user_id": "1",
+      "title": "hi",
+      "type": "chat",
+      "created_at": "2025-09-15T08:16:04.590Z",
+      "updated_at": "2025-09-15T08:16:10.627Z",
+      "subject": null,
+      "grade": null,
+      "field": null,
+      "chapter": null,
+      "book": null,
+      "messages": [
+        {
+          "id": "msg_1757924170596_04ggcp6jj",
+          "message_id": "msg_1757924170596_04ggcp6jj",
+          "thread_id": "thread_1757924164590_mmuf7rb2o",
+          "sender_role": "user",
+          "content": "hi",
+          "metadata": {},
+          "token_count": 1,
+          "created_at": "2025-09-15T08:16:10.596Z"
+        },
+        {
+          "id": "msg_1757924170627_m2wjdq2i9",
+          "message_id": "msg_1757924170627_m2wjdq2i9",
+          "thread_id": "thread_1757924164590_mmuf7rb2o",
+          "sender_role": "assistant",
+          "content": "سلام! خیلی خوش اومدی 😊  \nمن اینجا هستم که بهت کمک کنم هر چیزی رو که دوست داری یاد بگیری.  \nمی‌تونی بهم بگی الان در چه مقطعی هستی (مثلاً پایه دهم، یازدهم یا دوازدهم) و دوست داری روی چه موضوعی کار کنیم؟  \nمثلاً ریاضی، فیزیک، زیست، زبان انگلیسی یا هر درس دیگه‌ای.\n\nدوست داری از کجا شروع کنیم؟",
+          "metadata": {},
+          "token_count": 73,
+          "created_at": "2025-09-15T08:16:10.627Z"
+        }
+      ]
+    },
+    "thread_1757924460691_c6qlnrg77": {
+      "id": "thread_1757924460691_c6qlnrg77",
+      "user_id": "1",
+      "title": "hi",
+      "type": "chat",
+      "created_at": "2025-09-15T08:21:00.691Z",
+      "updated_at": "2025-09-15T08:21:03.872Z",
+      "subject": null,
+      "grade": null,
+      "field": null,
+      "chapter": null,
+      "book": null,
+      "messages": [
+        {
+          "id": "msg_1757924463853_f2b05k1pc",
+          "message_id": "msg_1757924463853_f2b05k1pc",
+          "thread_id": "thread_1757924460691_c6qlnrg77",
+          "sender_role": "user",
+          "content": "hi",
+          "metadata": {},
+          "token_count": 1,
+          "created_at": "2025-09-15T08:21:03.853Z"
+        },
+        {
+          "id": "msg_1757924463872_lrjjgh09w",
+          "message_id": "msg_1757924463872_lrjjgh09w",
+          "thread_id": "thread_1757924460691_c6qlnrg77",
+          "sender_role": "assistant",
+          "content": "سلام! خیلی خوش اومدی 😊  \nمی‌خوای امروز درباره چه موضوعی با هم کار کنیم؟ مثلاً ریاضی، فیزیک، زیست یا زبان انگلیسی؟  \nهمچنین بهم بگو که الان در چه سطحی هستی و دوست داری با چه سرعتی پیش بریم؟",
+          "metadata": {},
+          "token_count": 48,
+          "created_at": "2025-09-15T08:21:03.872Z"
+        }
+      ]
+    },
+    "thread_1757924852395_punr6e0b0": {
+      "id": "thread_1757924852395_punr6e0b0",
+      "user_id": "1",
+      "title": "hi",
+      "type": "chat",
+      "created_at": "2025-09-15T08:27:32.395Z",
+      "updated_at": "2025-09-15T08:27:36.092Z",
+      "subject": null,
+      "grade": null,
+      "field": null,
+      "chapter": null,
+      "book": null,
+      "messages": [
+        {
+          "id": "msg_1757924856065_j2ayno2k6",
+          "message_id": "msg_1757924856065_j2ayno2k6",
+          "thread_id": "thread_1757924852395_punr6e0b0",
+          "sender_role": "user",
+          "content": "hi",
+          "metadata": {},
+          "token_count": 1,
+          "created_at": "2025-09-15T08:27:36.065Z"
+        },
+        {
+          "id": "msg_1757924856092_um5lu2ajv",
+          "message_id": "msg_1757924856092_um5lu2ajv",
+          "thread_id": "thread_1757924852395_punr6e0b0",
+          "sender_role": "assistant",
+          "content": "سلام! 😊  \nخیلی خوشحالم که اینجایی. دوست داری امروز روی چه موضوعی کار کنیم؟  \nمثلاً ریاضی، فیزیک، شیمی یا زبان انگلیسی؟  \nیا شاید سوال خاصی داری که دوست داری با هم بررسی کنیم؟\n\nاول بهم بگو در چه سطحی هستی و هدفت چیه تا بهتر بتونم راهنماییت کنم.",
+          "metadata": {},
+          "token_count": 61,
+          "created_at": "2025-09-15T08:27:36.092Z"
+        }
+      ]
+    },
+    "thread_1757925108561_1auqqukcb": {
+      "id": "thread_1757925108561_1auqqukcb",
+      "user_id": "1",
+      "title": "hi",
+      "type": "chat",
+      "created_at": "2025-09-15T08:31:48.561Z",
+      "updated_at": "2025-09-15T08:31:52.262Z",
+      "subject": null,
+      "grade": null,
+      "field": null,
+      "chapter": null,
+      "book": null,
+      "messages": [
+        {
+          "id": "msg_1757925112238_kaa1h04c4",
+          "message_id": "msg_1757925112238_kaa1h04c4",
+          "thread_id": "thread_1757925108561_1auqqukcb",
+          "sender_role": "user",
+          "content": "hi",
+          "metadata": {},
+          "token_count": 1,
+          "created_at": "2025-09-15T08:31:52.238Z"
+        },
+        {
+          "id": "msg_1757925112262_dtfhpctff",
+          "message_id": "msg_1757925112262_dtfhpctff",
+          "thread_id": "thread_1757925108561_1auqqukcb",
+          "sender_role": "assistant",
+          "content": "سلام! خیلی خوش اومدی 😊  \nخوشحالم که اینجایی.  \nمی‌خوای درباره چه موضوعی با هم کار کنیم؟ مثلاً ریاضی، فیزیک، زیست، زبان انگلیسی یا چیز دیگه‌ای؟  \nسطح فعلی‌ت رو هم اگر بگی (مثلاً پایه دهم یا یازدهم)، بهتر می‌تونم راهنماییت کنم.  \nهدف یا مشکلی هست که دوست داری با هم حلش کنیم؟",
+          "metadata": {},
+          "token_count": 69,
+          "created_at": "2025-09-15T08:31:52.262Z"
+        }
+      ]
+    },
+    "thread_1757925612154_emdsfw4q1": {
+      "id": "thread_1757925612154_emdsfw4q1",
+      "user_id": "1",
+      "title": "hi",
+      "type": "chat",
+      "created_at": "2025-09-15T08:40:12.155Z",
+      "updated_at": "2025-09-15T08:40:16.882Z",
+      "subject": null,
+      "grade": null,
+      "field": null,
+      "chapter": null,
+      "book": null,
+      "messages": [
+        {
+          "id": "msg_1757925616859_0q1wkb21f",
+          "message_id": "msg_1757925616859_0q1wkb21f",
+          "thread_id": "thread_1757925612154_emdsfw4q1",
+          "sender_role": "user",
+          "content": "hi",
+          "metadata": {},
+          "token_count": 1,
+          "created_at": "2025-09-15T08:40:16.859Z"
+        },
+        {
+          "id": "msg_1757925616882_af975ix2k",
+          "message_id": "msg_1757925616882_af975ix2k",
+          "thread_id": "thread_1757925612154_emdsfw4q1",
+          "sender_role": "assistant",
+          "content": "سلام! خیلی خوش اومدی 😊  \nخوشحالم که اینجایی. دوست داری امروز روی چه درسی یا موضوعی کار کنیم؟  \nمثلاً ریاضی، فیزیک، زیست، شیمی یا حتی زبان انگلیسی؟  \nسطح خودت رو هم بهم بگو (مثلاً پایه دهم، یازدهم یا دوازدهم) تا بهتر بتونم کمکت کنم.",
+          "metadata": {},
+          "token_count": 58,
+          "created_at": "2025-09-15T08:40:16.882Z"
+        }
+      ]
+    },
+    "thread_1757925949850_xu10n3qf2": {
+      "id": "thread_1757925949850_xu10n3qf2",
+      "user_id": "1",
+      "title": "hi",
+      "type": "chat",
+      "created_at": "2025-09-15T08:45:49.850Z",
+      "updated_at": "2025-09-15T08:45:55.019Z",
+      "subject": null,
+      "grade": null,
+      "field": null,
+      "chapter": null,
+      "book": null,
+      "messages": [
+        {
+          "id": "msg_1757925954989_d63k283l3",
+          "message_id": "msg_1757925954989_d63k283l3",
+          "thread_id": "thread_1757925949850_xu10n3qf2",
+          "sender_role": "user",
+          "content": "hi",
+          "metadata": {},
+          "token_count": 1,
+          "created_at": "2025-09-15T08:45:54.989Z"
+        },
+        {
+          "id": "msg_1757925955019_1v5nw2x63",
+          "message_id": "msg_1757925955019_1v5nw2x63",
+          "thread_id": "thread_1757925949850_xu10n3qf2",
+          "sender_role": "assistant",
+          "content": "سلام! خیلی خوش اومدی 😊  \nخوشحالم اینجایی. می‌خوای با هم چه درسی رو کار کنیم؟ مثلاً ریاضی، فیزیک، زبان انگلیسی یا چیز دیگه‌ای؟  \nسطح فعلی‌ات رو هم بهم بگو (مثلاً پایه دهم، یازدهم یا دوازدهم)، تا بهتر بتونم راهنماییت کنم.  \nمنتظرم بدونم دوست داری از کجا شروع کنیم!",
+          "metadata": {},
+          "token_count": 66,
+          "created_at": "2025-09-15T08:45:55.019Z"
+        }
+      ]
+    },
+    "thread_1757926011254_h07mtrklk": {
+      "id": "thread_1757926011254_h07mtrklk",
+      "user_id": "1",
+      "title": "hi",
+      "type": "chat",
+      "created_at": "2025-09-15T08:46:51.254Z",
+      "updated_at": "2025-09-15T08:46:55.124Z",
+      "subject": null,
+      "grade": null,
+      "field": null,
+      "chapter": null,
+      "book": null,
+      "messages": [
+        {
+          "id": "msg_1757926015097_7bcxwdswt",
+          "message_id": "msg_1757926015097_7bcxwdswt",
+          "thread_id": "thread_1757926011254_h07mtrklk",
+          "sender_role": "user",
+          "content": "hi",
+          "metadata": {},
+          "token_count": 1,
+          "created_at": "2025-09-15T08:46:55.097Z"
+        },
+        {
+          "id": "msg_1757926015124_mjpohm91e",
+          "message_id": "msg_1757926015124_mjpohm91e",
+          "thread_id": "thread_1757926011254_h07mtrklk",
+          "sender_role": "assistant",
+          "content": "سلام! خیلی خوش اومدی 😊  \nخوشحالم اینجایی. دوست دارم بدونم:\n\n- الان توی چه مقطع یا پایه‌ای هستی؟\n- می‌خوای روی کدوم درس یا موضوع کار کنیم؟\n- هدفت چیه؟ (مثلاً برای امتحان آماده می‌شی، یا می‌خوای مطلب رو عمیق‌تر یاد بگیری؟)\n\nهر طور راحتی جواب بده تا با هم یک برنامه خوب بچینیم!",
+          "metadata": {},
+          "token_count": 69,
+          "created_at": "2025-09-15T08:46:55.124Z"
+        }
+      ]
+    },
+    "thread_1757929371495_qdyq333j9": {
+      "id": "thread_1757929371495_qdyq333j9",
+      "user_id": "1",
+      "title": "New Chat",
+      "type": "chat",
+      "created_at": "2025-09-15T09:42:51.496Z",
+      "updated_at": "2025-09-15T09:42:51.496Z",
+      "subject": null,
+      "grade": null,
+      "field": null,
+      "chapter": null,
+      "book": null,
+      "messages": []
+    },
+    "thread_1757929440639_l7ye28s20": {
+      "id": "thread_1757929440639_l7ye28s20",
+      "user_id": "1",
+      "title": "New Chat",
+      "type": "chat",
+      "created_at": "2025-09-15T09:44:00.639Z",
+      "updated_at": "2025-09-15T09:44:00.639Z",
+      "subject": null,
+      "grade": null,
+      "field": null,
+      "chapter": null,
+      "book": null,
+      "messages": []
+    },
+    "thread_1757929650297_kofzjm7on": {
+      "id": "thread_1757929650297_kofzjm7on",
+      "user_id": "1",
+      "title": "New Chat",
+      "type": "chat",
+      "created_at": "2025-09-15T09:47:30.297Z",
+      "updated_at": "2025-09-15T09:47:30.297Z",
+      "subject": null,
+      "grade": null,
+      "field": null,
+      "chapter": null,
+      "book": null,
+      "messages": []
+    },
+    "thread_1757929759782_u3nrti4em": {
+      "id": "thread_1757929759782_u3nrti4em",
+      "user_id": "1",
+      "title": "New Chat",
+      "type": "chat",
+      "created_at": "2025-09-15T09:49:19.782Z",
+      "updated_at": "2025-09-15T09:49:19.782Z",
+      "subject": null,
+      "grade": null,
+      "field": null,
+      "chapter": null,
+      "book": null,
+      "messages": []
+    },
+    "thread_1757929935686_c2pfbz1oa": {
+      "id": "thread_1757929935686_c2pfbz1oa",
+      "user_id": "1",
+      "title": "New Chat",
+      "type": "chat",
+      "created_at": "2025-09-15T09:52:15.686Z",
+      "updated_at": "2025-09-15T09:52:15.686Z",
+      "subject": null,
+      "grade": null,
+      "field": null,
+      "chapter": null,
+      "book": null,
+      "messages": []
+    },
+    "thread_1757930299975_csertwmvx": {
+      "id": "thread_1757930299975_csertwmvx",
+      "user_id": "1",
+      "title": "New Chat",
+      "type": "chat",
+      "created_at": "2025-09-15T09:58:19.975Z",
+      "updated_at": "2025-09-15T09:58:19.975Z",
+      "subject": null,
+      "grade": null,
+      "field": null,
+      "chapter": null,
+      "book": null,
+      "messages": []
+    },
+    "thread_1757931240744_kawxe3no5": {
+      "id": "thread_1757931240744_kawxe3no5",
+      "user_id": "1",
+      "title": "New Chat",
+      "type": "chat",
+      "created_at": "2025-09-15T10:14:00.744Z",
+      "updated_at": "2025-09-15T10:14:00.744Z",
+      "subject": null,
+      "grade": null,
+      "field": null,
+      "chapter": null,
+      "book": null,
+      "messages": []
+    },
+    "thread_1757931299127_8hn6btg1c": {
+      "id": "thread_1757931299127_8hn6btg1c",
+      "user_id": "1",
+      "title": "New Chat",
+      "type": "chat",
+      "created_at": "2025-09-15T10:14:59.127Z",
+      "updated_at": "2025-09-15T10:14:59.127Z",
+      "subject": null,
+      "grade": null,
+      "field": null,
+      "chapter": null,
+      "book": null,
+      "messages": []
+    },
+    "thread_1757931645064_9wmwb8kut": {
+      "id": "thread_1757931645064_9wmwb8kut",
+      "user_id": "1",
+      "title": "New Chat",
+      "type": "chat",
+      "created_at": "2025-09-15T10:20:45.064Z",
+      "updated_at": "2025-09-15T10:20:45.065Z",
+      "subject": null,
+      "grade": null,
+      "field": null,
+      "chapter": null,
+      "book": null,
+      "messages": []
+    },
+    "thread_1757932118656_71pbn7t1p": {
+      "id": "thread_1757932118656_71pbn7t1p",
+      "user_id": "1",
+      "title": "New Chat",
+      "type": "chat",
+      "created_at": "2025-09-15T10:28:38.656Z",
+      "updated_at": "2025-09-15T10:28:38.656Z",
+      "subject": null,
+      "grade": null,
+      "field": null,
+      "chapter": null,
+      "book": null,
+      "messages": []
+    },
+    "thread_1757932397920_anuxnwp1q": {
+      "id": "thread_1757932397920_anuxnwp1q",
+      "user_id": "1",
+      "title": "New Chat",
+      "type": "chat",
+      "created_at": "2025-09-15T10:33:17.920Z",
+      "updated_at": "2025-09-15T10:33:17.920Z",
+      "subject": null,
+      "grade": null,
+      "field": null,
+      "chapter": null,
+      "book": null,
+      "messages": []
+    },
+    "thread_1757932553594_esuq0n80f": {
+      "id": "thread_1757932553594_esuq0n80f",
+      "user_id": "1",
+      "title": "New Chat",
+      "type": "chat",
+      "created_at": "2025-09-15T10:35:53.594Z",
+      "updated_at": "2025-09-15T10:35:53.594Z",
+      "subject": null,
+      "grade": null,
+      "field": null,
+      "chapter": null,
+      "book": null,
+      "messages": []
+    },
+    "thread_1757932936150_5rw3ubtwd": {
+      "id": "thread_1757932936150_5rw3ubtwd",
+      "user_id": "1",
+      "title": "New Chat",
+      "type": "chat",
+      "created_at": "2025-09-15T10:42:16.150Z",
+      "updated_at": "2025-09-15T10:42:16.150Z",
+      "subject": null,
+      "grade": null,
+      "field": null,
+      "chapter": null,
+      "book": null,
+      "messages": []
+    },
+    "thread_1757933382220_4fyev1dau": {
+      "id": "thread_1757933382220_4fyev1dau",
+      "user_id": "1",
+      "title": "New Chat",
+      "type": "chat",
+      "created_at": "2025-09-15T10:49:42.220Z",
+      "updated_at": "2025-09-15T10:49:42.221Z",
+      "subject": null,
+      "grade": null,
+      "field": null,
+      "chapter": null,
+      "book": null,
+      "messages": []
+    },
+    "thread_1757933592462_6p8fdts6i": {
+      "id": "thread_1757933592462_6p8fdts6i",
+      "user_id": "1",
+      "title": "New Chat",
+      "type": "chat",
+      "created_at": "2025-09-15T10:53:12.462Z",
+      "updated_at": "2025-09-15T10:53:12.462Z",
+      "subject": null,
+      "grade": null,
+      "field": null,
+      "chapter": null,
+      "book": null,
+      "messages": []
+    },
+    "thread_1757933723794_5uetjqfmu": {
+      "id": "thread_1757933723794_5uetjqfmu",
+      "user_id": "1",
+      "title": "New Chat",
+      "type": "chat",
+      "created_at": "2025-09-15T10:55:23.794Z",
+      "updated_at": "2025-09-15T10:55:23.795Z",
+      "subject": null,
+      "grade": null,
+      "field": null,
+      "chapter": null,
+      "book": null,
+      "messages": []
+    },
+    "thread_1757933939541_zv7vyagh5": {
+      "id": "thread_1757933939541_zv7vyagh5",
+      "user_id": "1",
+      "title": "New Chat",
+      "type": "chat",
+      "created_at": "2025-09-15T10:58:59.541Z",
+      "updated_at": "2025-09-15T10:58:59.541Z",
+      "subject": null,
+      "grade": null,
+      "field": null,
+      "chapter": null,
+      "book": null,
+      "messages": []
+    },
+    "thread_1757934046900_d3bvctfmf": {
+      "id": "thread_1757934046900_d3bvctfmf",
+      "user_id": "1",
+      "title": "New Chat",
+      "type": "chat",
+      "created_at": "2025-09-15T11:00:46.901Z",
+      "updated_at": "2025-09-15T11:00:46.901Z",
+      "subject": null,
+      "grade": null,
+      "field": null,
+      "chapter": null,
+      "book": null,
+      "messages": []
+    },
+    "thread_1757934354881_262z5j8mu": {
+      "id": "thread_1757934354881_262z5j8mu",
+      "user_id": "1",
+      "title": "New Chat",
+      "type": "chat",
+      "created_at": "2025-09-15T11:05:54.881Z",
+      "updated_at": "2025-09-15T11:05:54.881Z",
+      "subject": null,
+      "grade": null,
+      "field": null,
+      "chapter": null,
+      "book": null,
+      "messages": []
+    },
+    "thread_1757934506105_b9maq5ktg": {
+      "id": "thread_1757934506105_b9maq5ktg",
+      "user_id": "1",
+      "title": "New Chat",
+      "type": "chat",
+      "created_at": "2025-09-15T11:08:26.105Z",
+      "updated_at": "2025-09-15T11:08:26.105Z",
+      "subject": null,
+      "grade": null,
+      "field": null,
+      "chapter": null,
+      "book": null,
+      "messages": []
+    },
+    "thread_1757934753547_2ghdet57h": {
+      "id": "thread_1757934753547_2ghdet57h",
+      "user_id": "1",
+      "title": "New Chat",
+      "type": "chat",
+      "created_at": "2025-09-15T11:12:33.547Z",
+      "updated_at": "2025-09-15T11:12:33.547Z",
+      "subject": null,
+      "grade": null,
+      "field": null,
+      "chapter": null,
+      "book": null,
+      "messages": []
+    },
+    "thread_1757934970227_fgnhxax9k": {
+      "id": "thread_1757934970227_fgnhxax9k",
+      "user_id": "1",
+      "title": "New Chat",
+      "type": "chat",
+      "created_at": "2025-09-15T11:16:10.227Z",
+      "updated_at": "2025-09-15T11:16:10.227Z",
+      "subject": null,
+      "grade": null,
+      "field": null,
+      "chapter": null,
+      "book": null,
+      "messages": []
+    },
+    "thread_1757935182861_nd57sy1ls": {
+      "id": "thread_1757935182861_nd57sy1ls",
+      "user_id": "1",
+      "title": "New Chat",
+      "type": "chat",
+      "created_at": "2025-09-15T11:19:42.861Z",
+      "updated_at": "2025-09-15T11:19:42.861Z",
+      "subject": null,
+      "grade": null,
+      "field": null,
+      "chapter": null,
+      "book": null,
+      "messages": []
+    },
+    "thread_1757935278333_d7sp3en8h": {
+      "id": "thread_1757935278333_d7sp3en8h",
+      "user_id": "1",
+      "title": "New Chat",
+      "type": "chat",
+      "created_at": "2025-09-15T11:21:18.333Z",
+      "updated_at": "2025-09-15T11:21:18.333Z",
+      "subject": null,
+      "grade": null,
+      "field": null,
+      "chapter": null,
+      "book": null,
+      "messages": []
+    },
+    "thread_1757935742754_gbb6nyj1q": {
+      "id": "thread_1757935742754_gbb6nyj1q",
+      "user_id": "1",
+      "title": "New Chat",
+      "type": "chat",
+      "created_at": "2025-09-15T11:29:02.754Z",
+      "updated_at": "2025-09-15T11:29:02.754Z",
+      "subject": null,
+      "grade": null,
+      "field": null,
+      "chapter": null,
+      "book": null,
+      "messages": []
+    },
+    "thread_1757936543714_dwckjf7xf": {
+      "id": "thread_1757936543714_dwckjf7xf",
+      "user_id": "1",
+      "title": "New Chat",
+      "type": "chat",
+      "created_at": "2025-09-15T11:42:23.714Z",
+      "updated_at": "2025-09-15T11:42:23.714Z",
+      "subject": null,
+      "grade": null,
+      "field": null,
+      "chapter": null,
+      "book": null,
+      "messages": []
+    },
+    "thread_1757936558175_ti8oaadfv": {
+      "id": "thread_1757936558175_ti8oaadfv",
+      "user_id": "1",
+      "title": "New Chat",
+      "type": "chat",
+      "created_at": "2025-09-15T11:42:38.175Z",
+      "updated_at": "2025-09-15T11:42:38.175Z",
+      "subject": null,
+      "grade": null,
+      "field": null,
+      "chapter": null,
+      "book": null,
+      "messages": []
     }
   },
   "messages": {},
@@ -6201,6 +7349,36 @@
       "type": "chat",
       "created_at": "2025-09-13T10:26:53.103Z",
       "updated_at": "2025-09-13T10:26:53.104Z",
+      "subject": null,
+      "grade": null,
+      "field": null,
+      "chapter": null,
+      "book": null,
+      "messages": []
+    },
+    "conv_1757926077127_tzrlnw732": {
+      "session_id": "conv_1757926077127_tzrlnw732",
+      "user_id": "1",
+      "title": "New Conversation",
+      "content": "",
+      "type": "chat",
+      "created_at": "2025-09-15T08:47:57.127Z",
+      "updated_at": "2025-09-15T08:47:57.127Z",
+      "subject": null,
+      "grade": null,
+      "field": null,
+      "chapter": null,
+      "book": null,
+      "messages": []
+    },
+    "conv_1757926096135_midydp93y": {
+      "session_id": "conv_1757926096135_midydp93y",
+      "user_id": "1",
+      "title": "New Conversation",
+      "content": "",
+      "type": "chat",
+      "created_at": "2025-09-15T08:48:16.135Z",
+      "updated_at": "2025-09-15T08:48:16.135Z",
       "subject": null,
       "grade": null,
       "field": null,

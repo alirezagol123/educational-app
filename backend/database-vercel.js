@@ -85,7 +85,11 @@ initInMemoryStorage();
 
 // Thread Management Functions
 function createThread(threadData) {
+    console.log('🔍 createThread called with:', threadData);
+    
     const threadId = threadData.thread_id || `thread_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    console.log('🔍 Generated thread ID:', threadId);
+    
     const thread = {
         id: threadId,
         user_id: threadData.user_id || '1',
@@ -101,8 +105,10 @@ function createThread(threadData) {
         messages: threadData.messages || []
     };
     
+    console.log('🔍 Created thread object:', thread);
+    
     inMemoryStorage.threads.set(threadId, thread);
-    console.log('✅ Thread created:', threadId);
+    console.log('✅ Thread created and stored:', threadId);
     
     // Save to file
     saveStorageToFile();
