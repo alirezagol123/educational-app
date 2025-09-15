@@ -9,6 +9,15 @@ const db = require('./database-vercel');
 const Kavenegar = require('kavenegar');
 require('dotenv').config({ path: path.join(__dirname, '../config.env') });
 
+// Add global error handler for serverless environment
+process.on('uncaughtException', (error) => {
+  console.error('🚨 Uncaught Exception:', error);
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('🚨 Unhandled Rejection at:', promise, 'reason:', reason);
+});
+
 // Initialize SMS.ir
 if (process.env.SMS_IR_API_KEY) {
   console.log('📱 SMS.ir service configured');
@@ -424,12 +433,23 @@ app.delete('/api/chat/clear/:conversationId', (req, res) => {
 
 // Start new conversation
 app.post('/api/chat/start', (req, res) => {
-  const conversationId = `conv_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-  
-  res.json({
-    conversationId,
-    message: 'New conversation started'
-  });
+  try {
+    console.log('🔍 POST /api/chat/start - Request received');
+    const conversationId = `conv_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    
+    console.log('✅ Created conversation ID:', conversationId);
+    res.json({
+      conversationId,
+      message: 'New conversation started'
+    });
+  } catch (error) {
+    console.error('❌ Error starting conversation:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to start conversation',
+      details: error.message
+    });
+  }
 });
 
 // Streaming question analysis endpoint - OPTIMIZED FOR SPEED
@@ -1257,9 +1277,13 @@ app.post('/api/conversations/session', async (req, res) => {
 // Create a new thread
 app.post('/api/threads', async (req, res) => {
     try {
+        console.log('🔍 POST /api/threads - Request received');
+        console.log('🔍 Request body:', JSON.stringify(req.body, null, 2));
+        
         const { user_id, title, summary, type = 'chat', thread_id, created_at, updated_at, subject, grade, field, chapter, book, messages } = req.body;
         
         if (!user_id || !title) {
+            console.log('❌ Missing required fields: user_id or title');
             return res.status(400).json({ 
                 success: false, 
                 error: 'User ID and title are required' 
@@ -1284,10 +1308,12 @@ app.post('/api/threads', async (req, res) => {
         });
         
     } catch (error) {
-        console.error('Error creating thread:', error);
+        console.error('❌ Error creating thread:', error);
+        console.error('❌ Error stack:', error.stack);
         res.status(500).json({ 
             success: false, 
-            error: 'Failed to create thread' 
+            error: 'Failed to create thread',
+            details: error.message
         });
     }
 });
