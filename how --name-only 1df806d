@@ -1,0 +1,10 @@
+[33me00c94e[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m Create dedicated Vercel serverless functions for critical API endpoints to fix JSON response issues
+[33ma187738[m Add robust error handling: database fallback, error middleware, and comprehensive logging for serverless debugging
+[33m4a91e1c[m Fix serverless compatibility: remove file system operations and unused imports for Vercel deployment
+[33m383d3ec[m Fix deployment issues: suppress Tailwind CDN warning and add better error handling for API endpoints
+[33m1df806d[m Complete mobile responsiveness checklist for ALL remaining pages - chapters, question-analysis, landing - comprehensive fixes applied
+[33m95b13ba[m Complete mobile responsiveness checklist for main.html and library.html - responsive units, media queries, font scaling
+[33mefdb06a[m Apply comprehensive mobile fixes to test.html - responsive design checklist complete
+[33m96cd7e6[m Comprehensive mobile fixes for index.html - responsive units, media queries, viewport
+[33mab17340[m Fix mobile layout issues across entire app - update viewport and CSS for all pages
+[33mb50d9fc[m Disable login functionality for mobile testing - remove login overlay and logout button

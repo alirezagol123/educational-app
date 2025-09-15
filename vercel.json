@@ -6,34 +6,11 @@
       "use": "@vercel/node"
     },
     {
-      "src": "backend/server.js",
-      "use": "@vercel/node",
-      "config": {
-        "maxLambdaSize": "50mb"
-      }
-    },
-    {
       "src": "frontend/**",
       "use": "@vercel/static"
     }
   ],
   "rewrites": [
-    {
-      "source": "/api/chat/start",
-      "destination": "/api/chat/start"
-    },
-    {
-      "source": "/api/threads",
-      "destination": "/api/threads"
-    },
-    {
-      "source": "/api/health",
-      "destination": "/api/health"
-    },
-    {
-      "source": "/api/(.*)",
-      "destination": "backend/server.js"
-    },
     {
       "source": "/(.*)",
       "destination": "frontend/$1"
