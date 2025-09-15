@@ -4,28 +4,7 @@ const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const axios = require('axios');
 const path = require('path');
-
-// Initialize database with error handling
-let db;
-try {
-  db = require('./database-vercel');
-  console.log('✅ Database module loaded successfully');
-} catch (error) {
-  console.error('❌ Failed to load database module:', error);
-  // Create a minimal fallback database
-  db = {
-    createThread: () => Promise.resolve('fallback-thread-id'),
-    getThread: () => Promise.resolve(null),
-    updateThread: () => Promise.resolve(true),
-    deleteThread: () => Promise.resolve(true),
-    getAllThreads: () => Promise.resolve([]),
-    createMessage: () => Promise.resolve('fallback-message-id'),
-    getMessages: () => Promise.resolve([]),
-    deleteMessage: () => Promise.resolve(true),
-    getUserStats: () => Promise.resolve({ threads: 0, messages: 0 })
-  };
-}
-
+const db = require('./database-vercel');
 require('dotenv').config({ path: path.join(__dirname, '../config.env') });
 
 // Add global error handler for serverless environment
@@ -55,15 +34,6 @@ app.get('/api/test', (req, res) => {
   });
 });
 
-// Error handling middleware
-app.use((error, req, res, next) => {
-  console.error('🚨 Middleware Error:', error);
-  res.status(500).json({
-    success: false,
-    error: 'Internal server error',
-    details: error.message
-  });
-});
 
 // Initialize SMS.ir
 if (process.env.SMS_IR_API_KEY) {
