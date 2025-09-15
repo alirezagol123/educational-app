@@ -1504,7 +1504,12 @@ app.post('/api/threads/:thread_id/messages', async (req, res) => {
         const { thread_id } = req.params;
         const { sender_role, content, metadata, token_count } = req.body;
         
+        console.log('🔍 POST /api/threads/:thread_id/messages - Request received');
+        console.log('🔍 Thread ID:', thread_id);
+        console.log('🔍 Request body:', JSON.stringify(req.body, null, 2));
+        
         if (!sender_role || !content) {
+            console.log('❌ Missing required fields: sender_role or content');
             return res.status(400).json({ 
                 success: false, 
                 error: 'Sender role and content are required' 
@@ -1512,13 +1517,16 @@ app.post('/api/threads/:thread_id/messages', async (req, res) => {
         }
         
         if (!['user', 'assistant'].includes(sender_role)) {
+            console.log('❌ Invalid sender role:', sender_role);
             return res.status(400).json({ 
                 success: false, 
                 error: 'Invalid sender role' 
             });
         }
         
+        console.log('🔍 Calling db.addMessage...');
         const result = await db.addMessage(thread_id, sender_role, content, metadata, token_count);
+        console.log('🔍 Message added result:', result);
         
         res.json({ 
             success: true, 
@@ -1533,7 +1541,7 @@ app.post('/api/threads/:thread_id/messages', async (req, res) => {
         });
         
     } catch (error) {
-        console.error('Error adding message:', error);
+        console.error('❌ Error adding message:', error);
         res.status(500).json({ 
             success: false, 
             error: 'Failed to add message' 
@@ -1547,13 +1555,20 @@ app.get('/api/threads/:thread_id/messages', async (req, res) => {
         const { thread_id } = req.params;
         const { limit = 50, offset = 0, include_deleted = false } = req.query;
         
+        console.log('🔍 GET /api/threads/:thread_id/messages - Request received');
+        console.log('🔍 Thread ID:', thread_id);
+        console.log('🔍 Limit:', limit);
+        
         const options = {
             limit: parseInt(limit),
             offset: parseInt(offset),
             includeDeleted: include_deleted === 'true'
         };
         
+        console.log('🔍 Calling db.getMessagesForThread...');
         const messages = await db.getMessagesForThread(thread_id, options.limit);
+        console.log('🔍 Messages retrieved:', messages.length);
+        console.log('🔍 Messages data:', messages);
         
         res.json({ 
             success: true, 

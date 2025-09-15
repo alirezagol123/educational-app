@@ -208,13 +208,37 @@ function saveMessagesForThread(threadId, messages) {
 }
 
 function getMessagesForThread(threadId, limit = 50) {
+    console.log('🔍 getMessagesForThread called with:', { threadId, limit });
+    
     const thread = inMemoryStorage.threads.get(threadId);
-    if (thread && thread.messages) {
-        const messages = thread.messages.slice(-limit);
-        console.log(`✅ Retrieved ${messages.length} messages for thread ${threadId}`);
-        return messages;
+    console.log('🔍 Thread found:', !!thread);
+    
+    if (thread) {
+        console.log('🔍 Thread data:', {
+            id: thread.id,
+            title: thread.title,
+            messagesCount: thread.messages ? thread.messages.length : 0,
+            messages: thread.messages
+        });
+        
+        if (thread.messages) {
+            const messages = thread.messages.slice(-limit);
+            console.log(`✅ Retrieved ${messages.length} messages for thread ${threadId}`);
+            console.log('🔍 Messages details:', messages.map(msg => ({
+                id: msg.id,
+                sender_role: msg.sender_role,
+                content_preview: msg.content.substring(0, 50) + '...',
+                created_at: msg.created_at
+            })));
+            return messages;
+        } else {
+            console.log('❌ Thread has no messages array');
+        }
+    } else {
+        console.log('❌ Thread not found:', threadId);
+        console.log('🔍 Available threads:', Array.from(inMemoryStorage.threads.keys()));
     }
-    console.log('❌ Thread or messages not found:', threadId);
+    
     return [];
 }
 
@@ -314,8 +338,16 @@ function updateUser(userId, updates) {
 
 // Add a single message to a thread
 function addMessage(threadId, senderRole, content, metadata = {}, tokenCount = 0) {
+    console.log('🔍 addMessage called with:', {
+        threadId: threadId,
+        senderRole: senderRole,
+        contentLength: content.length,
+        contentPreview: content.substring(0, 50) + '...'
+    });
+    
     const thread = inMemoryStorage.threads.get(threadId);
     if (!thread) {
+        console.log('❌ Thread not found:', threadId);
         throw new Error('Thread not found');
     }
     
@@ -339,6 +371,12 @@ function addMessage(threadId, senderRole, content, metadata = {}, tokenCount = 0
     
     // Update thread's last_message_at
     thread.updated_at = new Date().toISOString();
+    
+    console.log('✅ Message added to thread:', {
+        messageId: messageId,
+        threadId: threadId,
+        totalMessages: thread.messages.length
+    });
     
     // Save to file
     saveStorageToFile();

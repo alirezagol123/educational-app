@@ -30,25 +30,47 @@
             font-family: 'Vazirmatn', 'IranSans', sans-serif;
         }
 
+        html {
+            width: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
         body {
             background-color: #F8F9FA;
             color: #333333;
+            width: 100%;
+            margin: 0;
+            padding: 0;
         }
 
         /* Library specific styling */
         .library-container {
             background-color: #F8F9FA;
             min-height: 100vh;
+            width: 100%;
+            max-width: 100%;
         }
 
         .conversation-item {
             background-color: transparent;
             border: none;
-            border-bottom: 1px solid #e0e0e0;
             border-radius: 0;
             margin-bottom: 0;
             transition: background-color 0.2s ease;
             padding: 1rem 1.25rem; /* 16px 20px */
+            width: 100%;
+            position: relative;
+        }
+
+        .conversation-item::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 5%;
+            right: 5%;
+            height: 1px;
+            background-color: #e0e0e0;
         }
 
         .conversation-item:hover {
@@ -198,8 +220,7 @@
                 width: 100% !important;
                 max-width: 100% !important;
                 margin: 0 !important;
-                padding-left: 0.5rem !important;
-                padding-right: 0.5rem !important;
+                padding: 0 !important;
             }
             
             .icons-container {
@@ -261,12 +282,11 @@
             }
             
             main {
-                padding-left: 0.25rem !important;
-                padding-right: 0.25rem !important;
+                padding: 0 !important;
             }
             
             .library-container {
-                padding: 0.5rem !important;
+                padding: 0 !important;
             }
         }
         
@@ -282,7 +302,7 @@
             }
             
             .library-container {
-                padding: 0.75rem !important;
+                padding: 0 !important;
             }
         }
         
@@ -298,7 +318,7 @@
             }
             
             .library-container {
-                padding: 1rem !important;
+                padding: 0 !important;
             }
         }
         
@@ -314,7 +334,7 @@
             }
             
             .library-container {
-                padding: 1.25rem !important;
+                padding: 0 !important;
             }
         }
         
@@ -330,7 +350,7 @@
             }
             
             .library-container {
-                padding: 1.5rem !important;
+                padding: 0 !important;
             }
         }
     </style>
@@ -370,7 +390,7 @@
         </div>
 
         <!-- Main Content -->
-        <main class="flex-1">
+        <main class="flex-1 w-full">
             <!-- Loading State -->
             <div id="loading-state" class="flex items-center justify-center py-12">
                 <div class="loading-spinner"></div>
@@ -385,7 +405,7 @@
             </div>
 
             <!-- Conversations List -->
-            <div id="conversations-list" class="hidden">
+            <div id="conversations-list" class="hidden w-full">
                 <!-- Conversations will be dynamically added here -->
             </div>
             
