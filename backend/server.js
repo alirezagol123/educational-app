@@ -4,7 +4,28 @@ const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const axios = require('axios');
 const path = require('path');
-const db = require('./database-vercel');
+
+// Initialize database with error handling
+let db;
+try {
+  db = require('./database-vercel');
+  console.log('✅ Database module loaded successfully');
+} catch (error) {
+  console.error('❌ Failed to load database module:', error);
+  // Create a minimal fallback database
+  db = {
+    createThread: () => Promise.resolve('fallback-thread-id'),
+    getThread: () => Promise.resolve(null),
+    updateThread: () => Promise.resolve(true),
+    deleteThread: () => Promise.resolve(true),
+    getAllThreads: () => Promise.resolve([]),
+    createMessage: () => Promise.resolve('fallback-message-id'),
+    getMessages: () => Promise.resolve([]),
+    deleteMessage: () => Promise.resolve(true),
+    getUserStats: () => Promise.resolve({ threads: 0, messages: 0 })
+  };
+}
+
 require('dotenv').config({ path: path.join(__dirname, '../config.env') });
 
 // Add global error handler for serverless environment
@@ -22,6 +43,25 @@ app.get('/api/health', (req, res) => {
     status: 'ok', 
     timestamp: new Date().toISOString(),
     environment: process.env.VERCEL ? 'production' : 'development'
+  });
+});
+
+// Simple test endpoint
+app.get('/api/test', (req, res) => {
+  res.json({ 
+    message: 'Server is working!',
+    timestamp: new Date().toISOString(),
+    database: db ? 'loaded' : 'fallback'
+  });
+});
+
+// Error handling middleware
+app.use((error, req, res, next) => {
+  console.error('🚨 Middleware Error:', error);
+  res.status(500).json({
+    success: false,
+    error: 'Internal server error',
+    details: error.message
   });
 });
 

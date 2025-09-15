@@ -61,20 +61,27 @@ function saveStorageToFile() {
 
 // Initialize with some sample data
 function initInMemoryStorage() {
-    console.log('✅ Initialized in-memory storage for Vercel deployment');
-    
-    // Load existing data from file
-    loadStorageFromFile();
-    
-    // Add sample user if not exists
-    if (!inMemoryStorage.users.has('1')) {
-        inMemoryStorage.users.set('1', {
-            id: '1',
-            phone: '+1234567890',
-            is_verified: true,
-            created_at: new Date().toISOString()
-        });
-        console.log('✅ Added sample user');
+    try {
+        console.log('✅ Initialized in-memory storage for Vercel deployment');
+        
+        // Load existing data from file (only if not in Vercel)
+        if (!process.env.VERCEL) {
+            loadStorageFromFile();
+        }
+        
+        // Add sample user if not exists
+        if (!inMemoryStorage.users.has('1')) {
+            inMemoryStorage.users.set('1', {
+                id: '1',
+                phone: '+1234567890',
+                is_verified: true,
+                created_at: new Date().toISOString()
+            });
+            console.log('✅ Added sample user');
+        }
+    } catch (error) {
+        console.error('❌ Error initializing storage:', error);
+        // Continue with empty storage
     }
 }
 
