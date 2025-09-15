@@ -16,23 +16,6 @@ process.on('unhandledRejection', (reason, promise) => {
   console.error('🚨 Unhandled Rejection at:', promise, 'reason:', reason);
 });
 
-// Health check endpoint
-app.get('/api/health', (req, res) => {
-  res.json({ 
-    status: 'ok', 
-    timestamp: new Date().toISOString(),
-    environment: process.env.VERCEL ? 'production' : 'development'
-  });
-});
-
-// Simple test endpoint
-app.get('/api/test', (req, res) => {
-  res.json({ 
-    message: 'Server is working!',
-    timestamp: new Date().toISOString(),
-    database: db ? 'loaded' : 'fallback'
-  });
-});
 
 
 // Initialize SMS.ir
@@ -98,6 +81,24 @@ app.get('/api/health', (req, res) => {
       api: 'Connected',
       sms: process.env.SMS_IR_API_KEY ? 'Available (SMS.ir)' : 'Disabled'
     }
+  });
+});
+
+// Health check endpoint
+app.get('/api/health', (req, res) => {
+  res.json({ 
+    status: 'ok', 
+    timestamp: new Date().toISOString(),
+    environment: process.env.VERCEL ? 'production' : 'development'
+  });
+});
+
+// Simple test endpoint
+app.get('/api/test', (req, res) => {
+  res.json({ 
+    message: 'Server is working!',
+    timestamp: new Date().toISOString(),
+    database: db ? 'loaded' : 'fallback'
   });
 });
 
