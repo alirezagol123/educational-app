@@ -1,0 +1,5 @@
+[33m913eca5[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m Fix seamless system navigation bar integration
+[33m24f8846[m Enhanced responsive bottom navigation bar with mobile-first design
+[33m1f326aa[m Fix UI improvements: header switching, library width, expanded input icons, cross icon logic, chapters width
+[33m199c03f[m Fix thread creation debugging and main user input positioning
+[33m62379a4[m CRITICAL FIX: Move endpoint definitions after app creation - was causing immediate server crash

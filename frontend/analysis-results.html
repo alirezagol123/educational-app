@@ -1657,12 +1657,15 @@
 
 
     <!-- Bottom Mobile Navigation - Matching Chat Page Icons -->
-    <div id="bottom-navigation" class="icons-container fixed bottom-0 left-0 right-0 pt-2 pb-6 px-6 flex justify-around items-center space-x-8 z-40 rounded-t-2xl shadow-lg" style="background-color: #E8E8E4;">
-        <!-- First Icon: Circle with tick inside (Test page) -->
-        <button class="icon-button p-2 hover:text-gray-600 transition-colors" onclick="window.location.href='test.html'">
-            <svg class="w-6 h-6 nav-icon active" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <circle cx="12" cy="12" r="10" stroke-width="2"/>
-                <path d="M9 12l2 2 4-4" stroke-width="2"/>
+    <div id="bottom-navigation" class="icons-container fixed bottom-0 left-0 right-0 px-4 py-4 flex justify-around items-center space-x-8 z-40 shadow-lg" style="background-color: #E8E8E4;">
+        <!-- First Icon: Document with pencil (Chat page) -->
+        <button class="icon-button p-2 hover:text-gray-600 transition-colors" onclick="window.location.href='index.html'">
+            <svg class="w-6 h-6 nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" stroke-width="2"/>
+                <path d="M14 2v6h6" stroke-width="2"/>
+                <path d="M16 13H8" stroke-width="2"/>
+                <path d="M16 17H8" stroke-width="2"/>
+                <path d="M10 9H8" stroke-width="2"/>
             </svg>
         </button>
         
@@ -1673,14 +1676,11 @@
             </svg>
         </button>
         
-        <!-- Third Icon: Document with pencil (Chat page) -->
-        <button class="icon-button p-2 hover:text-gray-600 transition-colors" onclick="window.location.href='index.html'">
-            <svg class="w-6 h-6 nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" stroke-width="2"/>
-                <path d="M14 2v6h6" stroke-width="2"/>
-                <path d="M16 13H8" stroke-width="2"/>
-                <path d="M16 17H8" stroke-width="2"/>
-                <path d="M10 9H8" stroke-width="2"/>
+        <!-- Third Icon: Circle with tick inside (Test page) -->
+        <button class="icon-button p-2 hover:text-gray-600 transition-colors" onclick="window.location.href='test.html'">
+            <svg class="w-6 h-6 nav-icon active" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10" stroke-width="2"/>
+                <path d="M9 12l2 2 4-4" stroke-width="2"/>
             </svg>
         </button>
     </div>
@@ -1701,24 +1701,11 @@
 
         // Initialize conversation history system
         async function initializeConversation() {
-            try {
-                // Start new conversation for new analysis
-                const response = await fetch('/api/chat/start', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                });
-                const data = await response.json();
-                currentConversationId = data.conversationId;
-                isConversationInitialized = true;
-                console.log('✅ Analysis page conversation started:', currentConversationId);
-            } catch (error) {
-                console.error('❌ Failed to start conversation:', error);
-                // Use fallback conversation ID
-                currentConversationId = 'analysis_' + Date.now();
-                isConversationInitialized = true;
-            }
+            // Keep conversation history for context but don't save as threads to library
+            console.log('📚 Analysis page conversation history enabled for context only');
+            currentConversationId = 'analysis_' + Date.now();
+            isConversationInitialized = true;
+            return;
         }
         
         // Display analysis content
@@ -1778,6 +1765,12 @@
             return '';
         }
         
+        // Clear conversation history
+        function clearConversationHistory() {
+            conversationMessages = [];
+            console.log('🗑️ Cleared conversation history');
+        }
+        
         // Get conversation context for AI responses
         function getConversationContext() {
             return conversationMessages.map(msg => ({
@@ -1788,80 +1781,12 @@
         
         // Load analysis from library
         async function loadAnalysisFromLibrary(sessionId) {
-            try {
-                console.log('🔍 Loading analysis from library:', sessionId);
-                
-                const userId = localStorage.getItem('user_id') || '1';
-                const response = await fetch(`/api/conversations?userId=${userId}&type=analysis`);
-                const data = await response.json();
-                
-                if (!data.success) {
-                    throw new Error('Failed to load conversations');
-                }
-                
-                // Find the specific analysis
-                const analysis = data.conversations.find(conv => conv.sessionId === sessionId);
-                
-                if (!analysis) {
-                    throw new Error('Analysis not found');
-                }
-                
-                console.log('✅ Found analysis:', analysis.title);
-                
-                // Set question data from analysis metadata
-                questionData = {
-                    subject: analysis.subject || 'biology',
-                    grade: analysis.grade || 'دوازدهم',
-                    field: analysis.field || 'experimental',
-                    chapter: analysis.chapter || '1',
-                    book: analysis.book || null
-                };
-                currentSubject = questionData.subject;
-                
-                // Load conversation messages
-                conversationMessages = analysis.messages || [];
-                
-                // Display the analysis content
-                const analysisContainer = document.getElementById('analysis-content');
-                if (analysisContainer) {
-                    analysisContainer.innerHTML = analysis.content;
-                    analysisContainer.classList.remove('hidden');
-                    console.log('✅ Analysis content displayed');
-                    console.log('📊 Analysis container visibility:', analysisContainer.style.display);
-                    console.log('📊 Analysis container classes:', analysisContainer.className);
-                    console.log('📊 Analysis content length:', analysis.content.length);
-                    
-                    // Force visibility
-                    analysisContainer.style.display = 'block';
-                    analysisContainer.style.visibility = 'visible';
-                    analysisContainer.style.opacity = '1';
-                }
-                
-                // Update page title
-                document.title = `مِنو - ${analysis.title}`;
-                
-                console.log('✅ Analysis loaded successfully from library');
-                
-            } catch (error) {
-                console.error('❌ Failed to load analysis from library:', error);
-                // Show error message
-                const analysisContainer = document.getElementById('analysis-content');
-                if (analysisContainer) {
-                    analysisContainer.innerHTML = `
-                        <div class="text-center p-8">
-                            <h2 class="text-xl font-bold text-red-600 mb-4">خطا در بارگذاری تحلیل</h2>
-                            <p class="text-gray-600 mb-4">متأسفانه مشکلی در بارگذاری تحلیل پیش آمده است.</p>
-                            <button onclick="window.location.href='/library.html'" class="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600">
-                                بازگشت به کتابخانه
-                            </button>
-                        </div>
-                    `;
-                    analysisContainer.classList.remove('hidden');
-                }
-            }
+            // Disabled - analysis-results page doesn't load from library threads
+            console.log('⚠️ Library loading disabled for analysis-results page');
+            return;
         }
         
-                // Get URL parameters and decode data
+        // Get URL parameters and decode data
         function getUrlParams() {
             const urlParams = new URLSearchParams(window.location.search);
             const dataParam = urlParams.get('data');
@@ -1980,77 +1905,9 @@
 
         // Load analysis from library
         async function loadAnalysisFromLibrary(sessionId) {
-            try {
-                console.log('🔍 Loading analysis from library:', sessionId);
-                
-                const userId = localStorage.getItem('user_id') || '1';
-                const response = await fetch(`/api/conversations?userId=${userId}&type=analysis`);
-                const data = await response.json();
-                
-                if (!data.success) {
-                    throw new Error('Failed to load conversations');
-                }
-                
-                // Find the specific analysis
-                const analysis = data.conversations.find(conv => conv.sessionId === sessionId);
-                
-                if (!analysis) {
-                    throw new Error('Analysis not found');
-                }
-                
-                console.log('✅ Found analysis:', analysis.title);
-                
-                // Set question data from analysis metadata
-                questionData = {
-                    subject: analysis.subject || 'biology',
-                    grade: analysis.grade || 'دوازدهم',
-                    field: analysis.field || 'experimental',
-                    chapter: analysis.chapter || '1',
-                    book: analysis.book || null
-                };
-                currentSubject = questionData.subject;
-                
-                // Load conversation messages
-                conversationMessages = analysis.messages || [];
-                
-                // Display the analysis content
-                const analysisContainer = document.getElementById('analysis-content');
-                if (analysisContainer) {
-                    analysisContainer.innerHTML = analysis.content;
-                    analysisContainer.classList.remove('hidden');
-                    console.log('✅ Analysis content displayed');
-                    console.log('📊 Analysis container visibility:', analysisContainer.style.display);
-                    console.log('📊 Analysis container classes:', analysisContainer.className);
-                    console.log('📊 Analysis content length:', analysis.content.length);
-                    
-                    // Force visibility
-                    analysisContainer.style.display = 'block';
-                    analysisContainer.style.visibility = 'visible';
-                    analysisContainer.style.opacity = '1';
-                }
-                
-                // Update page title
-                document.title = `مِنو - ${analysis.title}`;
-                
-                console.log('✅ Analysis loaded successfully from library');
-                
-            } catch (error) {
-                console.error('❌ Failed to load analysis from library:', error);
-                // Show error message
-                const analysisContainer = document.getElementById('analysis-content');
-                if (analysisContainer) {
-                    analysisContainer.innerHTML = `
-                        <div class="text-center p-8">
-                            <h2 class="text-xl font-bold text-red-600 mb-4">خطا در بارگذاری تحلیل</h2>
-                            <p class="text-gray-600 mb-4">متأسفانه مشکلی در بارگذاری تحلیل پیش آمده است.</p>
-                            <button onclick="window.location.href='/library.html'" class="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600">
-                                بازگشت به کتابخانه
-                            </button>
-                        </div>
-                    `;
-                    analysisContainer.classList.remove('hidden');
-                }
-            }
+            // Disabled - analysis-results page doesn't load from library threads
+            console.log('⚠️ Library loading disabled for analysis-results page');
+            return;
         }
 
         // Load existing analysis session from database

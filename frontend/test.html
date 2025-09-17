@@ -73,24 +73,7 @@
             pointer-events: auto;
         }
         
-        /* Additional safety for bottom sheet */
-        #grade-sheet.closed {
-            position: fixed !important;
-            top: 100vh !important;
-            left: 0 !important;
-            right: 0 !important;
-            bottom: 0 !important;
-            z-index: -1 !important;
-            background: transparent !important;
-            transform: translateY(100%) !important;
-            opacity: 0 !important;
-            visibility: hidden !important;
-            pointer-events: none !important;
-        }
-        
-        #grade-sheet.closed * {
-            display: none !important;
-        }
+        /* Additional safety for bottom sheet - removed conflicting rules */
         
         .field-button {
             transition: all 0.2s ease;
@@ -237,13 +220,7 @@
             }
             
             /* Ensure icons container stays at bottom */
-            .icons-container {
-                position: fixed !important;
-                bottom: 1rem !important;
-                left: 0 !important;
-                right: 0 !important;
-                z-index: 40 !important;
-            }
+        /* Removed conflicting bottom positioning CSS */
         }
         
         /* Comprehensive Mobile Media Queries */
@@ -256,7 +233,6 @@
             
             .icons-container {
                 padding: 0.75rem 0.5rem !important;
-                bottom: 0.5rem !important;
             }
             
             main {
@@ -273,7 +249,6 @@
             
             .icons-container {
                 padding: 1rem 0.75rem !important;
-                bottom: 0.75rem !important;
             }
         }
         
@@ -285,7 +260,6 @@
             
             .icons-container {
                 padding: 1rem 1rem !important;
-                bottom: 1rem !important;
             }
         }
         
@@ -297,7 +271,6 @@
             
             .icons-container {
                 padding: 1.25rem 1.25rem !important;
-                bottom: 1.25rem !important;
             }
         }
         
@@ -309,7 +282,6 @@
             
             .icons-container {
                 padding: 1.5rem 1.5rem !important;
-                bottom: 1.5rem !important;
             }
         }
     </style>
@@ -359,14 +331,14 @@
                 <div class="flex justify-center space-x-4">
                     <button 
                         id="math-field"
-                        class="field-button active border-2 border-gray-300 text-gray-600 px-8 py-3 rounded-full font-semibold text-base bg-gray-100"
+                        class="field-button active border-2 border-gray-300 text-gray-600 px-16 py-4 rounded-full font-semibold text-lg bg-gray-100 min-w-48"
                         onclick="selectField('math')"
                     >
                         ریاضی
                     </button>
                     <button 
                         id="experimental-field"
-                        class="field-button border-2 border-gray-300 text-gray-600 px-8 py-3 rounded-full font-semibold text-base bg-gray-100"
+                        class="field-button border-2 border-gray-300 text-gray-600 px-16 py-4 rounded-full font-semibold text-lg bg-gray-100 min-w-48"
                         onclick="selectField('experimental')"
                     >
                         تجربی
@@ -468,8 +440,8 @@
     </main>
 
          <!-- Grade Selection Bottom Sheet -->
-     <div id="grade-sheet" class="fixed inset-0 bg-black bg-opacity-50 z-40 bottom-sheet closed">
-         <div class="absolute bottom-20 left-0 right-0 bg-white rounded-t-3xl p-6 max-h-screen">
+     <div id="grade-sheet" class="fixed inset-0 bg-black bg-opacity-50 z-50 bottom-sheet closed">
+         <div class="absolute bottom-0 left-0 right-0 bg-white rounded-t-3xl p-6 h-80">
             <div class="flex justify-between items-center mb-6">
                                  <h3 class="text-xl font-bold text-gray-900">انتخاب پایه</h3>
                 <button onclick="toggleGradeSheet()" class="p-2 hover:bg-gray-100 rounded-full">
@@ -549,15 +521,12 @@
     </div>
 
     <!-- Bottom Mobile Navigation - Matching Chat Page Icons -->
-    <div class="icons-container fixed bottom-0 left-0 right-0 pt-2 pb-6 px-6 flex justify-around items-center space-x-8 z-40 rounded-t-2xl shadow-lg" style="background-color: #E8E8E4;">
-        <!-- First Icon: Document with pencil (Chat page) -->
-        <button class="icon-button p-2 hover:text-gray-600 transition-colors" onclick="window.location.href='index.html'">
-            <svg class="w-6 h-6 nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" stroke-width="2"/>
-                <path d="M14 2v6h6" stroke-width="2"/>
-                <path d="M16 13H8" stroke-width="2"/>
-                <path d="M16 17H8" stroke-width="2"/>
-                <path d="M10 9H8" stroke-width="2"/>
+    <div class="icons-container fixed bottom-0 left-0 right-0 pt-2 pb-0 px-6 flex justify-around items-center space-x-8 z-40 shadow-lg" style="background-color: #E8E8E4;">
+        <!-- First Icon: Circle with tick inside (Test page) -->
+        <button class="icon-button p-2 hover:text-gray-600 transition-colors" onclick="window.location.href='test.html'">
+            <svg class="w-6 h-6 nav-icon active" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10" stroke-width="2"/>
+                <path d="M9 12l2 2 4-4" stroke-width="2"/>
             </svg>
         </button>
         
@@ -568,11 +537,14 @@
             </svg>
         </button>
         
-        <!-- Third Icon: Circle with tick inside (Test page) -->
-        <button class="icon-button p-2 hover:text-gray-600 transition-colors" onclick="window.location.href='test.html'">
-            <svg class="w-6 h-6 nav-icon active" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <circle cx="12" cy="12" r="10" stroke-width="2"/>
-                <path d="M9 12l2 2 4-4" stroke-width="2"/>
+        <!-- Third Icon: Document with pencil (Chat page) -->
+        <button class="icon-button p-2 hover:text-gray-600 transition-colors" onclick="window.location.href='index.html'">
+            <svg class="w-6 h-6 nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" stroke-width="2"/>
+                <path d="M14 2v6h6" stroke-width="2"/>
+                <path d="M16 13H8" stroke-width="2"/>
+                <path d="M16 17H8" stroke-width="2"/>
+                <path d="M10 9H8" stroke-width="2"/>
             </svg>
         </button>
     </div>
