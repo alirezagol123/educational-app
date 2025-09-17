@@ -16,32 +16,42 @@
         }
 
         body {
-            background-color: #1F2937;
-            color: #F9FAFB;
+            background-color: #F8F9FA;
+            color: #374151;
             margin: 0;
             padding: 0;
         }
 
         .conversation-item {
-            background-color: #1F2937;
-            border-bottom: 1px solid #374151;
+            background-color: #F9FAFB;
             padding: 1rem;
             cursor: pointer;
             transition: background-color 0.2s ease;
+            position: relative;
+        }
+
+        .conversation-item::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 5%;
+            right: 5%;
+            height: 1px;
+            background-color: #D1D5DB;
         }
 
         .conversation-item:hover {
-            background-color: #374151;
+            background-color: #F3F4F6;
         }
 
-        .conversation-item:last-child {
-            border-bottom: none;
+        .conversation-item:last-child::after {
+            display: none;
         }
 
         .conversation-title {
             font-size: 1rem;
             font-weight: 600;
-            color: #F9FAFB;
+            color: #374151;
             margin-bottom: 0.5rem;
             line-height: 1.4;
         }
@@ -108,7 +118,7 @@
         }
 
         .nav-icon.active {
-            color: #F9FAFB;
+            color: #000000;
         }
 
         .nav-icon:not(.active) {
@@ -133,34 +143,43 @@
 </head>
 <body>
     <!-- Header -->
-    <header class="bg-gray-800 border-b border-gray-700 sticky top-0 z-50">
+    <header class="bg-gray-100 border-b border-gray-200 sticky top-0 z-50">
         <div class="flex justify-between items-center px-4 py-3">
-            <!-- Left: Back button -->
-            <button onclick="goBack()" class="p-2 hover:bg-gray-700 rounded-lg transition-colors">
-                <svg class="w-5 h-5 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
-                </svg>
-            </button>
+            <!-- Left: جلسات -->
+            <h1 class="text-lg font-semibold text-gray-900">جلسات</h1>
             
-            <!-- Center: Title -->
-            <h1 class="text-lg font-semibold text-white">کتابخانه</h1>
-            
-            <!-- Right: Settings -->
-            <button onclick="showSettings()" class="p-2 hover:bg-gray-700 rounded-lg transition-colors">
-                <svg class="w-5 h-5 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+            <!-- Right: Search button -->
+            <button onclick="toggleSearch()" class="p-2 hover:bg-gray-200 rounded-lg transition-colors">
+                <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                 </svg>
             </button>
         </div>
     </header>
 
+    <!-- Search Bar (Hidden by default) -->
+    <div id="search-bar" class="bg-gray-100 border-b border-gray-200 px-4 py-3 hidden">
+        <div class="flex items-center space-x-3">
+            <input 
+                type="text" 
+                id="search-input" 
+                placeholder="جستجو در جلسات..." 
+                class="w-full bg-white text-gray-900 placeholder-gray-500 px-3 py-2 rounded-lg border border-gray-300 focus:border-blue-500 focus:outline-none"
+            >
+            <button onclick="hideSearch()" class="p-2 hover:bg-gray-200 rounded-lg transition-colors flex-shrink-0">
+                <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+        </div>
+    </div>
+
     <!-- Main Content -->
-    <main class="min-h-screen bg-gray-900">
+    <main class="min-h-screen" style="background-color: #F8F9FA;">
         <!-- Loading State -->
         <div id="loading-state" class="flex justify-center items-center py-8">
             <div class="loading-spinner"></div>
-            <span class="mr-2 text-gray-400">در حال بارگذاری...</span>
+            <span class="mr-2 text-gray-600">در حال بارگذاری...</span>
         </div>
 
         <!-- Empty State -->
@@ -179,11 +198,11 @@
     </main>
 
     <!-- Bottom Navigation -->
-    <nav class="fixed bottom-0 left-0 right-0 bg-gray-800 border-t border-gray-700 px-4 py-2">
+    <nav class="fixed bottom-0 left-0 right-0 px-4 py-4" style="background-color: #E8E8E4; border-top: 1px solid #D1D5DB;">
         <div class="flex justify-around items-center">
             <!-- Chat Icon -->
-            <button onclick="goToChat()" class="p-2 hover:bg-gray-700 rounded-lg transition-colors">
-                <svg class="w-6 h-6 nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <button onclick="goToChat()" class="p-2 hover:bg-gray-200 rounded-lg transition-colors">
+                <svg class="w-6 h-6 nav-icon text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" stroke-width="2"/>
                     <path d="M14 2v6h6" stroke-width="2"/>
                     <path d="M16 13H8" stroke-width="2"/>
@@ -193,15 +212,15 @@
             </button>
             
             <!-- Library Icon -->
-            <button class="p-2 hover:bg-gray-700 rounded-lg transition-colors">
+            <button class="p-2 hover:bg-gray-200 rounded-lg transition-colors">
                 <svg class="w-6 h-6 nav-icon active" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" stroke-width="2"/>
                 </svg>
             </button>
             
             <!-- Test Icon -->
-            <button onclick="goToTest()" class="p-2 hover:bg-gray-700 rounded-lg transition-colors">
-                <svg class="w-6 h-6 nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <button onclick="goToTest()" class="p-2 hover:bg-gray-200 rounded-lg transition-colors">
+                <svg class="w-6 h-6 nav-icon text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <circle cx="12" cy="12" r="10" stroke-width="2"/>
                     <path d="M9 12l2 2 4-4" stroke-width="2"/>
                 </svg>
@@ -216,6 +235,25 @@
         document.addEventListener('DOMContentLoaded', function() {
             console.log('📚 Library page loaded');
             loadConversations();
+            
+            // Initialize search functionality
+            const searchInput = document.getElementById('search-input');
+            if (searchInput) {
+                searchInput.addEventListener('input', function(e) {
+                    const searchTerm = e.target.value.toLowerCase();
+                    if (searchTerm.trim() === '') {
+                        loadConversations(); // Show all conversations
+                        return;
+                    }
+                    
+                    // Filter conversations based on search term
+                    console.log('Searching for:', searchTerm);
+                    console.log('Available conversations:', conversations);
+                    
+                    // Search through thread content
+                    searchInThreadContent(searchTerm);
+                });
+            }
         });
 
         // Load conversations from API
@@ -260,7 +298,7 @@
                     
                     return `
                         <div class="conversation-item" onclick="openConversation('${conversation.thread_id}')">
-                            <div class="conversation-title">${conversation.title || 'گفتگوی جدید'}</div>
+                            <div class="conversation-title">در حال بارگذاری...</div>
                             <div class="conversation-preview">در حال بارگذاری...</div>
                             <div class="conversation-meta">
                                 <span>${timeAgo}</span>
@@ -275,9 +313,10 @@
                     `;
                 }).join('');
                 
-                // Load previews for each conversation
+                // Load titles and previews for each conversation
                 for (let i = 0; i < conversations.length; i++) {
                     const conversation = conversations[i];
+                    const title = await getConversationTitle(conversation);
                     const preview = await getConversationPreview(conversation);
                     const timeAgo = getTimeAgo(conversation.updated_at);
                     
@@ -285,7 +324,7 @@
                     const conversationItems = conversationsList.querySelectorAll('.conversation-item');
                     if (conversationItems[i]) {
                         conversationItems[i].innerHTML = `
-                            <div class="conversation-title">${conversation.title || 'گفتگوی جدید'}</div>
+                            <div class="conversation-title">${title}</div>
                             <div class="conversation-preview">${preview}</div>
                             <div class="conversation-meta">
                                 <span>${timeAgo}</span>
@@ -302,21 +341,47 @@
             }
         }
 
-        // Get conversation preview text
-        async function getConversationPreview(conversation) {
+        // Get conversation title (first user message)
+        async function getConversationTitle(conversation) {
             try {
-                // Fetch the last AI message from this conversation
+                // Fetch messages from this conversation
                 const response = await fetch(`/api/threads/${conversation.thread_id}/messages`);
                 const data = await response.json();
                 
                 if (data.success && data.messages && data.messages.length > 0) {
-                    // Find the last AI message
+                    // Find the first user message
+                    const userMessages = data.messages.filter(msg => msg.sender_role === 'user');
+                    if (userMessages.length > 0) {
+                        const firstUserMessage = userMessages[0];
+                        // Get first 50 characters of the user message for title
+                        const title = firstUserMessage.content.substring(0, 50);
+                        return title.length < firstUserMessage.content.length ? title + '...' : title;
+                    }
+                }
+                
+                // Fallback to generic text if no user message found
+                return 'گفتگوی جدید';
+            } catch (error) {
+                console.error('Error fetching conversation title:', error);
+                return 'گفتگوی جدید';
+            }
+        }
+
+        // Get conversation preview text
+        async function getConversationPreview(conversation) {
+            try {
+                // Fetch messages from this conversation
+                const response = await fetch(`/api/threads/${conversation.thread_id}/messages`);
+                const data = await response.json();
+                
+                if (data.success && data.messages && data.messages.length > 0) {
+                    // Find the first AI message
                     const aiMessages = data.messages.filter(msg => msg.sender_role === 'assistant');
                     if (aiMessages.length > 0) {
-                        const lastAiMessage = aiMessages[aiMessages.length - 1];
+                        const firstAiMessage = aiMessages[0];
                         // Get first 100 characters of the AI response
-                        const preview = lastAiMessage.content.substring(0, 100);
-                        return preview.length < lastAiMessage.content.length ? preview + '...' : preview;
+                        const preview = firstAiMessage.content.substring(0, 100);
+                        return preview.length < firstAiMessage.content.length ? preview + '...' : preview;
                     }
                 }
                 
@@ -386,6 +451,109 @@
         function showSettings() {
             // TODO: Implement settings
             console.log('Settings clicked');
+        }
+
+        // Search functionality
+        function toggleSearch() {
+            const searchBar = document.getElementById('search-bar');
+            const searchInput = document.getElementById('search-input');
+            
+            if (searchBar.classList.contains('hidden')) {
+                searchBar.classList.remove('hidden');
+                searchInput.focus();
+            } else {
+                searchBar.classList.add('hidden');
+                clearSearch();
+            }
+        }
+
+        function clearSearch() {
+            const searchInput = document.getElementById('search-input');
+            searchInput.value = '';
+            loadConversations(); // Reload all conversations
+        }
+
+        function hideSearch() {
+            const searchBar = document.getElementById('search-bar');
+            const searchInput = document.getElementById('search-input');
+            
+            searchBar.classList.add('hidden');
+            searchInput.value = '';
+            loadConversations(); // Reload all conversations
+        }
+
+        // Search functionality - will be initialized after DOM loads
+
+        // Search through thread content
+        async function searchInThreadContent(searchTerm) {
+            const conversationsList = document.getElementById('conversations-list');
+            conversationsList.innerHTML = '<div class="text-center py-4 text-gray-400">در حال جستجو...</div>';
+            
+            const matchingThreads = [];
+            
+            // Search through each thread's messages
+            for (const conversation of conversations) {
+                try {
+                    const response = await fetch(`/api/threads/${conversation.thread_id}/messages`);
+                    const data = await response.json();
+                    
+                    if (data.success && data.messages) {
+                        // Search through all messages in the thread
+                        const foundInMessages = data.messages.some(message => {
+                            const messageText = (message.content || '').toLowerCase();
+                            return messageText.includes(searchTerm.toLowerCase());
+                        });
+                        
+                        if (foundInMessages) {
+                            matchingThreads.push(conversation);
+                        }
+                    }
+                } catch (error) {
+                    console.error(`Error searching thread ${conversation.thread_id}:`, error);
+                }
+            }
+            
+            console.log('Matching threads:', matchingThreads);
+            displayFilteredConversations(matchingThreads);
+        }
+
+        async function displayFilteredConversations(conversations) {
+            const conversationsList = document.getElementById('conversations-list');
+            
+            if (conversations.length === 0) {
+                conversationsList.innerHTML = `
+                    <div class="text-center py-8 text-gray-400">
+                        <svg class="w-12 h-12 mx-auto mb-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                        <p>هیچ جلسه‌ای یافت نشد</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            conversationsList.innerHTML = '';
+            
+            for (const conversation of conversations) {
+                const preview = await getConversationPreview(conversation);
+                const timeAgo = getTimeAgo(conversation.timestamp);
+                
+                const conversationElement = document.createElement('div');
+                conversationElement.className = 'conversation-item';
+                conversationElement.onclick = () => openConversation(conversation.thread_id);
+                
+                conversationElement.innerHTML = `
+                    <div class="flex justify-between items-start">
+                        <div class="flex-1">
+                            <h3 class="text-gray-900 font-medium mb-1">${conversation.title}</h3>
+                            <p class="text-gray-400 text-sm conversation-preview">${preview}</p>
+                        </div>
+                        <div class="text-gray-500 text-xs ml-3">${timeAgo}</div>
+                    </div>
+                `;
+                
+                conversationsList.appendChild(conversationElement);
+            }
         }
 
         // Pull to refresh functionality

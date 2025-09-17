@@ -2,17 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-status-bar-style" content="light-content">
     <meta name="theme-color" content="#E8E8E4">
     <meta name="msapplication-navbutton-color" content="#E8E8E4">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="msapplication-TileColor" content="#E8E8E4">
-    <meta name="msapplication-navbutton-color" content="#E8E8E4">
-    <meta name="theme-color" content="#E8E8E4" media="(prefers-color-scheme: light)">
-    <meta name="theme-color" content="#E8E8E4" media="(prefers-color-scheme: dark)">
     
     <!-- Preload critical resources -->
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
@@ -100,51 +95,6 @@
             console.log('📚 Navigating to library page');
             window.location.href = 'library.html';
         }
-        
-        // Navigate to analysis page
-        function goToAnalysis() {
-            console.log('📊 Navigating to analysis page');
-            window.location.href = 'question-analysis.html';
-        }
-        
-        // Navigate to settings page
-        function goToSettings() {
-            console.log('⚙️ Navigating to settings page');
-            // For now, just show an alert - you can implement a settings page later
-            alert('Settings page coming soon!');
-        }
-        
-        // Set theme color for system navigation bar integration
-        function setSystemThemeColor() {
-            // Update theme color meta tag dynamically
-            let themeColorMeta = document.querySelector('meta[name="theme-color"]');
-            if (!themeColorMeta) {
-                themeColorMeta = document.createElement('meta');
-                themeColorMeta.name = 'theme-color';
-                document.head.appendChild(themeColorMeta);
-            }
-            themeColorMeta.content = '#E8E8E4';
-            
-            // For Android Chrome
-            let msNavButtonMeta = document.querySelector('meta[name="msapplication-navbutton-color"]');
-            if (!msNavButtonMeta) {
-                msNavButtonMeta = document.createElement('meta');
-                msNavButtonMeta.name = 'msapplication-navbutton-color';
-                document.head.appendChild(msNavButtonMeta);
-            }
-            msNavButtonMeta.content = '#E8E8E4';
-            
-            // For iOS Safari
-            let appleStatusBarMeta = document.querySelector('meta[name="apple-mobile-web-app-status-bar-style"]');
-            if (!appleStatusBarMeta) {
-                appleStatusBarMeta = document.createElement('meta');
-                appleStatusBarMeta.name = 'apple-mobile-web-app-status-bar-style';
-                document.head.appendChild(appleStatusBarMeta);
-            }
-            appleStatusBarMeta.content = 'default';
-            
-            console.log('🎨 System theme color set to #E8E8E4');
-        }
         let initializationComplete = false;
         
         function triggerInitialization() {
@@ -156,9 +106,6 @@
             console.log('🔍 ===== TRIGGERING INITIALIZATION =====');
             console.log('🔍 Document ready state:', document.readyState);
             console.log('🔍 Viewing thread:', localStorage.getItem('viewing_thread'));
-            
-            // Set system theme color for seamless navigation bar integration
-            setSystemThemeColor();
             
             // Check if we have a viewing_thread - if so, load it directly
             const viewingThread = localStorage.getItem('viewing_thread');
@@ -323,11 +270,11 @@
             autoResizeTextarea(textarea);
         }
         
-        // Hide bottom navigation function
+        // Hide bottom icons function
         function hideBottomIcons() {
-            const bottomNav = document.querySelector('.bottom-nav-container');
-            if (bottomNav) {
-                bottomNav.style.display = 'none';
+            const iconsContainer = document.querySelector('.icons-container');
+            if (iconsContainer) {
+                iconsContainer.style.display = 'none';
             }
         }
         
@@ -341,11 +288,11 @@
             document.body.style.overflow = 'auto';
         }
         
-        // Show bottom navigation function
+        // Show bottom icons function
         function showBottomIcons() {
-            const bottomNav = document.querySelector('.bottom-nav-container');
-            if (bottomNav) {
-                bottomNav.style.display = 'block';
+            const iconsContainer = document.querySelector('.icons-container');
+            if (iconsContainer) {
+                iconsContainer.style.display = 'flex';
             }
         }
         
@@ -478,7 +425,7 @@
         }
         
         .ai-message-font {
-            font-size: 1.125rem !important; /* 18px */
+            font-size: 1.375rem !important; /* 22px - bigger for better readability */
         }
         
         /* Ensure chat messages are selectable and copyable */
@@ -577,7 +524,7 @@
         /* Better mobile typography */
         @media (max-width: 640px) {
             .chat-messages .message-bubble {
-                font-size: 1rem !important; /* 16px */
+                font-size: 1.125rem !important; /* 18px - bigger for mobile */
                 line-height: 1.5;
                 padding: 1rem !important;
             }
@@ -606,7 +553,7 @@
             
             /* Simple mobile styling */
             p {
-                font-size: 1.125rem !important; /* 18px */
+                font-size: 1.25rem !important; /* 20px - bigger for better readability */
                 line-height: 1.6;
                 margin-bottom: 1rem;
             }
@@ -931,36 +878,12 @@
                 position: fixed !important;
             }
             
-        /* Enhanced Bottom Navigation Styles */
-        .bottom-nav-container {
-            background-color: #E8E8E4;
-            border-top: 1px solid rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-        }
-        
-        /* Ensure seamless blending with system navigation */
-        body {
-            background-color: #F8F9FA !important;
-        }
-        
-        /* Force system navigation bar color matching */
-        @supports (padding: max(0px)) {
-            .bottom-nav-container {
-                padding-bottom: max(env(safe-area-inset-bottom), 0px);
+            .icons-container {
+                width: 100% !important;
+                max-width: 100% !important;
+                padding-left: 1rem !important;
+                padding-right: 1rem !important;
             }
-        }
-        
-        /* Additional system integration */
-        html {
-            background-color: #F8F9FA;
-        }
-        
-        /* Ensure full-height background */
-        body, html {
-            min-height: 100vh;
-            min-height: 100dvh; /* Dynamic viewport height for mobile */
-        }
         
         .nav-item {
             min-width: 44px;
@@ -1062,7 +985,7 @@
                 transform: translateX(-50%) !important;
             }
             
-            .bottom-nav-container {
+            .icons-container {
                 padding-left: 0.5rem !important;
                 padding-right: 0.5rem !important;
             }
@@ -1094,8 +1017,8 @@
                 z-index: 30 !important;
             }
             
-            /* Ensure bottom navigation stays at bottom */
-            .bottom-nav-container {
+            /* Ensure icons container stays at bottom */
+            .icons-container {
                 position: fixed !important;
                 bottom: 1rem !important;
                 left: 0 !important;
@@ -1119,7 +1042,7 @@
                 bottom: 6.5rem !important; /* 104px */
             }
             
-            .bottom-nav-container {
+            .icons-container {
                 padding: 0.75rem 0.5rem !important;
                 bottom: 0.5rem !important;
             }
@@ -1143,7 +1066,7 @@
                 bottom: 7rem !important; /* 112px */
             }
             
-            .bottom-nav-container {
+            .icons-container {
                 padding: 1rem 0.75rem !important;
                 bottom: 0.75rem !important;
             }
@@ -1163,7 +1086,7 @@
                 bottom: 7.5rem !important; /* 120px */
             }
             
-            .bottom-nav-container {
+            .icons-container {
                 padding: 1rem 1rem !important;
                 bottom: 1rem !important;
             }
@@ -1183,7 +1106,7 @@
                 bottom: 8rem !important; /* 128px */
             }
             
-            .bottom-nav-container {
+            .icons-container {
                 padding: 1.25rem 1.25rem !important;
                 bottom: 1.25rem !important;
             }
@@ -1203,7 +1126,7 @@
                 bottom: 8.5rem !important; /* 136px */
             }
             
-            .bottom-nav-container {
+            .icons-container {
                 padding: 1.5rem 1.5rem !important;
                 bottom: 1.5rem !important;
             }
@@ -1211,7 +1134,7 @@
 
     </style>
 </head>
-    <body style="background-color: #F8F9FA; padding-bottom: env(safe-area-inset-bottom);">
+    <body style="background-color: #F8F9FA;">
     <!-- Header -->
             <header id="main-header" class="fixed top-0 left-0 right-0 z-50 border-b border-gray-200" style="background-color: #F8F9FA;">
         <div class="flex justify-between items-center px-2 sm:px-3 py-3">
@@ -1463,52 +1386,36 @@
         <div class="border-b border-gray-200 mx-auto" style="width: 95%; max-width: 37.5rem;"></div> <!-- 600px -->
     </main>
     
-    <!-- Enhanced Responsive Bottom Navigation Bar -->
-    <nav class="bottom-nav-container fixed bottom-0 left-0 right-0 z-50" style="background-color: #E8E8E4; padding-bottom: env(safe-area-inset-bottom);">
-        <div class="nav-content flex justify-around items-center py-3 px-4 max-w-md mx-auto">
-            <!-- Home Icon -->
-            <button class="nav-item flex flex-col items-center p-2 transition-all duration-200 hover:scale-105" onclick="handleChatClick()" title="Home">
-                <svg class="w-6 h-6 text-gray-700 nav-icon active" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" stroke-width="2"/>
-                </svg>
-                <span class="nav-label text-xs text-gray-600 mt-1 hidden sm:block">Home</span>
-            </button>
+    <!-- Four Icons - Standard Mobile Navigation Bar - Separated for independent positioning -->
+    <div class="icons-container fixed bottom-0 left-0 right-0 py-4 px-3 sm:px-4 flex justify-around items-center space-x-8 z-50 bg-transparent">
+                         <!-- First Icon: Circle with tick inside (Test page) -->
+             <button class="icon-button p-2 hover:text-gray-600 transition-colors" onclick="goToTest()">
+                 <svg class="w-6 h-6 nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                     <circle cx="12" cy="12" r="10" stroke-width="2"/>
+                     <path d="M9 12l2 2 4-4" stroke-width="2"/>
+                 </svg>
+             </button>
+             
+             <!-- Second Icon: Library (Books icon) -->
+             <button class="icon-button p-2 hover:text-gray-600 transition-colors" onclick="goToLibrary()">
+                 <svg class="w-6 h-6 nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                     <path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" stroke-width="2"/>
+                 </svg>
+             </button>
+             
+             <!-- Third Icon: Document with pencil (Chat page) -->
+             <button class="icon-button p-2 hover:text-gray-600 transition-colors" onclick="handleChatClick()">
+                 <svg class="w-6 h-6 nav-icon active" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                     <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" stroke-width="2"/>
+                     <path d="M14 2v6h6" stroke-width="2"/>
+                     <path d="M16 13H8" stroke-width="2"/>
+                     <path d="M16 17H8" stroke-width="2"/>
+                     <path d="M10 9H8" stroke-width="2"/>
+                 </svg>
+             </button>
             
-            <!-- Library Icon -->
-            <button class="nav-item flex flex-col items-center p-2 transition-all duration-200 hover:scale-105" onclick="goToLibrary()" title="Library">
-                <svg class="w-6 h-6 text-gray-700 nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" stroke-width="2"/>
-                </svg>
-                <span class="nav-label text-xs text-gray-600 mt-1 hidden sm:block">Library</span>
-            </button>
             
-            <!-- Analysis Icon -->
-            <button class="nav-item flex flex-col items-center p-2 transition-all duration-200 hover:scale-105" onclick="goToAnalysis()" title="Analysis">
-                <svg class="w-6 h-6 text-gray-700 nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" stroke-width="2"/>
-                </svg>
-                <span class="nav-label text-xs text-gray-600 mt-1 hidden sm:block">Analysis</span>
-            </button>
-            
-            <!-- Test Icon -->
-            <button class="nav-item flex flex-col items-center p-2 transition-all duration-200 hover:scale-105" onclick="goToTest()" title="Test">
-                <svg class="w-6 h-6 text-gray-700 nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <circle cx="12" cy="12" r="10" stroke-width="2"/>
-                    <path d="M9 12l2 2 4-4" stroke-width="2"/>
-                </svg>
-                <span class="nav-label text-xs text-gray-600 mt-1 hidden sm:block">Test</span>
-            </button>
-            
-            <!-- Settings Icon -->
-            <button class="nav-item flex flex-col items-center p-2 transition-all duration-200 hover:scale-105" onclick="goToSettings()" title="Settings">
-                <svg class="w-6 h-6 text-gray-700 nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <circle cx="12" cy="12" r="3" stroke-width="2"/>
-                    <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z" stroke-width="2"/>
-                </svg>
-                <span class="nav-label text-xs text-gray-600 mt-1 hidden sm:block">Settings</span>
-            </button>
         </div>
-    </nav>
         
                 
                  <!-- Expanded Input Container (Hidden by default) - Analysis Page Style -->
@@ -1526,8 +1433,8 @@
                          ></textarea>
                          
                          <!-- Recorder Icon Button - Right Side -->
-                         <button class="recorder-button absolute bottom-3 right-14 w-8 h-8 rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors" style="background-color: #D4D4D0;" onclick="startRecording()" title="Voice Recording">
-                             <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                         <button class="recorder-button absolute bottom-3 right-14 w-9 h-9 rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors" style="background-color: #D4D4D0;" onclick="startRecording()" title="Voice Recording">
+                             <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                  <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                  <path d="M19 10v2a7 7 0 0 1-14 0v-2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                  <line x1="12" y1="19" x2="12" y2="23" stroke-width="2" stroke-linecap="round"/>
@@ -1536,15 +1443,15 @@
                                  </button>
                                  
                          <!-- Paperclip Icon Button - Very Right Side -->
-                         <button class="document-button absolute bottom-3 right-4 w-8 h-8 rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors" style="background-color: #D4D4D0;" onclick="attachDocument()" title="Attach Document">
-                             <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                         <button class="document-button absolute bottom-3 right-4 w-9 h-9 rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors" style="background-color: #D4D4D0;" onclick="attachDocument()" title="Attach Document">
+                             <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                  <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66L9.64 16.2a2 2 0 0 1-2.83-2.83l8.49-8.49" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                      </svg>
                                  </button>
                          
                          <!-- Send Button - Left Side -->
-                         <button id="analysis-expanded-send-button" class="send-button absolute bottom-3 left-4 w-8 h-8 rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors bg-gray-300" onclick="sendAnalysisExpandedMessage()" title="Send Message">
-                             <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                         <button id="analysis-expanded-send-button" class="send-button absolute bottom-3 left-4 w-9 h-9 rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors bg-gray-300" onclick="sendAnalysisExpandedMessage()" title="Send Message">
+                             <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19V5M5 12l7-7 7 7"/>
                              </svg>
                          </button>
@@ -1702,7 +1609,7 @@
             }
             
             // Hide bottom navigation (icons) when showing expanded input
-            const bottomNav = document.querySelector('.bottom-nav-container');
+            const bottomNav = document.querySelector('.icons-container');
             if (bottomNav) {
                 bottomNav.style.display = 'none';
             }
@@ -1725,7 +1632,7 @@
         
         // Function to hide bottom icons
         function hideBottomIcons() {
-            const iconsContainer = document.querySelector('.bottom-nav-container');
+            const iconsContainer = document.querySelector('.icons-container');
             if (iconsContainer) {
                 iconsContainer.style.display = 'none';
             }
@@ -1745,7 +1652,7 @@
         
         // Function to show bottom icons
         function showBottomIcons() {
-            const iconsContainer = document.querySelector('.bottom-nav-container');
+            const iconsContainer = document.querySelector('.icons-container');
             if (iconsContainer) {
                 iconsContainer.style.display = 'flex';
             }
@@ -1809,7 +1716,7 @@
                 }
                 
                 // Hide bottom navigation during AI response
-                const bottomNav = document.querySelector('.bottom-nav-container');
+                const bottomNav = document.querySelector('.icons-container');
                 if (bottomNav) {
                     bottomNav.style.display = 'none';
                 }
@@ -2070,7 +1977,7 @@
             }
             
             // Hide bottom navigation when chat input appears (like analysis page)
-            const bottomNav = document.querySelector('.bottom-nav-container');
+            const bottomNav = document.querySelector('.icons-container');
             if (bottomNav) {
                 bottomNav.style.display = 'none';
             }
@@ -2094,7 +2001,7 @@
             if (message) {
                 // Hide chat input and bottom navigation during AI response
                 const chatInputAfterResponse = document.getElementById('chat-input-after-response');
-                const bottomNav = document.querySelector('.bottom-nav-container');
+                const bottomNav = document.querySelector('.icons-container');
                 
                 if (chatInputAfterResponse) {
                     chatInputAfterResponse.classList.add('hidden');
@@ -2196,7 +2103,7 @@
             
             // Check if we're in thread view mode by checking if bottom icons are hidden
             // and chat input after response is visible
-            const bottomNav = document.querySelector('.bottom-nav-container');
+            const bottomNav = document.querySelector('.icons-container');
             const chatInputAfterResponse = document.getElementById('chat-input-after-response');
             const mainUserInput = document.getElementById('main-user-input');
             
@@ -2289,7 +2196,7 @@
             }
             
             // Show bottom navigation icons
-            const bottomNav = document.querySelector('.bottom-nav-container');
+            const bottomNav = document.querySelector('.icons-container');
             if (bottomNav) {
                 bottomNav.style.display = 'flex';
                 bottomNav.style.visibility = 'visible';
@@ -2335,7 +2242,7 @@
             }
             
             // Show bottom navigation icons
-            const bottomNav = document.querySelector('.bottom-nav-container');
+            const bottomNav = document.querySelector('.icons-container');
             if (bottomNav) {
                 bottomNav.style.display = 'flex';
                 bottomNav.style.visibility = 'visible';
@@ -2391,7 +2298,7 @@
             }
             
             // Hide bottom navigation (icons)
-            const bottomNav = document.querySelector('.bottom-nav-container');
+            const bottomNav = document.querySelector('.icons-container');
             if (bottomNav) {
                 bottomNav.style.display = 'none';
             }
@@ -3752,7 +3659,7 @@
             
             // Hide bottom navigation for thread loading (like chat flow)
             console.log('🔍 Step 7: Hiding bottom navigation...');
-            const bottomNav = document.querySelector('.bottom-nav-container');
+            const bottomNav = document.querySelector('.icons-container');
             if (bottomNav) {
                 bottomNav.style.display = 'none';
                 bottomNav.style.visibility = 'hidden';
@@ -3793,7 +3700,7 @@
             }
             
             // Show bottom navigation (force show)
-            const bottomNav = document.querySelector('.bottom-nav-container');
+            const bottomNav = document.querySelector('.icons-container');
             if (bottomNav) {
                 bottomNav.style.display = 'flex';
                 bottomNav.style.visibility = 'visible';
@@ -4163,8 +4070,8 @@
                 </svg>
             `;
             microphoneIcon.style.cssText = `
-                width: 32px !important;
-                height: 32px !important;
+                width: 36px !important;
+                height: 36px !important;
                 border-radius: 50% !important;
                 background-color: transparent !important;
                 border: none !important;
@@ -4196,7 +4103,7 @@
             // Create paperclip/attachment icon
             const paperclipIcon = document.createElement('button');
             paperclipIcon.innerHTML = `
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66L9.64 16.2a2 2 0 0 1-2.83-2.83l8.49-8.49" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
             `;
@@ -4205,8 +4112,8 @@
                 right: 8px !important;
                 top: 50% !important;
                 transform: translateY(-50%) !important;
-                width: 32px !important;
-                height: 32px !important;
+                width: 36px !important;
+                height: 36px !important;
                 border-radius: 50% !important;
                 background-color: transparent !important;
                 border: none !important;
@@ -4281,7 +4188,7 @@
             // Create send button for expanded input
             const expandedSendButton = document.createElement('button');
             expandedSendButton.innerHTML = `
-                <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19V5M5 12l7-7 7 7"/>
                 </svg>
             `;
@@ -4289,8 +4196,8 @@
                 position: absolute !important;
                 bottom: 12px !important;
                 left: 16px !important;
-                width: 40px !important;
-                height: 40px !important;
+                width: 44px !important;
+                height: 44px !important;
                 border-radius: 50% !important;
                 background-color: black !important;
                 border: none !important;
@@ -4771,6 +4678,9 @@
             // Switch to chat header for thread view
             switchToChatHeader();
             
+            // Load messages for this thread
+            const messages = await loadThreadMessages(viewingThread);
+            
             // Hide bottom icons for clean chat interface
             hideBottomIcons();
             
@@ -4780,9 +4690,6 @@
                 mainUserInput.style.display = 'none';
                 mainUserInput.style.visibility = 'hidden';
             }
-            
-            // Load messages for this thread
-            const messages = await loadThreadMessages(viewingThread);
             
             // Clear current chat
             const messagesContainer = document.getElementById('chat-messages');
