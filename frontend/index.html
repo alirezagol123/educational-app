@@ -8,6 +8,11 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#E8E8E4">
     <meta name="msapplication-navbutton-color" content="#E8E8E4">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="msapplication-TileColor" content="#E8E8E4">
+    <meta name="msapplication-navbutton-color" content="#E8E8E4">
+    <meta name="theme-color" content="#E8E8E4" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#E8E8E4" media="(prefers-color-scheme: dark)">
     
     <!-- Preload critical resources -->
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
@@ -109,7 +114,37 @@
             alert('Settings page coming soon!');
         }
         
-        // SINGLE INITIALIZATION STRATEGY - No more multiple triggers!
+        // Set theme color for system navigation bar integration
+        function setSystemThemeColor() {
+            // Update theme color meta tag dynamically
+            let themeColorMeta = document.querySelector('meta[name="theme-color"]');
+            if (!themeColorMeta) {
+                themeColorMeta = document.createElement('meta');
+                themeColorMeta.name = 'theme-color';
+                document.head.appendChild(themeColorMeta);
+            }
+            themeColorMeta.content = '#E8E8E4';
+            
+            // For Android Chrome
+            let msNavButtonMeta = document.querySelector('meta[name="msapplication-navbutton-color"]');
+            if (!msNavButtonMeta) {
+                msNavButtonMeta = document.createElement('meta');
+                msNavButtonMeta.name = 'msapplication-navbutton-color';
+                document.head.appendChild(msNavButtonMeta);
+            }
+            msNavButtonMeta.content = '#E8E8E4';
+            
+            // For iOS Safari
+            let appleStatusBarMeta = document.querySelector('meta[name="apple-mobile-web-app-status-bar-style"]');
+            if (!appleStatusBarMeta) {
+                appleStatusBarMeta = document.createElement('meta');
+                appleStatusBarMeta.name = 'apple-mobile-web-app-status-bar-style';
+                document.head.appendChild(appleStatusBarMeta);
+            }
+            appleStatusBarMeta.content = 'default';
+            
+            console.log('🎨 System theme color set to #E8E8E4');
+        }
         let initializationComplete = false;
         
         function triggerInitialization() {
@@ -121,6 +156,9 @@
             console.log('🔍 ===== TRIGGERING INITIALIZATION =====');
             console.log('🔍 Document ready state:', document.readyState);
             console.log('🔍 Viewing thread:', localStorage.getItem('viewing_thread'));
+            
+            // Set system theme color for seamless navigation bar integration
+            setSystemThemeColor();
             
             // Check if we have a viewing_thread - if so, load it directly
             const viewingThread = localStorage.getItem('viewing_thread');
@@ -901,6 +939,29 @@
             -webkit-backdrop-filter: blur(10px);
         }
         
+        /* Ensure seamless blending with system navigation */
+        body {
+            background-color: #F8F9FA !important;
+        }
+        
+        /* Force system navigation bar color matching */
+        @supports (padding: max(0px)) {
+            .bottom-nav-container {
+                padding-bottom: max(env(safe-area-inset-bottom), 0px);
+            }
+        }
+        
+        /* Additional system integration */
+        html {
+            background-color: #F8F9FA;
+        }
+        
+        /* Ensure full-height background */
+        body, html {
+            min-height: 100vh;
+            min-height: 100dvh; /* Dynamic viewport height for mobile */
+        }
+        
         .nav-item {
             min-width: 44px;
             min-height: 44px;
@@ -1150,7 +1211,7 @@
 
     </style>
 </head>
-    <body style="background-color: #F8F9FA;">
+    <body style="background-color: #F8F9FA; padding-bottom: env(safe-area-inset-bottom);">
     <!-- Header -->
             <header id="main-header" class="fixed top-0 left-0 right-0 z-50 border-b border-gray-200" style="background-color: #F8F9FA;">
         <div class="flex justify-between items-center px-2 sm:px-3 py-3">
