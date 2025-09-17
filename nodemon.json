@@ -1,13 +1,20 @@
 {
   "watch": ["backend/"],
   "ignore": [
+    "data/",
     "threads.json",
-    "*.json",
+    "./threads.json",
+    "backend/threads.json",
+    ".port-info.json",
+    "./.port-info.json",
+    "conversations.db",
+    "./conversations.db",
+    "backend/conversations.db",
     "node_modules/",
     "frontend/",
     ".git/",
     "*.log"
   ],
-  "ext": "js,json",
+  "ext": "js",
   "delay": 1000
 }

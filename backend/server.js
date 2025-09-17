@@ -326,13 +326,35 @@ async function callAIAPI(messages) {
 //     SymPy endpoint removed for deployment
 // });
 
-// Streaming chat endpoint
+// Streaming chat endpoint - Step 2: Message Storage
 app.post('/api/chat/stream', async (req, res) => {
   try {
-    const { message, conversationId = 'default', context = [] } = req.body;
+    const { message, thread_id, user_id = '1', context = [] } = req.body;
     
     if (!message || message.trim() === '') {
       return res.status(400).json({ error: 'Message is required' });
+    }
+
+    console.log('🔍 POST /api/chat/stream - Request received');
+    console.log('🔍 Thread ID:', thread_id);
+    console.log('🔍 User ID:', user_id);
+    console.log('🔍 Message:', message.substring(0, 100) + '...');
+
+    // Step 2.1: Store user message with thread_id, user_id, role, message, timestamp
+    if (thread_id) {
+      console.log('🔍 Storing user message in thread:', thread_id);
+      await db.addMessage(thread_id, 'user', message, {}, 0);
+      console.log('✅ User message stored');
+      
+      // Step 3: Update thread title with first message
+      const thread = await db.getThreadById(thread_id);
+      if (thread && thread.title === 'New Chat') {
+        const title = message.length > 50 ? message.substring(0, 50) + '...' : message;
+        const updateResult = await db.updateThread(thread_id, { title: title });
+        if (updateResult.success) {
+          console.log('✅ Thread title updated:', title);
+        }
+      }
     }
 
     // Set headers for streaming
@@ -343,8 +365,8 @@ app.post('/api/chat/stream', async (req, res) => {
       'Connection': 'keep-alive'
     });
 
-    // Add user message to conversation history
-    conversationManager.addMessage(conversationId, {
+    // Add user message to conversation history (legacy support)
+    conversationManager.addMessage(thread_id || 'default', {
       role: 'user',
       content: message,
       timestamp: new Date().toISOString()
@@ -356,10 +378,13 @@ app.post('/api/chat/stream', async (req, res) => {
       // Use provided context (from session history)
       conversationContext = context.slice(-10); // Last 10 messages
       console.log('📚 Using provided conversation context:', conversationContext.length, 'messages');
-    } else {
-      // Fallback to conversation manager
-      conversationContext = conversationManager.getConversationContext(conversationId);
+    } else if (thread_id) {
+      // Fallback to conversation manager using thread_id
+      conversationContext = conversationManager.getConversationContext(thread_id);
       console.log('📚 Using conversation manager context:', conversationContext.length, 'messages');
+    } else {
+      conversationContext = [];
+      console.log('📚 No context available, starting fresh conversation');
     }
 
     // Prepare messages for AI API with conversation context
@@ -417,7 +442,7 @@ app.post('/api/chat/stream', async (req, res) => {
     console.log('📚 Sending to AI with', messages.length, 'messages (including system prompt and context)');
 
     // Stream AI response
-    await streamAIResponse(messages, res, conversationId);
+    await streamAIResponse(messages, res, thread_id || 'temp_conversation');
 
   } catch (error) {
     console.error('Streaming Chat API Error:', error);
@@ -449,15 +474,32 @@ app.delete('/api/chat/clear/:conversationId', (req, res) => {
   });
 });
 
-// Start new conversation
-app.post('/api/chat/start', (req, res) => {
+// Start new conversation - Step 1: Thread Creation
+app.post('/api/chat/start', async (req, res) => {
   try {
     console.log('🔍 POST /api/chat/start - Request received');
-    const conversationId = `conv_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    const { user_id = '1' } = req.body; // Get user_id from request
     
-    console.log('✅ Created conversation ID:', conversationId);
+    // Step 1.1: Generate unique thread_id
+    const threadId = `thread_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    console.log('🔍 Generated thread_id:', threadId);
+    
+    // Step 1.2: Link user_id and thread_id together in database
+    const threadData = {
+      user_id: user_id,
+      title: 'New Chat', // Will be updated with first message
+      type: 'chat',
+      status: 'active'
+    };
+    
+    console.log('🔍 Creating thread in database...');
+    const thread = await db.createThread(threadId, threadData);
+    console.log('✅ Thread created:', thread);
+    
     res.json({
-      conversationId,
+      success: true,
+      thread_id: threadId,
+      user_id: user_id,
       message: 'New conversation started'
     });
   } catch (error) {
@@ -925,6 +967,25 @@ async function streamAIResponse(messages, res, conversationId, retryCount = 0, o
                 timestamp: new Date().toISOString()
               });
               
+              // Step 2.3: Store AI response in database if thread_id exists
+              if (conversationId && conversationId.startsWith('thread_')) {
+                try {
+                  await db.addMessage(conversationId, 'assistant', fullResponse, {}, 0);
+                  console.log('✅ AI response stored in database');
+                  
+                  // Step 6: Update thread with last message preview and timestamp
+                  const updateResult = await db.updateThread(conversationId, { 
+                    last_message_at: new Date().toISOString(),
+                    updated_at: new Date().toISOString()
+                  });
+                  if (updateResult.success) {
+                    console.log('✅ Thread updated with last message timestamp');
+                  }
+                } catch (error) {
+                  console.error('❌ Error storing AI response:', error);
+                }
+              }
+              
               res.write(`data: [DONE]\n\n`);
               res.end();
               return;
@@ -1346,6 +1407,91 @@ app.post('/api/threads', async (req, res) => {
     }
 });
 
+// Step 7: Optimization - Delete thread
+app.delete('/api/threads/:thread_id', async (req, res) => {
+    try {
+        const { thread_id } = req.params;
+        const { user_id } = req.query;
+        
+        console.log('🔍 DELETE /api/threads/:thread_id - Request received');
+        console.log('🔍 Thread ID:', thread_id);
+        console.log('🔍 User ID:', user_id);
+        
+        if (!user_id) {
+            return res.status(400).json({ 
+                success: false, 
+                error: 'User ID is required' 
+            });
+        }
+        
+        const result = await db.deleteThread(thread_id, user_id);
+        
+        if (result.success) {
+            res.json({ 
+                success: true, 
+                message: 'Thread deleted successfully' 
+            });
+        } else {
+            res.status(404).json({ 
+                success: false, 
+                error: result.error || 'Thread not found' 
+            });
+        }
+        
+    } catch (error) {
+        console.error('❌ Error deleting thread:', error);
+        res.status(500).json({ 
+            success: false, 
+            error: 'Failed to delete thread' 
+        });
+    }
+});
+
+// Step 7: Optimization - Update thread (edit title, archive, etc.)
+app.put('/api/threads/:thread_id', async (req, res) => {
+    try {
+        const { thread_id } = req.params;
+        const { title, is_archived, user_id } = req.body;
+        
+        console.log('🔍 PUT /api/threads/:thread_id - Request received');
+        console.log('🔍 Thread ID:', thread_id);
+        console.log('🔍 Update data:', { title, is_archived, user_id });
+        
+        if (!user_id) {
+            return res.status(400).json({ 
+                success: false, 
+                error: 'User ID is required' 
+            });
+        }
+        
+        const updateData = {};
+        if (title !== undefined) updateData.title = title;
+        if (is_archived !== undefined) updateData.is_archived = is_archived;
+        
+        const result = await db.updateThread(thread_id, updateData);
+        
+        if (result.success) {
+            res.json({ 
+                success: true, 
+                message: 'Thread updated successfully',
+                thread: result.thread
+            });
+        } else {
+            res.status(404).json({ 
+                success: false, 
+                error: result.error || 'Thread not found' 
+            });
+        }
+        
+    } catch (error) {
+        console.error('❌ Error updating thread:', error);
+        res.status(500).json({ 
+            success: false, 
+            error: 'Failed to update thread' 
+        });
+    }
+});
+
 // Get all threads for a user
 app.get('/api/threads', async (req, res) => {
     try {
@@ -1680,7 +1826,7 @@ const server = app.listen(PORT, () => {
   const portInfo = { port: actualPort, timestamp: new Date().toISOString() };
   
   try {
-  fs.writeFileSync(path.join(__dirname, '../.port-info.json'), JSON.stringify(portInfo, null, 2));
+  fs.writeFileSync(path.join(__dirname, '../data/.port-info.json'), JSON.stringify(portInfo, null, 2));
   console.log(`💾 Port info saved to .port-info.json`);
   } catch (error) {
     console.log(`⚠️ Could not save port info: ${error.message}`);

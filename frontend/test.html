@@ -97,15 +97,15 @@
         }
         
         .field-button.active {
-            background-color: rgba(59, 130, 246, 0.1);
-            border-color: #3B82F6;
-            color: #3B82F6;
+            background-color: #E5E7EB; /* Light gray background */
+            border-color: #9CA3AF; /* Light gray border */
+            color: #6B7280; /* Medium gray text */
         }
         
         .field-button.experimental.active {
-            background-color: rgba(34, 197, 94, 0.1);
-            border-color: #22C55E;
-            color: #22C55E;
+            background-color: #E5E7EB; /* Light gray background */
+            border-color: #9CA3AF; /* Light gray border */
+            color: #6B7280; /* Medium gray text */
         }
         
         .subject-button {
@@ -154,6 +154,33 @@
         /* Prevent mobile zoom on input focus */
         input, textarea, select {
             font-size: 16px !important;
+        }
+        
+        /* Mobile-responsive field buttons */
+        @media (max-width: 768px) {
+            .field-button {
+                padding: 0.75rem 1.5rem !important; /* 12px 24px */
+                font-size: 0.875rem !important; /* 14px */
+                min-height: 2.5rem !important; /* 40px */
+            }
+            
+            .field-button.active {
+                padding: 0.75rem 1.5rem !important;
+                font-size: 0.875rem !important;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .field-button {
+                padding: 0.625rem 1.25rem !important; /* 10px 20px */
+                font-size: 0.8125rem !important; /* 13px */
+                min-height: 2.25rem !important; /* 36px */
+            }
+            
+            .field-button.active {
+                padding: 0.625rem 1.25rem !important;
+                font-size: 0.8125rem !important;
+            }
         }
         
         /* Mobile Performance Optimizations */
@@ -329,21 +356,21 @@
             <!-- Field of Study Selection -->
             <div class="text-center mb-12">
                                  <h2 class="text-2xl font-bold text-gray-900 mb-6">انتخاب رشته تحصیلی</h2>
-                <div class="flex justify-center space-x-6">
-                                         <button 
-                         id="math-field"
-                         class="field-button active border-2 border-blue-500 text-blue-500 px-16 py-4 rounded-full font-semibold text-lg"
-                         onclick="selectField('math')"
-                     >
-                                                  ریاضی
-                     </button>
-                     <button 
-                         id="experimental-field"
-                         class="field-button border-2 border-green-500 text-green-500 px-16 py-4 rounded-full font-semibold text-lg"
-                         onclick="selectField('experimental')"
-                     >
-                                                  تجربی
-                     </button>
+                <div class="flex justify-center space-x-4">
+                    <button 
+                        id="math-field"
+                        class="field-button active border-2 border-gray-300 text-gray-600 px-8 py-3 rounded-full font-semibold text-base bg-gray-100"
+                        onclick="selectField('math')"
+                    >
+                        ریاضی
+                    </button>
+                    <button 
+                        id="experimental-field"
+                        class="field-button border-2 border-gray-300 text-gray-600 px-8 py-3 rounded-full font-semibold text-base bg-gray-100"
+                        onclick="selectField('experimental')"
+                    >
+                        تجربی
+                    </button>
                 </div>
             </div>
 

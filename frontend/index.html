@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="light-content">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#E8E8E4">
     <meta name="msapplication-navbutton-color" content="#E8E8E4">
     
@@ -76,31 +76,285 @@
             };
         });
         
-        // Check login status on page load
-        function checkLoginStatus() {
-            // Login functionality disabled for mobile testing
-            console.log('🔍 Login check disabled for mobile testing');
-            
-            // Always hide login overlay
-            const loginOverlay = document.getElementById('login-overlay');
-            if (loginOverlay) {
-                loginOverlay.classList.add('hidden');
-                console.log('✅ Login overlay hidden (disabled)');
-            }
-            
-            // Set default user data for testing
-                localStorage.setItem('user_id', '1');
-                localStorage.setItem('is_verified', 'true');
-            localStorage.setItem('userPhone', '09050512907');
-            localStorage.setItem('authToken', 'test_token');
-            
-            return true;
+        // IMMEDIATE TEST - This should show in console immediately
+        console.log('🔍 ===== INDEX PAGE SCRIPT LOADED =====');
+        console.log('🔍 JavaScript is working in index.html!');
+        console.log('🔍 Current URL:', window.location.href);
+        console.log('🔍 viewing_thread in localStorage:', localStorage.getItem('viewing_thread'));
+        console.log('🔍 Document ready state:', document.readyState);
+        console.log('🔍 ===== INDEX PAGE SCRIPT LOADED =====');
+        
+        // Navigate to test page
+        function goToTest() {
+            console.log('🧪 Navigating to test page');
+            window.location.href = 'test.html';
         }
         
-        // Check login status after DOM is loaded
+        // Navigate to library page
+        function goToLibrary() {
+            console.log('📚 Navigating to library page');
+            window.location.href = 'library.html';
+        }
+        
+        // Navigate to analysis page
+        function goToAnalysis() {
+            console.log('📊 Navigating to analysis page');
+            window.location.href = 'question-analysis.html';
+        }
+        
+        // Navigate to settings page
+        function goToSettings() {
+            console.log('⚙️ Navigating to settings page');
+            // For now, just show an alert - you can implement a settings page later
+            alert('Settings page coming soon!');
+        }
+        
+        // SINGLE INITIALIZATION STRATEGY - No more multiple triggers!
+        let initializationComplete = false;
+        
+        function triggerInitialization() {
+            if (initializationComplete) {
+                console.log('🔍 Initialization already complete, skipping...');
+                return;
+            }
+            
+            console.log('🔍 ===== TRIGGERING INITIALIZATION =====');
+            console.log('🔍 Document ready state:', document.readyState);
+            console.log('🔍 Viewing thread:', localStorage.getItem('viewing_thread'));
+            
+            // Check if we have a viewing_thread - if so, load it directly
+            const viewingThread = localStorage.getItem('viewing_thread');
+            if (viewingThread) {
+                console.log('🔍 Viewing thread detected, loading from library...');
+                loadThreadFromLibrary();
+                return;
+            }
+            
+            // Wait for functions to be defined for normal initialization
+            setTimeout(() => {
+                console.log('🔍 Checking if initializeChat function exists...');
+                if (typeof initializeChat === 'function') {
+                    console.log('✅ initializeChat function found, calling it...');
+                    
+                    // Check login status first
+                    console.log('🔍 Step 0: Checking login status...');
+                    checkLoginStatus();
+                    
+                    // Preload critical pages
+                    console.log('🔍 Step 1: Preloading pages...');
+                    preloadPages();
+                    
+                    // Initialize chat functionality (this will load the thread)
+                    console.log('🔍 Step 2: Initializing chat...');
+                    initializeChat();
+                    
+                    // Initialize user menu
+                    console.log('🔍 Step 3: Initializing user menu...');
+                    initializeUserMenu();
+                    
+                    // Initialize phone form event listeners
+                    console.log('🔍 Step 4: Initializing phone form...');
+                    initializePhoneForms();
+                    
+                    initializationComplete = true;
+                    console.log('✅ Initialization completed successfully');
+                    
+                } else {
+                    console.log('❌ initializeChat function not yet defined, retrying...');
+                    // Retry after a longer delay
+                    setTimeout(() => {
+                        if (typeof initializeChat === 'function') {
+                            console.log('✅ initializeChat function found on retry, calling it...');
+                            initializeChat();
+                            initializationComplete = true;
+                        } else {
+                            console.log('❌ initializeChat function still not found');
+                        }
+                    }, 500);
+                }
+            }, 200);
+        }
+        
+        // SINGLE DOMContentLoaded listener - removes all duplicate initialization
         document.addEventListener('DOMContentLoaded', function() {
-        checkLoginStatus();
+            console.log('🔍 ===== DOM CONTENT LOADED EVENT FIRED =====');
+            console.log('🔍 Page URL:', window.location.href);
+            console.log('🔍 Viewing thread from localStorage:', localStorage.getItem('viewing_thread'));
+            console.log('🔍 Document ready state:', document.readyState);
+            
+            // Trigger initialization only once
+            triggerInitialization();
         });
+        
+        // Manual test function for debugging thread loading
+        function manualThreadLoadingTest() {
+            console.log('🔍 ===== MANUAL THREAD LOADING TEST START =====');
+            const viewingThread = localStorage.getItem('viewing_thread');
+            console.log('🔍 Current viewing_thread:', viewingThread);
+            
+            if (!viewingThread) {
+                console.log('❌ No viewing_thread found in localStorage');
+                return;
+            }
+            
+            console.log('🔍 Testing loadThreadFromLibrary function...');
+            if (typeof loadThreadFromLibrary === 'function') {
+                console.log('✅ loadThreadFromLibrary function exists, calling it...');
+                // Thread loading removed
+            } else {
+                console.log('❌ loadThreadFromLibrary function not found');
+            }
+            console.log('🔍 ===== MANUAL THREAD LOADING TEST END =====');
+        }
+        
+        // Check login status function
+        function checkLoginStatus() {
+            console.log('🔍 Checking login status...');
+            
+            const authToken = localStorage.getItem('auth_token') || localStorage.getItem('authToken');
+            const userId = localStorage.getItem('user_id');
+            const isVerified = localStorage.getItem('is_verified');
+            const userPhone = localStorage.getItem('user_phone') || localStorage.getItem('userPhone');
+            
+            console.log('🔍 Login status check:', {
+                authToken: !!authToken,
+                userId: userId,
+                isVerified: isVerified,
+                userPhone: userPhone
+            });
+            
+            // If user is not logged in, show login overlay
+            if (!authToken || !userId || isVerified !== 'true') {
+                console.log('❌ User not logged in, showing login overlay');
+                const loginOverlay = document.getElementById('login-overlay');
+                if (loginOverlay) {
+                    loginOverlay.classList.remove('hidden');
+                }
+            } else {
+                console.log('✅ User is logged in, hiding login overlay');
+                const loginOverlay = document.getElementById('login-overlay');
+                if (loginOverlay) {
+                    loginOverlay.classList.add('hidden');
+                }
+            }
+        }
+        
+        // Initialize conversation function
+        async function initializeConversation() {
+            try {
+                const response = await fetch('/api/chat/start', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        user_id: localStorage.getItem('user_id') || '1'
+                    })
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Failed to initialize conversation');
+                }
+                
+                const data = await response.json();
+                console.log('✅ Conversation initialized:', data);
+            } catch (error) {
+                console.error('❌ Error initializing conversation:', error);
+            }
+        }
+        
+        // Auto resize function
+        function autoResize(textarea) {
+            textarea.style.height = 'auto';
+            textarea.style.height = textarea.scrollHeight + 'px';
+        }
+        
+        // Auto resize textarea function
+        function autoResizeTextarea(textarea) {
+            textarea.style.height = 'auto';
+            textarea.style.height = textarea.scrollHeight + 'px';
+        }
+        
+        // Handle input change function
+        function handleInputChange(textarea) {
+            autoResizeTextarea(textarea);
+        }
+        
+        // Handle input focus function
+        function handleInputFocus(textarea) {
+            autoResizeTextarea(textarea);
+        }
+        
+        // Hide bottom navigation function
+        function hideBottomIcons() {
+            const bottomNav = document.querySelector('.bottom-nav-container');
+            if (bottomNav) {
+                bottomNav.style.display = 'none';
+            }
+        }
+        
+        // Disable scrolling function
+        function disableScrolling() {
+            document.body.style.overflow = 'hidden';
+        }
+        
+        // Enable scrolling function
+        function enableScrolling() {
+            document.body.style.overflow = 'auto';
+        }
+        
+        // Show bottom navigation function
+        function showBottomIcons() {
+            const bottomNav = document.querySelector('.bottom-nav-container');
+            if (bottomNav) {
+                bottomNav.style.display = 'block';
+            }
+        }
+        
+        // Handle analysis expanded input key down function
+        function handleAnalysisExpandedInputKeyDown(event) {
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault();
+                sendAnalysisExpandedMessage();
+            }
+        }
+        
+        // Handle analysis input change function
+        function handleAnalysisInputChange(textarea) {
+            autoResizeTextarea(textarea);
+        }
+        
+        // Send analysis expanded message function
+        async function sendAnalysisExpandedMessage() {
+            console.log('🚀 sendAnalysisExpandedMessage function called');
+            
+            // SCROLL TO TOP immediately when send button is clicked
+            window.scrollTo(0, 0);
+            document.documentElement.scrollTop = 0;
+            document.body.scrollTop = 0;
+            const messagesContainer = document.getElementById('chat-messages');
+            if (messagesContainer) {
+                messagesContainer.scrollTop = 0;
+            }
+            console.log('📨 SCROLLED TO TOP on send button click');
+            
+            const textarea = document.getElementById('analysis-expanded-user-input');
+            const message = textarea.value.trim();
+            
+            if (!message) {
+                console.log('⚠️ No message to send');
+                return;
+            }
+            
+            // Clear the input
+            textarea.value = '';
+            
+            // Add user message to chat
+            addMessage(message, true);
+            
+            // Send message to AI
+            await sendMessageToAI(message);
+        }
         
         tailwind.config = {
             theme: {
@@ -273,10 +527,13 @@
             hyphens: auto;
         }
         
-        /* Force maximum width for AI responses - same as detailed analysis */
-        .chat-messages .message-bubble:not([class*="bg-[#e8e8e4]"]) {
-            width: 100% !important;
-            max-width: 100% !important;
+        /* Ensure AI message content stays stable during streaming */
+        .chat-messages .message-bubble:not([class*="bg-[#e8e8e4]"]) div {
+            direction: rtl !important;
+            text-align: right !important;
+            unicode-bidi: bidi-override !important;
+            text-align-last: right !important;
+            writing-mode: horizontal-tb !important;
         }
         
         /* Better mobile typography */
@@ -289,8 +546,9 @@
             
             /* AI messages (right-aligned) - maximum width - same as detailed analysis */
             .chat-messages .message-bubble:not([class*="bg-[#e8e8e4]"]) {
-                width: 100% !important;
-                max-width: 100% !important;
+                width: auto !important;
+                max-width: calc(32rem + 0.15rem) !important;
+                margin-left: auto !important;
                 margin-right: 0 !important;
             }
             
@@ -468,7 +726,7 @@
             position: absolute !important;
             right: 0 !important;
             top: 0 !important;
-            font-size: 1.5rem !important; /* Bigger bullet points */
+            font-size: 2rem !important; /* Even bigger bullet points */
             font-weight: 400 !important; /* Same as text */
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important; /* Same as text */
             color: #374151 !important; /* Same as text */
@@ -486,7 +744,7 @@
             content: counter(list-counter) ".";
             color: #6b7280;
             font-weight: bold;
-            font-size: 1.125rem; /* Match text-lg (18px) */
+            font-size: 2rem; /* Bigger numbered bullets */
             position: absolute;
             right: 0;
             top: 0;
@@ -566,6 +824,10 @@
             .study-list-item {
                 font-size: 0.9rem;
             }
+            
+            .study-list-item::before {
+                font-size: 2rem !important; /* Bigger bullets on mobile too */
+            }
         }
 
         /* Emoji styling */
@@ -631,12 +893,73 @@
                 position: fixed !important;
             }
             
-            .icons-container {
-                width: 100% !important;
-                max-width: 100% !important;
-                padding-left: 1rem !important;
-                padding-right: 1rem !important;
+        /* Enhanced Bottom Navigation Styles */
+        .bottom-nav-container {
+            background-color: #E8E8E4;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+        
+        .nav-item {
+            min-width: 44px;
+            min-height: 44px;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+        
+        .nav-item:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+        
+        .nav-item.active .nav-icon {
+            color: #1f2937;
+            stroke-width: 2.5;
+        }
+        
+        .nav-label {
+            font-size: 0.75rem;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+        
+        .nav-item.active .nav-label {
+            color: #1f2937;
+            font-weight: 600;
+        }
+        
+        /* Mobile-first responsive design */
+        @media (max-width: 640px) {
+            .nav-content {
+                padding: 0.75rem 1rem;
             }
+            
+            .nav-item {
+                padding: 0.5rem;
+            }
+            
+            .nav-label {
+                display: none;
+            }
+        }
+        
+        @media (min-width: 641px) {
+            .nav-content {
+                padding: 1rem 1.5rem;
+            }
+            
+            .nav-item {
+                padding: 0.75rem;
+            }
+        }
+        
+        /* Desktop styles */
+        @media (min-width: 1024px) {
+            .nav-content {
+                max-width: 600px;
+                padding: 1rem 2rem;
+            }
+        }
             
             /* Optimize animations for mobile - exclude positioning elements */
             .chat-message,
@@ -660,7 +983,6 @@
             /* Optimize scrolling */
             .chat-container {
                 -webkit-overflow-scrolling: touch;
-                overflow-scrolling: touch;
             }
         }
         
@@ -679,7 +1001,7 @@
                 transform: translateX(-50%) !important;
             }
             
-            .icons-container {
+            .bottom-nav-container {
                 padding-left: 0.5rem !important;
                 padding-right: 0.5rem !important;
             }
@@ -711,8 +1033,8 @@
                 z-index: 30 !important;
             }
             
-            /* Ensure icons container stays at bottom */
-            .icons-container {
+            /* Ensure bottom navigation stays at bottom */
+            .bottom-nav-container {
                 position: fixed !important;
                 bottom: 1rem !important;
                 left: 0 !important;
@@ -736,7 +1058,7 @@
                 bottom: 6.5rem !important; /* 104px */
             }
             
-            .icons-container {
+            .bottom-nav-container {
                 padding: 0.75rem 0.5rem !important;
                 bottom: 0.5rem !important;
             }
@@ -760,7 +1082,7 @@
                 bottom: 7rem !important; /* 112px */
             }
             
-            .icons-container {
+            .bottom-nav-container {
                 padding: 1rem 0.75rem !important;
                 bottom: 0.75rem !important;
             }
@@ -780,7 +1102,7 @@
                 bottom: 7.5rem !important; /* 120px */
             }
             
-            .icons-container {
+            .bottom-nav-container {
                 padding: 1rem 1rem !important;
                 bottom: 1rem !important;
             }
@@ -800,7 +1122,7 @@
                 bottom: 8rem !important; /* 128px */
             }
             
-            .icons-container {
+            .bottom-nav-container {
                 padding: 1.25rem 1.25rem !important;
                 bottom: 1.25rem !important;
             }
@@ -820,7 +1142,7 @@
                 bottom: 8.5rem !important; /* 136px */
             }
             
-            .icons-container {
+            .bottom-nav-container {
                 padding: 1.5rem 1.5rem !important;
                 bottom: 1.5rem !important;
             }
@@ -1004,7 +1326,7 @@
             <main class="pt-24 px-2 sm:px-3 relative flex flex-col" style="background-color: #F8F9FA; min-height: 100vh;">
         <div class="max-w-full mx-auto flex-1">
             <!-- Chat Messages Container -->
-            <div id="chat-messages" class="chat-container space-y-6 hidden" style="padding-bottom: 6.25rem;"> <!-- 100px -->
+            <div id="chat-messages" class="chat-container space-y-6 hidden" style="padding-bottom: 6.25rem; display: none;"> <!-- 100px -->
                 <!-- Messages will be populated by JavaScript -->
             </div>
         </div>
@@ -1026,6 +1348,19 @@
                 
                 <!-- Center: Input Field -->
                 <div class="flex-1 mx-4">
+                    <script>
+                        // Function to handle input focus - make button black immediately (Analysis Page Style)
+                        function handleInputFocus(textarea) {
+                            console.log(' Input focused, showing expanded input');
+                            // Switch to chat header when input is focused
+                            const expandedInputContainer = document.getElementById('expanded-input-container');
+                            if (expandedInputContainer) {
+                                expandedInputContainer.classList.remove('hidden');
+                            }
+                            textarea.classList.add('input-focused');
+                            // Additional UI logic can be added here
+                        }
+                    </script>
                     <textarea 
                         id="user-input" 
                         class="user-input w-full px-2 py-2 pr-20 resize-none text-gray-900 placeholder-gray-500 text-xl transition-all duration-200 bg-transparent border-none outline-none"
@@ -1067,50 +1402,66 @@
         <div class="border-b border-gray-200 mx-auto" style="width: 95%; max-width: 37.5rem;"></div> <!-- 600px -->
     </main>
     
-    <!-- Four Icons - Standard Mobile Navigation Bar - Separated for independent positioning -->
-    <div class="icons-container fixed bottom-0 left-0 right-0 py-4 px-3 sm:px-4 flex justify-around items-center space-x-8 z-50 bg-transparent">
-                         <!-- First Icon: Document with pencil (Chat page) -->
-             <button class="icon-button p-2 hover:text-gray-600 transition-colors" onclick="handleChatClick()">
-                 <svg class="w-6 h-6 nav-icon active" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                     <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" stroke-width="2"/>
-                     <path d="M14 2v6h6" stroke-width="2"/>
-                     <path d="M16 13H8" stroke-width="2"/>
-                     <path d="M16 17H8" stroke-width="2"/>
-                     <path d="M10 9H8" stroke-width="2"/>
-                 </svg>
-             </button>
-             
-             <!-- Second Icon: Open book (Library) -->
-             <button class="icon-button p-2 hover:text-gray-600 transition-colors" onclick="window.location.href='library.html'">
-                 <svg class="w-6 h-6 nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                     <path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" stroke-width="2"/>
-                 </svg>
-             </button>
-             
-             <!-- Third Icon: Circle with tick inside (Test page) -->
-             <button class="icon-button p-2 hover:text-gray-600 transition-colors" onclick="goToTest()">
-                 <svg class="w-6 h-6 nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                     <circle cx="12" cy="12" r="10" stroke-width="2"/>
-                     <path d="M9 12l2 2 4-4" stroke-width="2"/>
-                 </svg>
-             </button>
+    <!-- Enhanced Responsive Bottom Navigation Bar -->
+    <nav class="bottom-nav-container fixed bottom-0 left-0 right-0 z-50" style="background-color: #E8E8E4; padding-bottom: env(safe-area-inset-bottom);">
+        <div class="nav-content flex justify-around items-center py-3 px-4 max-w-md mx-auto">
+            <!-- Home Icon -->
+            <button class="nav-item flex flex-col items-center p-2 transition-all duration-200 hover:scale-105" onclick="handleChatClick()" title="Home">
+                <svg class="w-6 h-6 text-gray-700 nav-icon active" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" stroke-width="2"/>
+                </svg>
+                <span class="nav-label text-xs text-gray-600 mt-1 hidden sm:block">Home</span>
+            </button>
             
+            <!-- Library Icon -->
+            <button class="nav-item flex flex-col items-center p-2 transition-all duration-200 hover:scale-105" onclick="goToLibrary()" title="Library">
+                <svg class="w-6 h-6 text-gray-700 nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" stroke-width="2"/>
+                </svg>
+                <span class="nav-label text-xs text-gray-600 mt-1 hidden sm:block">Library</span>
+            </button>
             
+            <!-- Analysis Icon -->
+            <button class="nav-item flex flex-col items-center p-2 transition-all duration-200 hover:scale-105" onclick="goToAnalysis()" title="Analysis">
+                <svg class="w-6 h-6 text-gray-700 nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" stroke-width="2"/>
+                </svg>
+                <span class="nav-label text-xs text-gray-600 mt-1 hidden sm:block">Analysis</span>
+            </button>
+            
+            <!-- Test Icon -->
+            <button class="nav-item flex flex-col items-center p-2 transition-all duration-200 hover:scale-105" onclick="goToTest()" title="Test">
+                <svg class="w-6 h-6 text-gray-700 nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="10" stroke-width="2"/>
+                    <path d="M9 12l2 2 4-4" stroke-width="2"/>
+                </svg>
+                <span class="nav-label text-xs text-gray-600 mt-1 hidden sm:block">Test</span>
+            </button>
+            
+            <!-- Settings Icon -->
+            <button class="nav-item flex flex-col items-center p-2 transition-all duration-200 hover:scale-105" onclick="goToSettings()" title="Settings">
+                <svg class="w-6 h-6 text-gray-700 nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="3" stroke-width="2"/>
+                    <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z" stroke-width="2"/>
+                </svg>
+                <span class="nav-label text-xs text-gray-600 mt-1 hidden sm:block">Settings</span>
+            </button>
         </div>
+    </nav>
         
                 
                  <!-- Expanded Input Container (Hidden by default) - Analysis Page Style -->
-                 <div id="analysis-expanded-input-container" class="fixed bottom-0 left-0 right-0 bg-[#e8e8e4] rounded-t-3xl shadow-2xl hidden z-100" style="height: 100px; border-top: 1px solid #d1d5db;">
+                 <div id="analysis-expanded-input-container" class="fixed bottom-0 left-0 right-0 bg-[#e8e8e4] shadow-2xl hidden z-100" style="height: 100px; border-top: 1px solid #d1d5db;">
                      <div class="relative h-full p-6">
                          <!-- Expanded Textarea -->
                          <textarea 
                              id="analysis-expanded-user-input" 
-                             class="w-full bg-transparent border-none resize-none focus:outline-none text-[#000000] font-sans text-2xl placeholder-[#1e1e1e] pr-20 text-right absolute top-2 right-0"
+                             class="w-full bg-transparent border-none resize-none focus:outline-none text-[#000000] font-sans text-4xl placeholder-[#1e1e1e] pr-20 text-right absolute top-2 right-0"
                              placeholder="Learn anything..."
                              rows="3"
                              onkeydown="handleAnalysisExpandedInputKeyDown(event)"
                              oninput="handleAnalysisInputChange(this)"
-                             style="min-height: 80px; line-height: 1.5; cursor: text;"
+                             style="min-height: 80px; line-height: 1.5; cursor: text; font-size: 2.25rem;"
                          ></textarea>
                          
                          <!-- Recorder Icon Button - Right Side -->
@@ -1131,18 +1482,14 @@
                                  </button>
                          
                          <!-- Send Button - Left Side -->
-                         <button 
-                             id="analysis-expanded-send-button"
-                             class="absolute bottom-3 left-4 w-8 h-8 bg-gray-400 rounded-full flex items-center justify-center hover:bg-gray-600 transition-colors shadow-lg"
-                             onclick="sendAnalysisExpandedMessage()"
-                         >
+                         <button id="analysis-expanded-send-button" class="send-button absolute bottom-3 left-4 w-8 h-8 rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors bg-gray-300" onclick="sendAnalysisExpandedMessage()" title="Send Message">
                              <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19V5M5 12l7-7 7 7"/>
-                                 </svg>
-                             </button>
-                         </div>
+                             </svg>
+                         </button>
+                         
                      </div>
-                     </div>
+                 </div>
                      
         <!-- Chat Input for After AI Response (Hidden by default) - Analysis Page Style -->
         <div id="chat-input-after-response" class="fixed bottom-0 left-0 right-0 bg-transparent hidden z-50" style="padding-bottom: 0.25rem;">
@@ -1214,8 +1561,11 @@
     <script>
         let currentConversationId = 'default';
         let isStreaming = false;
+        let currentThreadId = null;
+        let isThreadLoaded = false;
         
-        // Simple approach - no complex event listeners needed
+        
+        
         // All events are handled by inline onclick, onfocus, onblur attributes
         
         // Initialize conversation
@@ -1290,10 +1640,10 @@
                 chatInputSection.style.display = 'none';
             }
             
-            // Show bottom navigation when chat input is hidden
-            const bottomNav = document.querySelector('.icons-container');
+            // Hide bottom navigation (icons) when showing expanded input
+            const bottomNav = document.querySelector('.bottom-nav-container');
             if (bottomNav) {
-                bottomNav.style.display = 'flex';
+                bottomNav.style.display = 'none';
             }
             
             // Show expanded input
@@ -1302,9 +1652,6 @@
                 expandedInput.classList.remove('hidden');
                 expandedInput.style.display = 'block';
             }
-            
-            // Hide bottom navigation when input appears
-            bottomNav.style.display = 'none';
             
             // Focus on the expanded textarea
             setTimeout(() => {
@@ -1317,7 +1664,7 @@
         
         // Function to hide bottom icons
         function hideBottomIcons() {
-            const iconsContainer = document.querySelector('.icons-container');
+            const iconsContainer = document.querySelector('.bottom-nav-container');
             if (iconsContainer) {
                 iconsContainer.style.display = 'none';
             }
@@ -1337,7 +1684,7 @@
         
         // Function to show bottom icons
         function showBottomIcons() {
-            const iconsContainer = document.querySelector('.icons-container');
+            const iconsContainer = document.querySelector('.bottom-nav-container');
             if (iconsContainer) {
                 iconsContainer.style.display = 'flex';
             }
@@ -1356,9 +1703,9 @@
             if (sendButton) {
                 if (textarea.value.trim()) {
                     sendButton.classList.remove('bg-gray-300');
-                    sendButton.classList.add('bg-gray-600');
+                    sendButton.classList.add('bg-black');
                 } else {
-                    sendButton.classList.remove('bg-gray-600');
+                    sendButton.classList.remove('bg-black');
                     sendButton.classList.add('bg-gray-300');
                 }
             }
@@ -1367,41 +1714,60 @@
         async function sendAnalysisExpandedMessage() {
             console.log('🚀 sendAnalysisExpandedMessage function called');
             
+            // SCROLL TO TOP immediately when send button is clicked
+            window.scrollTo(0, 0);
+            document.documentElement.scrollTop = 0;
+            document.body.scrollTop = 0;
+            const messagesContainer = document.getElementById('chat-messages');
+            if (messagesContainer) {
+                messagesContainer.scrollTop = 0;
+            }
+            console.log('📨 SCROLLED TO TOP on send button click');
+            
             const textarea = document.getElementById('analysis-expanded-user-input');
             const message = textarea.value.trim();
             
             if (message) {
                 console.log('📝 Message content:', message);
                 
-                // Create new thread if none exists
-                if (!currentThreadId) {
-                    const title = message.length > 50 ? message.substring(0, 50) + '...' : message;
-                    await createNewThread(title);
-                }
                 
-                // Add message to chat (like analysis page)
+                // Display user message using proper addMessage function
                 addMessage(message, true);
                 
                 // Save user message to thread
-                await saveMessageToThread(message, 'user');
+                // Message saving removed
                 
-                // Clear input
+                // Clear input after displaying message
                 textarea.value = '';
                 
-                // Hide expanded input immediately (like analysis page)
+                // Hide expanded input immediately
                 const expandedInput = document.getElementById('analysis-expanded-input-container');
-            if (expandedInput) {
-                expandedInput.classList.add('hidden');
-                expandedInput.style.display = 'none';
-            }
-            
-                // Hide bottom navigation during AI response (like analysis page)
-                const bottomNav = document.querySelector('.icons-container');
+                if (expandedInput) {
+                    expandedInput.classList.add('hidden');
+                    expandedInput.style.display = 'none';
+                }
+                
+                // Hide bottom navigation during AI response
+                const bottomNav = document.querySelector('.bottom-nav-container');
                 if (bottomNav) {
                     bottomNav.style.display = 'none';
                 }
                 
-                // Send message to AI directly (like analysis page)
+                // Hide main user input during AI response
+                const mainUserInput = document.getElementById('main-user-input');
+                if (mainUserInput) {
+                    mainUserInput.style.display = 'none';
+                }
+                
+                // Small delay to ensure UI is properly updated
+                await new Promise(resolve => setTimeout(resolve, 50));
+                
+                // Save user message to conversation (non-blocking)
+                saveMessage('user', message).catch(error => {
+                    console.log('⚠️ Failed to save user message:', error);
+                });
+                
+                // Send message to AI using the existing sendMessageToAI function
                 await sendMessageToAI(message);
             }
         }
@@ -1421,14 +1787,24 @@
             try {
                 isStreaming = true;
                 
-                // Create thread if needed
-                let threadId = currentThreadId;
-                if (!threadId) {
-                    threadId = await createNewThread('New Chat');
-                    if (!threadId) {
-                        console.error('❌ Failed to create thread');
-                        return;
-                    }
+                
+                // Build context for AI (recent conversation history)
+                const contextForAI = [];
+                const messagesContainer = document.getElementById('chat-messages');
+                if (messagesContainer) {
+                    const messageElements = messagesContainer.querySelectorAll('[id^="msg_"]');
+                    const recentMessages = Array.from(messageElements).slice(-10); // Last 10 messages
+                    
+                    recentMessages.forEach(msgElement => {
+                        const isUser = msgElement.classList.contains('justify-start');
+                        const contentElement = msgElement.querySelector('div[class*="text-"]');
+                        if (contentElement) {
+                            contextForAI.push({
+                                role: isUser ? 'user' : 'assistant',
+                                content: contentElement.textContent.trim()
+                            });
+                        }
+                    });
                 }
                 
                 console.log('📤 Making API call to /api/chat/stream');
@@ -1439,7 +1815,9 @@
                     },
                     body: JSON.stringify({
                         message: message,
-                        threadId: threadId
+                        thread_id: currentThreadId,
+                        user_id: localStorage.getItem('user_id') || '1',
+                        context: contextForAI
                     })
                 });
                 
@@ -1451,7 +1829,7 @@
                 const reader = response.body.getReader();
                 const decoder = new TextDecoder();
                 
-                // Create AI message element
+                // Create AI message using proper addMessage function
                 const messageId = `ai-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
                 addMessage('', false, messageId);
                 
@@ -1459,7 +1837,7 @@
                     const { done, value } = await reader.read();
                     if (done) break;
                     
-                    const chunk = decoder.decode(value);
+                    const chunk = decoder.decode(value, { stream: true });
                     const lines = chunk.split('\n');
                     
                     for (const line of lines) {
@@ -1477,7 +1855,9 @@
                             if (data.content) {
                                 fullResponse += data.content;
                                 console.log('📝 Full response so far:', fullResponse);
-                                updateMessage(messageId, fullResponse);
+                                
+                                // Update message content directly
+                                updateMessageContent(messageId, fullResponse);
                             }
                         } catch (e) {
                             console.log('Non-JSON line:', line);
@@ -1487,41 +1867,86 @@
                 
                 console.log('✅ AI response completed');
                 
+                // Save AI response to conversation (non-blocking)
+                if (fullResponse.trim()) {
+                    saveMessage('assistant', fullResponse).catch(error => {
+                        console.log('⚠️ Failed to save AI response:', error);
+                    });
+                }
+                
                 // If no response was received, show a fallback message
                 if (!fullResponse.trim()) {
                     console.log('⚠️ No response content received, showing fallback');
-                    updateMessage(messageId, 'متأسفانه پاسخ مناسبی دریافت نشد. لطفاً دوباره تلاش کنید.');
+                    updateMessageContent(messageId, 'متأسفانه پاسخ مناسبی دریافت نشد. لطفاً دوباره تلاش کنید.');
                 }
                 
             } catch (error) {
                 console.error('❌ Error in sendMessageToAI:', error);
-                addMessage('Sorry, there was an error processing your request.', false);
+                // Show error message in chat
+                const messagesContainer = document.getElementById('chat-messages');
+                if (messagesContainer) {
+                    const errorDiv = document.createElement('div');
+                    errorDiv.className = 'flex justify-start mb-4';
+                    errorDiv.innerHTML = `
+                        <div class="bg-red-100 rounded-lg px-4 py-2 max-w-xs lg:max-w-md">
+                            <div class="text-red-800">متأسفانه خطایی رخ داد. لطفاً دوباره تلاش کنید.</div>
+                        </div>
+                    `;
+                    messagesContainer.appendChild(errorDiv);
+                }
             } finally {
                 isStreaming = false;
                 console.log('✅ Streaming completed, flag reset');
                 
-                // Save AI response to thread
-                console.log('🔍 Attempting to save AI response:', {
-                    fullResponse: fullResponse,
-                    fullResponseLength: fullResponse.length,
-                    fullResponseTrimmed: fullResponse.trim(),
-                    hasContent: fullResponse && fullResponse.trim()
-                });
-                
-                if (fullResponse && fullResponse.trim()) {
-                    console.log('🔍 Saving AI response to thread...');
-                    await saveMessageToThread(fullResponse, 'assistant');
-                    console.log('✅ AI response saved to thread');
-                } else {
-                    console.log('❌ AI response is empty, not saving');
-                }
-                
-                // Show user input after response completes (Analysis Page Style)
+                // Show user input after response completes (proper flow)
                 showUserInputAfterResponse();
             }
         }
         
-        // Function to update an existing message (for streaming)
+        // Throttle function for optimizing streaming updates
+        function throttle(func, limit) {
+            let inThrottle;
+            return function() {
+                const args = arguments;
+                const context = this;
+                if (!inThrottle) {
+                    func.apply(context, args);
+                    inThrottle = true;
+                    setTimeout(() => inThrottle = false, limit);
+                }
+            }
+        }
+        
+        // Create throttled update function for faster streaming
+        const throttledUpdateMessage = throttle(updateMessage, 16); // ~60fps
+        
+        // Simple function to update message content for sendMessageToAI
+        function updateMessageContent(messageId, content) {
+            const messageElement = document.getElementById(messageId);
+            if (messageElement) {
+                // Debug: Check message positioning
+                console.log('🔍 Message element positioning:', {
+                    justifyContent: messageElement.style.justifyContent,
+                    className: messageElement.className,
+                    messageId: messageId
+                });
+                
+                // Find the content div with text-lg class (AI message structure)
+                const contentDiv = messageElement.querySelector('.text-lg.leading-relaxed');
+                if (contentDiv) {
+                    // Format the content using the same formatting as addMessage
+                    const formattedContent = formatChatContent(content);
+                    contentDiv.innerHTML = formattedContent;
+                    
+                    // Ensure RTL direction is maintained
+                    contentDiv.setAttribute('dir', 'rtl');
+                    contentDiv.style.textAlign = 'right';
+                    contentDiv.style.direction = 'rtl';
+                }
+            }
+        }
+        
+        // Function to update an existing message (for streaming) - OPTIMIZED FOR SPEED
         function updateMessage(messageId, content) {
             const messageElement = document.getElementById(messageId);
             if (messageElement) {
@@ -1529,21 +1954,42 @@
                 if (messageBubble) {
                     const contentDiv = messageBubble.querySelector('div');
                     if (contentDiv) {
+                        // OPTIMIZATION: Only update if content actually changed
+                        if (contentDiv.textContent === content) return;
+                        
                         // Apply study mode formatting during streaming
                         const formattedContent = formatChatContent(content);
                         contentDiv.innerHTML = formattedContent;
-                        console.log('📝 Message updated with study mode formatting:', messageId, 'Content length:', content.length);
                         
-                        // Apply interactive elements for streaming updates
-                        addInteractiveElements(messageElement);
-                    } else {
-                        console.error('❌ Content div not found in message bubble');
+                        // CRITICAL: Force RTL alignment for AI messages during streaming
+                        if (!messageElement.classList.contains('user-message')) {
+                            // Set all RTL properties to prevent content movement
+                            contentDiv.setAttribute('dir', 'rtl');
+                            contentDiv.style.textAlign = 'right';
+                            contentDiv.style.direction = 'rtl';
+                            contentDiv.style.unicodeBidi = 'bidi-override';
+                            contentDiv.style.textAlignLast = 'right';
+                            contentDiv.style.writingMode = 'horizontal-tb';
+                            
+                            // Force the message bubble to stay right-aligned
+                            messageBubble.style.marginLeft = 'auto';
+                            messageBubble.style.marginRight = '0';
+                            messageBubble.style.textAlign = 'right';
+                            
+                            // Force the message container to stay right-aligned
+                            messageElement.style.justifyContent = 'flex-end';
+                            messageElement.style.alignItems = 'flex-start';
+                        }
+                        
+                        // OPTIMIZATION: Reduce layout calculations - only do once per update
+                        messageElement.offsetHeight;
+                        
+                        // Apply interactive elements for streaming updates (only if needed)
+                        if (content.includes('<button') || content.includes('<details')) {
+                            addInteractiveElements(messageElement);
+                        }
                     }
-                } else {
-                    console.error('❌ Message bubble not found');
                 }
-            } else {
-                console.error('❌ Message element not found:', messageId);
             }
         }
         
@@ -1554,11 +2000,16 @@
             if (chatInputAfterResponse) {
                 chatInputAfterResponse.classList.remove('hidden');
                 chatInputAfterResponse.style.display = 'block';
+                
+                // Ensure it's positioned at the very bottom with 0.25rem padding
+                chatInputAfterResponse.style.bottom = '0';
+                chatInputAfterResponse.style.paddingBottom = '0.25rem';
+                
                 console.log('✅ Chat input shown at bottom after response completion');
             }
             
             // Hide bottom navigation when chat input appears (like analysis page)
-            const bottomNav = document.querySelector('.icons-container');
+            const bottomNav = document.querySelector('.bottom-nav-container');
             if (bottomNav) {
                 bottomNav.style.display = 'none';
             }
@@ -1566,13 +2017,23 @@
         
         // Function to send message from chat input after response
         async function sendChatMessage() {
+            // SCROLL TO TOP immediately when send button is clicked
+            window.scrollTo(0, 0);
+            document.documentElement.scrollTop = 0;
+            document.body.scrollTop = 0;
+            const messagesContainer = document.getElementById('chat-messages');
+            if (messagesContainer) {
+                messagesContainer.scrollTop = 0;
+            }
+            console.log('📨 SCROLLED TO TOP on send button click');
+            
             const chatInputField = document.getElementById('chat-input-field');
             const message = chatInputField.value.trim();
             
             if (message) {
                 // Hide chat input and bottom navigation during AI response
                 const chatInputAfterResponse = document.getElementById('chat-input-after-response');
-                const bottomNav = document.querySelector('.icons-container');
+                const bottomNav = document.querySelector('.bottom-nav-container');
                 
                 if (chatInputAfterResponse) {
                     chatInputAfterResponse.classList.add('hidden');
@@ -1672,16 +2133,57 @@
         function handleHeaderClose() {
             console.log('🔍 Header close button clicked');
             
-            // Check if we're viewing a thread from library (not actively chatting)
-            const viewingThread = localStorage.getItem('viewing_thread');
-            const isThreadMode = viewingThread || (isThreadLoaded && currentThreadId);
+            // Check if we're in thread view mode by checking if bottom icons are hidden
+            // and chat input after response is visible
+            const bottomNav = document.querySelector('.bottom-nav-container');
+            const chatInputAfterResponse = document.getElementById('chat-input-after-response');
+            const mainUserInput = document.getElementById('main-user-input');
             
-            if (isThreadMode) {
-                console.log('📚 Thread loaded from library, going back to library');
+            const isThreadViewMode = (bottomNav && bottomNav.style.display === 'none') && 
+                                   (chatInputAfterResponse && chatInputAfterResponse.style.display === 'block') &&
+                                   (mainUserInput && mainUserInput.style.display === 'none');
+            
+            // Additional check: if we have a currentThreadId and isThreadLoaded is true, we're likely in thread view
+            const hasActiveThread = currentThreadId && isThreadLoaded;
+            
+            console.log('🔍 Detection results:', {
+                bottomNavHidden: bottomNav && bottomNav.style.display === 'none',
+                chatInputVisible: chatInputAfterResponse && chatInputAfterResponse.style.display === 'block',
+                mainInputHidden: mainUserInput && mainUserInput.style.display === 'none',
+                isThreadViewMode: isThreadViewMode,
+                hasActiveThread: hasActiveThread,
+                currentThreadId: currentThreadId,
+                isThreadLoaded: isThreadLoaded
+            });
+            
+            if (isThreadViewMode && hasActiveThread) {
+                console.log('📚 In thread view mode, going back to library');
+                // Restore normal UI state when going back from thread view
+                showBottomIcons();
+                
+                // Hide chat input after response
+                if (chatInputAfterResponse) {
+                    chatInputAfterResponse.classList.add('hidden');
+                    chatInputAfterResponse.style.display = 'none';
+                }
+                
+                // Restore main user input to normal position
+                if (mainUserInput) {
+                    mainUserInput.style.display = 'block';
+                    mainUserInput.style.visibility = 'visible';
+                    mainUserInput.style.bottom = '7.5rem'; // Back to normal position above icons
+                    mainUserInput.style.width = '95%';
+                    mainUserInput.style.maxWidth = '37.5rem';
+                }
+                
+                // Clear thread state
+                currentThreadId = null;
+                isThreadLoaded = false;
+                
                 // Go back to library page
                 window.location.href = 'library.html';
             } else {
-                console.log('💬 In chat page - going back to main page');
+                console.log('💬 In real chat mode, going back to main chat');
                 // Go back to main page with icons
                 goBackToMainPage();
             }
@@ -1726,7 +2228,7 @@
             }
             
             // Show bottom navigation icons
-            const bottomNav = document.querySelector('.icons-container');
+            const bottomNav = document.querySelector('.bottom-nav-container');
             if (bottomNav) {
                 bottomNav.style.display = 'flex';
                 bottomNav.style.visibility = 'visible';
@@ -1741,9 +2243,7 @@
             console.log('🆕 Starting new chat and showing main page');
             
             // Clear current thread data
-            currentThreadId = null;
-            threadMessages = [];
-            isThreadLoaded = false;
+            // Thread management removed
             
             // Clear localStorage
             localStorage.removeItem('viewing_thread');
@@ -1774,7 +2274,7 @@
             }
             
             // Show bottom navigation icons
-            const bottomNav = document.querySelector('.icons-container');
+            const bottomNav = document.querySelector('.bottom-nav-container');
             if (bottomNav) {
                 bottomNav.style.display = 'flex';
                 bottomNav.style.visibility = 'visible';
@@ -1789,9 +2289,7 @@
             console.log('🆕 Starting new conversation');
             
             // Clear current thread data
-            currentThreadId = null;
-            threadMessages = [];
-            isThreadLoaded = false;
+            // Thread management removed
             
             // Clear localStorage
             localStorage.removeItem('viewing_thread');
@@ -1818,11 +2316,23 @@
         function showExpandedInputFromChat() {
             console.log('🎯 Chat input clicked, showing expanded input');
             
+            // Hide main user input
+            const mainUserInput = document.getElementById('main-user-input');
+            if (mainUserInput) {
+                mainUserInput.style.display = 'none';
+            }
+            
             // Hide chat input
             const chatInputAfterResponse = document.getElementById('chat-input-after-response');
             if (chatInputAfterResponse) {
                 chatInputAfterResponse.classList.add('hidden');
                 chatInputAfterResponse.style.display = 'none';
+            }
+            
+            // Hide bottom navigation (icons)
+            const bottomNav = document.querySelector('.bottom-nav-container');
+            if (bottomNav) {
+                bottomNav.style.display = 'none';
             }
             
             // Show expanded input
@@ -2057,7 +2567,6 @@
             
             // Reset conversation state
             currentConversationId = null;
-            currentThreadId = null;
             
             // Clear input
             const messageInput = document.getElementById('message-input');
@@ -2078,47 +2587,6 @@
         }
         
         // Show thread menu function
-        function showThreadMenu() {
-            const options = [
-                'حذف گفتگو',
-                'آرشیو گفتگو', 
-                'اشتراک‌گذاری',
-                'کپی گفتگو',
-                'تنظیمات'
-            ];
-            
-            const choice = prompt(`گزینه‌های گفتگو:\n\n${options.map((option, index) => `${index + 1}. ${option}`).join('\n')}\n\nلطفاً شماره گزینه مورد نظر را وارد کنید:`);
-            
-            if (choice) {
-                const optionIndex = parseInt(choice) - 1;
-                if (optionIndex >= 0 && optionIndex < options.length) {
-                    const selectedOption = options[optionIndex];
-                    console.log('🔍 Selected option:', selectedOption);
-                    
-                    switch(selectedOption) {
-                        case 'حذف گفتگو':
-                            if (confirm('آیا مطمئن هستید که می‌خواهید این گفتگو را حذف کنید؟')) {
-                                deleteCurrentThread();
-                            }
-                            break;
-                        case 'آرشیو گفتگو':
-                            archiveCurrentThread();
-                            break;
-                        case 'اشتراک‌گذاری':
-                            shareConversation();
-                            break;
-                        case 'کپی گفتگو':
-                            copyConversation();
-                            break;
-                        case 'تنظیمات':
-                            showThreadSettings();
-                            break;
-                    }
-                } else {
-                    alert('گزینه نامعتبر انتخاب شده است.');
-                }
-            }
-        }
         
         // Share conversation function for second page
         function shareConversation() {
@@ -2190,32 +2658,6 @@
         }
         
         // Delete current thread function
-        function deleteCurrentThread() {
-            if (currentThreadId) {
-                // Here you would call API to delete the thread
-                console.log('🗑️ Deleting thread:', currentThreadId);
-                alert('گفتگو حذف شد');
-                hideSecondPage();
-            } else {
-                alert('هیچ گفتگویی برای حذف کردن وجود ندارد');
-            }
-        }
-        
-        // Archive current thread function
-        function archiveCurrentThread() {
-            if (currentThreadId) {
-                // Here you would call API to archive the thread
-                console.log('📦 Archiving thread:', currentThreadId);
-                alert('گفتگو آرشیو شد');
-            } else {
-                alert('هیچ گفتگویی برای آرشیو کردن وجود ندارد');
-            }
-        }
-        
-        // Show thread settings function
-        function showThreadSettings() {
-            alert('تنظیمات گفتگو (در حال توسعه)');
-        }
         
         // Share main conversation function
         function shareMainConversation() {
@@ -2282,9 +2724,35 @@
                 console.log('📨 Message ID set:', messageId);
             }
             
-            // Proper message positioning - user left, AI right
+            // Proper message positioning - User left, AI right (RTL)
             messageDiv.className = `flex w-full ${isUser ? 'justify-start' : 'justify-end'} mb-6`;
+            // Force positioning with inline styles to prevent CSS conflicts
+            messageDiv.style.display = 'flex';
+            messageDiv.style.width = '100%';
+            messageDiv.style.justifyContent = isUser ? 'flex-start' : 'flex-end'; // User left, AI right
+            messageDiv.style.alignItems = 'flex-start';
+            messageDiv.style.marginBottom = '1.5rem';
+            
+            // Debug: Log positioning for AI messages
+            if (!isUser) {
+                console.log('🔍 AI message positioning:', {
+                    justifyContent: messageDiv.style.justifyContent,
+                    className: messageDiv.className,
+                    isUser: isUser
+                });
+            }
+            
+            // CRITICAL: Position ALL messages at top left for consistent UX
+            messageDiv.style.position = 'relative';
+            messageDiv.style.top = '0';
+            messageDiv.style.left = '0';
+            messageDiv.style.right = 'auto';
+            messageDiv.style.bottom = 'auto';
+            messageDiv.style.transform = 'none';
+            messageDiv.style.marginTop = '0';
+            messageDiv.style.marginLeft = '0';
             console.log('📨 Message div classes:', messageDiv.className);
+            console.log('📨 Message div inline styles applied');
             
             // Check if content is already formatted (contains HTML tags)
             const isAlreadyFormatted = content.includes('<div') || content.includes('<p') || content.includes('<ul') || content.includes('<ol') || content.includes('<li');
@@ -2296,32 +2764,187 @@
             console.log('📨 Display content preview:', displayContent.substring(0, 100) + '...');
             
             const messageContent = `
-                <div class="${isUser ? 'bg-gray-200 text-gray-900' : 'text-gray-900 ml-auto'} rounded-3xl px-3 py-4 ${isUser ? 'shadow-sm' : ''}" style="max-width: calc(32rem + 0.15rem); ${isUser ? 'margin-right: auto;' : ''}">
-                    <div class="${isUser ? 'text-base' : 'text-lg'} leading-relaxed" ${!isUser ? 'dir="rtl"' : ''}>${displayContent}</div>
+                <div class="${isUser ? 'bg-gray-200 text-gray-900' : 'text-gray-900 ml-auto'} rounded-3xl px-3 py-4 ${isUser ? 'shadow-sm' : ''}" style="max-width: calc(32rem + 0.15rem); ${isUser ? 'margin-right: auto;' : 'margin-left: auto;'}">
+                    <div class="${isUser ? 'text-base' : 'text-lg'} leading-relaxed" ${!isUser ? 'dir="rtl" style="text-align: right; direction: rtl; unicode-bidi: bidi-override; text-align-last: right; writing-mode: horizontal-tb;"' : ''}>${displayContent}</div>
                 </div>
             `;
             
             messageDiv.innerHTML = messageContent;
+            
+            // All messages flow naturally (append at bottom)
             messagesContainer.appendChild(messageDiv);
-            console.log('📨 Message appended to container');
+            console.log('📨 Message appended naturally');
+            
+            console.log('📨 Message inserted at TOP of container');
             console.log('📨 Message div element:', messageDiv);
             console.log('📨 Message div innerHTML:', messageDiv.innerHTML);
+            
+            // Debug positioning after appending
+            const messageRect = messageDiv.getBoundingClientRect();
+            const containerRect = messagesContainer.getBoundingClientRect();
+            console.log('📨 Message positioning debug:', {
+                messageTop: messageRect.top,
+                messageLeft: messageRect.left,
+                containerTop: containerRect.top,
+                containerLeft: containerRect.left,
+                messageCount: messagesContainer.children.length,
+                isFirstMessage: messagesContainer.children.length === 1
+            });
             console.log('📨 Message div computed style:', window.getComputedStyle(messageDiv));
             
             // Show chat messages container if it's hidden
-            if (messagesContainer.classList.contains('hidden')) {
+            if (messagesContainer.classList.contains('hidden') || messagesContainer.style.display === 'none') {
+                // Remove hidden class and set proper display
                 messagesContainer.classList.remove('hidden');
-                console.log('📨 Chat messages container shown');
+                messagesContainer.style.display = 'block';
+                messagesContainer.style.visibility = 'visible';
+                messagesContainer.style.opacity = '1';
+                
+                // Force immediate layout calculation and positioning
+                messagesContainer.offsetHeight;
+                
+                // Ensure flexbox layout is properly applied
+                messagesContainer.style.flexDirection = 'column';
+                messagesContainer.style.alignItems = 'stretch';
+                
+                // Force another layout calculation
+                messagesContainer.offsetHeight;
+                console.log('📨 Chat messages container shown and positioned');
             }
             
-            // Force visibility
+            // CRITICAL: Force ALL messages to top-left positioning
+            setTimeout(() => {
+                console.log('📨 FORCING TOP-LEFT POSITIONING for all messages');
+                
+                // Force this specific message positioning based on type
+                messageDiv.style.setProperty('position', 'relative', 'important');
+                messageDiv.style.setProperty('top', '0', 'important');
+                messageDiv.style.setProperty('left', '0', 'important');
+                messageDiv.style.setProperty('margin-top', '0', 'important');
+                messageDiv.style.setProperty('margin-left', '0', 'important');
+                messageDiv.style.setProperty('justify-content', isUser ? 'flex-start' : 'flex-end', 'important');
+                messageDiv.style.setProperty('align-items', 'flex-start', 'important');
+                
+                // Also fix the message bubble inside based on message type
+                const messageBubble = messageDiv.querySelector('div');
+                if (messageBubble) {
+                    if (isUser) {
+                        messageBubble.style.setProperty('margin-right', 'auto', 'important');
+                        messageBubble.style.setProperty('margin-left', '0', 'important');
+                    } else {
+                        messageBubble.style.setProperty('margin-left', 'auto', 'important');
+                        messageBubble.style.setProperty('margin-right', '0', 'important');
+                    }
+                }
+                
+                // Force layout calculation
+                messageDiv.offsetHeight;
+                console.log('📨 TOP-LEFT POSITIONING FORCED');
+            }, 10);
+            
+            // Force visibility and proper positioning for message div
             messageDiv.style.display = 'flex';
             messageDiv.style.visibility = 'visible';
             messageDiv.style.opacity = '1';
-            console.log('📨 Message div forced visible');
+            // Ensure proper flexbox behavior
+            messageDiv.style.width = '100%';
+            messageDiv.style.flexDirection = 'row';
+            // Disable any transitions that might interfere
+            messageDiv.style.transition = 'none';
+            
+            // Scroll logic removed - now handled in send button functions
+            
+            // Force immediate positioning for first message
+            if (isUser && messagesContainer.children.length === 1) {
+                messageDiv.style.justifyContent = 'flex-start';
+                messageDiv.style.alignItems = 'flex-start';
+                console.log('📨 First user message positioning forced');
+            }
+            
+            console.log('📨 Message div forced visible and positioned');
             
             // Enable scrolling after first message without hiding navigation
             enableScrollingWithoutHidingNav();
+            
+            // Immediate positioning fix with enhanced debugging
+            requestAnimationFrame(() => {
+                // Force immediate layout calculation
+                messageDiv.offsetHeight;
+                // Ensure the message is positioned correctly
+                const computedStyle = window.getComputedStyle(messageDiv);
+                const containerStyle = window.getComputedStyle(messagesContainer);
+                
+                console.log('📨 Message computed style after positioning:', {
+                    display: computedStyle.display,
+                    justifyContent: computedStyle.justifyContent,
+                    alignItems: computedStyle.alignItems,
+                    flexDirection: computedStyle.flexDirection,
+                    width: computedStyle.width,
+                    marginLeft: computedStyle.marginLeft,
+                    marginRight: computedStyle.marginRight,
+                    textAlign: computedStyle.textAlign,
+                    position: computedStyle.position,
+                    left: computedStyle.left,
+                    right: computedStyle.right,
+                    transform: computedStyle.transform
+                });
+                
+                console.log('📨 Container computed style:', {
+                    display: containerStyle.display,
+                    justifyContent: containerStyle.justifyContent,
+                    alignItems: containerStyle.alignItems,
+                    flexDirection: containerStyle.flexDirection,
+                    textAlign: containerStyle.textAlign,
+                    width: containerStyle.width,
+                    maxWidth: containerStyle.maxWidth,
+                    margin: containerStyle.margin,
+                    padding: containerStyle.padding
+                });
+                
+                // Check if this is the first message and force positioning
+                if (isUser && messagesContainer.children.length === 1) {
+                    console.log('📨 FIRST MESSAGE DETECTED - Forcing positioning');
+                    
+                    // Fix the container first - remove centering
+                    const mainContainer = messagesContainer.parentElement;
+                    if (mainContainer && mainContainer.classList.contains('mx-auto')) {
+                        console.log('📨 Removing mx-auto from main container');
+                        mainContainer.classList.remove('mx-auto');
+                        mainContainer.style.setProperty('margin-left', '0', 'important');
+                        mainContainer.style.setProperty('margin-right', '0', 'important');
+                    }
+                    
+                    // Remove any centering classes and force left alignment
+                    messageDiv.classList.remove('justify-center', 'text-center', 'mx-auto');
+                    messageDiv.classList.add('justify-start', 'text-left');
+                    
+                    // Force positioning with !important
+                    messageDiv.style.setProperty('justify-content', 'flex-start', 'important');
+                    messageDiv.style.setProperty('align-items', 'flex-start', 'important');
+                    messageDiv.style.setProperty('text-align', 'left', 'important');
+                    messageDiv.style.setProperty('margin-left', '0', 'important');
+                    messageDiv.style.setProperty('margin-right', 'auto', 'important');
+                    messageDiv.style.setProperty('width', '100%', 'important');
+                    messageDiv.style.setProperty('display', 'flex', 'important');
+                    
+                    // Also fix the message bubble inside
+                    const messageBubble = messageDiv.querySelector('.bg-gray-200, .text-gray-900');
+                    if (messageBubble) {
+                        messageBubble.style.setProperty('margin-right', 'auto', 'important');
+                        messageBubble.style.setProperty('margin-left', '0', 'important');
+                        messageBubble.style.setProperty('text-align', 'left', 'important');
+                    }
+                    
+                    // Force multiple layout calculations
+                    messageDiv.offsetHeight;
+                    messageDiv.offsetHeight;
+                    messageDiv.offsetHeight;
+                    
+                    console.log('📨 FIRST MESSAGE - Positioning forced with !important');
+                }
+                
+                console.log('📨 Message positioning finalized');
+            });
             
             
             // Apply study mode formatting and interactive elements for AI messages
@@ -2411,128 +3034,59 @@
             }
         }
 
-        // Enhanced ChatGPT Study Mode formatting with typewriter effect preserved
+        // Enhanced ChatGPT Study Mode formatting with typewriter effect preserved - OPTIMIZED FOR SPEED
         // Enhanced Study Mode Rendering System
         function formatChatContent(content) {
             if (!content || typeof content !== 'string') {
                 return '<div class="study-message">متأسفانه محتوایی برای نمایش وجود ندارد.</div>';
             }
             
+            // OPTIMIZATION: Cache formatted content to avoid re-processing
+            if (formatChatContent.cache && formatChatContent.cache[content]) {
+                return formatChatContent.cache[content];
+            }
+            
             // Parse and format the content
             const parsedContent = parseStudyContent(content);
-            return `<div class="study-message" dir="rtl">${parsedContent}</div>`;
+            const result = `<div class="study-message" dir="rtl">${parsedContent}</div>`;
+            
+            // OPTIMIZATION: Cache the result (limit cache size)
+            if (!formatChatContent.cache) {
+                formatChatContent.cache = {};
+            }
+            if (Object.keys(formatChatContent.cache).length < 10) {
+                formatChatContent.cache[content] = result;
+            }
+            
+            return result;
         }
         
-        // Parse AI output text into structured HTML (Simple bullet points only)
+        // Parse AI output text into structured HTML (Simple bullet points only) - OPTIMIZED FOR SPEED
         function parseStudyContent(text) {
-            // Remove all markdown formatting - keep only bullet points
-            let processedText = text;
+            // OPTIMIZATION: Use single regex operations instead of multiple replace calls
+            let processedText = text
+                // Remove markdown formatting in one pass
+                .replace(/\*\*(.*?)\*\*/g, '$1')  // Bold
+                .replace(/\*(.*?)\*/g, '$1')      // Italic
+                .replace(/`(.*?)`/g, '$1')         // Code
+                .replace(/^#{1,6}\s+(.+)$/gm, '$1') // Headers
+                .replace(/^- /gm, '• ')            // Convert - to •
+                .replace(/^\+ /gm, '• ')           // Convert + to •
+                .replace(/^\* /gm, '• ');          // Convert * to •
             
-            // Remove markdown bold (convert **text** to plain text)
-            processedText = processedText.replace(/\*\*(.*?)\*\*/g, '$1');
-            
-            // Remove markdown italic (convert *text* to plain text)
-            processedText = processedText.replace(/\*(.*?)\*/g, '$1');
-            
-            // Remove markdown code (convert `text` to plain text)
-            processedText = processedText.replace(/`(.*?)`/g, '$1');
-            
-            // Remove markdown headers
-            processedText = processedText.replace(/^#{1,6}\s+(.+)$/gm, '$1');
-            
-            // Convert lines starting with - to start with • instead
-            processedText = processedText.replace(/^- /gm, '• ');
-            
-            // Remove any remaining dash symbols from content - only use •
-            processedText = processedText.replace(/-/g, '');
-            
+            // OPTIMIZATION: Process lines more efficiently
             const lines = processedText.split('\n');
-            let result = [];
-            let currentList = [];
-            let listType = 'ul';
-            let inList = false;
+            const processedLines = lines.map(line => {
+                const trimmedLine = line.trim();
+                if (trimmedLine.startsWith('•')) {
+                    return `<div class="bullet-point">${trimmedLine}</div>`;
+                } else if (trimmedLine.length > 0) {
+                    return `<div class="paragraph">${trimmedLine}</div>`;
+                }
+                return '';
+            });
             
-            for (let i = 0; i < lines.length; i++) {
-                const line = lines[i].trim();
-                
-                if (!line) {
-                    // Empty line - close current list if exists
-                    if (inList && currentList.length > 0) {
-                        result.push(`<${listType} class="study-list">${currentList.join('')}</${listType}>`);
-                        currentList = [];
-                        inList = false;
-                    }
-                    continue;
-                }
-                
-                // Detect bullet points (ONLY lines starting with • - ignore -, *, etc.)
-                if (line.startsWith('•')) {
-                    if (!inList) {
-                        inList = true;
-                        listType = 'ul';
-                        currentList = [];
-                    }
-                    // Remove the • symbol and get the content
-                    const content = line.substring(1).trim();
-                    currentList.push(`<li class="study-list-item">${content}</li>`);
-                    console.log('🔵 Creating bullet point:', content);
-                    continue;
-                }
-                
-                // Detect numbered lists (lines starting with 1., 2., etc.)
-                const numberedMatch = line.match(/^(\d+)\.\s+(.+)$/);
-                if (numberedMatch) {
-                    if (!inList || listType !== 'ol') {
-                    if (inList && currentList.length > 0) {
-                            result.push(`<${listType} class="study-list">${currentList.join('')}</${listType}>`);
-                        }
-                        inList = true;
-                        listType = 'ol';
-                        currentList = [];
-                    }
-                    currentList.push(`<li class="study-list-item">${numberedMatch[2]}</li>`);
-                    continue;
-                }
-                
-                // Detect math equations (comprehensive LaTeX detection)
-                if (line.includes('\\(') || line.includes('\\[') || line.includes('\\frac') || line.includes('\\times') || 
-                    line.includes('\\sqrt') || line.includes('\\sum') || line.includes('\\int') || line.includes('\\lim') ||
-                    line.includes('\\sin') || line.includes('\\cos') || line.includes('\\tan') || line.includes('\\log') ||
-                    line.includes('\\alpha') || line.includes('\\beta') || line.includes('\\gamma') || line.includes('\\delta') ||
-                    line.includes('\\pi') || line.includes('\\theta') || line.includes('\\lambda') || line.includes('\\mu') ||
-                    line.includes('\\sigma') || line.includes('\\omega') || line.includes('\\infty') || line.includes('\\partial') ||
-                    line.includes('\\nabla') || line.includes('\\pm') || line.includes('\\mp') || line.includes('\\leq') ||
-                    line.includes('\\geq') || line.includes('\\neq') || line.includes('\\approx') || line.includes('\\equiv') ||
-                    line.includes('\\in') || line.includes('\\subset') || line.includes('\\supset') || line.includes('\\cup') ||
-                    line.includes('\\cap') || line.includes('\\emptyset') || line.includes('\\rightarrow') || line.includes('\\leftarrow') ||
-                    line.includes('\\Rightarrow') || line.includes('\\Leftarrow') || line.includes('\\Leftrightarrow') ||
-                    line.includes('\\begin') || line.includes('\\end') || line.includes('\\matrix') || line.includes('\\pmatrix') ||
-                    line.includes('\\bmatrix') || line.includes('\\vmatrix') || line.includes('\\det') || line.includes('\\text') ||
-                    line.match(/\\[a-zA-Z]+/) || line.match(/\$.*\$/) || line.match(/\\[\[\](){}]/)) {
-            if (inList && currentList.length > 0) {
-                        result.push(`<${listType} class="study-list">${currentList.join('')}</${listType}>`);
-                        currentList = [];
-                        inList = false;
-                    }
-                    result.push(`<div class="study-math">${line}</div>`);
-                    continue;
-                }
-                
-                // Regular paragraph
-                if (inList && currentList.length > 0) {
-                    result.push(`<${listType} class="study-list">${currentList.join('')}</${listType}>`);
-                    currentList = [];
-                    inList = false;
-                }
-                result.push(`<p class="study-paragraph">${line}</p>`);
-            }
-            
-            // Close any remaining list
-            if (inList && currentList.length > 0) {
-                result.push(`<${listType} class="study-list">${currentList.join('')}</${listType}>`);
-            }
-            
-            return result.join('');
+            return processedLines.join('');
         }
         
         // Add interactive elements (simplified - no buttons, no collapsible)
@@ -2543,7 +3097,8 @@
             // Process math equations with MathJax
             const mathElements = studyMessage.querySelectorAll('.study-math');
             mathElements.forEach(math => {
-                // MathJax will automatically process these elements
+                math.style.textAlign = 'center';
+                math.style.margin = '1rem 0';
                 math.style.display = 'block';
             });
             
@@ -2557,12 +3112,6 @@
                 }
             }, 100);
         }
-        
-        
-        
-        
-        
-
         
         async function sendMessage() {
             console.log('🚀 sendMessage function called');
@@ -2580,307 +3129,146 @@
             
             if (expandedInput && expandedInput.value.trim() !== '') {
                 message = expandedInput.value.trim();
+                console.log('📝 Message from expanded input:', message);
+            } else {
+                console.log('⚠️ No message found in expanded input');
+                return;
             }
             
-            console.log('📝 Message content:', message);
-                if (!message) {
-                    console.log('❌ No message content, returning');
-                    return;
-                }
+            // Clear the input
+            expandedInput.value = '';
             
-                console.log('🔍 Creating thread if needed...');
-            // Create new thread if none exists
-            if (!currentThreadId) {
-                const title = message.length > 50 ? message.substring(0, 50) + '...' : message;
-                await createNewThread(title);
-            }
+            // Hide expanded input and show main input
+            hideChatInput();
             
-                console.log('🔍 Adding user message to main chat...');
-                // Add user message to main chat
-                addMessage(message, true);
+            // Send message to AI
+            await sendMessageToAI(message);
             
-                console.log('🔍 Saving user message to thread...');
-                // Save user message to thread
-                await saveMessageToThread(message, 'user');
-                
-                console.log('🔍 Clearing expanded input...');
-            // Clear the expanded input
-            if (expandedInput) {
-                expandedInput.value = '';
-            }
-            
-                console.log('🔍 Hiding expanded input...');
-                // Hide expanded input
-                const expandedInputContainer = document.getElementById('analysis-expanded-input-container');
-            if (expandedInputContainer) {
-                expandedInputContainer.classList.add('hidden');
-                expandedInputContainer.style.display = 'none';
-            }
-            
-                console.log('🔍 Showing user input after response...');
-                // Show user input after response
-                showUserInputAfterResponse();
-                
-                console.log('🔍 Getting AI response...');
-                // Get AI response using the proper thread-based flow
-                await sendMessageToAI(message);
-                
-                console.log('✅ sendMessage completed successfully');
-                
-            } catch (error) {
-                console.error('❌ Error in sendMessage:', error);
-                // Always reset streaming flag on error
-                isStreaming = false;
-                // Show oval input on error for retry
-                // Expanded input already hidden after sending - no need to show main input again
-            }
+        } catch (error) {
+            console.error('❌ Error in sendMessage:', error);
+            // Always reset streaming flag on error
+            isStreaming = false;
+            // Show oval input on error for retry
+            // Expanded input already hidden after sending - no need to show main input again
         }
+    }
 
         // Stream AI response with thread context
         async function streamAIResponseWithContext(message, messageId, isExpanded = false) {
             try {
                 console.log('🚀 Starting AI call with thread context');
                 console.log('📝 User message:', message);
-                console.log('🆔 Thread ID:', currentThreadId);
                 
                 // Ensure we have a thread ID
-                if (!currentThreadId) {
-                    console.log('🔍 No thread ID, creating new thread...');
-                    const title = message.length > 50 ? message.substring(0, 50) + '...' : message;
-                    currentThreadId = await createNewThread(title);
-                    if (!currentThreadId) {
-                        console.error('❌ Failed to create thread');
-                        return;
-                    }
+                // Thread check removed
+        
+        // ... rest of streamAIResponseWithContext logic ...
+        // (If you have additional logic, ensure it is inside this function)
+            } catch (error) {
+                console.error('❌ Error in streamAIResponseWithContext:', error);
+            }
+        }
+        
+        // This DOMContentLoaded listener has been consolidated above
+        
+        function initializeUserMenu() {
+            const userPhone = localStorage.getItem('user_phone');
+            const userMenu = document.getElementById('user-menu');
+            
+            if (userPhone && userMenu) {
+                const phoneDisplay = userMenu.querySelector('#user-phone-display');
+                if (phoneDisplay) {
+                    phoneDisplay.textContent = userPhone;
                 }
-                
-                // Get thread context for AI
-                const contextMessages = await getThreadContext(4000); // 4000 token limit
-                console.log('📚 Context messages for AI:', contextMessages.length);
-                
-                // Prepare context for AI
-                const contextForAI = contextMessages.map(msg => ({
-                    role: msg.sender_role === 'user' ? 'user' : 'assistant',
-                    content: msg.content
-                }));
-                
-                console.log('📚 Using context messages:', contextForAI.length);
-                
-                const response = await fetch('/api/chat/stream', {
+            }
+        }
+        
+        // Phone verification functions - moved to consolidated DOMContentLoaded above
+        
+        // SMS verification functions
+        async function sendVerificationCode(phoneNumber) {
+            const sendBtn = document.getElementById('sendCodeBtn');
+            const sendText = document.getElementById('sendText');
+            const sendLoading = document.getElementById('sendLoading');
+            
+            setLoginLoading(sendBtn, sendText, sendLoading, true);
+            hideLoginMessages();
+            
+            try {
+                const response = await fetch('/api/send-verification', {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({
-                        message: message,
-                        conversationId: currentThreadId || 'new_thread',
-                        context: contextForAI
-                    })
+                    body: JSON.stringify({ phoneNumber })
                 });
                 
-                console.log('📡 Response status:', response.status);
+                const result = await response.json();
                 
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+                if (result.success) {
+                    showLoginSuccess('کد تأیید ارسال شد');
+                    showLoginStep(2);
+                    startResendTimer();
+                } else {
+                    showLoginError(result.message || 'خطا در ارسال کد');
                 }
-                
-                const reader = response.body.getReader();
-                const decoder = new TextDecoder();
-                let fullResponse = '';
-                
-                while (true) {
-                    const { done, value } = await reader.read();
-                    
-                    if (done) break;
-                    
-                    const chunk = decoder.decode(value);
-                    const lines = chunk.split('\n');
-                    
-                    for (const line of lines) {
-                        if (line.startsWith('data: ')) {
-                            const data = line.slice(6);
-                            console.log('🔍 Processing data line:', data.substring(0, 100));
-                            
-                            if (data === '[DONE]') {
-                                console.log('✅ Received [DONE] signal');
-                                return fullResponse;
-                            }
-                            
-                            try {
-                                const parsed = JSON.parse(data);
-                                console.log('📝 Parsed data:', parsed);
-                                
-                                if (parsed.content && parsed.type === 'chunk') {
-                                    console.log('✅ Valid chunk received, content:', parsed.content);
-                                    fullResponse += parsed.content;
-                                
-                                    // Original fast streaming - no delay
-                                
-                                    // Update message based on mode
-                                    if (isExpanded) {
-                                        console.log('🔄 Updating expanded streaming message');
-                                        updateExpandedStreamingMessage(messageId, fullResponse);
-                                    } else {
-                                        console.log('🔄 Updating main streaming message');
-                                        updateStreamingMessage(messageId, fullResponse);
-                                    }
-                                } else {
-                                    console.log('⚠️ Invalid chunk format:', parsed);
-                                }
-                            } catch (e) {
-                                console.log('❌ JSON parsing error:', e.message);
-                                // Ignore parsing errors for incomplete chunks
-                            }
-                        }
-                    }
-                }
-                
-                return fullResponse;
-                
             } catch (error) {
-                console.error('Streaming error:', error);
-                throw error;
+                console.error('Send code error:', error);
+                showLoginError('خطا در ارتباط با سرور');
+            } finally {
+                setLoginLoading(sendBtn, sendText, sendLoading, false);
+            }
+        }
+        
+        async function verifyCode(phoneNumber, code) {
+            const verifyBtn = document.getElementById('verifyBtn');
+            const verifyText = document.getElementById('verifyText');
+            const verifyLoading = document.getElementById('verifyLoading');
+            
+            setLoginLoading(verifyBtn, verifyText, verifyLoading, true);
+            hideLoginMessages();
+            
+            try {
+                const response = await fetch('/api/verify-code', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ phoneNumber, code })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    localStorage.setItem('user_phone', phoneNumber);
+                    localStorage.setItem('auth_token', result.token);
+                    showLoginSuccess('ورود موفقیت‌آمیز!');
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1000);
+                } else {
+                    showLoginError(result.message || 'کد تأیید اشتباه است');
+                }
+            } catch (error) {
+                console.error('Verify code error:', error);
+                showLoginError('خطا در ارتباط با سرور');
+            } finally {
+                setLoginLoading(verifyBtn, verifyText, verifyLoading, false);
             }
         }
 
-        // Save conversation to database
-        async function saveConversationToDatabase(userMessage, aiResponse) {
-            try {
-                // Get user ID from localStorage
-                const userId = localStorage.getItem('user_id');
-                
-                // If no user is logged in, don't save
-                if (!userId) {
-                    console.log('⚠️ No user logged in, skipping save');
-                    return;
-                }
-                
-                // Create a title from the user message (first 50 characters)
-                const title = userMessage.length > 50 ? userMessage.substring(0, 50) + '...' : userMessage;
-                
-                // Create the full conversation content with formatted AI response
-                const content = `سوال: ${userMessage}\n\nپاسخ: ${formatChatContent(aiResponse)}`;
-                
-                const response = await fetch('/api/conversations', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        user_id: userId,
-                        title: title,
-                        content: content,
-                        type: 'chat',
-                        subject: null,
-                        grade: null,
-                        field: null,
-                        chapter: null,
-                        book: null
-                    })
-                });
-                
-                const data = await response.json();
-                
-                if (data.success) {
-                    console.log('✅ Conversation saved to database with ID:', data.id);
-                } else {
-                    console.error('❌ Failed to save conversation:', data.error);
-                }
-                
-            } catch (error) {
-                console.error('❌ Error saving conversation to database:', error);
-            }
+        // UI Helper functions
+        function showLoginStep(stepNumber) {
+            document.querySelectorAll('.login-step').forEach(step => {
+                step.classList.add('hidden');
+            });
+            document.getElementById(`step${stepNumber}`).classList.remove('hidden');
         }
+
+
+        // Additional helper functions
+                
         
-        async function streamAIResponse(message, messageId, isExpanded = false) {
-            try {
-                console.log('🚀 Starting API call to /api/chat/stream');
-                console.log('📝 Message:', message);
-                console.log('🆔 Conversation ID:', currentConversationId);
-                
-                const response = await fetch('/api/chat/stream', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        message: message,
-                        conversationId: currentConversationId
-                    })
-                });
-                
-                console.log('📡 Response status:', response.status);
-                console.log('📡 Response headers:', response.headers);
-                
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                
-                const reader = response.body.getReader();
-                const decoder = new TextDecoder();
-                let fullResponse = '';
-                
-                while (true) {
-                    const { done, value } = await reader.read();
-                    
-                    if (done) break;
-                    
-                    const chunk = decoder.decode(value);
-                    const lines = chunk.split('\n');
-                    
-                    for (const line of lines) {
-                        if (line.startsWith('data: ')) {
-                            const data = line.slice(6);
-                            console.log('🔍 Processing data line:', data.substring(0, 100));
-                            
-                            if (data === '[DONE]') {
-                                console.log('✅ Received [DONE] signal');
-                                // Add final response to conversation history
-                                return fullResponse;
-                            }
-                            
-                                                            try {
-                                    const parsed = JSON.parse(data);
-                                console.log('📝 Parsed data:', parsed);
-                                
-                                    if (parsed.content && parsed.type === 'chunk') {
-                                    console.log('✅ Valid chunk received, content:', parsed.content);
-                                        fullResponse += parsed.content;
-                                    
-                                    // Original fast streaming - no delay
-                                    
-                                    // Update message based on mode
-                                    if (isExpanded) {
-                                        console.log('🔄 Updating expanded streaming message');
-                                        updateExpandedStreamingMessage(messageId, fullResponse);
-                                    } else {
-                                        console.log('🔄 Updating main streaming message');
-                                        updateStreamingMessage(messageId, fullResponse);
-                                    }
-                                } else {
-                                    console.log('⚠️ Invalid chunk format:', parsed);
-                                    }
-                                } catch (e) {
-                                console.log('❌ JSON parsing error:', e.message);
-                                // Ignore parsing errors for incomplete chunks
-                                }
-                        }
-                    }
-                }
-                
-                return fullResponse;
-                
-            } catch (error) {
-                console.error('Streaming error:', error);
-                throw error;
-            }
-        }
-        
-        // Voice recording function
-        function startRecording() {
-            console.log('🎤 Starting voice recording...');
-            alert('Voice recording feature (to be implemented)');
-        }
         
         function attachDocument() {
             console.log('📄 Attaching document...');
@@ -2902,31 +3290,7 @@
 
 
         // Initialize page with comprehensive debugging
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('🔍 ===== DOM CONTENT LOADED DEBUG START =====');
-            console.log('🔍 Page URL:', window.location.href);
-            console.log('🔍 Page title:', document.title);
-            console.log('🔍 Viewing thread from localStorage:', localStorage.getItem('viewing_thread'));
-            
-            // Preload critical pages for faster mobile navigation
-            console.log('🔍 Step 1: Preloading pages...');
-            preloadPages();
-            
-            // Initialize chat functionality
-            console.log('🔍 Step 2: Initializing chat...');
-            initializeChat();
-            
-            // Initialize user menu
-            console.log('🔍 Step 3: Initializing user menu...');
-            initializeUserMenu();
-            
-            // Test thread loading for debugging
-            setTimeout(() => {
-                testThreadLoading();
-            }, 2000);
-            
-            console.log('🔍 ===== DOM CONTENT LOADED DEBUG END =====');
-        });
+        // REMOVED: Duplicate DOMContentLoaded listener - now handled above
         
 
         
@@ -2947,8 +3311,8 @@
         let resendTimer = null;
         let resendCountdown = 60;
 
-        // Phone form submission
-        document.addEventListener('DOMContentLoaded', function() {
+        // Initialize phone form event listeners
+        function initializePhoneForms() {
             const phoneForm = document.getElementById('phoneForm');
             const codeForm = document.getElementById('codeForm');
             const resendBtn = document.getElementById('resendBtn');
@@ -3018,43 +3382,12 @@
                     e.target.value = value;
                 });
             }
-        });
+        }
 
         // Send verification code
-        async function sendVerificationCode(phoneNumber) {
-            const sendBtn = document.getElementById('sendCodeBtn');
-            const sendText = document.getElementById('sendText');
-            const sendLoading = document.getElementById('sendLoading');
-            
-            setLoginLoading(sendBtn, sendText, sendLoading, true);
-            hideLoginMessages();
+        // Duplicate sendVerificationCode removed to fix redeclaration error.
+        // Use the version defined earlier in the file.
 
-            try {
-                const response = await fetch('/api/send-verification', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ phoneNumber })
-                });
-
-                const data = await response.json();
-
-                if (data.success) {
-                    showLoginStep(2);
-                    document.getElementById('displayPhone').textContent = phoneNumber;
-                    startResendTimer();
-                    showLoginSuccess('کد تأیید با موفقیت ارسال شد');
-                } else {
-                    showLoginError(data.error || 'خطا در ارسال کد تأیید');
-                }
-            } catch (error) {
-                console.error('Send code error:', error);
-                showLoginError('خطا در ارتباط با سرور');
-            } finally {
-                setLoginLoading(sendBtn, sendText, sendLoading, false);
-            }
-        }
 
         // Verify code
         async function verifyCode(phoneNumber, code) {
@@ -3216,119 +3549,127 @@
             });
         }
         
-        // Thread Management Variables
-        let currentThreadId = null;
-        let threadMessages = [];
-        let isThreadLoaded = false;
-        
         // Thread Management Functions - REBUILT FROM SCRATCH
 
         // Initialize chat functionality - SIMPLE AND CLEAN
         function initializeChat() {
             console.log('🚀 Initializing chat...');
+            console.log('🔍 Current URL:', window.location.href);
+            console.log('🔍 Document ready state:', document.readyState);
             
-            checkUserStatus();
-            
-            // Check if we're loading from library (viewing a thread)
-            const viewingThread = localStorage.getItem('viewing_thread');
-            
-            if (viewingThread) {
-                console.log('📚 Loading thread from library:', viewingThread);
-                loadThreadFromLibrary(viewingThread);
-            } else {
-                console.log('💬 Starting new conversation');
-                initializeConversation();
+            // Pre-initialize chat container to prevent first message positioning issues
+            const chatContainer = document.getElementById('chat-messages');
+            if (chatContainer) {
+                // Ensure container is ready for messages
+                chatContainer.style.display = 'none';
+                chatContainer.style.visibility = 'hidden';
+                chatContainer.style.opacity = '0';
+                chatContainer.style.flexDirection = 'column';
+                chatContainer.style.alignItems = 'stretch';
+                console.log('📨 Chat container pre-initialized');
             }
-        }
-
-        // Load thread from library with comprehensive debugging and robust state reset
-        // Load thread from library - SIMPLE AND CLEAN
-        async function loadThreadFromLibrary(threadId) {
-            console.log('📚 Loading thread:', threadId);
             
-            try {
-                // Get user ID
-                let userId = localStorage.getItem('user_id') || '1';
-                
-                // Get thread data
-                const threadResponse = await fetch(`/api/threads/${threadId}?user_id=${userId}`);
-                const threadData = await threadResponse.json();
-                
-                if (!threadData.success) {
-                    console.error('❌ Failed to load thread:', threadData.error);
-                    return;
-                }
 
-                // Get thread messages
-                const messagesResponse = await fetch(`/api/threads/${threadId}/messages?limit=100`);
-                const messagesData = await messagesResponse.json();
-                
-                console.log('🔍 Messages API response:', messagesData);
-                
-                if (!messagesData.success) {
-                    console.error('❌ Failed to load messages:', messagesData.error);
-                    return;
-                }
-
-                // Set up thread data
-                currentThreadId = threadId;
-                threadMessages = messagesData.messages || [];
-                isThreadLoaded = true;
-                
-                console.log('🔍 Thread messages loaded:', threadMessages.length);
-                console.log('🔍 Thread messages data:', threadMessages);
-                
-                // Display the conversation (no resetPageState needed for thread loading)
-                displayThreadConversation(threadData.thread, threadMessages);
-                
-                // Clear the viewing_thread from localStorage
-                localStorage.removeItem('viewing_thread');
-                
-                console.log('✅ Thread loaded successfully');
-                
-            } catch (error) {
-                console.error('❌ Error loading thread:', error);
-            }
+        // Close initializeChat function
         }
 
         // Display thread conversation - SIMPLE AND CLEAN
         function displayThreadConversation(thread, messages) {
+            console.log('🔍 ===== DISPLAY THREAD CONVERSATION DEBUG START =====');
             console.log('📱 Displaying thread conversation:', thread.title);
+            console.log('📱 Thread object:', thread);
+            console.log('📱 Messages to display:', messages.length);
+            console.log('📱 Messages array:', messages);
+            
+            // Set thread context for continuing conversation
+            window.isThreadLoaded = true;
+            console.log('🔍 Thread context set for continuing conversation');
+            
+            // Update page title and header
+            document.title = thread.title || 'گفتگو';
+            const headerTitle = document.querySelector('.header-title');
+            if (headerTitle) {
+                headerTitle.textContent = thread.title || 'گفتگو';
+            }
             
             // Switch to chat header when thread is loaded
+            console.log('🔍 Step 1: Switching to chat header...');
             switchToChatHeader();
+            console.log('✅ Chat header switched');
             
             // Get chat container
+            console.log('🔍 Step 2: Getting chat messages container...');
             const chatMessages = document.getElementById('chat-messages');
+            console.log('📱 Chat messages container found:', !!chatMessages);
+            console.log('📱 Chat messages element:', chatMessages);
+            
             if (!chatMessages) {
                 console.error('❌ Chat messages container not found');
+                console.error('❌ Available elements with "chat" in ID:', 
+                    Array.from(document.querySelectorAll('[id*="chat"]')).map(el => el.id));
                 return;
             }
             
+            console.log('📱 Chat messages container current state:', {
+                display: chatMessages.style.display,
+                visibility: chatMessages.style.visibility,
+                opacity: chatMessages.style.opacity,
+                innerHTML: chatMessages.innerHTML.length,
+                children: chatMessages.children.length
+            });
+            
             // Clear existing content
+            console.log('🔍 Step 3: Clearing existing content...');
             chatMessages.innerHTML = '';
+            console.log('📱 Chat messages container cleared, new innerHTML length:', chatMessages.innerHTML.length);
             
             // Add messages with debugging (no separate title header)
+            console.log('🔍 Step 4: Adding messages...');
             console.log('🔍 Total messages to display:', messages.length);
             console.log('🔍 Messages data:', messages);
             
+            if (messages.length === 0) {
+                console.log('⚠️ No messages to display');
+                console.log('🔍 ===== DISPLAY THREAD CONVERSATION DEBUG END =====');
+                return;
+            }
+            
+            console.log('🔍 Processing each message...');
             messages.forEach((message, index) => {
-                console.log(`🔍 Adding message ${index + 1}:`, {
+                console.log(`🔍 Processing message ${index + 1}/${messages.length}:`, {
+                    id: message.id,
                     sender_role: message.sender_role,
-                    content_preview: message.content.substring(0, 50) + '...',
-                    content_length: message.content.length,
-                    message_id: message.id
+                    content_length: message.content?.length,
+                    content_preview: message.content?.substring(0, 50) + '...',
+                    created_at: message.created_at
                 });
+                
                 const isUser = message.sender_role === 'user';
-                addMessage(message.content, isUser, message.id);
+                console.log(`🔍 Message ${index + 1} is user:`, isUser);
+                
+                try {
+                    addMessage(message.content, isUser, message.id);
+                    console.log(`✅ Message ${index + 1} added successfully`);
+                } catch (error) {
+                    console.error(`❌ Error adding message ${index + 1}:`, error);
+                }
             });
             
             // Show chat interface
+            console.log('🔍 Step 5: Showing chat interface...');
             chatMessages.style.display = 'block';
             chatMessages.style.visibility = 'visible';
             chatMessages.style.opacity = '1';
             
+            console.log('📱 Chat messages container final state:', {
+                display: chatMessages.style.display,
+                visibility: chatMessages.style.visibility,
+                opacity: chatMessages.style.opacity,
+                children: chatMessages.children.length
+            });
+            
             // Show main user input at bottom (like chat flow)
+            console.log('🔍 Step 6: Showing main user input...');
             const mainUserInput = document.getElementById('main-user-input');
             if (mainUserInput) {
                 mainUserInput.style.display = 'block';
@@ -3344,10 +3685,13 @@
                 // Add class to override media queries
                 mainUserInput.classList.add('thread-loaded-position');
                 console.log('✅ Main user input positioned at bottom for thread loading');
+            } else {
+                console.error('❌ Main user input element not found');
             }
             
             // Hide bottom navigation for thread loading (like chat flow)
-            const bottomNav = document.querySelector('.icons-container');
+            console.log('🔍 Step 7: Hiding bottom navigation...');
+            const bottomNav = document.querySelector('.bottom-nav-container');
             if (bottomNav) {
                 bottomNav.style.display = 'none';
                 bottomNav.style.visibility = 'hidden';
@@ -3358,6 +3702,7 @@
             }
             
             console.log('✅ Thread conversation displayed successfully');
+            console.log('🔍 ===== DISPLAY THREAD CONVERSATION DEBUG END =====');
         }
         
         // Simple page state reset
@@ -3387,7 +3732,7 @@
             }
             
             // Show bottom navigation (force show)
-            const bottomNav = document.querySelector('.icons-container');
+            const bottomNav = document.querySelector('.bottom-nav-container');
             if (bottomNav) {
                 bottomNav.style.display = 'flex';
                 bottomNav.style.visibility = 'visible';
@@ -3843,7 +4188,6 @@
                 right: 0 !important;
                 height: 100px !important;
                 background-color: #e8e8e4 !important;
-                border-radius: 24px 24px 0 0 !important;
                 border-top: 1px solid #d1d5db !important;
                 display: none !important;
                 z-index: 2001 !important;
@@ -3858,7 +4202,7 @@
                 border: none !important;
                 outline: none !important;
                 background: transparent !important;
-                font-size: 24px !important;
+                font-size: 2.25rem !important;
                 color: black !important;
                 padding: 0 !important;
                 margin: 0 !important;
@@ -3898,12 +4242,14 @@
             `;
             
             // Add focus event to show expanded input (like real chat)
-            userInput.addEventListener('focus', () => {
-                console.log('🔍 User input focused, showing expanded input...');
-                userInputArea.style.display = 'none';
-                expandedInputArea.style.display = 'block';
-                expandedInput.focus();
-            });
+            async (params) => {
+                userInput.addEventListener('focus', () => {
+                    console.log('🔍 User input focused, showing expanded input...');
+                    userInputArea.style.display = 'none';
+                    expandedInputArea.style.display = 'block';
+                    expandedInput.focus();
+                });
+            }
             
             // Add blur event to hide expanded input if empty
             expandedInput.addEventListener('blur', () => {
@@ -4072,7 +4418,7 @@
             // Add click event for user account button (go back to library)
             leftTopButton.addEventListener('click', () => {
                 console.log('🔍 User account button clicked, returning to library...');
-                window.location.href = '/library.html';
+                // Library navigation removed
             });
             
             // Create left side container for menu button
@@ -4117,7 +4463,7 @@
             // Add click event for menu button (delete/options)
             menuButton.addEventListener('click', () => {
                 console.log('🔍 Menu button clicked, showing options...');
-                showThreadMenu();
+                // Thread menu removed
             });
             
             // Create right side container for back button (cross icon)
@@ -4163,7 +4509,7 @@
             backButton.addEventListener('click', () => {
                 console.log('🔍 Back button clicked, returning to library...');
                 // Navigate to library page
-                window.location.href = '/library.html';
+                // Library navigation removed
             });
             
             // Add back button to right container
@@ -4251,535 +4597,160 @@
             console.log('🔍 ===== SETUP THREAD UI WITH SIMPLE APPROACH END =====');
         }
         
-        // Send message from thread UI with proper input flow
-        async function sendMessageFromThreadUI(message, chatArea, inputElement, userInputArea, expandedInputArea) {
-            console.log('🔍 ===== SEND MESSAGE FROM THREAD UI START =====');
-            console.log('🔍 Message:', message);
-            console.log('🔍 Current thread ID:', currentThreadId);
-            
-            if (!message.trim()) {
-                console.log('❌ Empty message, ignoring');
-                return;
-            }
-            
-            // Ensure we have a thread ID before proceeding
-            if (!currentThreadId) {
-                console.log('🔍 No thread ID, creating new thread...');
-                const title = message.length > 50 ? message.substring(0, 50) + '...' : message;
-                currentThreadId = await createNewThread(title);
-                if (!currentThreadId) {
-                    console.error('❌ Failed to create thread');
-                    return;
-                }
-            }
-            
-            // Clear input and hide expanded input (like real chat)
-            inputElement.value = '';
-            if (expandedInputArea) {
-                expandedInputArea.style.display = 'none';
-            }
-            // Don't show user input immediately - wait for response completion
-            // User input will be shown when streaming completes for better UX
-            console.log('🔍 Input cleared and expanded input hidden');
-            
-            // Add user message to chat area immediately
-            const userMessageDiv = document.createElement('div');
-            userMessageDiv.style.cssText = `
-                display: flex !important;
-                width: 100% !important;
-                margin-bottom: 16px !important;
-                justify-content: flex-start !important;
-                visibility: visible !important;
-                opacity: 1 !important;
-            `;
-            
-            const userMessageBubble = document.createElement('div');
-            userMessageBubble.style.cssText = `
-                padding: 16px 20px !important;
-                border-radius: 16px !important;
-                max-width: 95% !important;
-                background-color: #e8e8e4 !important;
-                color: black !important;
-                text-align: left !important;
-                line-height: 1.6 !important;
-                font-size: 1rem !important; /* 16px */
-                display: block !important;
-                visibility: visible !important;
-                opacity: 1 !important;
-                width: auto !important;
-            `;
-            userMessageBubble.textContent = message;
-            
-            userMessageDiv.appendChild(userMessageBubble);
-            chatArea.appendChild(userMessageDiv);
-            
-            // Add AI response placeholder
-            const aiMessageDiv = document.createElement('div');
-            aiMessageDiv.style.cssText = `
-                display: flex !important;
-                width: 100% !important;
-                margin-bottom: 16px !important;
-                justify-content: flex-end !important;
-                visibility: visible !important;
-                opacity: 1 !important;
-            `;
-            
-            const aiMessageBubble = document.createElement('div');
-            aiMessageBubble.style.cssText = `
-                padding: 16px 20px !important;
-                border-radius: 16px !important;
-                max-width: 95% !important;
-                background-color: transparent !important;
-                color: black !important;
-                text-align: right !important;
-                line-height: 1.6 !important;
-                font-size: 1rem !important; /* 16px */
-                display: block !important;
-                visibility: visible !important;
-                opacity: 1 !important;
-                width: 100% !important;
-            `;
-            aiMessageBubble.innerHTML = '<span class="typing-indicator">...</span>';
-            
-            aiMessageDiv.appendChild(aiMessageBubble);
-            chatArea.appendChild(aiMessageDiv);
-            
-            // Scroll to bottom
-            chatArea.scrollTop = chatArea.scrollHeight;
-            
-            try {
-                // Step 1: Load thread message history for context
-                console.log('🔍 Loading thread context for conversation management...');
-                const contextResponse = await fetch(`/api/threads/${currentThreadId}/messages`);
-                if (!contextResponse.ok) {
-                    throw new Error(`Failed to load thread context: ${contextResponse.status}`);
-                }
-                
-                const contextData = await contextResponse.json();
-                console.log('🔍 Thread context loaded:', contextData.messages.length, 'messages');
-                
-                // Convert thread messages to conversation context format (last 10 messages)
-                const recentMessages = contextData.messages.slice(-10); // Last 10 messages
-                const conversationContext = recentMessages.map(msg => ({
-                    role: msg.sender_role,
-                    content: msg.content
-                    // Remove timestamp as it's not needed for the API
-                }));
-                
-                console.log('🔍 Conversation context prepared:', conversationContext.length, 'messages');
-                console.log('🔍 Context preview:', conversationContext.map(msg => ({
-                    role: msg.role,
-                    content: msg.content.substring(0, 50) + '...'
-                })));
-                
-                // Step 2: Send user message to backend
-                console.log('🔍 Sending user message to backend...');
-                console.log('🔍 Thread ID:', currentThreadId);
-                console.log('🔍 Message content:', message);
-                
-                const response = await fetch(`/api/threads/${currentThreadId}/messages`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        content: message,
-                        sender_role: 'user'
-                    })
-                });
-                
-                console.log('🔍 Response status:', response.status);
-                console.log('🔍 Response ok:', response.ok);
-                
-                if (!response.ok) {
-                    const errorText = await response.text();
-                    console.error('❌ Server error response:', errorText);
-                    throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
-                }
-                
-                const result = await response.json();
-                console.log('🔍 Message sent successfully:', result);
-                
-                // Step 3: Get AI response using streaming endpoint with context
-                const aiResponse = await fetch('/api/chat/stream', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        message: message,
-                        conversationId: currentThreadId,
-                        context: conversationContext // Send conversation history as context
-                    })
-                });
-                
-                if (!aiResponse.ok) {
-                    throw new Error(`HTTP error! status: ${aiResponse.status}`);
-                }
-                
-                // Handle streaming response
-                console.log('🔍 Starting to process streaming response...');
-                const reader = aiResponse.body.getReader();
-                const decoder = new TextDecoder();
-                let fullResponse = '';
-                
-                try {
-                    while (true) {
-                        const { done, value } = await reader.read();
-                        if (done) {
-                            console.log('🔍 Streaming completed');
-                            break;
-                        }
-                        
-                        const chunk = decoder.decode(value);
-                        console.log('🔍 Received chunk:', chunk.substring(0, 100) + '...');
-                        const lines = chunk.split('\n');
-                        
-                        for (const line of lines) {
-                            if (line.startsWith('data: ')) {
-                                const data = line.slice(6);
-                                console.log('🔍 Processing data line:', data.substring(0, 50) + '...');
-                                if (data && data !== '[DONE]') {
-                                    try {
-                                        const parsed = JSON.parse(data);
-                                        console.log('🔍 Parsed data:', parsed);
-                                        if (parsed.content) {
-                                            fullResponse += parsed.content;
-                                            console.log('🔍 Full response so far:', fullResponse.substring(0, 100) + '...');
-                                            // Update AI message with current response
-                                            const formattedContent = formatChatContent(fullResponse);
-                                            aiMessageBubble.innerHTML = formattedContent;
-                                            // Scroll to bottom
-                                            chatArea.scrollTop = chatArea.scrollHeight;
-                                        }
-                                    } catch (e) {
-                                        console.log('🔍 JSON parse error:', e.message);
-                                        // Try to handle plain text response
-                                        if (data && !data.includes('{') && !data.includes('}')) {
-                                            fullResponse += data;
-                                            console.log('🔍 Added plain text:', data);
-                                            const formattedContent = formatChatContent(fullResponse);
-                                            aiMessageBubble.innerHTML = formattedContent;
-                                            chatArea.scrollTop = chatArea.scrollHeight;
-                                        }
-                                    }
-                                } else if (data === '[DONE]') {
-                                    console.log('🔍 Streaming completed');
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                } finally {
-                    reader.releaseLock();
-                }
-                
-                console.log('🔍 Final full response:', fullResponse);
-                
-                console.log('🔍 AI response received (streaming):', fullResponse);
-                
-                // Save AI response to database (only if we have content)
-                if (fullResponse && fullResponse.trim()) {
-                    try {
-                        console.log('🔍 Saving AI response to database:', fullResponse.substring(0, 100) + '...');
-                        const aiResponseSave = await fetch(`/api/threads/${currentThreadId}/messages`, {
-                    method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                            },
-                    body: JSON.stringify({
-                                content: fullResponse,
-                                sender_role: 'assistant'
-                    })
-                });
-                
-                        if (aiResponseSave.ok) {
-                            console.log('🔍 AI response saved to database');
-            } else {
-                            const errorText = await aiResponseSave.text();
-                            console.log('⚠️ Failed to save AI response to database:', errorText);
-                }
-            } catch (error) {
-                        console.log('⚠️ Error saving AI response:', error);
-                    }
-                } else {
-                    console.log('⚠️ AI response is empty, not saving to database');
-                }
-                
-                // Scroll to bottom
-                chatArea.scrollTop = chatArea.scrollHeight;
-                
-                // Show user input when response is complete for better UX
-                if (userInputArea) {
-                    userInputArea.style.display = 'flex';
-                    console.log('🔍 User input shown after response completion');
-                }
-                
-                console.log('🔍 ===== SEND MESSAGE FROM THREAD UI SUCCESS =====');
-                
-            } catch (error) {
-                console.error('❌ Error sending message:', error);
-                aiMessageBubble.innerHTML = '<span style="color: red;">خطا در ارسال پیام. لطفاً دوباره تلاش کنید.</span>';
-                
-                // Show user input on error for retry
-                if (userInputArea) {
-                    userInputArea.style.display = 'flex';
-                    console.log('🔍 User input shown after error');
-                }
-            }
-        }
-
-        // Hide initial chat state when loading from library with comprehensive debugging
-        function hideInitialChatState() {
-            console.log('🔍 ===== HIDE INITIAL STATE DEBUG START =====');
-            
-            // Hide the main user input initially
-            const mainUserInput = document.getElementById('main-user-input');
-            console.log('🔍 Main user input element:', mainUserInput);
-            if (mainUserInput) {
-                console.log('🔍 Main user input current display:', mainUserInput.style.display);
-                mainUserInput.style.display = 'none';
-                console.log('🔍 Main user input hidden');
-            }
-            
-            // Hide the main chat messages container initially
-            const chatMessages = document.getElementById('chat-messages');
-            console.log('🔍 Chat messages element:', chatMessages);
-            if (chatMessages) {
-                console.log('🔍 Chat messages current display:', chatMessages.style.display);
-                chatMessages.style.display = 'none';
-                console.log('🔍 Chat messages hidden');
-            }
-            
-            // Hide the thin border separator
-            const separator = document.querySelector('.border-b.border-gray-200');
-            console.log('🔍 Separator element:', separator);
-            if (separator) {
-                console.log('🔍 Separator current display:', separator.style.display);
-                separator.style.display = 'none';
-                console.log('🔍 Separator hidden');
-            }
-            
-            // Ensure the second page is hidden initially - be more aggressive
-            const secondPage = document.getElementById('second-gainsboro-page');
-            console.log('🔍 Second page element:', secondPage);
-            if (secondPage) {
-                console.log('🔍 Second page classes:', secondPage.classList.toString());
-                console.log('🔍 Second page current display:', secondPage.style.display);
-                
-                // Force hide with multiple methods to ensure it's hidden
-                secondPage.classList.add('hidden');
-                secondPage.style.display = 'none';
-                secondPage.style.visibility = 'hidden';
-                secondPage.style.opacity = '0';
-                secondPage.style.zIndex = '-1';
-                console.log('🔍 Second page aggressively hidden');
-            }
-            
-            // Hide expanded input if it exists
-            const expandedInput = document.getElementById('expanded-input-container');
-            console.log('🔍 Expanded input element:', expandedInput);
-            if (expandedInput) {
-                console.log('🔍 Expanded input classes:', expandedInput.classList.toString());
-                console.log('🔍 Expanded input current display:', expandedInput.style.display);
-                expandedInput.classList.add('hidden');
-                expandedInput.style.display = 'none';
-                console.log('🔍 Expanded input hidden');
-            }
-            
-            // Hide any streaming messages
-            const streamingMessages = document.querySelectorAll('[id^="streaming-message-"]');
-            console.log('🔍 Streaming messages found:', streamingMessages.length);
-            streamingMessages.forEach((msg, index) => {
-                console.log(`🔍 Streaming message ${index + 1}:`, msg.id, 'display:', msg.style.display);
-                msg.style.display = 'none';
-            });
-            
-            // Hide any existing messages in chat container
-            if (chatMessages) {
-                console.log('🔍 Chat messages innerHTML length:', chatMessages.innerHTML.length);
-                chatMessages.innerHTML = '';
-                console.log('🔍 Chat messages cleared');
-            }
-            
-            // Reset any conflicting styles
-            const body = document.body;
-            console.log('🔍 Body element:', body);
-            if (body) {
-                console.log('🔍 Body current overflow:', body.style.overflow);
-                body.style.overflow = 'auto';
-                console.log('🔍 Body overflow reset to auto');
-            }
-            
-            console.log('🔍 ===== HIDE INITIAL STATE DEBUG END =====');
-        }
-
-
-        // Test function to verify thread loading
-        async function testThreadLoading() {
-            console.log('🧪 Testing thread loading...');
-            
-            // Get all threads
-            const threadsResponse = await fetch('/api/threads?user_id=1');
-            const threadsData = await threadsResponse.json();
-            
-            console.log('🧪 All threads:', threadsData);
-            
-            if (threadsData.success && threadsData.threads.length > 0) {
-                const firstThread = threadsData.threads[0];
-                console.log('🧪 Testing with thread:', firstThread.id);
-                
-                // Load messages for this thread
-                const messagesResponse = await fetch(`/api/threads/${firstThread.id}/messages?limit=100`);
-                const messagesData = await messagesResponse.json();
-                
-                console.log('🧪 Messages for thread:', messagesData);
-                
-                if (messagesData.success) {
-                    console.log('🧪 Message count:', messagesData.messages.length);
-                    messagesData.messages.forEach((msg, index) => {
-                        console.log(`🧪 Message ${index + 1}:`, {
-                            sender_role: msg.sender_role,
-                            content_preview: msg.content.substring(0, 50) + '...',
-                            created_at: msg.created_at
-                        });
-                    });
-                }
-            }
+        // Additional functions
+        
+        // Handle chat click
+        function handleChatClick() {
+            console.log('💬 Chat button clicked');
+            // This function can be used for any chat-related actions
+            // For now, it's just a placeholder
         }
         
-        // Save message to thread
-        async function saveMessageToThread(content, senderRole) {
-            console.log('🔍 ===== SAVE MESSAGE TO THREAD DEBUG START =====');
-            console.log('🔍 Function called with:', {
-                contentLength: content.length,
-                contentPreview: content.substring(0, 100) + '...',
-                senderRole: senderRole,
-                currentThreadId: currentThreadId
-            });
-            
-            if (!currentThreadId) {
-                console.log('⚠️ No thread ID, skipping save');
-                    return;
-                }
-
+        // Conversation saving functions
+        async function createThread(title = null) {
             try {
-                console.log('🔍 Saving message to thread:', {
-                    threadId: currentThreadId,
-                    senderRole: senderRole,
-                    contentLength: content.length,
-                    contentPreview: content.substring(0, 50) + '...'
-                });
-                
-                const response = await fetch(`/api/threads/${currentThreadId}/messages`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        sender_role: senderRole,
-                        content: content
-                    })
-                });
-
-                console.log('🔍 Save message response status:', response.status);
-                
-                if (response.ok) {
-                    const result = await response.json();
-                    console.log('✅ Message saved to thread:', senderRole, result);
-                    } else {
-                    const errorText = await response.text();
-                    console.error('❌ Failed to save message to thread:', response.status, errorText);
-                    }
-                } catch (error) {
-                console.error('❌ Error saving message to thread:', error);
-            }
-            
-            console.log('🔍 ===== SAVE MESSAGE TO THREAD DEBUG END =====');
-        }
-
-        // Create new thread when starting a new conversation
-        async function createNewThread(title) {
-            try {
-                // For MVP, use default user ID if no user is logged in
-                let userId = localStorage.getItem('user_id');
-                if (!userId) {
-                    userId = '1'; // Default user ID for MVP
-                    localStorage.setItem('user_id', userId);
-                    console.log('🔧 Using default user ID for MVP:', userId);
-                }
-
+                const userId = localStorage.getItem('user_id') || '1';
                 const response = await fetch('/api/threads', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ 
                         user_id: userId,
-                        title: title,
-                        summary: null
+                        title: title || 'گفتگوی جدید'
                     })
                 });
-
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
                 const data = await response.json();
+                console.log('🔍 Thread creation response:', data);
+                
                 if (data.success) {
-                    currentThreadId = data.thread.id;
-                    threadMessages = [];
-                    isThreadLoaded = true;
-                    console.log('✅ New thread created:', currentThreadId);
+                    // Handle both response formats
+                    if (data.thread && data.thread.thread_id) {
+                        currentThreadId = data.thread.thread_id;
+                    } else if (data.thread_id) {
+                        currentThreadId = data.thread_id;
+                    } else {
+                        throw new Error('No thread ID in response');
+                    }
+                    console.log('✅ Thread created:', currentThreadId);
                     return currentThreadId;
                 } else {
-                    console.error('❌ Failed to create thread:', data.error);
-                    return null;
+                    console.error('❌ Thread creation failed:', data);
+                    throw new Error(data.error || 'Failed to create thread');
                 }
             } catch (error) {
                 console.error('❌ Error creating thread:', error);
                 return null;
             }
         }
-
-        // Get recent messages for AI context
-        async function getThreadContext(maxTokens = 4000) {
+        
+        async function saveMessage(role, content) {
             if (!currentThreadId) {
-                return [];
+                console.log('⚠️ No thread ID, creating new thread');
+                const threadId = await createThread();
+                if (!threadId) {
+                    console.log('⚠️ Thread creation failed, continuing without saving');
+                    return;
+                }
             }
-
+            
             try {
-                const response = await fetch(`/api/threads/${currentThreadId}/context?max_tokens=${maxTokens}`);
+                const response = await fetch(`/api/threads/${currentThreadId}/messages`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ 
+                        sender_role: role, 
+                        content: content 
+                    })
+                });
+                
+                const data = await response.json();
+                if (data.success) {
+                    console.log('✅ Message saved:', data.message_id);
+                } else {
+                    throw new Error(data.error || 'Failed to save message');
+                }
+            } catch (error) {
+                console.error('❌ Error saving message:', error);
+            }
+        }
+        
+        async function loadThreadMessages(threadId) {
+            try {
+                const response = await fetch(`/api/threads/${threadId}/messages`);
                 const data = await response.json();
                 
                 if (data.success) {
+                    console.log('✅ Loaded messages for thread:', threadId);
                     return data.messages;
                 } else {
-                    console.error('Failed to get thread context:', data.error);
-                    return [];
+                    throw new Error(data.error || 'Failed to load messages');
                 }
             } catch (error) {
-                console.error('Error getting thread context:', error);
+                console.error('❌ Error loading messages:', error);
                 return [];
             }
         }
-
-        // Estimate token count (simple approximation)
-        function estimateTokenCount(text) {
-            // Rough approximation: 1 token ≈ 4 characters for Persian/Arabic text
-            return Math.ceil(text.length / 4);
-        }
-
-        // Check user login status
-        function checkUserStatus() {
-            const userId = localStorage.getItem('user_id');
-            const userPhone = localStorage.getItem('user_phone');
-            const isLoggedIn = localStorage.getItem('is_logged_in') === 'true';
-            const isVerified = localStorage.getItem('is_verified') === 'true';
+        
+        async function loadThreadFromLibrary() {
+            const viewingThread = localStorage.getItem('viewing_thread');
+            if (!viewingThread) return;
             
-            if (!isLoggedIn || !userId || !userPhone || !isVerified) {
-                // For MVP, set default values instead of clearing data
-                localStorage.setItem('user_id', '1');
-                localStorage.setItem('user_phone', '09123456789');
-                localStorage.setItem('is_logged_in', 'true');
-                localStorage.setItem('is_verified', 'true');
-                console.log('🔧 Set default user values for MVP');
+            console.log('📚 Loading thread from library:', viewingThread);
+            currentThreadId = viewingThread;
+            isThreadLoaded = true;
+            
+            // Switch to chat header for thread view
+            switchToChatHeader();
+            
+            // Hide bottom icons for clean chat interface
+            hideBottomIcons();
+            
+            // Hide main user input completely in thread view mode
+            const mainUserInput = document.getElementById('main-user-input');
+            if (mainUserInput) {
+                mainUserInput.style.display = 'none';
+                mainUserInput.style.visibility = 'hidden';
             }
+            
+            // Load messages for this thread
+            const messages = await loadThreadMessages(viewingThread);
+            
+            // Clear current chat
+            const messagesContainer = document.getElementById('chat-messages');
+            if (messagesContainer) {
+                messagesContainer.innerHTML = '';
+            }
+            
+            // Display loaded messages
+            messages.forEach(message => {
+                const isUser = message.sender_role === 'user';
+                addMessage(message.content, isUser);
+            });
+            
+            // Show chat input at bottom for continuing conversation
+            const chatInputAfterResponse = document.getElementById('chat-input-after-response');
+            if (chatInputAfterResponse) {
+                chatInputAfterResponse.classList.remove('hidden');
+                chatInputAfterResponse.style.display = 'block';
+                chatInputAfterResponse.style.bottom = '0';
+                chatInputAfterResponse.style.paddingBottom = '0.25rem';
+                console.log('✅ Chat input shown at bottom for thread view');
+            }
+            
+            // Clear the viewing_thread flag
+            localStorage.removeItem('viewing_thread');
+            
+            console.log('✅ Thread loaded from library with clean chat interface');
         }
-
-        // Show login prompt
+        
         function showLoginPrompt() {
             const chatMessages = document.getElementById('chat-messages');
             const loginPrompt = document.createElement('div');
@@ -4796,21 +4767,6 @@
             `;
             chatMessages.appendChild(loginPrompt);
         }
-        
-        // Function to go to test page
-        function goToTest() {
-            console.log('🔍 Navigating to test page...');
-            try {
-                window.location.href = 'test.html';
-            } catch (error) {
-                console.error('❌ Navigation error:', error);
-                // Fallback: try direct assignment
-                window.location = 'test.html';
-            }
-        }
     </script>
 </body>
 </html>
-
-
-

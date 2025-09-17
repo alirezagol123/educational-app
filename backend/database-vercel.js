@@ -4,7 +4,7 @@ const path = require('path');
 
 // Use different storage paths for local vs production
 // In Vercel, we'll use pure in-memory storage to avoid file system issues
-const STORAGE_FILE = process.env.VERCEL ? null : './threads.json';
+const STORAGE_FILE = process.env.VERCEL ? null : './data/threads.json';
 
 let inMemoryStorage = {
     threads: new Map(),
@@ -92,11 +92,13 @@ function createThread(threadData) {
     
     const thread = {
         id: threadId,
+        thread_id: threadId, // Add thread_id field for consistency
         user_id: threadData.user_id || '1',
         title: threadData.title || 'New Chat',
         type: threadData.type || 'chat',
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString(),
+        last_message_at: new Date().toISOString(), // Add last_message_at for sorting
         subject: threadData.subject || null,
         grade: threadData.grade || null,
         field: threadData.field || null,
@@ -150,7 +152,7 @@ function getThreads(userId, options = {}) {
     
     // Sort and paginate
     threads = threads
-        .sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at))
+        .sort((a, b) => new Date(b.last_message_at || b.updated_at) - new Date(a.last_message_at || a.updated_at))
         .slice(options.offset || 0, (options.offset || 0) + (options.limit || 20));
     
     console.log(`✅ Retrieved ${threads.length} threads for user ${userId}`);
@@ -177,20 +179,38 @@ function updateThread(threadId, updates) {
         // Save to file
         saveStorageToFile();
         
-        return true;
+        return {
+            success: true,
+            thread: thread
+        };
     }
     console.log('❌ Thread not found for update:', threadId);
-    return false;
+    return {
+        success: false,
+        error: 'Thread not found'
+    };
 }
 
-function deleteThread(threadId) {
-    const deleted = inMemoryStorage.threads.delete(threadId);
-    if (deleted) {
-        console.log('✅ Thread deleted:', threadId);
-    } else {
-        console.log('❌ Thread not found for deletion:', threadId);
+function deleteThread(threadId, userId) {
+    const thread = inMemoryStorage.threads.get(threadId);
+    if (thread && thread.user_id === userId) {
+        const deleted = inMemoryStorage.threads.delete(threadId);
+        if (deleted) {
+            console.log('✅ Thread deleted:', threadId);
+            
+            // Save to file
+            saveStorageToFile();
+            
+            return {
+                success: true
+            };
+        }
     }
-    return deleted;
+    console.log('❌ Thread not found for deletion:', threadId);
+    return {
+        success: false,
+        error: 'Thread not found or access denied'
+    };
 }
 
 // Message Management Functions
@@ -371,6 +391,7 @@ function addMessage(threadId, senderRole, content, metadata = {}, tokenCount = 0
     
     // Update thread's last_message_at
     thread.updated_at = new Date().toISOString();
+    thread.last_message_at = new Date().toISOString();
     
     console.log('✅ Message added to thread:', {
         messageId: messageId,
